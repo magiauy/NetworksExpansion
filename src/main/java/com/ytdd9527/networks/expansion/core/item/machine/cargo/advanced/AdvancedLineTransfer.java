@@ -542,4 +542,9 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     protected int getTransportModeSlot() {
         return TRANSPORT_MODE_SLOT;
     }
+    @Override
+    public void postRegister() {
+        super.postRegister();
+        setLimit(3456);
+    }
 }
