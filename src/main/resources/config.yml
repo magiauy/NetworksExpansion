@@ -121,19 +121,19 @@ items:
       enable: false
   # 链式传输器Plus[推送]
   NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER:
-    max-distance: 32
+    max-distance: 64
     pushitem-tick: 5
     use-special-model:
       enable: false
   # 链式传输器Plus[抓取]
   NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER:
-    max-distance: 32
+    max-distance: 64
     grabitem-tick: 12
     use-special-model:
       enable: false
   # 链式传输器Plus
   NTW_EXPANSION_LINE_TRANSFER_PLUS:
-    max-distance: 32
+    max-distance: 64
     pushitem-tick: 5
     grabitem-tick: 12
     required-power: 5000
