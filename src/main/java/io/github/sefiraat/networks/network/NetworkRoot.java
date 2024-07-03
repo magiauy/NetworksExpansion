@@ -30,11 +30,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 public class NetworkRoot extends NetworkNode {
 
     private final Set<Location> nodeLocations = new HashSet<>();
-    private final int maxNodes;
+    private int maxNodes;
     private boolean isOverburdened = false;
 
     private final Set<Location> bridges = ConcurrentHashMap.newKeySet();
@@ -72,7 +73,7 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
     private Set<BarrelIdentity> barrels = null;
 
-    private Set<StorageUnitData> cargoStorageUnits = null;
+    private Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
 
     private long rootPower = 0;
 
@@ -265,9 +266,8 @@ public class NetworkRoot extends NetworkNode {
     public Set<Location> getChainDispatchers() {
         return this.chainDispatchers;
     }
-    @SuppressWarnings("deprecation")
     @Nonnull
-    public Map<ItemStack, Long> getAllNetworkItems() {
+    public Map<ItemStack, Long> getAllNetworkItemsLongType() {
         final Map<ItemStack, Long> itemStacks = new HashMap<>();
 
         // Barrels
@@ -288,10 +288,11 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Cargo storage units
-        for (StorageUnitData cache : getCargoStorageUnits()) {
+        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        for (StorageUnitData cache: cacheMap.keySet()) {
             for (ItemContainer itemContainer : cache.getStoredItems()) {
                 final Long currentAmount = itemStacks.get(itemContainer.getSample());
-                final long newAmount;
+                long newAmount = 0;
                 if (currentAmount == null) {
                     newAmount = itemContainer.getAmount();
                 } else {
@@ -301,6 +302,9 @@ public class NetworkRoot extends NetworkNode {
                     } else {
                         newAmount = currentAmount + itemContainer.getAmount();
                     }
+                }
+                if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
+                    newAmount -= 1;
                 }
                 itemStacks.put(itemContainer.getSample(), newAmount);
             }
@@ -402,6 +406,144 @@ public class NetworkRoot extends NetworkNode {
         return itemStacks;
     }
 
+    public Map<ItemStack, Integer> getAllNetworkItems() {
+        final Map<ItemStack, Integer> itemStacks = new HashMap<>();
+
+        // Barrels
+        for (BarrelIdentity barrelIdentity : getBarrels()) {
+            final Integer currentAmount = itemStacks.get(barrelIdentity.getItemStack());
+            final long newAmount;
+            if (currentAmount == null) {
+                newAmount = barrelIdentity.getAmount();
+            } else {
+                long newLong = (long) currentAmount + (long) barrelIdentity.getAmount();
+                if (newLong > Integer.MAX_VALUE) {
+                    newAmount = Integer.MAX_VALUE;
+                } else {
+                    newAmount = currentAmount + barrelIdentity.getAmount();
+                }
+            }
+            itemStacks.put(barrelIdentity.getItemStack(), (int) newAmount);
+        }
+
+        for (BlockMenu blockMenu : getGreedyBlocks()) {
+            final ItemStack itemStack = blockMenu.getItemInSlot(NetworkGreedyBlock.INPUT_SLOT);
+            if (itemStack == null || itemStack.getType() == Material.AIR) {
+                continue;
+            }
+            final ItemStack clone = StackUtils.getAsQuantity(itemStack, 1);
+            final Integer currentAmount = itemStacks.get(clone);
+            final int newAmount;
+            if (currentAmount == null) {
+                newAmount = itemStack.getAmount();
+            } else {
+                long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                if (newLong > Integer.MAX_VALUE) {
+                    newAmount = Integer.MAX_VALUE;
+                } else {
+                    newAmount = currentAmount + itemStack.getAmount();
+                }
+            }
+            itemStacks.put(clone, newAmount);
+        }
+
+        for (BlockMenu blockMenu : getCrafterOutputs()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            for (int slot : slots) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType() == Material.AIR) {
+                    continue;
+                }
+                final ItemStack clone = StackUtils.getAsQuantity(itemStack, 1);
+                final Integer currentAmount = itemStacks.get(clone);
+                final int newAmount;
+                if (currentAmount == null) {
+                    newAmount = itemStack.getAmount();
+                } else {
+                    long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                    if (newLong > Integer.MAX_VALUE) {
+                        newAmount = Integer.MAX_VALUE;
+                    } else {
+                        newAmount = currentAmount + itemStack.getAmount();
+                    }
+                }
+                itemStacks.put(clone, newAmount);
+            }
+        }
+
+        for (BlockMenu blockMenu : getCellMenus()) {
+            for (ItemStack itemStack : blockMenu.getContents()) {
+                if (itemStack != null && itemStack.getType() != Material.AIR) {
+                    final ItemStack clone = itemStack.clone();
+
+                    clone.setAmount(1);
+
+                    final Integer currentAmount = itemStacks.get(clone);
+                    int newAmount;
+
+                    if (currentAmount == null) {
+                        newAmount = itemStack.getAmount();
+                    } else {
+                        long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                        if (newLong > Integer.MAX_VALUE) {
+                            newAmount = Integer.MAX_VALUE;
+                        } else {
+                            newAmount = currentAmount + itemStack.getAmount();
+                        }
+                    }
+
+                    itemStacks.put(clone, newAmount);
+                }
+            }
+        }
+
+        for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
+            for (int slot : AdvancedGreedyBlock.INPUT_SLOTS) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType() == Material.AIR) {
+                    continue;
+                }
+                final ItemStack clone = StackUtils.getAsQuantity(itemStack, 1);
+                final Integer currentAmount = itemStacks.get(clone);
+                final int newAmount;
+                if (currentAmount == null) {
+                    newAmount = itemStack.getAmount();
+                } else {
+                    long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                    if (newLong > Integer.MAX_VALUE) {
+                        newAmount = Integer.MAX_VALUE;
+                    } else {
+                        newAmount = currentAmount + itemStack.getAmount();
+                    }
+                }
+                itemStacks.put(clone, newAmount);
+            }
+        }
+
+        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        for (StorageUnitData cache: cacheMap.keySet()) {
+            for (ItemContainer itemContainer : cache.getStoredItems()) {
+                final Integer currentAmount = itemStacks.get(itemContainer.getSample());
+                int newAmount = 0;
+                if (currentAmount == null) {
+                    newAmount = itemContainer.getAmount();
+                } else {
+                    long newLong = (long) currentAmount + (long) itemContainer.getAmount();
+                    if (newLong > Integer.MAX_VALUE) {
+                        newAmount = Integer.MAX_VALUE;
+                    } else {
+                        newAmount = currentAmount + itemContainer.getAmount();
+                    }
+                }
+                if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
+                    newAmount -= 1;
+                }
+                itemStacks.put(itemContainer.getSample(), newAmount);
+            }
+        }
+        return itemStacks;
+    }
+
     @Nonnull
     public Set<BarrelIdentity> getBarrels() {
 
@@ -453,13 +595,13 @@ public class NetworkRoot extends NetworkNode {
     }
 
     @Nonnull
-    public Set<StorageUnitData> getCargoStorageUnits() {
-        if (this.cargoStorageUnits != null) {
-            return this.cargoStorageUnits;
+    public Map<StorageUnitData, Location> getCargoStorageUnitDatas() {
+        if (this.cargoStorageUnitDatas != null) {
+            return this.cargoStorageUnitDatas;
         }
 
         final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
-        final Set<StorageUnitData> unitSet = ConcurrentHashMap.newKeySet();
+        final Map<StorageUnitData, Location> dataSet = new HashMap<>();
 
         for (Location cellLocation : this.monitors) {
             final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
@@ -479,18 +621,15 @@ public class NetworkRoot extends NetworkNode {
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
 
             if (slimefunItem instanceof CargoStorageUnit) {
-                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
-                if (menu != null) {
-                    final StorageUnitData storage = getCargoStorageUnitData(menu);
-                    if (storage != null) {
-                        unitSet.add(storage);
-                    }
+                final StorageUnitData data = getCargoStorageUnitData(testLocation);
+                if (data != null) {
+                    dataSet.put(data, testLocation);
                 }
             }
         }
 
-        this.cargoStorageUnits = unitSet;
-        return unitSet;
+        this.cargoStorageUnitDatas = dataSet;
+        return dataSet;
     }
 
     @Nullable
@@ -558,28 +697,12 @@ public class NetworkRoot extends NetworkNode {
 
     @Nullable
     private StorageUnitData getCargoStorageUnitData(@Nonnull BlockMenu blockMenu) {
+        return getCargoStorageUnitData(blockMenu.getLocation());
+    }
 
-        final StorageUnitData cache = CargoStorageUnit.getStorageData(blockMenu.getLocation());
-
-        if (cache == null) {
-            return null;
-        }
-
-        for (ItemContainer itemContainer : cache.getStoredItems()) {
-            final ItemStack itemStack = itemContainer.getSample();
-            long storedInt = itemContainer.getAmount();
-            if (itemStack != null && itemStack.getType() != Material.AIR) {
-                storedInt = storedInt + itemStack.getAmount();
-            }
-
-            if (itemStack == null || itemStack.getType() == Material.AIR) {
-                return null;
-            }
-
-            itemStack.setAmount(1);
-        }
-
-        return cache;
+    @Nullable
+    private StorageUnitData getCargoStorageUnitData(@Nonnull Location location) {
+        return CargoStorageUnit.getStorageData(location);
     }
 
     @Nonnull
@@ -728,14 +851,20 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Units
-        for (StorageUnitData cache: getCargoStorageUnits()) {
+        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
             ItemStack take = cache.requestItem(request);
             if (take != null) {
                 if (stackToReturn == null) {
                     stackToReturn = take.clone();
                     stackToReturn.setAmount(take.getAmount());
+                    request.receiveAmount(stackToReturn.getAmount());
                 } else {
                     stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
+                    request.receiveAmount(stackToReturn.getAmount());
+                }
+
+                if (request.getAmount() <= 0) {
+                    return stackToReturn;
                 }
             }
         }
@@ -905,7 +1034,8 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        for (StorageUnitData cache: getCargoStorageUnits()) {
+        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        for (StorageUnitData cache: cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
                 final ItemStack itemStack = itemContainer.getSample();
@@ -916,7 +1046,11 @@ public class NetworkRoot extends NetworkNode {
                     continue;
                 }
 
-                found += itemContainer.getAmount();
+                int amount = itemContainer.getAmount();
+                if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
+                    amount -= 1;
+                }
+                found += amount;
 
 
                 // Escape if found all we need
@@ -1007,7 +1141,7 @@ public class NetworkRoot extends NetworkNode {
                 totalAmount += barrelIdentity.getAmount();
             }
         }
-        for (StorageUnitData cache : getCargoStorageUnits()) {
+        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
                 if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack)) {
@@ -1113,18 +1247,42 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
+        StorageUnitData fallbackCache = null;
+        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
+            if (fallbackCache == null) {
+                // 如果 cache 仍有空位，则记录这个 cache
+                if (cache.getStoredTypeCount() < cache.getSizeType().getMaxItemCount()) {
+                    fallbackCache = cache;
+                }
+            }
+
+            // 先填充存在这个物品的存储
+            cache.depositItemStack(incoming, true);
+
+            // 填充完成
+            if (incoming.getAmount() == 0) {
+                return;
+            }
+        }
+
+        if (incoming.getAmount() > 0) {
+            if (fallbackCache != null) {
+                fallbackCache.depositItemStack(incoming, false);
+            }
+        }
+
         // Then run for matching items in cells
-        fallbackBlockMenu = null;
-        fallBackSlot = 0;
+        BlockMenu fallbackBlockMenu2 = null;
+        int fallBackSlot2 = 0;
 
         for (BlockMenu blockMenu : getCellMenus()) {
             int i = 0;
             for (ItemStack itemStack : blockMenu.getContents()) {
                 // If this is an empty slot - move on, if it's our first, store it for later.
                 if (itemStack == null || itemStack.getType().isAir()) {
-                    if (fallbackBlockMenu == null) {
-                        fallbackBlockMenu = blockMenu;
-                        fallBackSlot = i;
+                    if (fallbackBlockMenu2 == null) {
+                        fallbackBlockMenu2 = blockMenu;
+                        fallBackSlot2 = i;
                     }
                     continue;
                 }
@@ -1152,35 +1310,9 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Add to fallback slot
-        if (fallbackBlockMenu != null) {
-            fallbackBlockMenu.replaceExistingItem(fallBackSlot, incoming.clone());
+        if (fallbackBlockMenu2 != null) {
+            fallbackBlockMenu2.replaceExistingItem(fallBackSlot2, incoming.clone());
             incoming.setAmount(0);
-        }
-
-        StorageUnitData fallbackCache = null;
-        for (StorageUnitData cache: getCargoStorageUnits()) {
-            if (fallbackCache == null) {
-                // 如果 cache 仍有空位，则记录这个 cache
-                if (cache.getStoredTypeCount() < cache.getSizeType().getMaxItemCount()) {
-                    fallbackCache = cache;
-                }
-            }
-            final List<ItemContainer> storedItems = cache.getStoredItems();
-            for (ItemContainer itemContainer : storedItems) {
-                // 先填充存在这个物品的存储
-                cache.depositItemStack(incoming, true);
-            }
-
-            // 填充完成
-            if (incoming.getAmount() == 0) {
-                return;
-            }
-        }
-
-        if (incoming.getAmount() > 0) {
-            if (fallbackCache != null) {
-                fallbackCache.depositItemStack(incoming, false);
-            }
         }
     }
 

@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -13,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
@@ -22,7 +24,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,22 +33,19 @@ import java.util.UUID;
 
 public class NetworkCell extends NetworkObject {
 
-    private static final int[] SLOTS;
     private boolean useSpecialModel = false;
     private static final String KEY_UUID = "display-uuid";
 
+    private static final List<Integer> SLOTS = new ArrayList<>();
     static {
-        List<Integer> integers = new ArrayList<>();
         for (int i = 0; i < 54; i++) {
-            integers.add(i);
+            SLOTS.add(i);
         }
-        SLOTS = integers.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public NetworkCell(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CELL);
-
-        for (int slot : SLOTS) {
+        for (int slot: SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
     }
@@ -74,25 +72,20 @@ public class NetworkCell extends NetworkObject {
         };
     }
     @Override
-    public void preRegister() {
+    public void onPlace(BlockPlaceEvent e) {
+        super.onPlace(e);
         if (useSpecialModel) {
-            addItemHandler(new BlockPlaceHandler(false) {
-                @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
-                    e.getBlock().setType(Material.BARRIER);
-                    setupDisplay(e.getBlock().getLocation());
-                }
-            });
+            e.getBlock().setType(Material.BARRIER);
+            setupDisplay(e.getBlock().getLocation());
         }
+    }
 
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                Location location = e.getBlock().getLocation();
-                removeDisplay(location);
-                e.getBlock().setType(Material.AIR);
-            }
-        });
+    @Override
+    public void postBreak(BlockBreakEvent e) {
+        super.postBreak(e);
+        Location location = e.getBlock().getLocation();
+        removeDisplay(location);
+        e.getBlock().setType(Material.AIR);
     }
     public void setUseSpecialModel(boolean useSpecialModel) {
         this.useSpecialModel = useSpecialModel;

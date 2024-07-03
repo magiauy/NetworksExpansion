@@ -79,16 +79,6 @@ public abstract class NetworkDirectional extends NetworkObject {
         addItemSetting(this.tickRate);
 
         addItemHandler(
-                new BlockPlaceHandler(false) {
-                    @Override
-                    public void onPlayerPlace(@Nonnull BlockPlaceEvent event) {
-                        NetworkStorage.removeNode(event.getBlock().getLocation());
-                        var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
-                        blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
-                        blockData.setData(DIRECTION, BlockFace.SELF.name());
-                        NetworkUtils.applyConfig(NetworkDirectional.this, blockData.getBlockMenu(), event.getPlayer());
-                    }
-                },
                 new BlockTicker() {
 
                     private int tick = 1;
@@ -160,6 +150,15 @@ public abstract class NetworkDirectional extends NetworkObject {
             SELECTED_DIRECTION_MAP.put(blockMenu.getLocation().clone(), direction);
         }
         return direction;
+    }
+
+    @Override
+    public void onPlace(@Nonnull BlockPlaceEvent event) {
+        NetworkStorage.removeNode(event.getBlock().getLocation());
+        var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+        blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
+        blockData.setData(DIRECTION, BlockFace.SELF.name());
+        NetworkUtils.applyConfig(NetworkDirectional.this, blockData.getBlockMenu(), event.getPlayer());
     }
 
     @OverridingMethodsMustInvokeSuper

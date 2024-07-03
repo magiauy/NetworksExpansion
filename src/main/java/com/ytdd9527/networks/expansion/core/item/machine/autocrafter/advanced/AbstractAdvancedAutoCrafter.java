@@ -176,15 +176,12 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
     private boolean tryCraft(@Nonnull BlockMenu blockMenu, @Nonnull BlueprintInstance instance, @Nonnull NetworkRoot root, @Nonnull int blueprintAmount) {
         // Get the recipe input
         final ItemStack[] inputs = new ItemStack[9];
-        final ItemStack[] actualFetches = new ItemStack[9];
+        final ItemStack[] acutalInputs = new ItemStack[9];
 
         /* Make sure the network has the required items
          * Needs to be revisited as matching is happening stacks 2x when I should
          * only need the one
          */
-        Location storageLocation = blockMenu.getLocation();
-
-        boolean isRetainMode = CargoStorageUnit.isLocked(storageLocation);
 
         HashMap<ItemStack, Integer> requiredItems = new HashMap<>();
         for (int i = 0; i < 9; i++) {
@@ -193,15 +190,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
                 requiredItems.merge(requested, requested.getAmount()*blueprintAmount, Integer::sum);
             }
         }
-        for (ItemStack requested : instance.getRecipeItems()) {
-            if (requested != null) {
-                int requiredAmount = requested.getAmount() * blueprintAmount;
-                if (isRetainMode && requiredAmount > 1) {
-                    requiredAmount = Math.max(1, requiredAmount - 1);
-                }
-                requiredItems.put(requested, requiredAmount);
-            }
-        }
+
         for (Map.Entry<ItemStack, Integer> entry : requiredItems.entrySet()) {
             if (!root.contains(new ItemRequest(entry.getKey(), entry.getValue()))) {
                 return false;
@@ -212,12 +201,21 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
-                final ItemStack fetched = root.getItemStack(new ItemRequest(requested, requested.getAmount()*blueprintAmount));
-                actualFetches[i] = fetched;
-
-                final ItemStack fetchedClone = fetched.clone();
-                fetchedClone.setAmount(requested.getAmount());
-                inputs[i] = fetchedClone;
+                final ItemStack fetched = root.getItemStack(new ItemRequest(requested, requested.getAmount() * blueprintAmount));
+                if (fetched != null) {
+                    acutalInputs[i] = fetched;
+                    ItemStack fetchedClone = fetched.clone();
+                    // 不使用requested.getAmount()
+                    fetchedClone.setAmount((int)(fetched.getAmount() / blueprintAmount));
+                    inputs[i] = fetchedClone;
+                    // 如果除出来的数量不等于request的数量，说明没有足够的物品
+                    if (fetchedClone.getAmount() != requested.getAmount()) {
+                        returnItems(root, acutalInputs);
+                    }
+                } else {
+                    acutalInputs[i] = null;
+                    inputs[i] = null;
+                }
             } else {
                 inputs[i] = null;
             }
@@ -235,7 +233,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
 
         // If no item crafted OR result doesn't fit, escape
         if (crafted == null || crafted.getType() == Material.AIR) {
-            returnItems(root, actualFetches);
+            returnItems(root, acutalInputs);
             return false;
         }
 

@@ -212,7 +212,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @Nonnull
     protected List<Map.Entry<ItemStack, Long>> getEntries(@Nonnull NetworkRoot networkRoot, @Nonnull GridCache cache) {
-        return networkRoot.getAllNetworkItems().entrySet().stream()
+        return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {
                 if (cache.getFilter() == null) {
                     return true;

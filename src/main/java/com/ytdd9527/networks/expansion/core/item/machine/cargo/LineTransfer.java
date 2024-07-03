@@ -16,8 +16,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -356,27 +354,22 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     public int[] getItemSlots() {
         return TEMPLATE_SLOTS;
     }
-    @Override
-    public void preRegister() {
-        if (useSpecialModel) {
-            addItemHandler(new BlockPlaceHandler(false) {
-                @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
-                    e.getBlock().setType(Material.BARRIER);
-                    setupDisplay(e.getBlock().getLocation());
-                }
-            });
-        }
 
-        // 添加破坏处理器，不管 useSpecialModel 的值如何，破坏时的逻辑都应该执行
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                Location location = e.getBlock().getLocation();
-                removeDisplay(location);
-                e.getBlock().setType(Material.AIR);
-            }
-        });
+    @Override
+    public void onPlace(BlockPlaceEvent e) {
+        super.onPlace(e);
+        if (useSpecialModel) {
+            e.getBlock().setType(Material.BARRIER);
+            setupDisplay(e.getBlock().getLocation());
+        }
+    }
+
+    @Override
+    public void postBreak(BlockBreakEvent e) {
+        super.postBreak(e);
+        Location location = e.getBlock().getLocation();
+        removeDisplay(location);
+        e.getBlock().setType(Material.AIR);
     }
     private void setupDisplay(@Nonnull Location location) {
         if (this.displayGroupGenerator != null) {

@@ -79,7 +79,7 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int wirelessReceivers = root.getWirelessReceivers().size();
             final int powerOutlets = root.getPowerOutlets().size();
             final int greedyBlocks = root.getGreedyBlocks().size();
-            final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItems();
+            final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItemsLongType();
             final int distinctItems = allNetworkItems.size();
 
             final int chainPushers = root.getChainPushers().size();
