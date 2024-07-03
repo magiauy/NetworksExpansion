@@ -121,19 +121,19 @@ items:
       enable: false
   # 链式传输器Plus[推送]
   NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER:
-    max-distance: 32
+    max-distance: 64
     pushitem-tick: 5
     use-special-model:
       enable: false
   # 链式传输器Plus[抓取]
   NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER:
-    max-distance: 32
+    max-distance: 64
     grabitem-tick: 12
     use-special-model:
       enable: false
   # 链式传输器Plus
   NTW_EXPANSION_LINE_TRANSFER_PLUS:
-    max-distance: 32
+    max-distance: 64
     pushitem-tick: 5
     grabitem-tick: 12
     required-power: 5000
@@ -178,3 +178,74 @@ items:
     required-power: 5000
     use-special-model:
       enable: false
+
+  # 货运存储单元升级台模型
+  STORAGE_UNIT_UPGRADE_TABLE_MODEL:
+    use-special-model:
+      enable: true
+      type: "StorageUnitUpgradeTable"
+  # 货运存储单元1
+  CARGO_STORAGE_UNIT_1_MODEL:
+    use-special-model:
+      enable: true
+      type: "1"
+  # 货运存储单元2
+  CARGO_STORAGE_UNIT_2_MODEL:
+    use-special-model:
+      enable: true
+      type: "2"
+  # 货运存储单元3
+  CARGO_STORAGE_UNIT_3_MODEL:
+    use-special-model:
+      enable: true
+      type: "3"
+  # 货运存储单元4
+  CARGO_STORAGE_UNIT_4_MODEL:
+    use-special-model:
+      enable: true
+      type: "4"
+  # 货运存储单元5
+  CARGO_STORAGE_UNIT_5_MODEL:
+    use-special-model:
+      enable: true
+      type: "5"
+  # 货运存储单元6
+  CARGO_STORAGE_UNIT_6_MODEL:
+    use-special-model:
+      enable: true
+      type: "6"
+  # 货运存储单元7
+  CARGO_STORAGE_UNIT_7_MODEL:
+    use-special-model:
+      enable: true
+      type: "7"
+  # 货运存储单元8
+  CARGO_STORAGE_UNIT_8_MODEL:
+    use-special-model:
+      enable: true
+      type: "8"
+  # 货运存储单元9
+  CARGO_STORAGE_UNIT_9_MODEL:
+    use-special-model:
+      enable: true
+      type: "9"
+  # 货运存储单元10
+  CARGO_STORAGE_UNIT_10_MODEL:
+    use-special-model:
+      enable: true
+      type: "10"
+  # 货运存储单元11
+  CARGO_STORAGE_UNIT_11_MODEL:
+    use-special-model:
+      enable: true
+      type: "11"
+  # 货运存储单元12
+  CARGO_STORAGE_UNIT_12_MODEL:
+    use-special-model:
+      enable: true
+      type: "12"
+  # 货运存储单元13
+  CARGO_STORAGE_UNIT_13_MODEL:
+    use-special-model:
+      enable: true
+      type: "13"

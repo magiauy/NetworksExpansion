@@ -6,9 +6,13 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.core.item.AbstractMySlimefunItem;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
+import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
+import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
+import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -28,6 +32,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -40,15 +45,20 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Function;
 
-public class CargoStorageUnit extends AbstractMySlimefunItem {
+public class CargoStorageUnit extends NetworkObject {
 
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
     private static final Map<Location, TransportMode> transportModes = new HashMap<>();
     private static final Map<Location, CargoReceipt> cargoRecords = new HashMap<>();
     private static final Set<Location> locked = new HashSet<>();
-
     private static final Set<Location> voidExcesses = new HashSet<>();
+
+    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private static final String KEY_UUID = "display-uuid";
+    private boolean useSpecialModel;
+
     private static final int[] displaySlots = {10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43,46,47,48,49,50,51,52};
     private static final int storageInfoSlot = 4;
     private static final NamespacedKey idKey = new NamespacedKey(Networks.getInstance(),"CONTAINER_ID");
@@ -59,7 +69,7 @@ public class CargoStorageUnit extends AbstractMySlimefunItem {
     private static final ItemStack errorBorder = new CustomItemStack(Material.BARRIER, " ", " ", " ", " ");
 
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType) {
-        super(itemGroup, item, recipeType, recipe);
+        super(itemGroup, item, recipeType, recipe, NodeType.CELL);
 
         this.sizeType = sizeType;
 
@@ -131,7 +141,115 @@ public class CargoStorageUnit extends AbstractMySlimefunItem {
         };
 
     }
+    public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType, String itemId) {
+        super(itemGroup, item, recipeType, recipe, NodeType.CELL);
 
+        this.sizeType = sizeType;
+
+        new BlockMenuPreset(this.getId(), this.getItemName()) {
+            @Override
+            public void init() {
+                for (int slot : border) {
+                    addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                }
+                addItem(storageInfoSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(lockModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(voidModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+            }
+
+            @Override
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
+                Location l = b.getLocation();
+                requestData(l, getContainerId(l));
+                // Restore mode
+                SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
+                String modeStr = blockData.getData("transportMode");
+                TransportMode mode = modeStr == null ? TransportMode.REJECT : TransportMode.valueOf(modeStr);
+                transportModes.put(l, mode);
+                if(blockData.getData("locked") != null) {
+                    locked.add(l);
+                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
+                } else {
+                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(false));
+                }
+
+                if(blockData.getData("voidExcess") != null) {
+                    voidExcesses.add(l);
+                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(true));
+                } else {
+                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
+                }
+
+                // Add lock mode switcher
+                menu.addMenuClickHandler(lockModeSlot, (p, slot, item1, action) -> {
+                    switchLock(menu, l);
+                    return false;
+                });
+
+                menu.addMenuClickHandler(voidModeSlot, (p, slot, item1, action) -> {
+                    switchVoidExcess(menu, l);
+                    return false;
+                });
+
+                StorageUnitData data = storages.get(l);
+                if (data != null) {
+                    CargoReceipt receipt = cargoRecords.get(l);
+                    if(receipt != null) {
+                        update(l, receipt, true);
+                    } else {
+                        update(l, new CargoReceipt(data.getId(), 0, 0, data.getTotalAmount(), data.getStoredTypeCount(), data.getSizeType()), true);
+                    }
+                }
+            }
+
+            @Override
+            public boolean canOpen(@NotNull Block b, @NotNull Player p) {
+                return p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                return new int[0];
+            }
+        };
+        loadConfigurations(itemId);
+    }
+
+    private void loadConfigurations(String itemId) {
+        FileConfiguration config = Networks.getInstance().getConfig();
+
+
+        boolean defaultUseSpecialModel = false;
+        this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
+
+
+        Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
+        generatorMap.put("1", DisplayGroupGenerators::generateStorageUnit_1);
+        generatorMap.put("2", DisplayGroupGenerators::generateStorageUnit_2);
+        generatorMap.put("3", DisplayGroupGenerators::generateStorageUnit_3);
+        generatorMap.put("4", DisplayGroupGenerators::generateStorageUnit_4);
+        generatorMap.put("5", DisplayGroupGenerators::generateStorageUnit_5);
+        generatorMap.put("6", DisplayGroupGenerators::generateStorageUnit_6);
+        generatorMap.put("7", DisplayGroupGenerators::generateStorageUnit_7);
+        generatorMap.put("8", DisplayGroupGenerators::generateStorageUnit_8);
+        generatorMap.put("9", DisplayGroupGenerators::generateStorageUnit_9);
+        generatorMap.put("10", DisplayGroupGenerators::generateStorageUnit_10);
+        generatorMap.put("11", DisplayGroupGenerators::generateStorageUnit_11);
+        generatorMap.put("12", DisplayGroupGenerators::generateStorageUnit_12);
+        generatorMap.put("13", DisplayGroupGenerators::generateStorageUnit_13);
+
+        this.displayGroupGenerator = null;
+
+        if (this.useSpecialModel) {
+            String generatorKey = config.getString("items." + itemId + ".use-special-model.type");
+            this.displayGroupGenerator = generatorMap.get(generatorKey);
+            if (this.displayGroupGenerator == null) {
+                Networks.getInstance().getLogger().warning("未知的展示组类型 '" + generatorKey + "', 特殊模型已禁用。");
+                this.useSpecialModel = false;
+            }
+        }
+
+    }
     @Nullable
     public static StorageUnitData getStorageData(Location l) {
         return storages.get(l);
@@ -203,11 +321,16 @@ public class CargoStorageUnit extends AbstractMySlimefunItem {
                     // 如果存在菜单，添加点击事件
                     addClickHandler(l);
                 }
-
+                if (useSpecialModel) {
+                    // 如果为 true，执行特殊逻辑
+                    e.getBlock().setType(Material.BARRIER);
+                    setupDisplay(e.getBlock().getLocation());
+                }
                 // Save to block storage
                 addBlockInfo(l, id);
             }
         });
+
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
@@ -215,24 +338,32 @@ public class CargoStorageUnit extends AbstractMySlimefunItem {
                 e.setCancelled(true);
                 Block b = e.getBlock();
                 Location l = b.getLocation();
+
+                // 如果启用了特殊模型，移除展示组
+                if (useSpecialModel) {
+                    removeDisplay(l);
+                }
+
                 // Remove data cache
                 StorageUnitData data = storages.remove(l);
+
                 // Remove block
                 Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
                 b.setType(Material.AIR);
+
+                // Drop custom item if data exists
                 if(data != null) {
-                    // Drop our custom drop
                     data.setPlaced(false);
-                    b.getWorld().dropItemNaturally(l,bindId(getItem(), data.getId()));
+                    b.getWorld().dropItemNaturally(l, bindId(getItem(), data.getId()));
                 } else {
                     // Data not loaded, just drop with the stored one.
                     int id = getContainerId(l);
                     if (id != -1) {
-                        // Ensure that the current location bound a container
                         DataStorage.setContainerStatus(id, false);
-                        b.getWorld().dropItemNaturally(l,bindId(getItem(), id));
+                        b.getWorld().dropItemNaturally(l, bindId(getItem(), id));
                     }
                 }
+
                 // Remove cache
                 transportModes.remove(l);
                 cargoRecords.remove(l);
@@ -251,6 +382,7 @@ public class CargoStorageUnit extends AbstractMySlimefunItem {
                 onTick(block);
             }
         });
+
     }
 
     private void performTickOperationAsync(@Nonnull Block block) {
@@ -561,4 +693,34 @@ public class CargoStorageUnit extends AbstractMySlimefunItem {
     public static void putRecord(Location l, CargoReceipt receipt) {
         cargoRecords.put(l, receipt);
     }
+
+    private void setupDisplay(@Nonnull Location location) {
+        if (this.displayGroupGenerator != null) {
+            DisplayGroup displayGroup = this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
+            StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
+        }
+    }
+    private void removeDisplay(@Nonnull Location location) {
+        DisplayGroup group = getDisplayGroup(location);
+        if (group != null) {
+            group.remove();
+        }
+    }
+    @javax.annotation.Nullable
+    private UUID getDisplayGroupUUID(@Nonnull Location location) {
+        String uuid = StorageCacheUtils.getData(location, KEY_UUID);
+        if (uuid == null) {
+            return null;
+        }
+        return UUID.fromString(uuid);
+    }
+    @javax.annotation.Nullable
+    private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+        UUID uuid = getDisplayGroupUUID(location);
+        if (uuid == null) {
+            return null;
+        }
+        return DisplayGroup.fromUUID(uuid);
+    }
+
 }

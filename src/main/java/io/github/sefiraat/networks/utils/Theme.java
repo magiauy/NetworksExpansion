@@ -127,10 +127,10 @@ public enum Theme {
             String id,
             ItemStack itemStack,
             Theme themeType,
-            String baseName,
+            String name,
             String... lore
     ) {
-        String coloredName = TextUtil.colorPseudorandomString(baseName);
+        String coloredName = TextUtil.colorPseudorandomString(name);
         ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();
         finalLore.add("");
@@ -146,19 +146,32 @@ public enum Theme {
         );
     }
 
+
     @Nonnull
     @ParametersAreNonnullByDefault
-    public static SlimefunItemStack model(String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
+    public static SlimefunItemStack model(
+            String id,
+            ItemStack itemStack,
+            Theme themeType,
+            String name,
+            String... lore
+    ) {
+        String coloredName = TextUtil.colorPseudorandomString(name);
+        ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();
         finalLore.add("");
+        for (String s : lore) {
+            finalLore.add(passiveColor + s);
+        }
         finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
         return new SlimefunItemStack(
                 id+"_MODEL",
                 itemStack,
-                Theme.applyThemeToString(themeType, name+("(模型)")),
-                finalLore.toArray(new String[finalLore.size() - 1])
+                coloredName+" &f(&a模型&f)",
+                finalLore.toArray(new String[0])
         );
     }
+
     /**
      * Applies the theme color to a given string
      *

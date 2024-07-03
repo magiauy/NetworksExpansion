@@ -66,7 +66,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     private static final String TICK_COUNTER_KEY = "chain_pusherplus_tick_counter";
 
     public LineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CHAIN_PUSHER);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }

@@ -64,7 +64,7 @@ public class PonintTransfer1 extends NetworkDirectional {
     );
 
     public PonintTransfer1(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CHAIN_DISPATCHER);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }

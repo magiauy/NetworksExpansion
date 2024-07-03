@@ -22,7 +22,7 @@ public class SetupUtil {
         /* 货运与存储 */
         ExpansionItems.ADVANCED_QUANTUM_STORAGE.setSupportsCustomMaxAmount(true);
         ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(
-                ExpansionItems.ADVANCED_QUANTUM_STORAGE.registerThis()
+        ExpansionItems.ADVANCED_QUANTUM_STORAGE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(
                 ExpansionItems.CARGO_STORAGE_UNIT_1.registerThis(),
@@ -38,6 +38,21 @@ public class SetupUtil {
                 ExpansionItems.CARGO_STORAGE_UNIT_11.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_12.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_13.registerThis()
+        );
+        ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(
+                ExpansionItems.CARGO_STORAGE_UNIT_1_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_2_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_3_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_4_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_5_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_6_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_7_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_8_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_9_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_10_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_11_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_12_MODEL.registerThis(),
+                ExpansionItems.CARGO_STORAGE_UNIT_13_MODEL.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
                 ExpansionItems.LINE_TRANSFER.registerThis(),
@@ -60,7 +75,8 @@ public class SetupUtil {
         /* 功能机器 */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
                 ExpansionItems.NETWORK_EXPANSION_WORKBENCH.registerThis(),
-                ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis()
+                ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis(),
+                ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE_MODEL.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_ADVANCED_NET.addTo(
                 ExpansionItems.ADVANCED_IMPORT.registerThis(),

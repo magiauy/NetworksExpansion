@@ -660,6 +660,17 @@ public final class ExpansionItemStacks {
             thanks,
             ""
     );
+    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE_MODEL = Theme.model(
+            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
+            Skins.STORAGE_UNIT_UPGRADE_TABLE_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元升级台",
+            "&e用于升级货运存储单元",
+            "&a内部物品不会丢失",
+            "",
+            thanks,
+            ""
+    );
     public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
             "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
             new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
@@ -780,7 +791,7 @@ public final class ExpansionItemStacks {
     );
     public static SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
             "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
-            new ItemStack(Material.LIME_STAINED_GLASS),
+            new ItemStack(Material.BROWN_STAINED_GLASS),
             Theme.MACHINE,
             "货运存储单元 X",
             "&6支持网络快速输入/输出",
@@ -793,7 +804,7 @@ public final class ExpansionItemStacks {
     );
     public static SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
             "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
-            new ItemStack(Material.PURPLE_STAINED_GLASS),
+            new ItemStack(Material.MAGENTA_STAINED_GLASS),
             Theme.MACHINE,
             "货运存储单元 XI",
             "&6支持网络快速输入/输出",
@@ -817,6 +828,8 @@ public final class ExpansionItemStacks {
             thanks,
             ""
     );
+
+
     public static SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
             "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
             new ItemStack(Material.RED_STAINED_GLASS),
@@ -831,6 +844,204 @@ public final class ExpansionItemStacks {
             ""
     );
 
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
+            Skins.CARGO_STORAGE_UNIT_1_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 I",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 2 种物品",
+            "&7⇨ &e每种物品可容纳 65536 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
+            Skins.CARGO_STORAGE_UNIT_2_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 II",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 4 种物品",
+            "&7⇨ &e每种物品可容纳 131072 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
+            Skins.CARGO_STORAGE_UNIT_3_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 III",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 8 种物品",
+            "&7⇨ &e每种物品可容纳 262144 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
+            Skins.CARGO_STORAGE_UNIT_4_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 IV",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 16 种物品",
+            "&7⇨ &e每种物品可容纳 524288 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
+            Skins.CARGO_STORAGE_UNIT_5_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 V",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 1048576 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
+            Skins.CARGO_STORAGE_UNIT_6_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 VI",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 2097152 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
+            Skins.CARGO_STORAGE_UNIT_7_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 VII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 4194304 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
+            Skins.CARGO_STORAGE_UNIT_8_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 VIII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 8388608 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
+            Skins.CARGO_STORAGE_UNIT_9_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 IX",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 16777216 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
+            Skins.CARGO_STORAGE_UNIT_10_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 X",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 33554432 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
+            Skins.CARGO_STORAGE_UNIT_11_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 XI",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 134217728 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
+            Skins.CARGO_STORAGE_UNIT_12_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 XII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 32 种物品",
+            "&7⇨ &e每种物品可容纳 1073741824 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+
+
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
+            Skins.CARGO_STORAGE_UNIT_13_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "货运存储单元 XIII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 35 种物品",
+            "&7⇨ &e每种物品可容纳 "+Integer.MAX_VALUE+" 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
     static {
         typeMap.put(StorageUnitType.TINY, CARGO_STORAGE_UNIT_1);
         typeMap.put(StorageUnitType.MINI, CARGO_STORAGE_UNIT_2);
@@ -845,10 +1056,27 @@ public final class ExpansionItemStacks {
         typeMap.put(StorageUnitType.END_GAME_INTERMEDIATE, CARGO_STORAGE_UNIT_11);
         typeMap.put(StorageUnitType.END_GAME_ADVANCED, CARGO_STORAGE_UNIT_12);
         typeMap.put(StorageUnitType.END_GAME_MAX, CARGO_STORAGE_UNIT_13);
+
+        typeMap.put(StorageUnitType.TINY_MODEL, CARGO_STORAGE_UNIT_1_MODEL);
+        typeMap.put(StorageUnitType.MINI_MODEL, CARGO_STORAGE_UNIT_2_MODEL);
+        typeMap.put(StorageUnitType.SMALL_MODEL, CARGO_STORAGE_UNIT_3_MODEL);
+        typeMap.put(StorageUnitType.MEDIUM_MODEL, CARGO_STORAGE_UNIT_4_MODEL);
+        typeMap.put(StorageUnitType.LARGE_MODEL, CARGO_STORAGE_UNIT_5_MODEL);
+        typeMap.put(StorageUnitType.ENHANCED_MODEL, CARGO_STORAGE_UNIT_6_MODEL);
+        typeMap.put(StorageUnitType.ADVANCED_MODEL, CARGO_STORAGE_UNIT_7_MODEL);
+        typeMap.put(StorageUnitType.EXTRA_MODEL, CARGO_STORAGE_UNIT_8_MODEL);
+        typeMap.put(StorageUnitType.ULTRA_MODEL, CARGO_STORAGE_UNIT_9_MODEL);
+        typeMap.put(StorageUnitType.END_GAME_BASIC_MODEL, CARGO_STORAGE_UNIT_10_MODEL);
+        typeMap.put(StorageUnitType.END_GAME_INTERMEDIATE_MODEL, CARGO_STORAGE_UNIT_11_MODEL);
+        typeMap.put(StorageUnitType.END_GAME_ADVANCED_MODEL, CARGO_STORAGE_UNIT_12_MODEL);
+        typeMap.put(StorageUnitType.END_GAME_MAX_MODEL, CARGO_STORAGE_UNIT_13_MODEL);
+
+
     }
 
     public static SlimefunItemStack getStorageItemFromType(StorageUnitType type) {
         return typeMap.get(type);
+
     }
 
     @Nonnull

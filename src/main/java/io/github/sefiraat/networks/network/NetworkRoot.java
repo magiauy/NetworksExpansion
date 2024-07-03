@@ -116,16 +116,16 @@ public class NetworkRoot extends NetworkNode {
             case WIRELESS_RECEIVER -> wirelessReceivers.add(location);
             case POWER_OUTLET -> powerOutlets.add(location);
             // from networks expansion
-            case CHAIN_PUSHER -> chainPushers.add(location);
-            case CHAIN_PUSHER_PLUS -> chainPushers.add(location);
-            case CHAIN_GRABBER -> chainGrabbers.add(location);
-            case CHAIN_GRABBER_PLUS -> chainGrabbers.add(location);
+            case LINE_TRANSMITTER_PUSHER -> chainPushers.add(location);
+            case LINE_TRANSMITTER_PUSHER_PLUS -> chainPushers.add(location);
+            case LINE_TRANSMITTER_GRABBER -> chainGrabbers.add(location);
+            case LINE_TRANSMITTER_GRABBER_PLUS -> chainGrabbers.add(location);
             case NEA_IMPORT -> advancedImporters.add(location);
             case NEA_EXPORT -> advancedExporters.add(location);
             case NEA_GREEDY_BLOCK -> advancedGreedyBlocks.add(location);
             case COORDINATE_TRANSMITTER ->coordinateTransmitters.add(location);
             case NE_COORDINATE_RECEIVER ->coordinateReceivers.add(location);
-            case CHAIN_DISPATCHER -> chainDispatchers.add(location);
+            case LINE_TRANSMITTER -> chainDispatchers.add(location);
         }
     }
 
@@ -989,6 +989,7 @@ public class NetworkRoot extends NetworkNode {
 
 
     public boolean contains(@Nonnull ItemRequest request) {
+
         int found = 0;
 
         // Barrels

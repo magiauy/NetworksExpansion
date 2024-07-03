@@ -60,7 +60,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private int totalAmount;
 
     public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CHAIN_GRABBER, TRANSPORT_LIMIT);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER, TRANSPORT_LIMIT);
         loadConfigurations(configKey);
     }
 

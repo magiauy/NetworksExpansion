@@ -74,7 +74,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     private static final String TICK_COUNTER_KEY = "chain_PusherPlus_tick_counter";
 
     public AdvancedLineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CHAIN_PUSHER, TRANSPORT_LIMIT);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER, TRANSPORT_LIMIT);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
