@@ -236,24 +236,20 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         return new Particle.DustOptions(Color.BLUE, 2);
     }
     @Override
-    public void preRegister() {
+    public void onPlace(BlockPlaceEvent e) {
+        super.onPlace(e);
         if (useSpecialModel) {
-            addItemHandler(new BlockPlaceHandler(false) {
-                @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
-                    e.getBlock().setType(Material.BARRIER);
-                    setupDisplay(e.getBlock().getLocation());
-                }
-            });
+            e.getBlock().setType(Material.BARRIER);
+            setupDisplay(e.getBlock().getLocation());
         }
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                Location location = e.getBlock().getLocation();
-                removeDisplay(location);
-                e.getBlock().setType(Material.AIR);
-            }
-        });
+    }
+
+    @Override
+    public void postBreak(BlockBreakEvent e) {
+        super.postBreak(e);
+        Location location = e.getBlock().getLocation();
+        removeDisplay(location);
+        e.getBlock().setType(Material.AIR);
     }
     private void setupDisplay(@Nonnull Location location) {
         if (this.displayGroupGenerator != null) {

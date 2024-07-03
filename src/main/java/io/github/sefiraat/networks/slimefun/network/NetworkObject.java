@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -18,6 +19,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -58,6 +60,16 @@ public abstract class NetworkObject extends AbstractMySlimefunItem implements Ad
                 public void onPlayerBreak(BlockBreakEvent event, ItemStack item, List<ItemStack> drops) {
                     preBreak(event);
                     onBreak(event);
+                    postBreak(event);
+                }
+            },
+            new BlockPlaceHandler(false) {
+                @Override
+                @ParametersAreNonnullByDefault
+                public void onPlayerPlace(BlockPlaceEvent event) {
+                    prePlace(event);
+                    onPlace(event);
+                    postPlace(event);
                 }
             }
         );
@@ -76,15 +88,35 @@ public abstract class NetworkObject extends AbstractMySlimefunItem implements Ad
 
     protected void onBreak(@Nonnull BlockBreakEvent event) {
         final Location location = event.getBlock().getLocation();
-        final BlockMenu blockMenu = StorageCacheUtils.getMenu(event.getBlock().getLocation());
+        final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
 
         if (blockMenu != null) {
-            for (int i : this.slotsToDrop) {
+            for (int i : getSlotsToDrop()) {
                 blockMenu.dropItems(location, i);
             }
         }
 
         Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
+    }
+
+    protected void postBreak(@Nonnull BlockBreakEvent event) {
+        
+    }
+
+    protected void prePlace(@Nonnull BlockPlaceEvent event) {
+
+    }
+
+    protected void onPlace(@Nonnull BlockPlaceEvent event) {
+
+    }
+
+    protected void postPlace(@Nonnull BlockPlaceEvent event) {
+
+    }
+
+    public boolean isAdminDebuggable() {
+        return false;
     }
 
     public boolean runSync() {

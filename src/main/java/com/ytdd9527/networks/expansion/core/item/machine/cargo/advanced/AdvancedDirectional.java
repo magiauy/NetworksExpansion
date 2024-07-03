@@ -110,18 +110,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         this.transportModeIconClone = TRANSPORT_MODE_ICON.clone();
 
         addItemHandler(
-                new BlockPlaceHandler(false) {
-                    @Override
-                    public void onPlayerPlace(@Nonnull BlockPlaceEvent event) {
-                        NetworkStorage.removeNode(event.getBlock().getLocation());
-                        var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
-                        blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
-                        blockData.setData(DIRECTION, BlockFace.SELF.name());
-                        blockData.setData(LIMIT_KEY, String.valueOf(limit));
-                        blockData.setData(TRANSPORT_MODE_KEY, TRANSPORT_MODE_NONE);
-                        NetworkUtils.applyConfig(instance, blockData.getBlockMenu(), event.getPlayer());
-                    }
-                },
                 new BlockTicker() {
 
                     private int tick = 1;
@@ -200,6 +188,17 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     protected void onUniqueTick() {}
+
+    @Override
+    public void onPlace(@Nonnull BlockPlaceEvent event) {
+        NetworkStorage.removeNode(event.getBlock().getLocation());
+        var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+        blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
+        blockData.setData(DIRECTION, BlockFace.SELF.name());
+        blockData.setData(LIMIT_KEY, String.valueOf(limit));
+        blockData.setData(TRANSPORT_MODE_KEY, TRANSPORT_MODE_NONE);
+        NetworkUtils.applyConfig(instance, blockData.getBlockMenu(), event.getPlayer());
+    }
 
     @Override
     public void postRegister() {

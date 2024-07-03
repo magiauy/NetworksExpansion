@@ -137,7 +137,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
 
-        for (int i = 0; i < maxDistance; i++) {
+         for (int i = 0; i < maxDistance; i++) {
             // 如果方块无效，退出
             if (currentBlock == null) {
                 break;
@@ -184,26 +184,20 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         return new Particle.DustOptions(Color.LIME, 5);
     }
     @Override
-    public void preRegister() {
+    public void onPlace(BlockPlaceEvent e) {
+        super.onPlace(e);
         if (useSpecialModel) {
-            addItemHandler(new BlockPlaceHandler(false) {
-                @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
-                    e.getBlock().setType(Material.BARRIER);
-                    setupDisplay(e.getBlock().getLocation());
-                }
-            });
+            e.getBlock().setType(Material.BARRIER);
+            setupDisplay(e.getBlock().getLocation());
         }
+    }
 
-        // 添加破坏处理器，不管 useSpecialModel 的值如何，破坏时的逻辑都应该执行
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                Location location = e.getBlock().getLocation();
-                removeDisplay(location);
-                e.getBlock().setType(Material.AIR);
-            }
-        });
+    @Override
+    public void postBreak(BlockBreakEvent e) {
+        super.postBreak(e);
+        Location location = e.getBlock().getLocation();
+        removeDisplay(location);
+        e.getBlock().setType(Material.AIR);
     }
     private void setupDisplay(@Nonnull Location location) {
         if (this.displayGroupGenerator != null) {

@@ -116,6 +116,18 @@ public class ExpansionRecipes {
             OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem()
     };
 
+    public static final ItemStack[] LINE_TRANSFER_VANILLA_GRABBER = new ItemStack[] {
+        NETWORK_GRABBER.getItem(), PRISTINE_AI_CORE.getItem(), NETWORK_GRABBER.getItem(),
+        NETWORK_BRIDGE.getItem(), new ItemStack(Material.CHEST), NETWORK_BRIDGE.getItem(),
+        NETWORK_GRABBER.getItem(), NETWORK_IMPORT.getItem(), NETWORK_GRABBER.getItem()
+    };
+
+    public static final ItemStack[] LINE_TRANSFER_VANILLA_PUSHER = new ItemStack[] {
+        NETWORK_PUSHER.getItem(), PRISTINE_AI_CORE.getItem(), NETWORK_PUSHER.getItem(),
+        NETWORK_BRIDGE.getItem(), new ItemStack(Material.CHEST), NETWORK_BRIDGE.getItem(),
+        NETWORK_PUSHER.getItem(), NETWORK_EXPORT.getItem(), NETWORK_PUSHER.getItem()
+    };
+
     public static final ItemStack[] ADVANCED_IMPORT = new ItemStack[] {
         NETWORK_IMPORT.getItem(), ADVANCED_NANOBOTS.getItem(), NETWORK_IMPORT.getItem(),
         ADVANCED_NANOBOTS.getItem(), PRISTINE_AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(),

@@ -4,9 +4,7 @@ import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced.*;
 import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.basic.*;
 import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.systems.blueprint.*;
 import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.systems.encoder.*;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransfer;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferPusher;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.*;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferGrabber;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferPusher;
@@ -34,6 +32,7 @@ import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
 
 
 public class ExpansionItems {
@@ -494,6 +493,24 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.LINE_TRANSFER_PLUS,
             "NTW_EXPANSION_LINE_TRANSFER_PLUS"
+    );
+
+    public static final LineTransferVanillaPusher LINE_TRANSFER_VANILLA_PUSHER = new LineTransferVanillaPusher(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_TRANSFER_VANILLA_PUSHER,
+            "NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER"
+    );
+
+
+
+    public static final LineTransferVanillaGrabber LINE_TRANSFER_VANILLA_GRABBER = new LineTransferVanillaGrabber(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_TRANSFER_VANILLA_GRABBER,
+            "NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER"
     );
 
     public static final AdvancedLineTransferPusher ADVANCED_LINE_TRANSFER_PUSHER = new AdvancedLineTransferPusher(

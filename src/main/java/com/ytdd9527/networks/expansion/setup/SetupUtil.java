@@ -60,7 +60,9 @@ public class SetupUtil {
                 ExpansionItems.LINE_TRANSFER_PUSHER.registerThis(),
                 ExpansionItems.LINE_TRANSFER_PLUS.registerThis(),
                 ExpansionItems.LINE_TRANSFER_PLUS_PUSHER.registerThis(),
-                ExpansionItems.LINE_TRANSFER_PLUS_GRABBER.registerThis()
+                ExpansionItems.LINE_TRANSFER_PLUS_GRABBER.registerThis(),
+                ExpansionItems.LINE_TRANSFER_VANILLA_PUSHER.registerThis(),
+                ExpansionItems.LINE_TRANSFER_VANILLA_GRABBER.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
                 ExpansionItems.ADVANCED_LINE_TRANSFER.registerThis(),

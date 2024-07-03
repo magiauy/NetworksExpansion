@@ -170,6 +170,20 @@ public final class ExpansionItemStacks {
             "链式传输器Plus"
     );
 
+    public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Random(
+            "NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER",
+            new ItemStack(Material.OBSERVER),
+            Theme.MACHINE,
+            "链式原版传输器 [推送]"
+    );
+
+    public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
+            "NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER",
+            new ItemStack(Material.DISPENSER),
+            Theme.MACHINE,
+            "链式原版传输器 [抓取]"
+    );
+
     //高级链式传输
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER",

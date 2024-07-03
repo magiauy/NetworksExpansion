@@ -293,7 +293,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     @Nonnull
     protected List<Entry<ItemStack, Long>> getEntries(@Nonnull NetworkRoot networkRoot, @Nonnull GridCache cache) {
-        return networkRoot.getAllNetworkItems()
+        return networkRoot.getAllNetworkItemsLongType()
             .entrySet()
             .stream()
             .filter(entry -> {

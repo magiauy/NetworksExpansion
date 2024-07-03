@@ -150,22 +150,23 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             }
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
             this.totalAmount = 0;
+            int currentNumber = getCurrentNumber(blockMenu.getBlock());
             for (int slot : slots) {
+                if (this.totalAmount >= currentNumber) {
+                    break;
+                }
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
 
                 if (itemStack != null) {
 
                     if (isItemTransferable(itemStack)) {
-                        if (this.totalAmount >= getCurrentNumber(blockMenu.getBlock())) {
-                            break;
-                        }
                         int before = itemStack.getAmount();
-                        if (this.totalAmount + before > getCurrentNumber(blockMenu.getBlock())) {
+                        if (this.totalAmount + before > currentNumber) {
                             ItemStack clone = itemStack.clone();
-                            clone.setAmount(getCurrentNumber(blockMenu.getBlock()) - this.totalAmount);
+                            clone.setAmount(currentNumber - this.totalAmount);
                             definition.getNode().getRoot().addItemStack(clone);
-                            if (clone.getAmount() < getCurrentNumber(blockMenu.getBlock()) - this.totalAmount) {
-                                itemStack.setAmount(before-(getCurrentNumber(blockMenu.getBlock())-this.totalAmount-clone.getAmount()));
+                            if (clone.getAmount() < currentNumber - this.totalAmount) {
+                                itemStack.setAmount(before-(currentNumber-this.totalAmount-clone.getAmount()));
                                 targetMenu.replaceExistingItem(slot, itemStack);
                             }
                         } else {
@@ -192,26 +193,20 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         return new Particle.DustOptions(Color.LIME, 5);
     }
     @Override
-    public void preRegister() {
+    public void onPlace(BlockPlaceEvent e) {
+        super.onPlace(e);
         if (useSpecialModel) {
-            addItemHandler(new BlockPlaceHandler(false) {
-                @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
-                    e.getBlock().setType(Material.BARRIER);
-                    setupDisplay(e.getBlock().getLocation());
-                }
-            });
+            e.getBlock().setType(Material.BARRIER);
+            setupDisplay(e.getBlock().getLocation());
         }
+    }
 
-        // 添加破坏处理器，不管 useSpecialModel 的值如何，破坏时的逻辑都应该执行
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                Location location = e.getBlock().getLocation();
-                removeDisplay(location);
-                e.getBlock().setType(Material.AIR);
-            }
-        });
+    @Override
+    public void postBreak(BlockBreakEvent e) {
+        super.postBreak(e);
+        Location location = e.getBlock().getLocation();
+        removeDisplay(location);
+        e.getBlock().setType(Material.AIR);
     }
     private void setupDisplay(@Nonnull Location location) {
         if (this.displayGroupGenerator != null) {
