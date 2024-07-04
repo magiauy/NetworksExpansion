@@ -35,6 +35,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -184,10 +185,17 @@ public class LineTransferVanillaPusher extends NetworkDirectional {
                 } else if (wildChests && isChest) {
                     sendDebugMessage(block.getLocation(), "WildChest 测试失败！");
                     return;
-                } else if (InvUtils.fits(holder.getInventory(), stack)) {
-                    sendDebugMessage(block.getLocation(), "WildChest 测试成功。");
-                    holder.getInventory().addItem(stack);
-                    stack.setAmount(0);
+                } else {
+                    if (InvUtils.fits(holder.getInventory(), stack)) {
+                        sendDebugMessage(block.getLocation(), "WildChest 测试成功。");
+                        holder.getInventory().addItem(stack);
+                        stack.setAmount(0);
+                    } else {
+                        HashMap<Integer, ItemStack> leftovers = holder.getInventory().addItem(stack);
+                        if (!leftovers.isEmpty()) {
+                            returnItems(root, leftovers.values().toArray(new ItemStack[0]));
+                        }
+                    }
                 }
             }
 
@@ -229,6 +237,14 @@ public class LineTransferVanillaPusher extends NetworkDirectional {
         } else if (brewer.getIngredient() == null || brewer.getIngredient().getType() == Material.AIR) {
             brewer.setIngredient(stack.clone());
             stack.setAmount(0);
+        }
+    }
+
+    private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack[] inputs) {
+        for (ItemStack input : inputs) {
+            if (input != null) {
+                root.addItemStack(input);
+            }
         }
     }
 

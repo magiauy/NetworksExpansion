@@ -771,6 +771,12 @@ public class NetworkRoot extends NetworkNode {
     public ItemStack getItemStack(@Nonnull ItemRequest request) {
         ItemStack stackToReturn = null;
 
+        if (request.getAmount() <= 0) {
+            stackToReturn = request.getItemStack().clone();
+            stackToReturn.setAmount(request.getAmount());
+            return stackToReturn;
+        }
+
         // Barrels first
         for (BarrelIdentity barrelIdentity : getBarrels()) {
 

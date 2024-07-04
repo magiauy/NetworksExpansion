@@ -184,7 +184,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         addToRegistry(block);
         updateGui(blockMenu);
-        updateIcons(block);
+        updateIcons(blockMenu.getLocation());
     }
 
     protected void onUniqueTick() {}
@@ -275,13 +275,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                 blockMenu.addMenuClickHandler(getShowSlot(), (player, i, itemStack, clickAction) -> false);
 
                 blockMenu.addMenuClickHandler(getAddSlot(), (p, slot, item, action) -> 
-                    addClick(blockMenu.getBlock(), action));
+                    addClick(blockMenu.getLocation(), action));
                 blockMenu.addMenuClickHandler(getMinusSlot(), (p, slot, item, action) -> 
-                    minusClick(blockMenu.getBlock(), action));
+                    minusClick(blockMenu.getLocation(), action));
 
                 if (getTransportModeSlot() != -1) {
                     blockMenu.addMenuClickHandler(getTransportModeSlot(), (p, slot, item, action) -> 
-                        toggleTransportMode(blockMenu.getBlock()));
+                        toggleTransportMode(blockMenu.getLocation()));
                 }
             }
 
@@ -333,7 +333,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     @ParametersAreNonnullByDefault
-    public boolean minusClick(Block block, ClickAction action) {
+    public boolean minusClick(Location location, ClickAction action) {
         int n = 1;
         if (action.isRightClicked()) {
             n = 8;
@@ -341,12 +341,12 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (action.isShiftClicked()) {
             n = 64;
         }
-        minusNumber(block, n);
+        minusNumber(location, n);
         return false;
     }
 
     @ParametersAreNonnullByDefault
-    public boolean addClick(Block block, ClickAction action) {
+    public boolean addClick(Location location, ClickAction action) {
         int n = 1;
         if (action.isRightClicked()) {
             n = 8;
@@ -354,13 +354,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (action.isShiftClicked()) {
             n = 64;
         }
-        addNumber(block, n);
+        addNumber(location, n);
         return false;
     }
 
-    public void updateIcons(Block block) {
-        updateShowIcon(block);
-        updateTransportModeIcon(block);
+    public void updateIcons(Location location) {
+        updateShowIcon(location);
+        updateTransportModeIcon(location);
     }
 
     @Nonnull
@@ -491,70 +491,70 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
 
 
-    public int getCurrentNumber(Block block) {
-        Integer number = NETWORK_NUMBER_MAP.get(block.getLocation().clone());
+    public int getCurrentNumber(Location location) {
+        Integer number = NETWORK_NUMBER_MAP.get(location.clone());
         if (number == null) {
-            number = Integer.parseInt(BlockStorage.getLocationInfo(block.getLocation(), LIMIT_KEY));
-            NETWORK_NUMBER_MAP.put(block.getLocation().clone(), number);
+            number = Integer.parseInt(BlockStorage.getLocationInfo(location, LIMIT_KEY));
+            NETWORK_NUMBER_MAP.put(location.clone(), number);
         }
         return number;
     }
 
-    public void setCurrentNumber(Block block, int number) {
-        NETWORK_NUMBER_MAP.put(block.getLocation().clone(), number);
-        BlockStorage.addBlockInfo(block.getLocation(), LIMIT_KEY, Integer.toString(number));
+    public void setCurrentNumber(Location location, int number) {
+        NETWORK_NUMBER_MAP.put(location.clone(), number);
+        BlockStorage.addBlockInfo(location, LIMIT_KEY, Integer.toString(number));
     }
 
-    public String getCurrentTransportMode(Block block) {
-        String mode = NETWORK_TRANSPORT_MODE_MAP.get(block.getLocation().clone());
+    public String getCurrentTransportMode(Location location) {
+        String mode = NETWORK_TRANSPORT_MODE_MAP.get(location.clone());
         if (mode == null) {
-            mode = BlockStorage.getLocationInfo(block.getLocation(), TRANSPORT_MODE_KEY);
-            NETWORK_TRANSPORT_MODE_MAP.put(block.getLocation().clone(), mode);
+            mode = BlockStorage.getLocationInfo(location, TRANSPORT_MODE_KEY);
+            NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
         }
         return mode;
     }
 
-    public void setTransportMode(Block block, String mode) {
-        NETWORK_TRANSPORT_MODE_MAP.put(block.getLocation().clone(), mode);
-        BlockStorage.addBlockInfo(block.getLocation(), TRANSPORT_MODE_KEY, mode);
+    public void setTransportMode(Location location, String mode) {
+        NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
+        BlockStorage.addBlockInfo(location, TRANSPORT_MODE_KEY, mode);
     }
 
-    public boolean toggleTransportMode(Block block) {
-        String mode = getCurrentTransportMode(block);
+    public boolean toggleTransportMode(Location location) {
+        String mode = getCurrentTransportMode(location);
         switch (mode) {
             case TRANSPORT_MODE_NONE -> {
-                setTransportMode(block, TRANSPORT_MODE_NULL_ONLY);
+                setTransportMode(location, TRANSPORT_MODE_NULL_ONLY);
             }
             case TRANSPORT_MODE_NULL_ONLY -> {
-                setTransportMode(block, TRANSPORT_MODE_NONNULL_ONLY);
+                setTransportMode(location, TRANSPORT_MODE_NONNULL_ONLY);
             }
             case TRANSPORT_MODE_NONNULL_ONLY -> {
-                setTransportMode(block, TRANSPORT_MODE_NONE);
+                setTransportMode(location, TRANSPORT_MODE_NONE);
             }
             default -> {
-                setTransportMode(block, TRANSPORT_MODE_NONE);
+                setTransportMode(location, TRANSPORT_MODE_NONE);
             }
         }
-        updateTransportModeIcon(block);
+        updateTransportModeIcon(location);
         return false;
     }
 
-    public void minusNumber(Block block, int number) {
-        if (getCurrentNumber(block) - number >= 1) {
-            setCurrentNumber(block, getCurrentNumber(block) - number);
+    public void minusNumber(Location location, int number) {
+        if (getCurrentNumber(location) - number >= 1) {
+            setCurrentNumber(location, getCurrentNumber(location) - number);
         } else {
-            setCurrentNumber(block, 1);
+            setCurrentNumber(location, 1);
         }        
-        updateShowIcon(block);
+        updateShowIcon(location);
     }
-    public void addNumber(Block block, int number) {
-        int currentNumber = getCurrentNumber(block);
+    public void addNumber(Location location, int number) {
+        int currentNumber = getCurrentNumber(location);
         int newNumber = currentNumber + number;
         if (newNumber > limit) {
             newNumber = limit; // 限制增加后的数字不超过 limit
         }
-        setCurrentNumber(block, newNumber);
-        updateShowIcon(block);
+        setCurrentNumber(location, newNumber);
+        updateShowIcon(location);
     }
     public void setLimit(int newLimit) {
         if (newLimit > 0 && newLimit <= 3456) {
@@ -562,28 +562,28 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         } else {
         }
     }
-    public void updateShowIcon(Block block) {
+    public void updateShowIcon(Location location) {
 
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, Theme.NOTICE + "当前数量: " + getCurrentNumber(block));
+        lore.set(0, Theme.NOTICE + "当前数量: " + getCurrentNumber(location));
         itemMeta.setLore(lore);
         this.showIconClone.setItemMeta(itemMeta);
 
-        BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+        BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
         if (blockMenu != null) {
             blockMenu.replaceExistingItem(getShowSlot(), this.showIconClone);
         }
     }
 
-    public void updateTransportModeIcon(Block block) {
+    public void updateTransportModeIcon(Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, Theme.NOTICE + "当前模式: " + Theme.MECHANISM + toText(getCurrentTransportMode(block)));
+        lore.set(0, Theme.NOTICE + "当前模式: " + Theme.MECHANISM + toText(getCurrentTransportMode(location)));
         itemMeta.setLore(lore);
         this.transportModeIconClone.setItemMeta(itemMeta);
 
-        BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+        BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
         if (blockMenu != null) {
             int slot = getTransportModeSlot();
             if (slot != -1) {
