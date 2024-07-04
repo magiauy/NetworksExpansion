@@ -498,17 +498,15 @@ public class ExpansionItems {
     public static final LineTransferVanillaPusher LINE_TRANSFER_VANILLA_PUSHER = new LineTransferVanillaPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.LINE_TRANSFER_VANILLA_PUSHER,
             "NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER"
     );
 
-
-
     public static final LineTransferVanillaGrabber LINE_TRANSFER_VANILLA_GRABBER = new LineTransferVanillaGrabber(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.LINE_TRANSFER_VANILLA_GRABBER,
             "NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER"
     );
@@ -516,7 +514,7 @@ public class ExpansionItems {
     public static final AdvancedLineTransferPusher ADVANCED_LINE_TRANSFER_PUSHER = new AdvancedLineTransferPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PUSHER,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.ADVANCED_LINE_TRANSFER_PUSHER,
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER"
     );
@@ -524,14 +522,14 @@ public class ExpansionItems {
     public static final AdvancedLineTransferGrabber ADVANCED_LINE_TRANSFER_GRABBER = new AdvancedLineTransferGrabber(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.ADVANCED_LINE_TRANSFER_GRABBER,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.ADVANCED_LINE_TRANSFER_GRABBER,
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER"
     );
     public static final AdvancedLineTransfer ADVANCED_LINE_TRANSFER = new AdvancedLineTransfer(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.ADVANCED_LINE_TRANSFER,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.ADVANCED_LINE_TRANSFER,
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER"
     );
@@ -539,21 +537,21 @@ public class ExpansionItems {
     public static final AdvancedLineTransferPusher ADVANCED_LINE_TRANSFER_PLUS_PUSHER = new AdvancedLineTransferPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS_PUSHER,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.ADVANCED_LINE_TRANSFER_PLUS_PUSHER,
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER"
     );
     public static final AdvancedLineTransferGrabber ADVANCED_LINE_TRANSFER_PLUS_GRABBER = new AdvancedLineTransferGrabber(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS_GRABBER,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.ADVANCED_LINE_TRANSFER_PLUS_GRABBER,
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER"
     );
     public static final AdvancedLineTransfer ADVANCED_LINE_TRANSFER_PLUS = new AdvancedLineTransfer(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS,
-            ExpansionWorkbench.TYPE,
+            RecipeType.NULL,
             ExpansionRecipes.ADVANCED_LINE_TRANSFER_PLUS,
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS"
     );
