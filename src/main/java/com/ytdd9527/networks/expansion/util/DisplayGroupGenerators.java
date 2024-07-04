@@ -1,5 +1,6 @@
 package com.ytdd9527.networks.expansion.util;
 
+import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
 import com.ytdd9527.networks.expansion.setup.Skins;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 
@@ -22,6 +23,174 @@ public final class DisplayGroupGenerators {
         throw new IllegalStateException("Utility class");
     }
 
+    public static DisplayGroup generateStorageUnitUpgradeTable(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnitUpgradeTable",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_1(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_1",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_1_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_2(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_2",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_2_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_3(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_3",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_3_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_4(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_4",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_4_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_5(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_5",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_5_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_6(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_6",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_6_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_7(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_7",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_7_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_8(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_8",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_8_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_9(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_9",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_9_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_10(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_10",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_10_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_11(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_11",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_11_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_12(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_12",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_12_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
+    public static DisplayGroup generateStorageUnit_13(@Nonnull Location location) {
+        final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
+        displayGroup.addDisplay(
+                "StorageUnit_13",
+                new ItemDisplayBuilder()
+                        .setGroupParentOffset(new Vector(0, 1, 0))
+                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_13_MODEL))
+                        .setTransformation(Transformations.TWO.getTransformation())
+                        .build(displayGroup)
+        );
+        return displayGroup;
+    }
 
     public static DisplayGroup generateCloche(@Nonnull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);

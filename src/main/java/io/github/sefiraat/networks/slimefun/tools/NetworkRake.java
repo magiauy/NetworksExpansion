@@ -2,6 +2,8 @@ package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.*;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitUpgradeTableModel;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedExport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedPurger;
@@ -91,6 +93,8 @@ public class NetworkRake extends LimitedUseItem {
         viableObjects.add(CoordinateReceiver.class);
         viableObjects.add(CoordinateTransmitter.class);
         viableObjects.add(LineTransfer.class);
+        viableObjects.add(StorageUnitUpgradeTableModel.class);
+        viableObjects.add(CargoStorageUnit.class);
 
     }
 

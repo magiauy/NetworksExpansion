@@ -95,7 +95,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     private Function<Location, DisplayGroup> displayGroupGenerator;
 
     public AdvancedLineTransfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CHAIN_DISPATCHER, TRANSPORT_LIMIT);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER, TRANSPORT_LIMIT);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
@@ -539,5 +539,10 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     @Override
     protected int getTransportModeSlot() {
         return TRANSPORT_MODE_SLOT;
+    }
+    @Override
+    public void postRegister() {
+        super.postRegister();
+        setLimit(3456);
     }
 }

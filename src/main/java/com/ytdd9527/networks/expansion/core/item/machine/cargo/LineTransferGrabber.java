@@ -50,7 +50,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     private int maxDistance;
 
     public LineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CHAIN_GRABBER);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(itemId);
     }
 

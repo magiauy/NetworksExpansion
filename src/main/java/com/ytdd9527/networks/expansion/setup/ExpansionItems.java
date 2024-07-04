@@ -12,6 +12,7 @@ import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.it
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.CargoStorageUnit;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitType;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitUpgradeTable;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitUpgradeTableModel;
 import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkCraftingGridNewStyle;
 import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkEncodingGridNewStyle;
 import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkGridNewStyle;
@@ -37,11 +38,17 @@ import org.bukkit.inventory.ItemStack;
 public class ExpansionItems {
 
     public static final RecipeType STORAGE_UPGRADE_TABLE;
+    public static final RecipeType STORAGE_UPGRADE_TABLE_MODEL;
     static {
         STORAGE_UPGRADE_TABLE = new RecipeType(
                 new NamespacedKey(Networks.getInstance(), "STORAGE_UPGRADE_TABLE"),
                 ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE,
                 StorageUnitUpgradeTable::addRecipe
+        );
+        STORAGE_UPGRADE_TABLE_MODEL = new RecipeType(
+                new NamespacedKey(Networks.getInstance(), "STORAGE_UPGRADE_TABLE_MODEL"),
+                ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
+                StorageUnitUpgradeTableModel::addRecipe
         );
     }
     public static final ExpansionWorkbench NETWORK_EXPANSION_WORKBENCH = new ExpansionWorkbench(
@@ -664,6 +671,126 @@ public class ExpansionItems {
             STORAGE_UPGRADE_TABLE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_13,
             StorageUnitType.END_GAME_MAX
+    );
+    public static final StorageUnitUpgradeTableModel STORAGE_UNIT_UPGRADE_TABLE_MODEL = new StorageUnitUpgradeTableModel(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
+            "STORAGE_UNIT_UPGRADE_TABLE_MODEL"
+    );
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_1_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_1_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_1_MODEL,
+            StorageUnitType.TINY_MODEL,
+            "CARGO_STORAGE_UNIT_1_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_2_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_2_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_2_MODEL,
+            StorageUnitType.MINI_MODEL,
+            "CARGO_STORAGE_UNIT_2_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_3_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_3_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_3_MODEL,
+            StorageUnitType.SMALL_MODEL,
+            "CARGO_STORAGE_UNIT_3_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_4_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_4_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_4_MODEL,
+            StorageUnitType.MEDIUM_MODEL,
+            "CARGO_STORAGE_UNIT_4_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_5_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_5_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_5_MODEL,
+            StorageUnitType.LARGE_MODEL,
+            "CARGO_STORAGE_UNIT_5_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_6_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_6_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_6_MODEL,
+            StorageUnitType.ENHANCED_MODEL,
+            "CARGO_STORAGE_UNIT_6_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_7_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_7_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_7_MODEL,
+            StorageUnitType.ADVANCED_MODEL,
+            "CARGO_STORAGE_UNIT_7_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_8_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_8_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_8_MODEL,
+            StorageUnitType.EXTRA_MODEL,
+            "CARGO_STORAGE_UNIT_8_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_9_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_9_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_9_MODEL,
+            StorageUnitType.ULTRA_MODEL,
+            "CARGO_STORAGE_UNIT_9_MODEL"
+    );
+
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_10_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_10_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_10_MODEL,
+            StorageUnitType.END_GAME_BASIC_MODEL,
+            "CARGO_STORAGE_UNIT_10_MODEL"
+    );
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_11_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_11_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_11_MODEL,
+            StorageUnitType.END_GAME_INTERMEDIATE_MODEL,
+            "CARGO_STORAGE_UNIT_11_MODEL"
+    );
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_12_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_12_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_12_MODEL,
+            StorageUnitType.END_GAME_ADVANCED_MODEL,
+            "CARGO_STORAGE_UNIT_12_MODEL"
+    );
+    public static final CargoStorageUnit CARGO_STORAGE_UNIT_13_MODEL = new CargoStorageUnit(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CARGO_STORAGE_UNIT_13_MODEL,
+            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionRecipes.CARGO_STORAGE_UNIT_13_MODEL,
+            StorageUnitType.END_GAME_MAX_MODEL,
+            "CARGO_STORAGE_UNIT_13_MODEL"
     );
     public static final NetworkBridge NETWORK_BRIDGE_WHITE = new NetworkBridge(ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE, ExpansionItemStacks.NETWORK_BRIDGE_WHITE, ExpansionWorkbench.TYPE, ExpansionRecipes.NETWORK_BRIDGE_WHITE, StackUtils.getAsQuantity(ExpansionItemStacks.NETWORK_BRIDGE_WHITE, 8),"NETWORK_BRIDGE_WHITE");
     public static final NetworkBridge NETWORK_BRIDGE_LIGHT_GRAY = new NetworkBridge(ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE, ExpansionItemStacks.NETWORK_BRIDGE_LIGHT_GRAY, ExpansionWorkbench.TYPE, ExpansionRecipes.NETWORK_BRIDGE_LIGHT_GRAY, StackUtils.getAsQuantity(ExpansionItemStacks.NETWORK_BRIDGE_LIGHT_GRAY, 8),"NETWORK_BRIDGE_LIGHT_GRAY");

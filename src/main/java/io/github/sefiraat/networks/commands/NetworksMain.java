@@ -254,6 +254,7 @@ public class NetworksMain implements TabExecutor {
             if (opData.isPresent()) {
                 StorageUnitData data = opData.get();
                 String sfId = ExpansionItemStacks.getStorageItemFromType(data.getSizeType()).getItemId();
+
                 CargoStorageUnit.addBlockInfo(l, data.getId());
                 Slimefun.getDatabaseManager().getBlockDataController().createBlock(l, sfId);
                 p.sendMessage(ChatColor.GREEN+"已成功恢复！");

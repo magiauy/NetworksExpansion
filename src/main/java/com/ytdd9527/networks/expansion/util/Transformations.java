@@ -26,7 +26,7 @@ public enum Transformations {
             .build()
     ),
     TWO(new TransformationBuilder()
-            .scale(1.95f, 2f, 1.95f)
+            .scale(1.9f, 2f, 1.9f)
             .build()
     ),
     NE_MODEL_CAPACITOR_5(new TransformationBuilder()
