@@ -161,14 +161,15 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
 
                     if (isItemTransferable(itemStack)) {
                         int before = itemStack.getAmount();
-                        if (this.totalAmount + before > currentNumber) {
+                        if (totalAmount + before > currentNumber) {
                             ItemStack clone = itemStack.clone();
-                            clone.setAmount(currentNumber - this.totalAmount);
+                            clone.setAmount(currentNumber - totalAmount);
                             definition.getNode().getRoot().addItemStack(clone);
-                            if (clone.getAmount() < currentNumber - this.totalAmount) {
-                                itemStack.setAmount(before-(currentNumber-this.totalAmount-clone.getAmount()));
+                            if (clone.getAmount() < currentNumber - totalAmount) {
+                                itemStack.setAmount(before - (currentNumber - totalAmount - clone.getAmount()));
                                 targetMenu.replaceExistingItem(slot, itemStack);
                             }
+                            totalAmount = currentNumber;
                         } else {
                             definition.getNode().getRoot().addItemStack(itemStack);
 

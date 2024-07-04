@@ -89,8 +89,6 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     private int pushItemTick;
     private int grabItemTick;
     private int requiredPower;
-
-    private int freeAmount;
     private int totalAmount;
 
     private boolean useSpecialModel;
@@ -195,7 +193,6 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         BlockStorage.addBlockInfo(block.getLocation(), key, Integer.toString(value));
     }
 
-    //! 不能直接用高级链推的替换！
     private void tryPushItem(@Nonnull NetworkRoot root, @Nonnull Block block, @Nonnull BlockMenu blockMenu) {
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
@@ -205,9 +202,10 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
             final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
 
-            if (targetMenu == null) {
+            if (targetMenu == null || targetBlock == null || targetBlock.getType() == Material.AIR) {
                 return;
             }
+
             int currentLimit = getCurrentNumber(blockMenu.getBlock());
             String currentTransportMode = getCurrentTransportMode(block);
 
@@ -287,6 +285,9 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                     // 仅非空模式
                     case TRANSPORT_MODE_NONNULL_ONLY -> {
                         for (int slot : slots) {
+                            if (retrievedAmount >= currentLimit) {
+                                break;
+                            }
                             // 读取每个槽的物品
                             final ItemStack itemStack = targetMenu.getItemInSlot(slot);
 
@@ -295,8 +296,12 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
                                 // 计算需要推送的数量
                                 int amount = itemStack.getMaxStackSize() - itemStack.getAmount();
-                                if (retrievedAmount + amount > getCurrentNumber(blockMenu.getBlock())) {
+                                if (retrievedAmount + amount > currentLimit) {
                                     amount = currentLimit - retrievedAmount;
+                                }
+
+                                if (amount <= 0) {
+                                    continue;
                                 }
 
                                 // 推送物品
@@ -305,18 +310,15 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
                                 // 只推送到指定的格
                                 if (retrieved != null) {
-                                    targetMenu.pushItem(retrieved, slot);
                                     // 增加数量
-                                    retrievedAmount += retrieved.getAmount();
+                                    targetMenu.pushItem(retrieved, slot);
+                                    retrievedAmount += amount - retrieved.getAmount();
                                 }
-                            }
-                            if (retrievedAmount >= currentLimit) {
-                                break;
                             }
                         }
                     }
                 }
-                
+
             }
             targetBlock = targetBlock.getRelative(direction);
         }
@@ -337,29 +339,31 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             }
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
             this.totalAmount = 0;
+            int currentNumber = getCurrentNumber(blockMenu.getBlock());
             for (int slot : slots) {
+                if (this.totalAmount >= currentNumber) {
+                    break;
+                }
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
 
                 if (itemStack != null) {
 
                     if (isItemTransferable(itemStack)) {
-                        if (this.totalAmount >= getCurrentNumber(blockMenu.getBlock())) {
-                            break;
-                        }
                         int before = itemStack.getAmount();
-                        if (this.totalAmount + before > getCurrentNumber(blockMenu.getBlock())) {
+                        if (totalAmount + before > currentNumber) {
                             ItemStack clone = itemStack.clone();
-                            clone.setAmount(getCurrentNumber(blockMenu.getBlock()) - this.totalAmount);
+                            clone.setAmount(currentNumber - totalAmount);
                             root.addItemStack(clone);
-                            if (clone.getAmount() < getCurrentNumber(blockMenu.getBlock()) - this.totalAmount) {
-                                itemStack.setAmount(before-(getCurrentNumber(blockMenu.getBlock())-this.totalAmount-clone.getAmount()));
+                            if (clone.getAmount() < currentNumber - totalAmount) {
+                                itemStack.setAmount(before - (currentNumber - totalAmount - clone.getAmount()));
                                 targetMenu.replaceExistingItem(slot, itemStack);
                             }
+                            totalAmount = currentNumber;
                         } else {
                             root.addItemStack(itemStack);
 
                             if (itemStack.getAmount() < before) {
-                                this.totalAmount += before - itemStack.getAmount();
+                                totalAmount += before - itemStack.getAmount();
                                 //抓取成功显示粒子
                                 //showParticle(blockMenu.getBlock().getLocation(), direction);
                                 targetMenu.replaceExistingItem(slot, itemStack);

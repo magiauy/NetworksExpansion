@@ -33,7 +33,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -159,7 +158,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
             final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
 
-            if (targetMenu == null) {
+            if (targetMenu == null || targetBlock == null || targetBlock.getType() == Material.AIR) {
                 return;
             }
 
@@ -258,15 +257,19 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                                     amount = currentLimit - retrievedAmount;
                                 }
 
+                                if (amount <= 0) {
+                                    continue;
+                                }
+
                                 // 推送物品
                                 final ItemRequest itemRequest = new ItemRequest(clone, amount);
                                 ItemStack retrieved = root.getItemStack(itemRequest);
 
                                 // 只推送到指定的格
                                 if (retrieved != null) {
-                                    targetMenu.pushItem(retrieved, slot);
                                     // 增加数量
-                                    retrievedAmount += retrieved.getAmount();
+                                    targetMenu.pushItem(retrieved, slot);
+                                    retrievedAmount += amount - retrieved.getAmount();
                                 }
                             }
                         }
