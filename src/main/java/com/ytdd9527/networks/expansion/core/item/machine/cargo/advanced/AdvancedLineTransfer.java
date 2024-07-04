@@ -134,12 +134,12 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             }
         }
     }
-    private void performPushItemOperationAsync(@Nonnull NetworkRoot root, @Nonnull Block block, @Nullable BlockMenu blockMenu) {
+    private void performPushItemOperationAsync(@Nonnull NetworkRoot root, @Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    tryPushItem(root, block, blockMenu);
+                    tryPushItem(root, blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
         }
@@ -168,7 +168,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         if (networkRoot.getRootPower() > this.requiredPower) {
             if (currentPushTick == 0) {
                 networkRoot.removeRootPower(this.requiredPower);
-                performPushItemOperationAsync(networkRoot, block, blockMenu);
+                performPushItemOperationAsync(networkRoot, blockMenu);
             }
             if (currentGrabTick == 0) {
                 networkRoot.removeRootPower(this.requiredPower);
@@ -193,7 +193,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         BlockStorage.addBlockInfo(block.getLocation(), key, Integer.toString(value));
     }
 
-    private void tryPushItem(@Nonnull NetworkRoot root, @Nonnull Block block, @Nonnull BlockMenu blockMenu) {
+    private void tryPushItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
@@ -206,8 +206,8 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 return;
             }
 
-            int currentLimit = getCurrentNumber(blockMenu.getBlock());
-            String currentTransportMode = getCurrentTransportMode(block);
+            int currentLimit = getCurrentNumber(blockMenu.getLocation());
+            String currentTransportMode = getCurrentTransportMode(blockMenu.getLocation());
 
             for (int itemSlot : this.getItemSlots()) {
                 final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
@@ -339,7 +339,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             }
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
             this.totalAmount = 0;
-            int currentNumber = getCurrentNumber(blockMenu.getBlock());
+            int currentNumber = getCurrentNumber(blockMenu.getLocation());
             for (int slot : slots) {
                 if (this.totalAmount >= currentNumber) {
                     break;

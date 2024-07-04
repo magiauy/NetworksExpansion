@@ -107,12 +107,12 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
             }
         }
     }
-    private void performPushItemOperationAsync(@Nonnull Block block, @Nullable BlockMenu blockMenu) {
+    private void performPushItemOperationAsync(@Nonnull NetworkRoot root, @Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    tryPushItem(block, blockMenu);
+                    tryPushItem(root, blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
         }
@@ -123,7 +123,12 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         int tickCounter = getTickCounter(block);
         tickCounter = (tickCounter + 1) % pushItemTick;
         if (tickCounter == 0) {
-            performPushItemOperationAsync(block, blockMenu);
+            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+            if (definition == null || definition.getNode() == null) {
+                return;
+            }
+            NetworkRoot root = definition.getNode().getRoot();
+            performPushItemOperationAsync(root, blockMenu);
         }
         updateTickCounter(block, tickCounter);
     }
@@ -143,13 +148,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
     }
 
-    private void tryPushItem(@Nonnull Block block, @Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-
-        if (definition == null || definition.getNode() == null) {
-            return;
-        }
-
+    private void tryPushItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
@@ -162,9 +161,8 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                 return;
             }
 
-            NetworkRoot root = definition.getNode().getRoot();
-            int currentLimit = getCurrentNumber(blockMenu.getBlock());
-            String currentTransportMode = getCurrentTransportMode(block);
+            int currentLimit = getCurrentNumber(blockMenu.getLocation());
+            String currentTransportMode = getCurrentTransportMode(blockMenu.getLocation());
 
             for (int itemSlot : this.getItemSlots()) {
                 final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
@@ -275,7 +273,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                         }
                     }
                 }
-                
+
             }
             targetBlock = targetBlock.getRelative(direction);
         }

@@ -6,6 +6,7 @@ import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -91,12 +92,12 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
 
     }
-    private void performGrabbingOperationAsync(@Nullable BlockMenu blockMenu) {
+    private void performGrabItemOperationAsync(@Nonnull NetworkRoot root, @Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    tryGrabItem(blockMenu);
+                    tryGrabItem(root, blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
         }
@@ -109,7 +110,12 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         tickCounter = (tickCounter + 1) % grabItemTick;
 
         if (tickCounter == 0) {
-            performGrabbingOperationAsync(blockMenu);
+            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+            if (definition == null || definition.getNode() == null) {
+                return;
+            }
+            NetworkRoot root = definition.getNode().getRoot();
+            performGrabItemOperationAsync(root, blockMenu);
         }
         updateTickCounter(block, tickCounter);
     }
@@ -128,14 +134,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
 
         BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
     }
-    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+    private void tryGrabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
         if (blockMenu == null) {
-            return;
-        }
-
-        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-
-        if (definition == null || definition.getNode() == null) {
             return;
         }
 
@@ -150,7 +150,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             }
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
             this.totalAmount = 0;
-            int currentNumber = getCurrentNumber(blockMenu.getBlock());
+            int currentNumber = getCurrentNumber(blockMenu.getLocation());
             for (int slot : slots) {
                 if (this.totalAmount >= currentNumber) {
                     break;
@@ -164,14 +164,14 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                         if (totalAmount + before > currentNumber) {
                             ItemStack clone = itemStack.clone();
                             clone.setAmount(currentNumber - totalAmount);
-                            definition.getNode().getRoot().addItemStack(clone);
+                            root.addItemStack(clone);
                             if (clone.getAmount() < currentNumber - totalAmount) {
                                 itemStack.setAmount(before - (currentNumber - totalAmount - clone.getAmount()));
                                 targetMenu.replaceExistingItem(slot, itemStack);
                             }
                             totalAmount = currentNumber;
                         } else {
-                            definition.getNode().getRoot().addItemStack(itemStack);
+                            root.addItemStack(itemStack);
 
                             if (itemStack.getAmount() < before) {
                                 totalAmount += before - itemStack.getAmount();
