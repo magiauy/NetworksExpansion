@@ -46,7 +46,6 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-    private static final int MAX_DISTANCE_LIMIT = 100;
     private int pushItemTick;
     private int maxDistance;
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -80,7 +79,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
 
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        this.maxDistance = Math.min(config.getInt("items." + itemId + ".max-distance", defaultMaxDistance), MAX_DISTANCE_LIMIT);
+        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
         this.pushItemTick = config.getInt("items." + itemId + ".pushitem-tick", defaultPushItemTick);
         this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
 

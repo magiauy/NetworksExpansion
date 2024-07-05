@@ -76,7 +76,6 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     private static final String CHAIN_TICK_KEY = "chain_DispTick";
 
     private static final String KEY_UUID = "display-uuid";
-    private static final int MAX_DISTANCE_LIMIT = 100;
     private int maxDistance;
     private int pushItemTick;
     private int grabItemTick;
@@ -102,7 +101,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        this.maxDistance = Math.min(config.getInt("items." + itemId + ".max-distance", defaultMaxDistance), MAX_DISTANCE_LIMIT);
+        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
         this.pushItemTick = config.getInt("items." + itemId + ".pushitem-tick", defaultPushItemTick);
         this.grabItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
         this.requiredPower = config.getInt("items." + itemId + ".required-power", defaultRequiredPower);

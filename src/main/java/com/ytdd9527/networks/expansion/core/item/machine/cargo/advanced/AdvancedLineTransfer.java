@@ -38,11 +38,6 @@ import java.util.*;
 import java.util.function.Function;
 
 public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem {
-
-
-    private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-
-
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
             10,
@@ -80,30 +75,38 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
         Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
-    private static final String PUSH_KEY = "push-ticker";
-    private static final String GRAB_KEY = "grab-ticker";
-
     private static final String KEY_UUID = "display-uuid";
     private static final int TRANSPORT_LIMIT = 64;
     private int maxDistance;
     private int pushItemTick;
     private int grabItemTick;
     private int requiredPower;
-    private int totalAmount;
-
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
 
+    private static final HashMap<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
+    private static final HashMap<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
+
     public AdvancedLineTransfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER, TRANSPORT_LIMIT);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
         loadConfigurations(configKey);
     }
 
+    @Override
+    public boolean comeMaxLimit(int currentNumber) {
+        return currentNumber > TRANSPORT_LIMIT;
+    }
+
+    @Override
+    public int getMaxLimit() {
+        return TRANSPORT_LIMIT;
+    }
+
     private void loadConfigurations(String configKey) {
-        int defaultMaxDistance = 32;
+        int defaultMaxDistance = 64;
         int defaultPushItemTick = 1;
         int defaultGrabItemTick = 1;
         int defaultRequiredPower = 5000;
@@ -134,22 +137,22 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             }
         }
     }
-    private void performPushItemOperationAsync(@Nonnull NetworkRoot root, @Nullable BlockMenu blockMenu) {
+    private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    tryPushItem(root, blockMenu);
+                    tryPushItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
         }
     }
-    private void performGrabItemOperationAsync(@Nonnull NetworkRoot root, @Nullable BlockMenu blockMenu) {
+    private void performGrabItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    tryGrabItem(root, blockMenu);
+                    tryGrabItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
         }
@@ -157,43 +160,54 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-        if (definition == null || definition.getNode() == null) {
-            return;
-        }
-        NetworkRoot networkRoot = definition.getNode().getRoot();
-        int currentPushTick = getTickCounter(block, PUSH_KEY);
-        int currentGrabTick = getTickCounter(block, GRAB_KEY);
+        Location location = block.getLocation();
+        int currentPushTick = getPushTickCounter(location);
+        int currentGrabTick = getGrabTickCounter(location);
 
-        if (networkRoot.getRootPower() > this.requiredPower) {
-            if (currentPushTick == 0) {
-                networkRoot.removeRootPower(this.requiredPower);
-                performPushItemOperationAsync(networkRoot, blockMenu);
-            }
-            if (currentGrabTick == 0) {
-                networkRoot.removeRootPower(this.requiredPower);
-                performGrabItemOperationAsync(networkRoot, blockMenu);
-            }
-            currentPushTick = (currentPushTick + 1) % pushItemTick;
-            currentGrabTick = (currentGrabTick + 1) % grabItemTick;
-
-            updateTickCounter(block, PUSH_KEY, currentPushTick);
-            updateTickCounter(block, GRAB_KEY, currentGrabTick);
+        if (currentPushTick == 0) {
+            performPushItemOperationAsync(blockMenu);
         }
+        if (currentGrabTick == 0) {
+            performGrabItemOperationAsync(blockMenu);
+        }
+        currentPushTick = (currentPushTick + 1) % pushItemTick;
+        currentGrabTick = (currentGrabTick + 1) % grabItemTick;
+
+        updatePushTickCounter(location, currentPushTick);
+        updateGrabTickCounter(location, currentGrabTick);
     }
-    private int getTickCounter(Block block, String key) {
-        String value = BlockStorage.getLocationInfo(block.getLocation(), key);
-        try {
-            return (value != null) ? Integer.parseInt(value) : 0;
-        } catch (NumberFormatException e) {
+    private int getPushTickCounter(Location location) {
+        Integer ticker = PUSH_TICKER_MAP.get(location);
+        if (ticker != null) {
+            return ticker;
+        } else {
+            PUSH_TICKER_MAP.put(location, 0);
             return 0;
         }
     }
-    private void updateTickCounter(Block block, String key, int value) {
-        BlockStorage.addBlockInfo(block.getLocation(), key, Integer.toString(value));
+    private int getGrabTickCounter(Location location) {
+        Integer ticker = GRAB_TICKER_MAP.get(location);
+        if (ticker != null) {
+            return ticker;
+        } else {
+            GRAB_TICKER_MAP.put(location, 0);
+            return 0;
+        }
+    }
+    private void updatePushTickCounter(Location location, int pushTick) {
+        PUSH_TICKER_MAP.put(location, pushTick);
     }
 
-    private void tryPushItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
+    private void updateGrabTickCounter(Location location, int grabTick) {
+        GRAB_TICKER_MAP.put(location, grabTick);
+    }
+
+    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
+        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
+        if (definition == null || definition.getNode() == null) {
+            return;
+        }
+        NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
@@ -202,7 +216,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
             final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
 
-            if (targetMenu == null || targetBlock == null || targetBlock.getType() == Material.AIR) {
+            if (targetMenu == null || targetBlock.getType() == Material.AIR) {
                 return;
             }
 
@@ -323,8 +337,15 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             targetBlock = targetBlock.getRelative(direction);
         }
     }
-    private void tryGrabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
-        if (blockMenu == null) {
+    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
+        if (definition == null || definition.getNode() == null) {
+            return;
+        }
+        NetworkRoot root = definition.getNode().getRoot();
+        if (root.getRootPower() > requiredPower) {
+            root.removeRootPower(requiredPower);
+        } else {
             return;
         }
 
@@ -338,10 +359,10 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 break;
             }
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            this.totalAmount = 0;
+            int totalAmount = 0;
             int currentNumber = getCurrentNumber(blockMenu.getLocation());
             for (int slot : slots) {
-                if (this.totalAmount >= currentNumber) {
+                if (totalAmount >= currentNumber) {
                     break;
                 }
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
@@ -381,7 +402,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
      * @param itemStack 要检查的物品堆栈
      * @return 如果物品可传输返回true，否则返回false
      */
-    private boolean isItemTransferable(@Nonnull ItemStack itemStack) {
+    private boolean isItemTransferable(@Nullable ItemStack itemStack) {
         return itemStack != null && itemStack.getType() != Material.AIR;
     }
     @Nonnull
@@ -431,7 +452,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         return TEMPLATE_SLOTS;
     }
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -440,7 +461,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
@@ -539,10 +560,5 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     @Override
     protected int getTransportModeSlot() {
         return TRANSPORT_MODE_SLOT;
-    }
-    @Override
-    public void postRegister() {
-        super.postRegister();
-        setLimit(3456);
     }
 }

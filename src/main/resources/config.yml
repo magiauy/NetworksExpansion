@@ -8,6 +8,9 @@ auto-update: false
 # enable 是否启用模型 false true
 # type 指定模型的类型 错误类型enable将会启用false
 items:
+
+  # ↓ 已废弃 ↓
+
   #网络链式推送器
   NE_CHAIN_PUSHER:
     max-distance: 32
@@ -52,7 +55,6 @@ items:
     required-power: 5000
     use-special-model:
       enable: false
-
   #高级网络链式推送器
   NE_ADVANCED_CHAING_PUSHER:
     max-distance: 32
@@ -98,7 +100,9 @@ items:
     use-special-model:
       enable: false
 
+  # ↑ 已废弃 ↑
 
+  # ↓ 正在使用 ↓
 
   # 链式传输器[推送]
   NTW_EXPANSION_LINE_TRANSFER_PUSHER:
@@ -178,6 +182,18 @@ items:
     required-power: 5000
     use-special-model:
       enable: false
+  # 原版链式传输器[推送]
+  NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER:
+    max-distance: 32
+    pushitem-tick: 5
+    use-special-model:
+      enable: false
+  # 原版链式传输器[抓取]
+  NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER:
+    max-distance: 32
+    grabitem-tick: 12
+    use-special-model:
+      enable: false
 
   # 货运存储单元升级台模型
   STORAGE_UNIT_UPGRADE_TABLE_MODEL:
@@ -249,3 +265,5 @@ items:
     use-special-model:
       enable: true
       type: "13"
+
+  # ↑ 正在使用 ↑

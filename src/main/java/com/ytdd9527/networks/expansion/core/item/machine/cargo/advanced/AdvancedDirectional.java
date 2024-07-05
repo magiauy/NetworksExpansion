@@ -1,6 +1,5 @@
 package com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced;
 
-import com.ibm.icu.impl.CacheValue.Strength;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -12,7 +11,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -44,7 +42,6 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-@SuppressWarnings("deprecation")
 public abstract class AdvancedDirectional extends NetworkDirectional {
 
     private static final int NORTH_SLOT = 12;
@@ -58,8 +55,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     protected static final String OWNER_KEY = "uuid";
     protected static final String LIMIT_KEY = "transport_limit";
     protected static final String TRANSPORT_MODE_KEY = "transport_mode";
-
-    private int limit = 64;
 
     private static final Set<BlockFace> VALID_FACES = EnumSet.of(
             BlockFace.UP,
@@ -103,9 +98,8 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     private static final Map<Location, Integer> NETWORK_NUMBER_MAP = new HashMap<>();
     private static final Map<Location, String> NETWORK_TRANSPORT_MODE_MAP = new HashMap<>();
 
-    protected AdvancedDirectional(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type, int limit) {
+    protected AdvancedDirectional(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
-        this.limit = limit;
         this.showIconClone = SHOW_ICON.clone();
         this.transportModeIconClone = TRANSPORT_MODE_ICON.clone();
 
@@ -195,7 +189,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
         blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
         blockData.setData(DIRECTION, BlockFace.SELF.name());
-        blockData.setData(LIMIT_KEY, String.valueOf(limit));
+        blockData.setData(LIMIT_KEY, String.valueOf(getMaxLimit()));
         blockData.setData(TRANSPORT_MODE_KEY, TRANSPORT_MODE_NONE);
         NetworkUtils.applyConfig(instance, blockData.getBlockMenu(), event.getPlayer());
     }
@@ -230,26 +224,27 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block b) {
                 String mode;
                 final BlockFace direction;
-                final String string = StorageCacheUtils.getData(blockMenu.getLocation(), DIRECTION);
-                final String rawLimit = StorageCacheUtils.getData(blockMenu.getLocation(), LIMIT_KEY);
-                final String rawMode = StorageCacheUtils.getData(blockMenu.getLocation(), TRANSPORT_MODE_KEY);
+                final Location location = blockMenu.getLocation();
+                final String string = StorageCacheUtils.getData(location, DIRECTION);
+                final String rawLimit = StorageCacheUtils.getData(location, LIMIT_KEY);
+                final String rawMode = StorageCacheUtils.getData(location, TRANSPORT_MODE_KEY);
 
                 if (string == null) {
                     // This likely means a block was placed before I made it directional
                     direction = BlockFace.SELF;
-                    StorageCacheUtils.setData(blockMenu.getLocation(), DIRECTION, BlockFace.SELF.name());
+                    StorageCacheUtils.setData(location, DIRECTION, BlockFace.SELF.name());
                 } else {
                     direction = BlockFace.valueOf(string);
                 }
-                SELECTED_DIRECTION_MAP.put(blockMenu.getLocation().clone(), direction);
-                
+                SELECTED_DIRECTION_MAP.put(location.clone(), direction);
+
+                int limit;
                 if (rawLimit == null) {
-                    limit = 64;
-                    StorageCacheUtils.setData(blockMenu.getLocation(), LIMIT_KEY, String.valueOf(limit));
+                    limit = getMaxLimit();
                 } else {
-                    limit = Integer.valueOf(rawLimit);
+                    limit = Integer.parseInt(rawLimit);
                 }
-                NETWORK_NUMBER_MAP.put(blockMenu.getLocation().clone(), limit);
+                NETWORK_NUMBER_MAP.put(location.clone(), limit);
 
                 if (rawMode == null) {
                     mode = TRANSPORT_MODE_NONE;
@@ -540,28 +535,26 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     public void minusNumber(Location location, int number) {
-        if (getCurrentNumber(location) - number >= 1) {
-            setCurrentNumber(location, getCurrentNumber(location) - number);
+        int currentNumber = getCurrentNumber(location);
+        if (currentNumber - number >= 1) {
+            setCurrentNumber(location, (currentNumber - number));
         } else {
-            setCurrentNumber(location, 1);
-        }        
+            setCurrentNumber(location, getMaxLimit() - (number - currentNumber));
+        }
         updateShowIcon(location);
     }
     public void addNumber(Location location, int number) {
         int currentNumber = getCurrentNumber(location);
         int newNumber = currentNumber + number;
-        if (newNumber > limit) {
-            newNumber = limit; // 限制增加后的数字不超过 limit
+        if (comeMaxLimit(newNumber)) {
+            newNumber = newNumber - getMaxLimit();
         }
         setCurrentNumber(location, newNumber);
         updateShowIcon(location);
     }
-    public void setLimit(int newLimit) {
-        if (newLimit > 0 && newLimit <= 3456) {
-            this.limit = newLimit;
-        } else {
-        }
-    }
+
+    public abstract boolean comeMaxLimit(int currentNumber);
+    public abstract int getMaxLimit();
     public void updateShowIcon(Location location) {
 
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
