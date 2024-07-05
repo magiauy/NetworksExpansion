@@ -526,7 +526,7 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] STORAGE_UNIT_UPGRADE_TABLE = new ItemStack[] {
             SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BLISTERING_INGOT_3,
-            SlimefunItems.CARGO_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CARGO_MOTOR,
+            SlimefunItems.CARGO_MOTOR, EMPOWERED_AI_CORE.getItem(), SlimefunItems.CARGO_MOTOR,
             SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
     };
     public static final ItemStack[] STORAGE_UNIT_UPGRADE_TABLE_MODEL = new ItemStack[] {
@@ -536,12 +536,12 @@ public class ExpansionRecipes {
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[] {
             SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SYNTHETIC_SHULKER_SHELL,
-            SlimefunItems.CARGO_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CARGO_MOTOR,
+            SlimefunItems.CARGO_MOTOR, EMPOWERED_AI_CORE.getItem(), SlimefunItems.CARGO_MOTOR,
             SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_2 = new ItemStack[] {
-            SlimefunItems.CRAFTING_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CRAFTING_MOTOR,
+            SlimefunItems.CRAFTING_MOTOR, EMPOWERED_AI_CORE.getItem(), SlimefunItems.CRAFTING_MOTOR,
             SlimefunItems.CARGO_MOTOR, ExpansionItemStacks.CARGO_STORAGE_UNIT_1, SlimefunItems.CARGO_MOTOR,
             SlimefunItems.GPS_TRANSMITTER, SlimefunItems.MEDIUM_CAPACITOR,SlimefunItems.GPS_TRANSMITTER
     };
