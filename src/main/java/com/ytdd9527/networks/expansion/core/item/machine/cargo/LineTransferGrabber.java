@@ -45,7 +45,6 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-    private static final int MAX_DISTANCE_LIMIT = 100;
     private int grabItemTick;
     private int maxDistance;
 
@@ -61,7 +60,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         int defaultGrabItemTick = 1;
         boolean defaultUseSpecialModel = false;
 
-        this.maxDistance = Math.min(config.getInt("items." + itemId + ".max-distance", defaultMaxDistance), MAX_DISTANCE_LIMIT);
+        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
         this.grabItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
         this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
 

@@ -38,13 +38,11 @@ import java.util.*;
 import java.util.function.Function;
 
 public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem {
-
-    private static final String TICK_COUNTER_KEY = "tick_rate";
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-    private static final int TRANSPORT_LIMIT = 576;
+    private static final int TRANSPORT_LIMIT = 3456;
 
     private static final int[] BACKGROUND_SLOTS = {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 19, 21, 23, 24, 25, 26, 27, 28, 29, 21, 31, 32, 34, 35, 39, 40, 41, 42, 43, 44
@@ -58,17 +56,27 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private int grabItemTick;
     private int maxDistance;
 
-    private int totalAmount;
+    private static final Map<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
 
     public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER, TRANSPORT_LIMIT);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(configKey);
+    }
+
+    @Override
+    public boolean comeMaxLimit(int currentNumber) {
+        return currentNumber > TRANSPORT_LIMIT;
+    }
+
+    @Override
+    public int getMaxLimit() {
+        return TRANSPORT_LIMIT;
     }
 
     private void loadConfigurations(String configKey) {
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 32;
+        int defaultMaxDistance = 64;
         int defaultGrabItemTick = 1;
         boolean defaultUseSpecialModel = false;
 
@@ -92,12 +100,12 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
 
     }
-    private void performGrabItemOperationAsync(@Nonnull NetworkRoot root, @Nullable BlockMenu blockMenu) {
+    private void performGrabItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    tryGrabItem(root, blockMenu);
+                    tryGrabItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
         }
@@ -105,40 +113,32 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-
-        int tickCounter = getTickCounter(block);
+        Location location = block.getLocation();
+        int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
-
         if (tickCounter == 0) {
-            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-            if (definition == null || definition.getNode() == null) {
-                return;
-            }
-            NetworkRoot root = definition.getNode().getRoot();
-            performGrabItemOperationAsync(root, blockMenu);
+            performGrabItemOperationAsync(blockMenu);
         }
-        updateTickCounter(block, tickCounter);
+        updateTickCounter(location, tickCounter);
     }
-    private int getTickCounter(Block block) {
-
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
-        try {
-
-            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
-        } catch (NumberFormatException e) {
-
+    private int getTickCounter(Location location) {
+        Integer tickCounter = GRAB_TICKER_MAP.get(location);
+        if (tickCounter == null) {
+            GRAB_TICKER_MAP.put(location, 0);
             return 0;
+        } else {
+            return tickCounter;
         }
     }
-    private void updateTickCounter(Block block, int tickCounter) {
-
-        BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
+    private void updateTickCounter(Location location, int tickCounter) {
+        GRAB_TICKER_MAP.put(location, tickCounter);
     }
-    private void tryGrabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
-        if (blockMenu == null) {
+    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        if (definition == null || definition.getNode() == null) {
             return;
         }
-
+        NetworkRoot root = definition.getNode().getRoot();
         BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
@@ -149,10 +149,10 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                 break;
             }
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            this.totalAmount = 0;
+            int totalAmount = 0;
             int currentNumber = getCurrentNumber(blockMenu.getLocation());
             for (int slot : slots) {
-                if (this.totalAmount >= currentNumber) {
+                if (totalAmount >= currentNumber) {
                     break;
                 }
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
@@ -186,7 +186,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             currentBlock = currentBlock.getRelative(direction);
         }
     }
-    private boolean isItemTransferable(@Nonnull ItemStack itemStack) {
+    private boolean isItemTransferable(@Nullable ItemStack itemStack) {
         return itemStack != null && itemStack.getType() != Material.AIR;
     }
     @Override

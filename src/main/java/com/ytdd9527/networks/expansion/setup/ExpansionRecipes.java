@@ -70,15 +70,15 @@ public class ExpansionRecipes {
         ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_IMPORT.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PUSHER = new ItemStack[] {
-            NETWORK_PUSHER.getItem(), PRISTINE_AI_CORE.getItem(), NETWORK_PUSHER.getItem(),
-            OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, OPTIC_CABLE.getItem(),
-            NETWORK_PUSHER.getItem(), NETWORK_EXPORT.getItem(), NETWORK_PUSHER.getItem()
+        NETWORK_PUSHER.getItem(), PRISTINE_AI_CORE.getItem(), NETWORK_PUSHER.getItem(),
+        OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, OPTIC_CABLE.getItem(),
+        NETWORK_PUSHER.getItem(), NETWORK_EXPORT.getItem(), NETWORK_PUSHER.getItem()
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PLUS_PUSHER = new ItemStack[] {
-            ExpansionItemStacks.LINE_TRANSFER_PUSHER, PRISTINE_AI_CORE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER,
-            INTERDIMENSIONAL_PRESENCE.getItem(), new ItemStack(Material.SEA_LANTERN), INTERDIMENSIONAL_PRESENCE.getItem(),
-            ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_IMPORT.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER
+        ExpansionItemStacks.LINE_TRANSFER_PUSHER, PRISTINE_AI_CORE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER,
+        INTERDIMENSIONAL_PRESENCE.getItem(), new ItemStack(Material.SEA_LANTERN), INTERDIMENSIONAL_PRESENCE.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_IMPORT.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER
     };
 
     ///链式传输器抓取
@@ -94,15 +94,15 @@ public class ExpansionRecipes {
         ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_IMPORT.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_GRABBER = new ItemStack[] {
-            NETWORK_GRABBER.getItem(), PRISTINE_AI_CORE.getItem(), NETWORK_GRABBER.getItem(),
-            OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, OPTIC_CABLE.getItem(),
-            NETWORK_GRABBER.getItem(), NETWORK_IMPORT.getItem(), NETWORK_GRABBER.getItem()
+        NETWORK_GRABBER.getItem(), PRISTINE_AI_CORE.getItem(), NETWORK_GRABBER.getItem(),
+        OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, OPTIC_CABLE.getItem(),
+        NETWORK_GRABBER.getItem(), NETWORK_IMPORT.getItem(), NETWORK_GRABBER.getItem()
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PLUS_GRABBER = new ItemStack[] {
-            ExpansionItemStacks.LINE_TRANSFER_GRABBER, PRISTINE_AI_CORE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER,
-            INTERDIMENSIONAL_PRESENCE.getItem(), new ItemStack(Material.SEA_LANTERN), INTERDIMENSIONAL_PRESENCE.getItem(),
-            ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_IMPORT.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER
+        ExpansionItemStacks.LINE_TRANSFER_GRABBER, PRISTINE_AI_CORE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER,
+        INTERDIMENSIONAL_PRESENCE.getItem(), new ItemStack(Material.SEA_LANTERN), INTERDIMENSIONAL_PRESENCE.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_IMPORT.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER
     };
     //链式传输器
     public static final ItemStack[] LINE_TRANSFER = new ItemStack[] {
@@ -117,15 +117,15 @@ public class ExpansionRecipes {
         NETWORK_BRIDGE.getItem(), NETWORK_EXPORT.getItem(), NETWORK_BRIDGE.getItem()
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER = new ItemStack[] {
-            OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem(),
-            OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER, OPTIC_CABLE.getItem(),
-            OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem()
+        OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem(),
+        OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER, OPTIC_CABLE.getItem(),
+        OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem()
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PLUS = new ItemStack[] {
-            OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem(),
-            OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PLUS, OPTIC_CABLE.getItem(),
-            OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem()
+        OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem(),
+        OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PLUS, OPTIC_CABLE.getItem(),
+        OPTIC_GLASS.getItem(), PRISTINE_AI_CORE.getItem(), OPTIC_GLASS.getItem()
     };
 
     public static final ItemStack[] LINE_TRANSFER_VANILLA_GRABBER = new ItemStack[] {
@@ -519,158 +519,157 @@ public class ExpansionRecipes {
     };
 
     public static final ItemStack[] CARGO_NODE_QUICK_TOOL = new ItemStack[]{
-            new ItemStack(Material.LEATHER), SlimefunItems.SOLAR_PANEL, new ItemStack(Material.LEATHER),
-            new ItemStack(Material.LEATHER), SlimefunItems.ANDROID_MEMORY_CORE, new ItemStack(Material.LEATHER),
-            SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.ADVANCED_CIRCUIT_BOARD
+        new ItemStack(Material.LEATHER), SlimefunItems.SOLAR_PANEL, new ItemStack(Material.LEATHER),
+        new ItemStack(Material.LEATHER), SlimefunItems.ANDROID_MEMORY_CORE, new ItemStack(Material.LEATHER),
+        SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.ADVANCED_CIRCUIT_BOARD
     };
 
     public static final ItemStack[] STORAGE_UNIT_UPGRADE_TABLE = new ItemStack[] {
-            SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BLISTERING_INGOT_3,
-            SlimefunItems.CARGO_MOTOR, EMPOWERED_AI_CORE.getItem(), SlimefunItems.CARGO_MOTOR,
-            SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
+        SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BLISTERING_INGOT_3,
+        SlimefunItems.CARGO_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CARGO_MOTOR,
+        SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
     };
     public static final ItemStack[] STORAGE_UNIT_UPGRADE_TABLE_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE,null,
+        null,null,null,
     };
-    public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[] {
-            SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SYNTHETIC_SHULKER_SHELL,
-            SlimefunItems.CARGO_MOTOR, EMPOWERED_AI_CORE.getItem(), SlimefunItems.CARGO_MOTOR,
-            SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
+    public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[] {        SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SYNTHETIC_SHULKER_SHELL,
+        SlimefunItems.CARGO_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CARGO_MOTOR,
+        SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_2 = new ItemStack[] {
-            SlimefunItems.CRAFTING_MOTOR, EMPOWERED_AI_CORE.getItem(), SlimefunItems.CRAFTING_MOTOR,
-            SlimefunItems.CARGO_MOTOR, ExpansionItemStacks.CARGO_STORAGE_UNIT_1, SlimefunItems.CARGO_MOTOR,
-            SlimefunItems.GPS_TRANSMITTER, SlimefunItems.MEDIUM_CAPACITOR,SlimefunItems.GPS_TRANSMITTER
+        SlimefunItems.CRAFTING_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CRAFTING_MOTOR,
+        SlimefunItems.CARGO_MOTOR, ExpansionItemStacks.CARGO_STORAGE_UNIT_1, SlimefunItems.CARGO_MOTOR,
+        SlimefunItems.GPS_TRANSMITTER, SlimefunItems.MEDIUM_CAPACITOR,SlimefunItems.GPS_TRANSMITTER
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_3 = new ItemStack[] {
-            SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.VILLAGER_RUNE, SlimefunItems.ANDROID_MEMORY_CORE,
-            SlimefunItems.ENHANCED_AUTO_CRAFTER, ExpansionItemStacks.CARGO_STORAGE_UNIT_2, SlimefunItems.ENHANCED_AUTO_CRAFTER,
-            SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.MEDIUM_CAPACITOR,SlimefunItems.GPS_TRANSMITTER_2
+        SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.VILLAGER_RUNE, SlimefunItems.ANDROID_MEMORY_CORE,
+        SlimefunItems.ENHANCED_AUTO_CRAFTER, ExpansionItemStacks.CARGO_STORAGE_UNIT_2, SlimefunItems.ENHANCED_AUTO_CRAFTER,
+        SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.MEDIUM_CAPACITOR,SlimefunItems.GPS_TRANSMITTER_2
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_4 = new ItemStack[] {
-            SlimefunItems.PROGRAMMABLE_ANDROID, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.PROGRAMMABLE_ANDROID,
-            SlimefunItems.COOLING_UNIT, ExpansionItemStacks.CARGO_STORAGE_UNIT_3, SlimefunItems.COOLING_UNIT,
-            SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.CARBONADO_EDGED_CAPACITOR,SlimefunItems.GPS_TRANSMITTER_3
+        SlimefunItems.PROGRAMMABLE_ANDROID, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.PROGRAMMABLE_ANDROID,
+        SlimefunItems.COOLING_UNIT, ExpansionItemStacks.CARGO_STORAGE_UNIT_3, SlimefunItems.COOLING_UNIT,
+        SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.CARBONADO_EDGED_CAPACITOR,SlimefunItems.GPS_TRANSMITTER_3
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_5 = new ItemStack[] {
-            SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.NETHER_STAR_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID_3,
-            SlimefunItems.ENCHANTMENT_RUNE, ExpansionItemStacks.CARGO_STORAGE_UNIT_4, SlimefunItems.ENCHANTMENT_RUNE,
-            SlimefunItems.GPS_TRANSMITTER_4, SlimefunItems.CARBONADO_EDGED_CAPACITOR,SlimefunItems.GPS_TRANSMITTER_4
+        SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.NETHER_STAR_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID_3,
+        SlimefunItems.ENCHANTMENT_RUNE, ExpansionItemStacks.CARGO_STORAGE_UNIT_4, SlimefunItems.ENCHANTMENT_RUNE,
+        SlimefunItems.GPS_TRANSMITTER_4, SlimefunItems.CARBONADO_EDGED_CAPACITOR,SlimefunItems.GPS_TRANSMITTER_4
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_6 = new ItemStack[] {
-            SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.NETHER_STAR_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID_3,
-            SlimefunItems.NETHER_STAR_REACTOR, ExpansionItemStacks.CARGO_STORAGE_UNIT_5, SlimefunItems.NETHER_STAR_REACTOR,
-            SlimefunItems.WITHER_ASSEMBLER, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.WITHER_ASSEMBLER
+        SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.NETHER_STAR_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID_3,
+        SlimefunItems.NETHER_STAR_REACTOR, ExpansionItemStacks.CARGO_STORAGE_UNIT_5, SlimefunItems.NETHER_STAR_REACTOR,
+        SlimefunItems.WITHER_ASSEMBLER, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.WITHER_ASSEMBLER
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_7 = new ItemStack[] {
-            SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.ENERGIZED_CAPACITOR, SlimefunItems.PROGRAMMABLE_ANDROID_3,
-            SlimefunItems.NETHER_STAR_REACTOR, ExpansionItemStacks.CARGO_STORAGE_UNIT_6, SlimefunItems.NETHER_STAR_REACTOR,
-            SlimefunItems.IRON_GOLEM_ASSEMBLER, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.IRON_GOLEM_ASSEMBLER
+        SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.ENERGIZED_CAPACITOR, SlimefunItems.PROGRAMMABLE_ANDROID_3,
+        SlimefunItems.NETHER_STAR_REACTOR, ExpansionItemStacks.CARGO_STORAGE_UNIT_6, SlimefunItems.NETHER_STAR_REACTOR,
+        SlimefunItems.IRON_GOLEM_ASSEMBLER, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.IRON_GOLEM_ASSEMBLER
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_8 = new ItemStack[] {
-            SlimefunItems.ENDER_RUNE, SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.ENDER_RUNE,
-            SlimefunItems.SOULBOUND_ELYTRA, ExpansionItemStacks.CARGO_STORAGE_UNIT_7, SlimefunItems.SOULBOUND_ELYTRA,
-            SlimefunItems.ENERGIZED_CAPACITOR, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.ENERGIZED_CAPACITOR
+        SlimefunItems.ENDER_RUNE, SlimefunItems.PROGRAMMABLE_ANDROID_3, SlimefunItems.ENDER_RUNE,
+        SlimefunItems.SOULBOUND_ELYTRA, ExpansionItemStacks.CARGO_STORAGE_UNIT_7, SlimefunItems.SOULBOUND_ELYTRA,
+        SlimefunItems.ENERGIZED_CAPACITOR, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.ENERGIZED_CAPACITOR
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_9 = new ItemStack[] {
-            SlimefunItems.SOLAR_GENERATOR_4, new ItemStack(Material.TOTEM_OF_UNDYING), SlimefunItems.SOLAR_GENERATOR_4,
-            SlimefunItems.INFUSED_HOPPER, ExpansionItemStacks.CARGO_STORAGE_UNIT_8, SlimefunItems.INFUSED_HOPPER,
-            SlimefunItems.ENDER_RUNE, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.ENDER_RUNE
+        SlimefunItems.SOLAR_GENERATOR_4, new ItemStack(Material.TOTEM_OF_UNDYING), SlimefunItems.SOLAR_GENERATOR_4,
+        SlimefunItems.INFUSED_HOPPER, ExpansionItemStacks.CARGO_STORAGE_UNIT_8, SlimefunItems.INFUSED_HOPPER,
+        SlimefunItems.ENDER_RUNE, SlimefunItems.ENERGIZED_CAPACITOR,SlimefunItems.ENDER_RUNE
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_10 = new ItemStack[] {
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_9, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_9, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_11 = new ItemStack[] {
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_10, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_10, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_12 = new ItemStack[] {
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_11, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_11, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_13 = new ItemStack[] {
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_12, SlimefunItems.ESSENCE_OF_AFTERLIFE,
-            SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, ExpansionItemStacks.CARGO_STORAGE_UNIT_12, SlimefunItems.ESSENCE_OF_AFTERLIFE,
+        SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_1_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_1,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_1,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_2_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_2,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_2,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_3_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_3,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_3,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_4_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_4,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_4,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_5_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_5,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_5,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_6_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_6,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_6,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_7_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_7,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_7,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_8_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_8,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_8,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_9_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_9,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_9,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_10_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_10,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_10,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_11_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_11,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_11,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_12_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_12,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_12,null,
+        null,null,null,
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_13_MODEL = new ItemStack[] {
-            null,null,null,
-            null,ExpansionItemStacks.CARGO_STORAGE_UNIT_13,null,
-            null,null,null,
+        null,null,null,
+        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_13,null,
+        null,null,null,
     };
 }

@@ -70,18 +70,28 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
         Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
-    private static final String TICK_COUNTER_KEY = "tick_rate";
 
+    private static Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
     public AdvancedLineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER, TRANSPORT_LIMIT);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
         loadConfigurations(configKey);
     }
 
+    @Override
+    public boolean comeMaxLimit(int currentNumber) {
+        return currentNumber > TRANSPORT_LIMIT;
+    }
+
+    @Override
+    public int getMaxLimit() {
+        return TRANSPORT_LIMIT;
+    }
+
     private void loadConfigurations(String configKey) {
-        int defaultMaxDistance = 32;
+        int defaultMaxDistance = 64;
         int defaultPushItemTick = 1;
         boolean defaultUseSpecialModel = false;
 
@@ -107,12 +117,12 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
             }
         }
     }
-    private void performPushItemOperationAsync(@Nonnull NetworkRoot root, @Nullable BlockMenu blockMenu) {
+    private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    tryPushItem(root, blockMenu);
+                    tryPushItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
         }
@@ -120,35 +130,33 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        int tickCounter = getTickCounter(block);
+        Location location = block.getLocation();
+        int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % pushItemTick;
         if (tickCounter == 0) {
-            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-            if (definition == null || definition.getNode() == null) {
-                return;
-            }
-            NetworkRoot root = definition.getNode().getRoot();
-            performPushItemOperationAsync(root, blockMenu);
+            performPushItemOperationAsync(blockMenu);
         }
-        updateTickCounter(block, tickCounter);
+        updateTickCounter(location, tickCounter);
     }
-    private int getTickCounter(Block block) {
-
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
-        try {
-
-            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
-        } catch (NumberFormatException e) {
-
+    private int getTickCounter(Location location) {
+        Integer tickCounter = PUSH_TICKER_MAP.get(location);
+        if (tickCounter == null) {
+            PUSH_TICKER_MAP.put(location, 0);
             return 0;
+        } else {
+            return tickCounter;
         }
     }
-    private void updateTickCounter(Block block, int tickCounter) {
-
-        BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
+    private void updateTickCounter(Location location, int tickCounter) {
+         PUSH_TICKER_MAP.put(location, tickCounter);
     }
 
-    private void tryPushItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
+    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
+        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
+        if (definition == null || definition.getNode() == null) {
+            return;
+        }
+        NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
@@ -157,7 +165,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
             final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
 
-            if (targetMenu == null || targetBlock == null || targetBlock.getType() == Material.AIR) {
+            if (targetMenu == null || targetBlock.getType() == Material.AIR) {
                 return;
             }
 
@@ -381,11 +389,6 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
     protected int getAddSlot() {
         return ADD_SLOT;
-    }
-    @Override
-    public void postRegister() {
-        super.postRegister();
-        setLimit(3456);
     }
     @Nonnull
     @Override
