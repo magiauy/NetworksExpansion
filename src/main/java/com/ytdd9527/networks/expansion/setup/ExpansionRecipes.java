@@ -44,6 +44,18 @@ public class ExpansionRecipes {
         ADVANCED_NANOBOTS.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, ADVANCED_NANOBOTS.getItem(),
         NETWORK_WIRELESS_RECEIVER.getItem(), AI_CORE.getItem(), NETWORK_WIRELESS_RECEIVER.getItem()
     };
+    ///对点传输器
+    public static final ItemStack[] POINT_TRANSFER = new ItemStack[] {
+            NETWORK_GRABBER.getItem(), NETWORK_PUSHER.getItem(), NETWORK_GRABBER.getItem(),
+            NETWORK_PUSHER.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), NETWORK_PUSHER.getItem(),
+            NETWORK_GRABBER.getItem(), NETWORK_PUSHER.getItem(), NETWORK_GRABBER.getItem()
+    };
+    ///对点传输器 [抓取]
+    public static final ItemStack[] POINT_TRANSFER_GRABBER = new ItemStack[] {
+            NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(),
+            OPTIC_CABLE.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), OPTIC_CABLE.getItem(),
+            NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem()
+    };
 
     ///链式传输器推送
     public static final ItemStack[] LINE_TRANSFER_PUSHER = new ItemStack[] {
@@ -522,8 +534,7 @@ public class ExpansionRecipes {
         null,ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE,null,
         null,null,null,
     };
-    public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[] {
-        SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SYNTHETIC_SHULKER_SHELL,
+    public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[] {        SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SYNTHETIC_SHULKER_SHELL,
         SlimefunItems.CARGO_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CARGO_MOTOR,
         SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
     };

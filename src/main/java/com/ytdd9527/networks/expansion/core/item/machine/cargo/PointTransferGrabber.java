@@ -1,20 +1,17 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced;
+package com.ytdd9527.networks.expansion.core.item.machine.cargo;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
-
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -37,50 +34,40 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
-public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem {
+
+public class PointTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
+
+
+    private static final String TICK_COUNTER_KEY = "tick_rate";
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-    private static final int TRANSPORT_LIMIT = 3456;
+    private int grabItemTick;
+
+    private static final int NORTH_SLOT = 1;
+    private static final int SOUTH_SLOT = 19;
+    private static final int EAST_SLOT = 11;
+    private static final int WEST_SLOT = 9;
+    private static final int UP_SLOT = 2;
+    private static final int DOWN_SLOT = 20;
 
     private static final int[] BACKGROUND_SLOTS = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 19, 21, 23, 24, 25, 26, 27, 28, 29, 21, 31, 32, 34, 35, 39, 40, 41, 42, 43, 44
+            0,3,4,5,6,7,8,
+            10,12,13,14,15,16,17,
+            18,21,22,23,24,25,26,
     };
-    // 抓取不需要设置运输模式
-    private static final int TRANSPORT_MODE_SLOT = -1;
-    private static final int MINUS_SLOT = 36;
-    private static final int SHOW_SLOT = 37;
-    private static final int ADD_SLOT = 38;
-
-    private int grabItemTick;
-    private int maxDistance;
-
-    private static final Map<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
-
-    public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
+    public PointTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(configKey);
-    }
-
-    @Override
-    public boolean comeMaxLimit(int currentNumber) {
-        return currentNumber > TRANSPORT_LIMIT;
-    }
-
-    @Override
-    public int getMaxLimit() {
-        return TRANSPORT_LIMIT;
     }
 
     private void loadConfigurations(String configKey) {
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 64;
         int defaultGrabItemTick = 1;
         boolean defaultUseSpecialModel = false;
 
-        this.maxDistance = config.getInt("items." + configKey + ".max-distance", defaultMaxDistance);
         this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", defaultGrabItemTick);
         this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", defaultUseSpecialModel);
 
@@ -100,7 +87,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
 
     }
-    private void performGrabItemOperationAsync(@Nullable BlockMenu blockMenu) {
+    private void performGrabbingOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
             new BukkitRunnable() {
                 @Override
@@ -113,85 +100,74 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        Location location = block.getLocation();
-        int tickCounter = getTickCounter(location);
+
+        // 初始化Tick计数器
+        int tickCounter = getTickCounter(block);
         tickCounter = (tickCounter + 1) % grabItemTick;
+
+        // 每10个Tick执行一次抓取操作
         if (tickCounter == 0) {
-            performGrabItemOperationAsync(blockMenu);
+            performGrabbingOperationAsync(blockMenu);
         }
-        updateTickCounter(location, tickCounter);
+
+        // 更新Tick计数器
+        updateTickCounter(block, tickCounter);
     }
-    private int getTickCounter(Location location) {
-        Integer tickCounter = GRAB_TICKER_MAP.get(location);
-        if (tickCounter == null) {
-            GRAB_TICKER_MAP.put(location, 0);
+    private int getTickCounter(Block block) {
+        // 从BlockStorage中获取与TICK_COUNTER_KEY关联的值
+        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
+        try {
+            // 如果存在值，则尝试将其解析为整数
+            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
+        } catch (NumberFormatException e) {
+            // 如果解析失败，则返回0
             return 0;
-        } else {
-            return tickCounter;
         }
     }
-    private void updateTickCounter(Location location, int tickCounter) {
-        GRAB_TICKER_MAP.put(location, tickCounter);
+    private void updateTickCounter(Block block, int tickCounter) {
+        // 将更新后的Tick计数器值存储到BlockStorage中
+        BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
     }
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        if (blockMenu == null) {
+            return;
+        }
+
+        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        NetworkRoot root = definition.getNode().getRoot();
+
+
         BlockFace direction = this.getCurrentDirection(blockMenu);
+
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
-        for (int i = 0; i < maxDistance && currentBlock.getType() != Material.AIR; i++) {
+        if (currentBlock != null && currentBlock.getType() != Material.AIR) {
             BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
-
-            if (targetMenu == null) {
-                break;
-            }
-            int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            int totalAmount = 0;
-            int currentNumber = getCurrentNumber(blockMenu.getLocation());
-            for (int slot : slots) {
-                if (totalAmount >= currentNumber) {
-                    break;
-                }
-                ItemStack itemStack = targetMenu.getItemInSlot(slot);
-
-                if (itemStack != null) {
-
-                    if (isItemTransferable(itemStack)) {
+            if (targetMenu != null) {
+                int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+                for (int slot : slots) {
+                    ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                    if (itemStack != null && isItemTransferable(itemStack)) {
                         int before = itemStack.getAmount();
-                        if (totalAmount + before > currentNumber) {
-                            ItemStack clone = itemStack.clone();
-                            clone.setAmount(currentNumber - totalAmount);
-                            root.addItemStack(clone);
-                            if (clone.getAmount() < currentNumber - totalAmount) {
-                                itemStack.setAmount(before - (currentNumber - totalAmount - clone.getAmount()));
-                                targetMenu.replaceExistingItem(slot, itemStack);
-                            }
-                            totalAmount = currentNumber;
-                        } else {
-                            root.addItemStack(itemStack);
-
-                            if (itemStack.getAmount() < before) {
-                                totalAmount += before - itemStack.getAmount();
-                                //抓取成功显示粒子
-                                //showParticle(blockMenu.getBlock().getLocation(), direction);
-                                targetMenu.replaceExistingItem(slot, itemStack);
-                            }
+                        definition.getNode().getRoot().addItemStack(itemStack);
+                        if (itemStack.getAmount() < before) {
+                            showParticle(blockMenu.getLocation(), direction);
+                            targetMenu.replaceExistingItem(slot, itemStack);
                         }
                     }
                 }
             }
-            currentBlock = currentBlock.getRelative(direction);
         }
     }
-    private boolean isItemTransferable(@Nullable ItemStack itemStack) {
+
+    private boolean isItemTransferable(@Nonnull ItemStack itemStack) {
         return itemStack != null && itemStack.getType() != Material.AIR;
     }
     @Override
     protected Particle.DustOptions getDustOptions() {
-        return new Particle.DustOptions(Color.LIME, 5);
+        return new Particle.DustOptions(Color.ORANGE, 1);
     }
     @Override
     public void onPlace(BlockPlaceEvent e) {
@@ -201,7 +177,6 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             setupDisplay(e.getBlock().getLocation());
         }
     }
-
     @Override
     public void postBreak(BlockBreakEvent e) {
         super.postBreak(e);
@@ -237,24 +212,35 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
         return DisplayGroup.fromUUID(uuid);
     }
+    @Override
+    public int getNorthSlot() {
+        return NORTH_SLOT;
+    }
+    @Override
+    public int getSouthSlot() {
+        return SOUTH_SLOT;
+    }
+    @Override
+    public int getEastSlot() {
+        return EAST_SLOT;
+    }
+    @Override
+    public int getWestSlot() {
+        return WEST_SLOT;
+    }
+    @Override
+    public int getUpSlot() {
+        return UP_SLOT;
+    }
+    @Override
+    public int getDownSlot() {
+        return DOWN_SLOT;
+    }
 
     @Override
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
-
-    protected int getMinusSlot() {
-        return MINUS_SLOT;
-    }
-
-    protected int getShowSlot() {
-        return SHOW_SLOT;
-    }
-
-    protected int getAddSlot() {
-        return ADD_SLOT;
-    }
-
 
     @NotNull
     @Override
@@ -273,15 +259,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",
-                "&e最大距离&7: &6"+maxDistance+"格",
-                "",
-                "&e运行流程&f:",
-                "&f-&7 打开界面设置你所需的方向",
-                "&f-&7 网络链式抓取器当前方块开始，沿着设定方向搜索",
-                "",
                 "&e抓取逻辑&f:",
-                "&f-&7[&a抓取物品&7]&f:&7将输出槽上的物品全部抓取网络中",
-                "&f-&7[&a停止条件&7]&f:&7达到最大抓取距离[&6"+maxDistance+"格]",
+                "&f-&7[&a抓取物品&7]&f:&7将输出槽上的物品全部抓取进网络中",
                 "&f-&7 遇到的方块为空，或者",
                 "&f-&7 没有更多可抓取的物品,或没有足够网络空间",
                 "&f-&7 抓取将停止操作"
@@ -290,25 +269,14 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩使用指南⇩",
                 "",
-                "&7网络链式抓取器效率最大化建议：",
+                "&7对点传输器 [抓取] 效率最大化建议：",
                 "",
-                "&f-&7 如果你使用网络链式抓取器就没必要给机器继续使用抓取器了",
-                "&f-&7 不要双管齐下多此一举",
+                "&f-&7 请不要给输出物品少的机器使用",
+                "&f-&7 建议给一次性大量生产的机器使用 对点传输器 [抓取] ",
                 "",
-                "&f-&7 充分利用网络链式抓取器范围: 每次抓取物品可以覆盖长达&7[&6"+maxDistance+"格&7]的距离",
-                "&f-&7 确保您的布局设计能够覆盖多个机器，以实现最大效率",
-                "",
-                "&f-&7 避免单个机器配置: 不要仅在一个机器上使用链式抓取器",
-                "&f-&7 这样做会限制您的自动化系统的潜力和扩展性",
-                "",
-                "&f-&7请遵循这些建议，您将能够最大化每个链式抓取器的工作效能，",
+                "&f-&7请遵循这些建议，您将能够最大化的工作效能，",
                 "&f-&7同时保持也可以服务器流畅运行"
         ));
         return displayRecipes ;
-    }
-
-    @Override
-    protected int getTransportModeSlot() {
-        return TRANSPORT_MODE_SLOT;
     }
 }

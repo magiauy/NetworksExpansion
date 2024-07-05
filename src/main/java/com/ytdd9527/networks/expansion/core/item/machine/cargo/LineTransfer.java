@@ -73,7 +73,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
-    private static final String CHAIN_TICK_KEY = "chain_DispTick";
+    private static final String TICK_KEY = "tick_rate";
 
     private static final String KEY_UUID = "display-uuid";
     private int maxDistance;
@@ -175,7 +175,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         updateTickCounter(block, tryGrabItemtick);
     }
     private int getTickCounter(Block block) {
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), CHAIN_TICK_KEY);
+        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_KEY);
         try {
             return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
         } catch (NumberFormatException e) {
@@ -183,7 +183,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         }
     }
     private void updateTickCounter(Block block, int tickCounter) {
-        BlockStorage.addBlockInfo(block.getLocation(), CHAIN_TICK_KEY, Integer.toString(tickCounter));
+        BlockStorage.addBlockInfo(block.getLocation(), TICK_KEY, Integer.toString(tickCounter));
     }
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());

@@ -55,6 +55,10 @@ public class SetupUtil {
                 ExpansionItems.CARGO_STORAGE_UNIT_13_MODEL.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
+                ExpansionItems.POINT_TRANSFER_GRABBER.registerThis(),
+                ExpansionItems.POINT_TRANSFER.registerThis()
+        );
+        ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
                 ExpansionItems.LINE_TRANSFER.registerThis(),
                 ExpansionItems.LINE_TRANSFER_GRABBER.registerThis(),
                 ExpansionItems.LINE_TRANSFER_PUSHER.registerThis(),

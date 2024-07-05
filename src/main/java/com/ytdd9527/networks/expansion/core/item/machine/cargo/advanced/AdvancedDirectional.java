@@ -2,6 +2,7 @@ package com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.libs.plugin.util.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
@@ -21,11 +22,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.MaterialHelper;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -66,7 +64,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     );
 
     private static final CustomItemStack MINUS_ICON = new CustomItemStack (
-        Material.RED_CONCRETE, Theme.NOTICE + "减少数量"
+        Material.RED_CONCRETE, TextUtil.colorRandomString("减少数量")
     );
 
     private static final CustomItemStack SHOW_ICON = new CustomItemStack (
@@ -76,13 +74,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     );
 
     private static final CustomItemStack ADD_ICON = new CustomItemStack (
-        Material.GREEN_CONCRETE, Theme.NOTICE + "增加数量"
+        Material.GREEN_CONCRETE, TextUtil.colorRandomString("增加数量")
     );
 
     private static final CustomItemStack TRANSPORT_MODE_ICON = new CustomItemStack (
-        Material.GREEN_CONCRETE, 
-        Theme.NOTICE + "运输模式",
-        Theme.NOTICE + "当前模式：" + Theme.MECHANISM + "无"
+        Material.GREEN_CONCRETE,
+            TextUtil.colorRandomString("运输模式"),
+            TextUtil.colorRandomString("当前模式：") + TextUtil.colorRandomString("无")
     );
 
     public static final String TRANSPORT_MODE_NONE = "NONE";
@@ -587,16 +585,16 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public String toText(String mode) {
         switch (mode) {
             case TRANSPORT_MODE_NONE -> {
-                return "无";
+                return TextUtil.colorRandomString("无");
             }
             case TRANSPORT_MODE_NULL_ONLY -> {
-                return "仅空";
+                return TextUtil.colorRandomString("仅空");
             }
             case TRANSPORT_MODE_NONNULL_ONLY -> {
-                return "仅非空";
+                return TextUtil.colorRandomString("仅非空");
             }
             default -> {
-                return "未知";
+                return TextUtil.colorRandomString("未知");
             }
         }
     }

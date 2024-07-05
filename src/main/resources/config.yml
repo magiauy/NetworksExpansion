@@ -8,7 +8,6 @@ auto-update: false
 # enable 是否启用模型 false true
 # type 指定模型的类型 错误类型enable将会启用false
 items:
-
   # ↓ 已废弃 ↓
 
   #网络链式推送器
@@ -60,12 +59,12 @@ items:
     max-distance: 32
     pushitem-tick: 6
     grabitem-tick: 12
+  # 对点传输器
+  NTW_EXPANSION_POINT_TRANSFER:
     use-special-model:
       enable: false
-  #高级网络链式推送器Plus
-  NE_ADVANCED_CHAING_PUSHER_PLUS:
-    max-distance: 64
-    pushitem-tick: 6
+  # 对点传输器[抓取]
+  NTW_EXPANSION_POINT_TRANSFER_GRABBER:
     grabitem-tick: 12
     use-special-model:
       enable: false
@@ -103,7 +102,6 @@ items:
   # ↑ 已废弃 ↑
 
   # ↓ 正在使用 ↓
-
   # 链式传输器[推送]
   NTW_EXPANSION_LINE_TRANSFER_PUSHER:
     max-distance: 32

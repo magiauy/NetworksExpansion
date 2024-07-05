@@ -45,21 +45,10 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             27,28,29,
             36,37,38
     };
-    private static final int[] TEMPLATE_BACKGROUND = new int[]{
-            3,
-            12,
-            21,
-            30,
-            39,
-            48
-    };
     private static final int[] TEMPLATE_SLOTS = new int[]{
-            4,5,6,7,8,
+            0,4,5,6,7,8,
             13,14,15,16,17,
             22,23,24,25,26,
-            31,32,33,34,35,
-            40,41,42,43,44,
-            49,50,51,52,53
     };
     private static final int NORTH_SLOT = 1;
     private static final int SOUTH_SLOT = 19;
@@ -411,11 +400,6 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         return BACKGROUND_SLOTS;
     }
 
-    @Nullable
-    @Override
-    protected int[] getOtherBackgroundSlots() {
-        return TEMPLATE_BACKGROUND;
-    }
 
     @Nullable
     @Override

@@ -93,18 +93,18 @@ public final class ExpansionItemStacks {
 
     //运输 LINE_TRANSFER POINT_TRANSFER_PUSHER
 
-//    //对点传输器
-//    public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
-//            "NTW_EXPANSION_LINE_TRANSFER_PUSHER",
-//            new ItemStack(Material.OBSERVER),
-//            Theme.MACHINE,
-//            "对点传输器 [推送]");
-//    public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
-//            "NTW_EXPANSION_LINE_TRANSFER_GRABBER",
-//            new ItemStack(Material.DISPENSER),
-//            Theme.MACHINE,
-//            "对点传输器 [抓取]"
-//    );
+    //对点传输器
+    public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
+            "NTW_EXPANSION_POINT_TRANSFER",
+            Enchanted(Material.END_ROD),
+            Theme.MACHINE,
+           "对点传输器");
+    public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
+            "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
+            new ItemStack(Material.END_ROD),
+            Theme.MACHINE,
+            "对点传输器 [抓取]"
+    );
 //    public static final SlimefunItemStack LINE_TRANSFER_TRANSFER = Theme.Random(
 //            "NTW_EXPANSION_LINE_TRANSFER",
 //            new ItemStack(Material.PISTON),
@@ -191,7 +191,7 @@ public final class ExpansionItemStacks {
             Theme.MACHINE,
             "高级链式传输 [推送]");
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
-            "NTW_EXPANSION_LINE_ADVANCED_TRANSFER_GRABBER",
+            "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
             Enchanted(Material.DISPENSER),
             Theme.MACHINE,
             "高级链式传输 [抓取]"

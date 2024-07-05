@@ -41,7 +41,7 @@ import java.util.UUID;
 @SuppressWarnings("deprecation")
 public class LineTransferVanillaPusher extends NetworkDirectional {
 
-    private static final String TICK_COUNTER_KEY = "push_ticker";
+    private static final String TICK_COUNTER_KEY = "tick_rate";
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
@@ -85,27 +85,21 @@ public class LineTransferVanillaPusher extends NetworkDirectional {
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        // 初始化Tick计数器
         int tickCounter = getTickCounter(block);
         tickCounter = (tickCounter + 1) % pushItemTick;
 
-        // 每10个Tick执行一次抓取操作
         if (tickCounter == 0) {
             performPushingOperation(blockMenu);
         }
 
-        // 更新Tick计数器
         updateTickCounter(block, tickCounter);
     }
 
     private int getTickCounter(Block block) {
-        // 从BlockStorage中获取与TICK_COUNTER_KEY关联的值
         String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
         try {
-            // 如果存在值，则尝试将其解析为整数
             return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
         } catch (NumberFormatException e) {
-            // 如果解析失败，则返回0
             return 0;
         }
     }

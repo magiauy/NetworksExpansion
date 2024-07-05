@@ -40,7 +40,7 @@ import java.util.function.Function;
 public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
 
 
-    private static final String TICK_COUNTER_KEY = "chain_grabber_plus_tick_counter";
+    private static final String TICK_COUNTER_KEY = "tick_rate";
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;

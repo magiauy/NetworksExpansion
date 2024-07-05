@@ -12,21 +12,18 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.MaterialHelper;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -41,11 +38,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public abstract class NetworkDirectional extends NetworkObject {
@@ -56,10 +49,9 @@ public abstract class NetworkDirectional extends NetworkObject {
     private static final int WEST_SLOT = 20;
     private static final int UP_SLOT = 15;
     private static final int DOWN_SLOT = 33;
-
     protected static final String DIRECTION = "direction";
     protected static final String OWNER_KEY = "uuid";
-
+    private static final Set<Location> locked = new HashSet<>();
     private static final Set<BlockFace> VALID_FACES = EnumSet.of(
             BlockFace.UP,
             BlockFace.DOWN,
@@ -202,7 +194,6 @@ public abstract class NetworkDirectional extends NetworkObject {
                     direction = BlockFace.valueOf(string);
                 }
                 SELECTED_DIRECTION_MAP.put(blockMenu.getLocation().clone(), direction);
-
                 blockMenu.addMenuClickHandler(getNorthSlot(), (player, i, itemStack, clickAction) ->
                         directionClick(player, clickAction, blockMenu, BlockFace.NORTH));
                 blockMenu.addMenuClickHandler(getSouthSlot(), (player, i, itemStack, clickAction) ->
@@ -215,6 +206,8 @@ public abstract class NetworkDirectional extends NetworkObject {
                         directionClick(player, clickAction, blockMenu, BlockFace.UP));
                 blockMenu.addMenuClickHandler(getDownSlot(), (player, i, itemStack, clickAction) ->
                         directionClick(player, clickAction, blockMenu, BlockFace.DOWN));
+
+
             }
 
             @Override
@@ -271,6 +264,7 @@ public abstract class NetworkDirectional extends NetworkObject {
         };
     }
 
+
     @Nullable
     protected int[] getOtherBackgroundSlots() {
         return null;
@@ -304,7 +298,6 @@ public abstract class NetworkDirectional extends NetworkObject {
     public int getDownSlot() {
         return DOWN_SLOT;
     }
-
     public int[] getItemSlots() {
         return new int[]{};
     }
@@ -374,4 +367,6 @@ public abstract class NetworkDirectional extends NetworkObject {
         final Location displayLocation = location.clone().add(0.5, 0.5, 0.5).add(faceVector);
         location.getWorld().spawnParticle(Particle.REDSTONE, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
     }
+
+
 }
