@@ -87,6 +87,7 @@ public class ExpansionRecipes {
         OPTIC_CABLE.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), OPTIC_CABLE.getItem(),
         NETWORK_GRABBER.getItem(), NETWORK_IMPORT.getItem(), NETWORK_GRABBER.getItem()
     };
+    
 
     public static final ItemStack[] LINE_TRANSFER_PLUS_GRABBER = new ItemStack[] {
         ExpansionItemStacks.LINE_TRANSFER_GRABBER, PRISTINE_AI_CORE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER,
@@ -609,68 +610,68 @@ public class ExpansionRecipes {
         SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ESSENCE_OF_AFTERLIFE,SlimefunItems.ESSENCE_OF_AFTERLIFE
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_1_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_1,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_1,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_2_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_2,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_2,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_3_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_3,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_3,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_4_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_4,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_4,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_5_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_5,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_5,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_6_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_6,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_6,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_7_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_7,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_7,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_8_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_8,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_8,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_9_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_9,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_9,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_10_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_10,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_10,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_11_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_11,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_11,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_12_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_12,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_12,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_13_MODEL = new ItemStack[] {
-        null,null,null,
-        null,ExpansionItemStacks.CARGO_STORAGE_UNIT_13,null,
-        null,null,null,
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(),ExpansionItemStacks.CARGO_STORAGE_UNIT_13,OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(),OPTIC_CABLE.getItem(),OPTIC_GLASS.getItem(),
     };
 }
