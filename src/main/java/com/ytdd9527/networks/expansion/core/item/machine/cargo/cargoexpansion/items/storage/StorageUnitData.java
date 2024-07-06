@@ -6,7 +6,6 @@ import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.da
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.barrel.InfinityBarrel;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -218,7 +217,7 @@ public class StorageUnitData {
         return null;
     }
 
-    public void depositItemStack(ItemStack[] itemsToDeposit, boolean contentLocked) {
+    public void depositItemStack(@Nonnull ItemStack[] itemsToDeposit, boolean contentLocked) {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack(item, contentLocked);
         }
@@ -246,19 +245,19 @@ public class StorageUnitData {
         if (item != null) {
             // if item is a cargo storage unit, it's blacklisted
             if (item instanceof CargoStorageUnit) {
-                return false;
+                return true;
             }
             // if item is a quantum storage, it's blacklisted
             if (item instanceof NetworkQuantumStorage) {
-                return false;
+                return true;
             }
             // if item is an infinity barrel, it's blacklisted
             if (Networks.getSupportedPluginManager().isInfinityExpansion() && item instanceof StorageUnit) {
-                return false;
+                return true;
             }
             // if item is a backpack, it's blacklisted
             if (item instanceof SlimefunBackpack) {
-                return false;
+                return true;
             }
         }
 

@@ -3,6 +3,7 @@ package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.i
 import com.ytdd9527.networks.expansion.core.item.AbstractMySlimefunItem;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -91,7 +92,6 @@ public class StorageUnitUpgradeTable extends AbstractMySlimefunItem {
     }
 
     private void craft(BlockMenu menu) {
-        boolean flag = false;
         for (Map.Entry<ItemStack[], ItemStack> each : recipes.entrySet()) {
             if (match(menu, each.getKey())) {
                 int id = CargoStorageUnit.getBoundId(menu.getItemInSlot(inputSlots[4]));
@@ -110,17 +110,18 @@ public class StorageUnitUpgradeTable extends AbstractMySlimefunItem {
                     }
                     out = CargoStorageUnit.bindId(out,id);
                 }
-                menu.replaceExistingItem(outputSlot, out);
-                flag = true;
+                if (!StackUtils.itemsMatch(menu.getItemInSlot(outputSlot), out)) {
+                    return;
+                }
+                for (int slot : inputSlots) {
+                    menu.consumeItem(slot);
+                }
+                if (menu.getItemInSlot(outputSlot) == null || menu.getItemInSlot(outputSlot).getType() == Material.AIR) {
+                    menu.replaceExistingItem(outputSlot, out);
+                } else {
+                    menu.pushItem(out, outputSlot);
+                }
             }
-        }
-
-        if (flag) {
-            for (int slot : inputSlots) {
-                menu.consumeItem(slot);
-            }
-        } else {
-            menu.replaceExistingItem(outputSlot, noOutput);
         }
     }
 

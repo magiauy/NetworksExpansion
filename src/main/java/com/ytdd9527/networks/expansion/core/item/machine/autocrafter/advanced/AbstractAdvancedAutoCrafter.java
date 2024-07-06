@@ -3,6 +3,7 @@ package com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -32,6 +33,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -80,22 +82,31 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         this.getSlotsToDrop().add(OUTPUT_SLOT);
 
         addItemHandler(
-            new BlockTicker() {
-                @Override
-                public boolean isSynchronized() {
-                    return false;
-                }
+                new BlockTicker() {
+                    @Override
+                    public boolean isSynchronized() {
+                        return false;
+                    }
 
-                @Override
-                public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                    BlockMenu blockMenu = data.getBlockMenu();
-                    if (blockMenu != null) {
-                        addToRegistry(block);
-                        craftPreFlight(blockMenu);
+                    @Override
+                    public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+                        performCraftAsync(block, data);
                     }
                 }
-            }
         );
+    }
+
+    protected void performCraftAsync(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                BlockMenu blockMenu = data.getBlockMenu();
+                if (blockMenu != null) {
+                    addToRegistry(block);
+                    craftPreFlight(blockMenu);
+                }
+            }
+        }.runTaskAsynchronously(Networks.getInstance());
     }
 
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {

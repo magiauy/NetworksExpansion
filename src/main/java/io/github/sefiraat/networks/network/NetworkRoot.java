@@ -1122,6 +1122,48 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
+        // Cells
+        for (BlockMenu blockMenu : getCellMenus()) {
+            for (ItemStack itemStack : blockMenu.getContents()) {
+                if (itemStack == null
+                        || itemStack.getType() == Material.AIR
+                        || !StackUtils.itemsMatch(request, itemStack, true)
+                ) {
+                    continue;
+                }
+
+                // Mark the Cell as dirty otherwise the changes will not save on shutdown
+                blockMenu.markDirty();
+
+                // If the return stack is null, we need to set it up
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
+                }
+
+                // Escape if fulfilled request
+                if (request.getAmount() <= 0) {
+                    progressing = false;
+                    notifyAll();
+                    return stackToReturn;
+                }
+
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    // We can't take more than this stack. Level to request amount, remove items and then return
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    progressing = false;
+                    notifyAll();
+                    return stackToReturn;
+                } else {
+                    // We can take more than what is here, consume before trying to take more
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
         // Crafters
         for (BlockMenu blockMenu : getCrafterOutputs()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
@@ -1257,48 +1299,6 @@ public class NetworkRoot extends NetworkNode {
                 stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
                 request.receiveAmount(itemStack.getAmount());
                 itemStack.setAmount(0);
-            }
-        }
-
-        // Cells
-        for (BlockMenu blockMenu : getCellMenus()) {
-            for (ItemStack itemStack : blockMenu.getContents()) {
-                if (itemStack == null
-                        || itemStack.getType() == Material.AIR
-                        || !StackUtils.itemsMatch(request, itemStack, true)
-                ) {
-                    continue;
-                }
-
-                // Mark the Cell as dirty otherwise the changes will not save on shutdown
-                blockMenu.markDirty();
-
-                // If the return stack is null, we need to set it up
-                if (stackToReturn == null) {
-                    stackToReturn = itemStack.clone();
-                    stackToReturn.setAmount(0);
-                }
-
-                // Escape if fulfilled request
-                if (request.getAmount() <= 0) {
-                    progressing = false;
-                    notifyAll();
-                    return stackToReturn;
-                }
-
-                if (request.getAmount() <= itemStack.getAmount()) {
-                    // We can't take more than this stack. Level to request amount, remove items and then return
-                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
-                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
-                    progressing = false;
-                    notifyAll();
-                    return stackToReturn;
-                } else {
-                    // We can take more than what is here, consume before trying to take more
-                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
-                    request.receiveAmount(itemStack.getAmount());
-                    itemStack.setAmount(0);
-                }
             }
         }
 
