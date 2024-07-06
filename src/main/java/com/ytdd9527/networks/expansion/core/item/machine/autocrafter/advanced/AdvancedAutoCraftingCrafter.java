@@ -1,7 +1,6 @@
 package com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.CargoStorageUnit;
 import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -10,7 +9,6 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.SupportedRecipes;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
 import io.github.sefiraat.networks.utils.Keys;
@@ -176,7 +174,8 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
 
             if (output != null
                     && output.getType() != Material.AIR
-                    && (output.getAmount() + instance.getItemStack().getAmount()*blueprintAmount > output.getMaxStackSize() || !StackUtils.itemsMatch(instance, output, true))) {
+                    && (output.getAmount() + instance.getItemStack().getAmount()*blueprintAmount > output.getMaxStackSize() || !StackUtils.itemsMatch(instance, output, true))
+            ) {
                 return;
             }
 
@@ -269,6 +268,12 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
         }
 
         crafted.setAmount(crafted.getAmount()*blueprintAmount);
+
+        if (crafted.getAmount() > crafted.getMaxStackSize()) {
+            returnItems(root, acutalInputs);
+            return false;
+        }
+
         blockMenu.pushItem(crafted, OUTPUT_SLOT);
         return true;
     }

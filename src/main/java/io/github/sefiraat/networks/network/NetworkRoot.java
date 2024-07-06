@@ -30,10 +30,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 
 public class NetworkRoot extends NetworkNode {
 
+    private boolean progressing = false;
     private final Set<Location> nodeLocations = new HashSet<>();
     private int maxNodes;
     private boolean isOverburdened = false;
@@ -89,6 +89,12 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
+        // when we found it lived in nodeLocations,
+        // it means it's already registered,
+        // so we remove it first
+        if (nodeLocations.contains(location)) {
+            removeOldNode(location, type);
+        }
         nodeLocations.add(location);
         switch (type) {
             case CONTROLLER -> {
@@ -126,6 +132,290 @@ public class NetworkRoot extends NetworkNode {
             case COORDINATE_TRANSMITTER ->coordinateTransmitters.add(location);
             case NE_COORDINATE_RECEIVER ->coordinateReceivers.add(location);
             case LINE_TRANSMITTER -> chainDispatchers.add(location);
+        }
+    }
+
+    public void removeOldNode(@Nonnull Location location, @Nonnull NodeType type) {
+        if (type != NodeType.BRIDGE) {
+            for (Location testLocation : getBridges()) {
+                if (testLocation.equals(location)) {
+                    getBridges().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.STORAGE_MONITOR) {
+            for (Location testLocation : getMonitors()) {
+                if (testLocation.equals(location)) {
+                    getMonitors().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.IMPORT) {
+            for (Location testLocation : getImporters()) {
+                if (testLocation.equals(location)) {
+                    getImporters().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.EXPORT) {
+            for (Location testLocation : getExporters()) {
+                if (testLocation.equals(location)) {
+                    getExporters().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.GRID) {
+            for (Location testLocation : getGrids()) {
+                if (testLocation.equals(location)) {
+                    getGrids().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.CELL) {
+            for (Location testLocation : getCells()) {
+                if (testLocation.equals(location)) {
+                    getCells().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.WIPER) {
+            for (Location testLocation : getWipers()) {
+                if (testLocation.equals(location)) {
+                    getWipers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.GRABBER) {
+            for (Location testLocation : getGrabbers()) {
+                if (testLocation.equals(location)) {
+                    getGrabbers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.PUSHER) {
+            for (Location testLocation : getPushers()) {
+                if (testLocation.equals(location)) {
+                    getPushers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.PURGER) {
+            for (Location testLocation : getPurgers()) {
+                if (testLocation.equals(location)) {
+                    getPurgers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.CRAFTER) {
+            for (Location testLocation : getCrafters()) {
+                if (testLocation.equals(location)) {
+                    getCrafters().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.POWER_NODE) {
+            for (Location testLocation : getPowerNodes()) {
+                if (testLocation.equals(location)) {
+                    getPowerNodes().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.POWER_DISPLAY) {
+            for (Location testLocation : getPowerDisplays()) {
+                if (testLocation.equals(location)) {
+                    getPowerDisplays().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.ENCODER) {
+            for (Location testLocation : getEncoders()) {
+                if (testLocation.equals(location)) {
+                    getEncoders().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.GREEDY_BLOCK) {
+            for (BlockMenu blockMenu : getGreedyBlocks()) {
+                Location testLocation = blockMenu.getLocation();
+                if (testLocation.equals(location)) {
+                    getGreedyBlocks().remove(blockMenu);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.CUTTER) {
+            for (Location testLocation : getCutters()) {
+                if (testLocation.equals(location)) {
+                    getCutters().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.PASTER) {
+            for (Location testLocation : getPasters()) {
+                if (testLocation.equals(location)) {
+                    getPasters().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.VACUUM) {
+            for (Location testLocation : getVacuums()) {
+                if (testLocation.equals(location)) {
+                    getVacuums().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.WIRELESS_TRANSMITTER) {
+            for (Location testLocation : getWirelessTransmitters()) {
+                if (testLocation.equals(location)) {
+                    getWirelessTransmitters().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.WIRELESS_RECEIVER) {
+            for (Location testLocation : getWirelessReceivers()) {
+                if (testLocation.equals(location)) {
+                    getWirelessReceivers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.POWER_OUTLET) {
+            for (Location testLocation : getPowerOutlets()) {
+                if (testLocation.equals(location)) {
+                    getPowerOutlets().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        // from networks expansion
+        if (type != NodeType.LINE_TRANSMITTER_PUSHER) {
+            for (Location testLocation : getChainPushers()) {
+                if (testLocation.equals(location)) {
+                    getChainPushers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.LINE_TRANSMITTER_PUSHER_PLUS) {
+            for (Location testLocation : getChainPushers()) {
+                if (testLocation.equals(location)) {
+                    getChainPushers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.LINE_TRANSMITTER_GRABBER) {
+            for (Location testLocation : getChainGrabbers()) {
+                if (testLocation.equals(location)) {
+                    getChainGrabbers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.LINE_TRANSMITTER_GRABBER_PLUS) {
+            for (Location testLocation : getChainGrabbers()) {
+                if (testLocation.equals(location)) {
+                    getChainGrabbers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.NEA_IMPORT) {
+            for (Location testLocation : getAdvancedImports()) {
+                if (testLocation.equals(location)) {
+                    getAdvancedImports().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.NEA_EXPORT) {
+            for (Location testLocation : getAdvancedExports()) {
+                if (testLocation.equals(location)) {
+                    getAdvancedExports().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.NEA_GREEDY_BLOCK) {
+            for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
+                Location testLocation = blockMenu.getLocation();
+                if (testLocation.equals(location)) {
+                    getAdvancedGreedyBlocks().remove(blockMenu);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.COORDINATE_TRANSMITTER) {
+            for (Location testLocation : getCoordinateTransmitters()) {
+                if (testLocation.equals(location)) {
+                    getCoordinateTransmitters().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.NE_COORDINATE_RECEIVER) {
+            for (Location testLocation : getCoordinateReceivers()) {
+                if (testLocation.equals(location)) {
+                    getCoordinateReceivers().remove(testLocation);
+                    break;
+                }
+            }
+        }
+
+        if (type != NodeType.LINE_TRANSMITTER) {
+            for (Location testLocation : getChainDispatchers()) {
+                if (testLocation.equals(location)) {
+                    getChainDispatchers().remove(testLocation);
+                    break;
+                }
+            }
         }
     }
 
@@ -768,12 +1058,24 @@ public class NetworkRoot extends NetworkNode {
      * @return The {@link ItemStack} matching the request with as many as could be found. Null if none.
      */
     @Nullable
-    public ItemStack getItemStack(@Nonnull ItemRequest request) {
+    public synchronized ItemStack getItemStack(@Nonnull ItemRequest request) {
+        if (progressing) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        progressing = true;
+
         ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
             stackToReturn = request.getItemStack().clone();
             stackToReturn.setAmount(request.getAmount());
+            progressing = false;
+            notifyAll();
             return stackToReturn;
         }
 
@@ -795,13 +1097,13 @@ public class NetworkRoot extends NetworkNode {
             // Stack is null, so we can fill it here
             if (stackToReturn == null) {
                 stackToReturn = fetched.clone();
-                stackToReturn.setAmount(1);
-                request.receiveAmount(1);
-                fetched.setAmount(fetched.getAmount() - 1);
+                stackToReturn.setAmount(0);
             }
 
             // Escape if fulfilled request
             if (request.getAmount() <= 0) {
+                progressing = false;
+                notifyAll();
                 return stackToReturn;
             }
 
@@ -810,6 +1112,8 @@ public class NetworkRoot extends NetworkNode {
             if (request.getAmount() <= preserveAmount) {
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                 fetched.setAmount(fetched.getAmount() - request.getAmount());
+                progressing = false;
+                notifyAll();
                 return stackToReturn;
             } else {
                 stackToReturn.setAmount(stackToReturn.getAmount() + preserveAmount);
@@ -834,19 +1138,21 @@ public class NetworkRoot extends NetworkNode {
                 // Stack is null, so we can fill it here
                 if (stackToReturn == null) {
                     stackToReturn = itemStack.clone();
-                    stackToReturn.setAmount(1);
-                    request.receiveAmount(1);
-                    itemStack.setAmount(itemStack.getAmount() - 1);
+                    stackToReturn.setAmount(0);
                 }
 
                 // Escape if fulfilled request
                 if (request.getAmount() <= 0) {
+                    progressing = false;
+                    notifyAll();
                     return stackToReturn;
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    progressing = false;
+                    notifyAll();
                     return stackToReturn;
                 } else {
                     stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
@@ -862,14 +1168,14 @@ public class NetworkRoot extends NetworkNode {
             if (take != null) {
                 if (stackToReturn == null) {
                     stackToReturn = take.clone();
-                    stackToReturn.setAmount(take.getAmount());
-                    request.receiveAmount(stackToReturn.getAmount());
                 } else {
                     stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
-                    request.receiveAmount(stackToReturn.getAmount());
                 }
+                request.receiveAmount(stackToReturn.getAmount());
 
                 if (request.getAmount() <= 0) {
+                    progressing = false;
+                    notifyAll();
                     return stackToReturn;
                 }
             }
@@ -889,19 +1195,21 @@ public class NetworkRoot extends NetworkNode {
                 // Stack is null, so we can fill it here
                 if (stackToReturn == null) {
                     stackToReturn = itemStack.clone();
-                    stackToReturn.setAmount(1);
-                    request.receiveAmount(1);
-                    itemStack.setAmount(itemStack.getAmount() - 1);
+                    stackToReturn.setAmount(0);
                 }
 
                 // Escape if fulfilled request
                 if (request.getAmount() <= 0) {
+                    progressing = false;
+                    notifyAll();
                     return stackToReturn;
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    progressing = false;
+                    notifyAll();
                     return stackToReturn;
                 } else {
                     stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
@@ -927,13 +1235,13 @@ public class NetworkRoot extends NetworkNode {
             // If the return stack is null, we need to set it up
             if (stackToReturn == null) {
                 stackToReturn = itemStack.clone();
-                stackToReturn.setAmount(1);
-                request.receiveAmount(1);
-                itemStack.setAmount(itemStack.getAmount() - 1);
+                stackToReturn.setAmount(0);
             }
 
             // Escape if fulfilled request
             if (request.getAmount() <= 0) {
+                progressing = false;
+                notifyAll();
                 return stackToReturn;
             }
 
@@ -941,6 +1249,8 @@ public class NetworkRoot extends NetworkNode {
                 // We can't take more than this stack. Level to request amount, remove items and then return
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                 itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                progressing = false;
+                notifyAll();
                 return stackToReturn;
             } else {
                 // We can take more than what is here, consume before trying to take more
@@ -966,13 +1276,13 @@ public class NetworkRoot extends NetworkNode {
                 // If the return stack is null, we need to set it up
                 if (stackToReturn == null) {
                     stackToReturn = itemStack.clone();
-                    stackToReturn.setAmount(1);
-                    request.receiveAmount(1);
-                    itemStack.setAmount(itemStack.getAmount() - 1);
+                    stackToReturn.setAmount(0);
                 }
 
                 // Escape if fulfilled request
                 if (request.getAmount() <= 0) {
+                    progressing = false;
+                    notifyAll();
                     return stackToReturn;
                 }
 
@@ -980,6 +1290,8 @@ public class NetworkRoot extends NetworkNode {
                     // We can't take more than this stack. Level to request amount, remove items and then return
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    progressing = false;
+                    notifyAll();
                     return stackToReturn;
                 } else {
                     // We can take more than what is here, consume before trying to take more
@@ -990,6 +1302,14 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
+        if (stackToReturn == null || stackToReturn.getAmount() == 0) {
+            progressing = false;
+            notifyAll();
+            return null;
+        }
+
+        progressing = false;
+        notifyAll();
         return stackToReturn;
     }
 

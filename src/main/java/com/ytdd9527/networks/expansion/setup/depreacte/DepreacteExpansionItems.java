@@ -30,6 +30,7 @@ import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import lombok.experimental.UtilityClass;
+import org.bukkit.inventory.ItemStack;
 
 @UtilityClass
 public class DepreacteExpansionItems {
@@ -38,42 +39,42 @@ public class DepreacteExpansionItems {
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.NE_EXPANSION_WORKBENCH,
             RecipeType.NULL,
-        ExpansionRecipes.NE_EXPANSION_WORKBENCH
+        new ItemStack[]{}
     );
 
     public static final CoordinateConfigurator NE_COORDINATE_CONFIGURATOR = new CoordinateConfigurator(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.NE_COORDINATE_CONFIGURATOR,
         RecipeType.NULL,
-        ExpansionRecipes.NE_COORDINATE_CONFIGURATOR
+        new ItemStack[]{}
     );
 
     public static final AdvancedImport ADVANCED_IMPORT = new AdvancedImport(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ADVANCED_IMPORT,
         RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_IMPORT
+        new ItemStack[]{}
     );
 
     public static final AdvancedExport ADVANCED_EXPORT = new AdvancedExport(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ADVANCED_EXPORT,
         RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_EXPORT
+        new ItemStack[]{}
     );
 
     public static final AdvancedPurger ADVANCED_PURGER = new AdvancedPurger(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ADVANCED_PURGER,
         RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_PURGER
+        new ItemStack[]{}
     );
 
     public static final AdvancedGreedyBlock ADVANCED_GREEDY_BLOCK = new AdvancedGreedyBlock(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ADVANCED_GREEDY_BLOCK,
         RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_GREEDY_BLOCK
+        new ItemStack[]{}
     );
 
     public static final AdvancedImport NETWORK_CAPACITOR_5 = new AdvancedImport(
@@ -95,21 +96,21 @@ public class DepreacteExpansionItems {
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.NETWORK_GRID_NEW_STYLE,
         RecipeType.NULL,
-        ExpansionRecipes.NETWORK_GRID_NEW_STYLE
+        new ItemStack[]{}
     );
 
     public static final NetworkCraftingGridNewStyle NETWORK_CRAFTING_GRID_NEW_STYLE = new NetworkCraftingGridNewStyle(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.NETWORK_CRAFTING_GRID_NEW_STYLE,
         RecipeType.NULL,
-        ExpansionRecipes.NETWORK_CRAFTING_GRID_NEW_STYLE
+        new ItemStack[]{}
     );
 
     public static final NetworkEncodingGridNewStyle NETWORK_ENCODING_GRID_NEW_STYLE = new NetworkEncodingGridNewStyle(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.NETWORK_ENCODING_GRID_NEW_STYLE,
         RecipeType.NULL,
-        ExpansionRecipes.NETWORK_ENCODING_GRID_NEW_STYLE
+        new ItemStack[]{}
     );
 
     public static final LineTransferPusher CHAIN_PUSHER = new LineTransferPusher(
@@ -212,14 +213,14 @@ public class DepreacteExpansionItems {
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.COORDINATE_TRANSMITTER,
         RecipeType.NULL,
-        ExpansionRecipes.COORDINATE_RECEIVER
+        new ItemStack[]{}
     );
 
     public static final CoordinateReceiver COORDINATE_RECEIVER = new CoordinateReceiver(
             NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.COORDINATE_RECEIVER,
         RecipeType.NULL,
-        ExpansionRecipes.COORDINATE_RECEIVER
+        new ItemStack[]{}
     );
 
     //蓝图
@@ -227,42 +228,42 @@ public class DepreacteExpansionItems {
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
         RecipeType.NULL,
-        ExpansionRecipes.MAGIC_WORKBENCH_BLUEPRINT
+        new ItemStack[]{}
     );
 
     public static final ArmorForgeBlueprint ARMOR_FORGE_BLUEPRINT = new ArmorForgeBlueprint(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
         RecipeType.NULL,
-        ExpansionRecipes.ARMOR_FORGE_BLUEPRINT
+        new ItemStack[]{}
     );
 
     public static final SmelteryBlueprint SMELTERY_BLUEPRINT = new SmelteryBlueprint(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.SMELTERY_BLUEPRINT,
         RecipeType.NULL,
-        ExpansionRecipes.SMELTERY_BLUEPRINT
+        new ItemStack[]{}
     );
 
     public static final QuantumWorkbenchBlueprint QUANTUM_WORKBENCH_BLUEPRINT = new QuantumWorkbenchBlueprint(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
         RecipeType.NULL,
-        ExpansionRecipes.QUANTUM_WORKBENCH_BLUEPRINT
+        new ItemStack[]{}
     );
 
     public static final AncientAltarBlueprint ANCIENT_ALTAR_BLUEPRINT = new AncientAltarBlueprint(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
         RecipeType.NULL,
-        ExpansionRecipes.ANCIENT_ALTAR_BLUEPRINT
+        new ItemStack[]{}
     );
 
     public static final ExpansionWorkbenchBlueprint EXPANSION_WORKBENCH_BLUEPRINT = new ExpansionWorkbenchBlueprint(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
         RecipeType.NULL,
-        ExpansionRecipes.EXPANSION_WORKBENCH_BLUEPRINT
+        new ItemStack[]{}
     );
 
     //编码器
@@ -270,42 +271,42 @@ public class DepreacteExpansionItems {
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.MAGIC_WORKBENCH_RECIPE_ENCODER,
         RecipeType.NULL,
-        ExpansionRecipes.MAGIC_WORKBENCH_RECIPE_ENCODER
+        new ItemStack[]{}
     );
 
     public static final ArmorForgeEncoder ARMOR_FORGE_RECIPE_ENCODER = new ArmorForgeEncoder(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ARMOR_FORGE_RECIPE_ENCODER,
         RecipeType.NULL,
-        ExpansionRecipes.ARMOR_FORGE_RECIPE_ENCODER
+        new ItemStack[]{}
     );
 
     public static final SmelteryEncoder SMELTERY_RECIPE_ENCODER = new SmelteryEncoder(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.SMELTERY_RECIPE_ENCODER,
         RecipeType.NULL,
-        ExpansionRecipes.SMELTERY_RECIPE_ENCODER
+        new ItemStack[]{}
     );
 
     public static final QuantumWorkbenchEncoder QUANTUM_WORKBENCH_RECIPE_ENCODER = new QuantumWorkbenchEncoder(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.QUANTUM_WORKBENCH_RECIPE_ENCODER,
         RecipeType.NULL,
-        ExpansionRecipes.QUANTUM_WORKBENCH_RECIPE_ENCODER
+        new ItemStack[]{}
     );
 
     public static final AncientAltarEncoder ANCIENT_ALTAR_RECIPE_ENCODER = new AncientAltarEncoder(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.ANCIENT_ALTAR_RECIPE_ENCODER,
         RecipeType.NULL,
-        ExpansionRecipes.ANCIENT_ALTAR_RECIPE_ENCODER
+        new ItemStack[]{}
     );
 
     public static final ExpansionWorkbenchEncoder EXPANSION_WORKBENCH_RECIPE_ENCODER = new ExpansionWorkbenchEncoder(
         NetworksItemGroups.DISABLED_ITEMS,
         DeprecateExpansionItemStacks.EXPANSION_WORKBENCH_RECIPE_ENCODER,
         RecipeType.NULL,
-        ExpansionRecipes.EXPANSION_WORKBENCH_RECIPE_ENCODER
+        new ItemStack[]{}
     );
 
     //合成机
@@ -526,22 +527,22 @@ public class DepreacteExpansionItems {
         true
     );
 
-    public static final NetworkBridge NE_BRIDGE_WHITE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_WHITE, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, 8),"NE_BRIDGE_WHITE");
-    public static final NetworkBridge NE_BRIDGE_LIGHT_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_LIGHT_GRAY, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY, 8));
-    public static final NetworkBridge NE_BRIDGE_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GRAY,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_GRAY, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GRAY, 8));
-    public static final NetworkBridge NE_BRIDGE_BLACK = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BLACK, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_BLACK, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BLACK, 8));
-    public static final NetworkBridge NE_BRIDGE_BROWN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BROWN,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_BROWN, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BROWN, 8));
-    public static final NetworkBridge NE_BRIDGE_RED = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_RED, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_RED, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_RED, 8));
-    public static final NetworkBridge NE_BRIDGE_ORANGE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_ORANGE, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE, 8));
-    public static final NetworkBridge NE_BRIDGE_YELLOW = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_YELLOW, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_YELLOW, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_YELLOW, 8));
-    public static final NetworkBridge NE_BRIDGE_LIME = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIME,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_LIME, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIME, 8));
-    public static final NetworkBridge NE_BRIDGE_GREEN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GREEN,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_GREEN, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GREEN, 8));
-    public static final NetworkBridge NE_BRIDGE_CYAN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_CYAN, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_CYAN, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_CYAN, 8));
-    public static final NetworkBridge NE_BRIDGE_LIGHT_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_LIGHT_BLUE, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE, 8));
-    public static final NetworkBridge NE_BRIDGE_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BLUE,RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_BLUE, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BLUE, 8));
-    public static final NetworkBridge NE_BRIDGE_PURPLE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_PURPLE, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_PURPLE, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_PURPLE, 8));
-    public static final NetworkBridge NE_BRIDGE_MAGENTA = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_MAGENTA, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_MAGENTA, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_MAGENTA, 8));
-    public static final NetworkBridge NE_BRIDGE_PINK = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_PINK, RecipeType.NULL, ExpansionRecipes.NETWORK_BRIDGE_PINK, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_PINK, 8));
+    public static final NetworkBridge NE_BRIDGE_WHITE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, 8),"NE_BRIDGE_WHITE");
+    public static final NetworkBridge NE_BRIDGE_LIGHT_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY, 8));
+    public static final NetworkBridge NE_BRIDGE_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GRAY,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GRAY, 8));
+    public static final NetworkBridge NE_BRIDGE_BLACK = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BLACK, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BLACK, 8));
+    public static final NetworkBridge NE_BRIDGE_BROWN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BROWN,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BROWN, 8));
+    public static final NetworkBridge NE_BRIDGE_RED = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_RED, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_RED, 8));
+    public static final NetworkBridge NE_BRIDGE_ORANGE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE, 8));
+    public static final NetworkBridge NE_BRIDGE_YELLOW = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_YELLOW, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_YELLOW, 8));
+    public static final NetworkBridge NE_BRIDGE_LIME = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIME,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIME, 8));
+    public static final NetworkBridge NE_BRIDGE_GREEN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GREEN,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GREEN, 8));
+    public static final NetworkBridge NE_BRIDGE_CYAN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_CYAN, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_CYAN, 8));
+    public static final NetworkBridge NE_BRIDGE_LIGHT_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE, 8));
+    public static final NetworkBridge NE_BRIDGE_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BLUE,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BLUE, 8));
+    public static final NetworkBridge NE_BRIDGE_PURPLE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_PURPLE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_PURPLE, 8));
+    public static final NetworkBridge NE_BRIDGE_MAGENTA = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_MAGENTA, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_MAGENTA, 8));
+    public static final NetworkBridge NE_BRIDGE_PINK = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_PINK, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_PINK, 8));
 
     static {
         ADVANCED_QUANTUM_STORAGE.setSupportsCustomMaxAmount(true);

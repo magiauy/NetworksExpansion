@@ -534,7 +534,8 @@ public class ExpansionRecipes {
         null,ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE,null,
         null,null,null,
     };
-    public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[] {        SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SYNTHETIC_SHULKER_SHELL,
+    public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[] {
+        SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.SYNTHETIC_SHULKER_SHELL,
         SlimefunItems.CARGO_MOTOR, SlimefunItems.BOUND_BACKPACK, SlimefunItems.CARGO_MOTOR,
         SlimefunItems.WITHER_PROOF_GLASS, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.WITHER_PROOF_GLASS
     };

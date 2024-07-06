@@ -15,11 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -35,6 +31,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -53,6 +50,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional {
 
     private static int maxDistance;
     private static int grabItemTick;
+    private final HashMap<Location, Integer> TICKER_MAP= new HashMap<>();
 
     public LineTransferVanillaGrabber(ItemGroup itemGroup,
                                  SlimefunItemStack item,
@@ -79,7 +77,8 @@ public class LineTransferVanillaGrabber extends NetworkDirectional {
         super.onTick(blockMenu, block);
 
         // 初始化Tick计数器
-        int tickCounter = getTickCounter(block);
+        final Location location = block.getLocation();
+        int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
 
         // 每10个Tick执行一次抓取操作
@@ -88,23 +87,19 @@ public class LineTransferVanillaGrabber extends NetworkDirectional {
         }
 
         // 更新Tick计数器
-        updateTickCounter(block, tickCounter);
+        updateTickCounter(location, tickCounter);
     }
 
-    private int getTickCounter(Block block) {
-        // 从BlockStorage中获取与TICK_COUNTER_KEY关联的值
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
-        try {
-            // 如果存在值，则尝试将其解析为整数
-            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
-        } catch (NumberFormatException e) {
-            // 如果解析失败，则返回0
+    private int getTickCounter(Location location) {
+        final Integer ticker = TICKER_MAP.get(location);
+        if (ticker == null) {
+            TICKER_MAP.put(location, 0);
             return 0;
         }
+        return ticker;
     }
-    private void updateTickCounter(Block block, int tickCounter) {
-        // 将更新后的Tick计数器值存储到BlockStorage中
-        BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
+    private void updateTickCounter(Location location, int tickCounter) {
+        TICKER_MAP.put(location, tickCounter);
     }
 
     private void performGrabbingOperation(@Nullable BlockMenu blockMenu) {

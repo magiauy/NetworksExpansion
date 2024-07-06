@@ -17,11 +17,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -41,8 +37,6 @@ import java.util.UUID;
 @SuppressWarnings("deprecation")
 public class LineTransferVanillaPusher extends NetworkDirectional {
 
-    private static final String TICK_COUNTER_KEY = "tick_rate";
-
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
     };
@@ -56,6 +50,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional {
 
     private static int maxDistance;
     private static int pushItemTick;
+    private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
     public LineTransferVanillaPusher(ItemGroup itemGroup,
                                       SlimefunItemStack item,
@@ -85,27 +80,27 @@ public class LineTransferVanillaPusher extends NetworkDirectional {
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        int tickCounter = getTickCounter(block);
+        final Location location = block.getLocation();
+        int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % pushItemTick;
 
         if (tickCounter == 0) {
             performPushingOperation(blockMenu);
         }
 
-        updateTickCounter(block, tickCounter);
+        updateTickCounter(location, tickCounter);
     }
 
-    private int getTickCounter(Block block) {
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
-        try {
-            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
-        } catch (NumberFormatException e) {
+    private int getTickCounter(Location location) {
+        final Integer ticker = TICKER_MAP.get(location);
+        if (ticker == null) {
+            TICKER_MAP.put(location, 0);
             return 0;
         }
+        return ticker;
     }
-    private void updateTickCounter(Block block, int tickCounter) {
-        // 将更新后的Tick计数器值存储到BlockStorage中
-        BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
+    private void updateTickCounter(Location location, int tickCounter) {
+        TICKER_MAP.put(location, tickCounter);
     }
 
     private void performPushingOperation(@Nullable BlockMenu blockMenu) {

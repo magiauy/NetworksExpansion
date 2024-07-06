@@ -9,7 +9,6 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -184,7 +183,7 @@ public class StorageUnitData {
     }
 
     @Nullable
-    public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
+    public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
         ItemStack item = itemRequest.getItemStack();
         if (item == null) {
             return null;
@@ -194,7 +193,7 @@ public class StorageUnitData {
         for (ItemContainer itemContainer: getStoredItems()) {
             int containerAmount = itemContainer.getAmount();
             if (StackUtils.itemsMatch(itemContainer.getSample(), item)) {
-                if (StorageCacheUtils.getData(getLastLocation(), "locked") != null) {
+                if (CargoStorageUnit.isLocked(getLastLocation())) {
                     containerAmount--;
                 }
                 int take = Math.min(amount, containerAmount);

@@ -113,7 +113,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        Location location = block.getLocation();
+        final Location location = block.getLocation();
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
         if (tickCounter == 0) {
@@ -122,7 +122,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         updateTickCounter(location, tickCounter);
     }
     private int getTickCounter(Location location) {
-        Integer tickCounter = GRAB_TICKER_MAP.get(location);
+        final Integer tickCounter = GRAB_TICKER_MAP.get(location);
         if (tickCounter == null) {
             GRAB_TICKER_MAP.put(location, 0);
             return 0;
@@ -138,7 +138,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        NetworkRoot root = definition.getNode().getRoot();
+        final NetworkRoot root = definition.getNode().getRoot();
         BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
