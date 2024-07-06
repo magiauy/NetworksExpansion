@@ -62,7 +62,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
         Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
-    private static final String TICK_COUNTER_KEY = "tick_rate";
+    private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
     public LineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER);
@@ -112,23 +112,25 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        int tickCounter = getTickCounter(block);
+
+        final Location location = block.getLocation();
+        int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % pushItemTick;
         if (tickCounter == 0) {
             performPushItemOperationAsync(blockMenu);
         }
-        updateTickCounter(block, tickCounter);
+        updateTickCounter(location, tickCounter);
     }
-    private int getTickCounter(Block block) {
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
-        try {
-            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
-        } catch (NumberFormatException e) {
+    private int getTickCounter(Location location) {
+        final Integer ticker = TICKER_MAP.get(location);
+        if (ticker == null) {
+            TICKER_MAP.put(location, 0);
             return 0;
         }
+        return ticker;
     }
-    private void updateTickCounter(Block block, int tickCounter) {
-        BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
+    private void updateTickCounter(Location location, int tickCounter) {
+        TICKER_MAP.put(location, tickCounter);
     }
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());

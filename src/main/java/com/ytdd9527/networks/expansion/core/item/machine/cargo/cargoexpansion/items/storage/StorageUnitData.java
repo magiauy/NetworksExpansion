@@ -4,12 +4,16 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
+import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -184,7 +188,7 @@ public class StorageUnitData {
     }
 
     @Nullable
-    public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
+    public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
         ItemStack item = itemRequest.getItemStack();
         if (item == null) {
             return null;
@@ -194,7 +198,7 @@ public class StorageUnitData {
         for (ItemContainer itemContainer: getStoredItems()) {
             int containerAmount = itemContainer.getAmount();
             if (StackUtils.itemsMatch(itemContainer.getSample(), item)) {
-                if (StorageCacheUtils.getData(getLastLocation(), "locked") != null) {
+                if (CargoStorageUnit.isLocked(getLastLocation())) {
                     containerAmount--;
                 }
                 int take = Math.min(amount, containerAmount);
@@ -213,17 +217,51 @@ public class StorageUnitData {
         return null;
     }
 
-    public void depositItemStack(ItemStack[] itemsToDeposit, boolean contentLocked) {
+    public void depositItemStack(@Nonnull ItemStack[] itemsToDeposit, boolean contentLocked) {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack(item, contentLocked);
         }
     }
 
     public static boolean isBlacklisted(@Nonnull ItemStack itemStack) {
-        return itemStack.getType() == Material.AIR
-                || itemStack.getType().getMaxDurability() < 0
-                || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
-                || itemStack.getType() == Material.BUNDLE;
+        // if item is air, it's blacklisted
+        if (itemStack.getType() == Material.AIR) {
+            return true;
+        }
+        // if item has invalid durability, it's blacklisted
+        if (itemStack.getType().getMaxDurability() < 0) {
+            return true;
+        }
+        // if item is a shulker box, it's blacklisted
+        if (Tag.SHULKER_BOXES.isTagged(itemStack.getType())) {
+            return true;
+        }
+        // if item is a bundle, it's blacklisted
+        if (itemStack.getType() == Material.BUNDLE) {
+            return true;
+        }
+
+        SlimefunItem item = SlimefunItem.getByItem(itemStack);
+        if (item != null) {
+            // if item is a cargo storage unit, it's blacklisted
+            if (item instanceof CargoStorageUnit) {
+                return true;
+            }
+            // if item is a quantum storage, it's blacklisted
+            if (item instanceof NetworkQuantumStorage) {
+                return true;
+            }
+            // if item is an infinity barrel, it's blacklisted
+            if (Networks.getSupportedPluginManager().isInfinityExpansion() && item instanceof StorageUnit) {
+                return true;
+            }
+            // if item is a backpack, it's blacklisted
+            if (item instanceof SlimefunBackpack) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked) {

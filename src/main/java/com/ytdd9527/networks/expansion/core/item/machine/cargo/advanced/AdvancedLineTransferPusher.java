@@ -130,7 +130,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        Location location = block.getLocation();
+        final Location location = block.getLocation();
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % pushItemTick;
         if (tickCounter == 0) {
@@ -139,7 +139,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         updateTickCounter(location, tickCounter);
     }
     private int getTickCounter(Location location) {
-        Integer tickCounter = PUSH_TICKER_MAP.get(location);
+        final Integer tickCounter = PUSH_TICKER_MAP.get(location);
         if (tickCounter == null) {
             PUSH_TICKER_MAP.put(location, 0);
             return 0;
@@ -152,11 +152,11 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        NetworkRoot root = definition.getNode().getRoot();
+        final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);

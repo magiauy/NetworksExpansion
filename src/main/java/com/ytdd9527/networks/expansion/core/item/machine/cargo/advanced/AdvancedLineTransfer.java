@@ -149,7 +149,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        Location location = block.getLocation();
+        final Location location = block.getLocation();
         int currentPushTick = getPushTickCounter(location);
         int currentGrabTick = getGrabTickCounter(location);
 
@@ -166,7 +166,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         updateGrabTickCounter(location, currentGrabTick);
     }
     private int getPushTickCounter(Location location) {
-        Integer ticker = PUSH_TICKER_MAP.get(location);
+        final Integer ticker = PUSH_TICKER_MAP.get(location);
         if (ticker != null) {
             return ticker;
         } else {
@@ -175,7 +175,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         }
     }
     private int getGrabTickCounter(Location location) {
-        Integer ticker = GRAB_TICKER_MAP.get(location);
+        final Integer ticker = GRAB_TICKER_MAP.get(location);
         if (ticker != null) {
             return ticker;
         } else {
@@ -192,11 +192,16 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        NetworkRoot root = definition.getNode().getRoot();
+        final NetworkRoot root = definition.getNode().getRoot();
+        if (root.getRootPower() < requiredPower) {
+            return;
+        }
+
+        root.removeRootPower(requiredPower);
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
@@ -327,16 +332,15 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         }
     }
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        NetworkRoot root = definition.getNode().getRoot();
-        if (root.getRootPower() > requiredPower) {
-            root.removeRootPower(requiredPower);
-        } else {
+        final NetworkRoot root = definition.getNode().getRoot();
+        if (root.getRootPower() < requiredPower) {
             return;
         }
+        root.removeRootPower(requiredPower);
 
         BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);

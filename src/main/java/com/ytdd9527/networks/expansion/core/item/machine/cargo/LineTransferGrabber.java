@@ -6,6 +6,7 @@ import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
@@ -30,7 +31,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
@@ -39,14 +39,13 @@ import java.util.function.Function;
 
 public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
 
-
-    private static final String TICK_COUNTER_KEY = "tick_rate";
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private static final ItemStack AIR = new CustomItemStack(Material.AIR);
     private int grabItemTick;
     private int maxDistance;
+    private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
     public LineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
@@ -95,7 +94,8 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         super.onTick(blockMenu, block);
 
         // 初始化Tick计数器
-        int tickCounter = getTickCounter(block);
+        final Location location = blockMenu.getLocation();
+        int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
 
         // 每10个Tick执行一次抓取操作
@@ -104,43 +104,32 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         }
 
         // 更新Tick计数器
-        updateTickCounter(block, tickCounter);
+        updateTickCounter(location, tickCounter);
     }
-    private int getTickCounter(Block block) {
-        // 从BlockStorage中获取与TICK_COUNTER_KEY关联的值
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
-        try {
-            // 如果存在值，则尝试将其解析为整数
-            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
-        } catch (NumberFormatException e) {
-            // 如果解析失败，则返回0
+    private int getTickCounter(Location location) {
+        final Integer ticker = TICKER_MAP.get(location);
+        if (ticker == null) {
+            TICKER_MAP.put(location, 0);
             return 0;
         }
+        return ticker;
     }
-    private void updateTickCounter(Block block, int tickCounter) {
-        // 将更新后的Tick计数器值存储到BlockStorage中
-        BlockStorage.addBlockInfo(block.getLocation(), TICK_COUNTER_KEY, Integer.toString(tickCounter));
+    private void updateTickCounter(Location location, int tickCounter) {
+        TICKER_MAP.put(location, tickCounter);
     }
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        if (blockMenu == null) {
-            return;
-        }
-
-        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
         }
+        final NetworkRoot root = definition.getNode().getRoot();
 
-        BlockFace direction = this.getCurrentDirection(blockMenu);
+        final BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
 
          for (int i = 0; i < maxDistance; i++) {
-            // 如果方块无效，退出
-            if (currentBlock == null) {
-                break;
-            }
             // 如果方块是空气，退出
             if (currentBlock.getType() == Material.AIR) {
                 break;
@@ -161,7 +150,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
                     if (isItemTransferable(itemStack)) {
                         int before = itemStack.getAmount();
 
-                        definition.getNode().getRoot().addItemStack(itemStack);
+                        root.addItemStack(itemStack);
 
                         if (itemStack.getAmount() < before) {
                             //抓取成功显示粒子
@@ -174,7 +163,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
             currentBlock = currentBlock.getRelative(direction);
         }
     }
-    private boolean isItemTransferable(@Nonnull ItemStack itemStack) {
+    private boolean isItemTransferable(@Nullable ItemStack itemStack) {
         return itemStack != null && itemStack.getType() != Material.AIR;
     }
     @Override
@@ -226,7 +215,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         }
         return DisplayGroup.fromUUID(uuid);
     }
-    @NotNull
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes  = new ArrayList<>(6);

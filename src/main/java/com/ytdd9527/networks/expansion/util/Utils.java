@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
+
 
 public final class Utils {
 
@@ -17,8 +19,17 @@ public final class Utils {
         return ChatColor.translateAlternateColorCodes('&', str);
     }
     public static void giveOrDropItem(Player p, ItemStack toGive) {
-        for (ItemStack leftover : p.getInventory().addItem(toGive).values()) {
-            p.getWorld().dropItemNaturally(p.getLocation(), leftover);
+        for (int i = 0; i < 64; i++) {
+            if (toGive.getAmount() <= 0) {
+                return;
+            }
+            ItemStack incoming = toGive.clone();
+            incoming.setAmount(Math.min(toGive.getMaxStackSize(), toGive.getAmount()));
+            toGive.setAmount(toGive.getAmount() - incoming.getAmount());
+            Collection<ItemStack> leftover = p.getInventory().addItem(incoming).values();
+            for (ItemStack itemStack : leftover) {
+                p.getWorld().dropItemNaturally(p.getLocation(), itemStack);
+            }
         }
     }
     public static void send(CommandSender p, String message) {

@@ -299,6 +299,7 @@ public class CargoStorageUnit extends NetworkObject {
                         Location currLoc = data.getLastLocation();
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&e"+currLoc.getWorld().getName()+" &7| &e"+currLoc.getBlockX()+"&7/&e"+currLoc.getBlockY()+"&7/&e"+currLoc.getBlockZ()+"&7;"));
                         e.setCancelled(true);
+                        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(currLoc);
                         return;
                     }
                     // Request data

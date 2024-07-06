@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
@@ -29,7 +28,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,10 +35,6 @@ import java.util.*;
 import java.util.function.Function;
 
 public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem {
-
-
-    private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
@@ -73,7 +67,6 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
-    private static final String TICK_KEY = "tick_rate";
 
     private static final String KEY_UUID = "display-uuid";
     private int maxDistance;
@@ -83,6 +76,9 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
+
+    private final HashMap<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
+    private final HashMap<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
 
     public LineTransfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER);
@@ -146,50 +142,59 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-        if (definition == null || definition.getNode() == null) {
-            return;
-        }
-        NetworkRoot networkRoot = definition.getNode().getRoot();
-        int tryPushItemtick = getTickCounter(block);
-        int tryGrabItemtick = getTickCounter(block);
+
+        final Location location = blockMenu.getLocation();
+        int tryPushItemtick = getPushTickCounter(location);
+        int tryGrabItemtick = getGrabTickCounter(location);
         if (tryPushItemtick == 0) {
-            if (networkRoot.getRootPower() >= this.requiredPower) {
-                networkRoot.removeRootPower(this.requiredPower);
-                performPushItemOperationAsync(blockMenu);
-            } else {
-            }
+            performPushItemOperationAsync(blockMenu);
         }
         tryPushItemtick = (tryPushItemtick + 1) % pushItemTick;
 
         if (tryGrabItemtick == 0) {
-            if (networkRoot.getRootPower() >= this.requiredPower) {
-                networkRoot.removeRootPower(this.requiredPower);
-                performGrabItemOperationAsync(blockMenu);
-            } else {
-            }
+            performGrabItemOperationAsync(blockMenu);
         }
         tryGrabItemtick = (tryGrabItemtick + 1) % grabItemTick;
 
-        updateTickCounter(block, tryPushItemtick);
-        updateTickCounter(block, tryGrabItemtick);
+        updatePushTickCounter(location, tryPushItemtick);
+        updateGrabTickCounter(location, tryGrabItemtick);
     }
-    private int getTickCounter(Block block) {
-        String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_KEY);
-        try {
-            return (tickCounterValue != null) ? Integer.parseInt(tickCounterValue) : 0;
-        } catch (NumberFormatException e) {
+    private int getPushTickCounter(Location location) {
+        final Integer ticker = PUSH_TICKER_MAP.get(location);
+        if (ticker == null) {
+            PUSH_TICKER_MAP.put(location, 0);
             return 0;
         }
+        return ticker;
     }
-    private void updateTickCounter(Block block, int tickCounter) {
-        BlockStorage.addBlockInfo(block.getLocation(), TICK_KEY, Integer.toString(tickCounter));
+    private int getGrabTickCounter(Location location) {
+        final Integer ticker = GRAB_TICKER_MAP.get(location);
+        if (ticker == null) {
+            GRAB_TICKER_MAP.put(location, 0);
+            return 0;
+        }
+        return ticker;
     }
+
+    private void updatePushTickCounter(Location location, int ticker) {
+         PUSH_TICKER_MAP.put(location, ticker);
+    }
+
+    private void updateGrabTickCounter(Location location, int ticker) {
+        GRAB_TICKER_MAP.put(location, ticker);
+    }
+
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
+
+        final NetworkRoot root = definition.getNode().getRoot();
+        if (root.getRootPower() < requiredPower) {
+            return;
+        }
+        root.removeRootPower(requiredPower);
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
@@ -236,7 +241,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                         int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                         if (space > 0) {
                             itemRequest.setAmount(space);
-                            ItemStack retrieved = definition.getNode().getRoot().getItemStack(itemRequest);
+                            ItemStack retrieved = root.getItemStack(itemRequest);
                             if (retrieved != null && retrieved.getAmount() > 0) {
                                 targetMenu.pushItem(retrieved, slot);
                                 // 显示粒子效果（如果需要）
@@ -251,23 +256,23 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         }
     }
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        if (blockMenu == null) {
-            return;
-        }
 
-        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
         }
 
-        BlockFace direction = this.getCurrentDirection(blockMenu);
+        final NetworkRoot root = definition.getNode().getRoot();
+        if (root.getRootPower() < requiredPower) {
+            return;
+        }
+        root.removeRootPower(requiredPower);
+
+        final BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
         for (int i = 0; i < maxDistance; i++) {
-            if (currentBlock == null) {
-                break;
-            }
             if (currentBlock.getType() == Material.AIR) {
                 break;
             }
@@ -285,7 +290,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                     if (isItemTransferable(itemStack)) {
                         int before = itemStack.getAmount();
 
-                        definition.getNode().getRoot().addItemStack(itemStack);
+                        root.addItemStack(itemStack);
 
                         if (itemStack.getAmount() < before) {
                             //抓取成功显示粒子
@@ -304,7 +309,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
      * @param itemStack 要检查的物品堆栈
      * @return 如果物品可传输返回true，否则返回false
      */
-    private boolean isItemTransferable(@Nonnull ItemStack itemStack) {
+    private boolean isItemTransferable(@Nullable ItemStack itemStack) {
         return itemStack != null && itemStack.getType() != Material.AIR;
     }
     @Nonnull
@@ -355,7 +360,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     }
 
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -364,7 +369,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
@@ -398,7 +403,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         }
         return DisplayGroup.fromUUID(uuid);
     }
-    @NotNull
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes  = new ArrayList<>(4);
