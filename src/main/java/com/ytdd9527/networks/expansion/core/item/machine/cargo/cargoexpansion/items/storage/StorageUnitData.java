@@ -4,8 +4,14 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
+import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
+import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.barrel.InfinityBarrel;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
@@ -219,10 +225,44 @@ public class StorageUnitData {
     }
 
     public static boolean isBlacklisted(@Nonnull ItemStack itemStack) {
-        return itemStack.getType() == Material.AIR
-                || itemStack.getType().getMaxDurability() < 0
-                || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
-                || itemStack.getType() == Material.BUNDLE;
+        // if item is air, it's blacklisted
+        if (itemStack.getType() == Material.AIR) {
+            return true;
+        }
+        // if item has invalid durability, it's blacklisted
+        if (itemStack.getType().getMaxDurability() < 0) {
+            return true;
+        }
+        // if item is a shulker box, it's blacklisted
+        if (Tag.SHULKER_BOXES.isTagged(itemStack.getType())) {
+            return true;
+        }
+        // if item is a bundle, it's blacklisted
+        if (itemStack.getType() == Material.BUNDLE) {
+            return true;
+        }
+
+        SlimefunItem item = SlimefunItem.getByItem(itemStack);
+        if (item != null) {
+            // if item is a cargo storage unit, it's blacklisted
+            if (item instanceof CargoStorageUnit) {
+                return false;
+            }
+            // if item is a quantum storage, it's blacklisted
+            if (item instanceof NetworkQuantumStorage) {
+                return false;
+            }
+            // if item is an infinity barrel, it's blacklisted
+            if (Networks.getSupportedPluginManager().isInfinityExpansion() && item instanceof StorageUnit) {
+                return false;
+            }
+            // if item is a backpack, it's blacklisted
+            if (item instanceof SlimefunBackpack) {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked) {
