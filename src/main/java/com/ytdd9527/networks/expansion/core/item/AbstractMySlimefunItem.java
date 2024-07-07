@@ -53,7 +53,7 @@ public abstract class AbstractMySlimefunItem extends SlimefunItem {
 
     @Nonnull
     public AbstractMySlimefunItem registerThis() {
-        this.register(JavaPlugin.getPlugin(Networks.class));
+        this.register(Networks.getInstance());
         return this;
     }
 }

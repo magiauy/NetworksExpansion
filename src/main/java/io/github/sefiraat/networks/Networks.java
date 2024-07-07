@@ -67,28 +67,29 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        getLogger().info("##############################################################################");
-        getLogger().info("███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗                ");
-        getLogger().info("████╗  ██║██╔════╝╚══██╔══╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝                ");
-        getLogger().info("██╔██╗ ██║█████╗     ██║   ██║ █╗ ██║██║   ██║██████╔╝█████╔╝                 ");
-        getLogger().info("██║╚██╗██║██╔══╝     ██║   ██║███╗██║██║   ██║██╔══██╗██╔═██╗                 ");
-        getLogger().info("██║ ╚████║███████╗   ██║   ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗                ");
-        getLogger().info("╚═╝  ╚═══╝╚══════╝   ╚═╝    ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝                ");
-        getLogger().info("███████╗██╗  ██╗██████╗  █████╗ ███╗   ██╗███████╗██╗ ██████╗ ███╗   ██╗      ");
-        getLogger().info("██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║██╔═══██╗████╗  ██║      ");
-        getLogger().info("█████╗   ╚███╔╝ ██████╔╝███████║██╔██╗ ██║███████╗██║██║   ██║██╔██╗ ██║      ");
-        getLogger().info("██╔══╝   ██╔██╗ ██╔═══╝ ██╔══██║██║╚██╗██║╚════██║██║██║   ██║██║╚██╗██║      ");
-        getLogger().info("███████╗██╔╝ ██╗██║     ██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║      ");
-        getLogger().info("╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝      ");
-        getLogger().info("##############################################################################");
-        getLogger().info("####################################################");
-        getLogger().info("                  Networks - 网络                   ");
-        getLogger().info("             作者: Sefiraat 汉化: ybw0014           ");
-        getLogger().info("             NetworksExpansion - 网络拓展           ");
-        getLogger().info("             作者: yitoudaidai, tinalness           ");
-        getLogger().info("              如遇bug请优先反馈至改版仓库:           ");
-        getLogger().info("https://github.com/ytdd9527/NetworksExpansion/issues");
-        getLogger().info("####################################################");
+        getLogger().info("#########################################################################");
+        getLogger().info("███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗           ");
+        getLogger().info("████╗  ██║██╔════╝╚══██╔══╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝           ");
+        getLogger().info("██╔██╗ ██║█████╗     ██║   ██║ █╗ ██║██║   ██║██████╔╝█████╔╝            ");
+        getLogger().info("██║╚██╗██║██╔══╝     ██║   ██║███╗██║██║   ██║██╔══██╗██╔═██╗            ");
+        getLogger().info("██║ ╚████║███████╗   ██║   ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗           ");
+        getLogger().info("╚═╝  ╚═══╝╚══════╝   ╚═╝    ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝           ");
+        getLogger().info("███████╗██╗  ██╗██████╗  █████╗ ███╗   ██╗███████╗██╗ ██████╗ ███╗   ██╗ ");
+        getLogger().info("██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║██╔═══██╗████╗  ██║ ");
+        getLogger().info("█████╗   ╚███╔╝ ██████╔╝███████║██╔██╗ ██║███████╗██║██║   ██║██╔██╗ ██║ ");
+        getLogger().info("██╔══╝   ██╔██╗ ██╔═══╝ ██╔══██║██║╚██╗██║╚════██║██║██║   ██║██║╚██╗██║ ");
+        getLogger().info("███████╗██╔╝ ██╗██║     ██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║ ");
+        getLogger().info("╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ");
+        getLogger().info("                                                                         ");
+        getLogger().info("                           Networks - 网络                                ");
+        getLogger().info("                      作者: Sefiraat 汉化: ybw0014                         ");
+        getLogger().info("                      NetworksExpansion - 网络拓展                         ");
+        getLogger().info("                      作者: yitoudaidai, tinalness                        ");
+        getLogger().info("                       如遇bug请优先反馈至改版仓库:                           ");
+        getLogger().info("         https://github.com/ytdd9527/NetworksExpansion/issues            ");
+        getLogger().info("                      使用本附属时，请不要直接叉掉进程                          ");
+        getLogger().info("                      而是应该正常/stop以避免数据丢失                          ");
+        getLogger().info("#########################################################################");
 
         getLogger().info("正在获取配置信息...");
         saveDefaultConfig();
@@ -146,7 +147,10 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     public void onDisable() {
         getLogger().info("正在保存配置信息...");
         this.configManager.saveAll();
-        getLogger().info("已禁用附属！");
+        getLogger().info("正在保存数据库信息，请不要结束进程！");
+        DataStorage.saveAmountChange();
+        getLogger().info("已保存数据库信息！");
+        getLogger().info("已安全禁用附属！");
     }
 
     public void tryUpdate() {

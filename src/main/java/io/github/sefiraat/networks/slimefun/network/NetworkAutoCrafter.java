@@ -92,6 +92,7 @@ public class NetworkAutoCrafter extends NetworkObject {
     }
 
     protected void performCraftAsync(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
+        /*
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -102,6 +103,13 @@ public class NetworkAutoCrafter extends NetworkObject {
                 }
             }
         }.runTaskAsynchronously(Networks.getInstance());
+        */
+        // now it's synchronous
+        BlockMenu blockMenu = data.getBlockMenu();
+        if (blockMenu != null) {
+            addToRegistry(block);
+            craftPreFlight(blockMenu);
+        }
     }
 
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {

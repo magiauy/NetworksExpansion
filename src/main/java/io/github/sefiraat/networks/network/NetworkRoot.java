@@ -1048,11 +1048,11 @@ public class NetworkRoot extends NetworkNode {
      * to the amount requested. Items are withdrawn in this order:
      * <p>
      * Deep Storages (Barrels)
+     * Cells
      * Crafters
      * Cargo Storage Units
      * Advanced Greedy Blocks
      * Greedy Blocks
-     * Cells
      *
      * @param request The {@link ItemRequest} being requested from the Network
      * @return The {@link ItemStack} matching the request with as many as could be found. Null if none.
@@ -1100,13 +1100,6 @@ public class NetworkRoot extends NetworkNode {
                 stackToReturn.setAmount(0);
             }
 
-            // Escape if fulfilled request
-            if (request.getAmount() <= 0) {
-                progressing = false;
-                notifyAll();
-                return stackToReturn;
-            }
-
             final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
 
             if (request.getAmount() <= preserveAmount) {
@@ -1141,13 +1134,6 @@ public class NetworkRoot extends NetworkNode {
                     stackToReturn.setAmount(0);
                 }
 
-                // Escape if fulfilled request
-                if (request.getAmount() <= 0) {
-                    progressing = false;
-                    notifyAll();
-                    return stackToReturn;
-                }
-
                 if (request.getAmount() <= itemStack.getAmount()) {
                     // We can't take more than this stack. Level to request amount, remove items and then return
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
@@ -1157,46 +1143,6 @@ public class NetworkRoot extends NetworkNode {
                     return stackToReturn;
                 } else {
                     // We can take more than what is here, consume before trying to take more
-                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
-                    request.receiveAmount(itemStack.getAmount());
-                    itemStack.setAmount(0);
-                }
-            }
-        }
-
-        // Crafters
-        for (BlockMenu blockMenu : getCrafterOutputs()) {
-            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            for (int slot : slots) {
-                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
-                        request,
-                        itemStack,
-                        true
-                )) {
-                    continue;
-                }
-
-                // Stack is null, so we can fill it here
-                if (stackToReturn == null) {
-                    stackToReturn = itemStack.clone();
-                    stackToReturn.setAmount(0);
-                }
-
-                // Escape if fulfilled request
-                if (request.getAmount() <= 0) {
-                    progressing = false;
-                    notifyAll();
-                    return stackToReturn;
-                }
-
-                if (request.getAmount() <= itemStack.getAmount()) {
-                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
-                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
-                    progressing = false;
-                    notifyAll();
-                    return stackToReturn;
-                } else {
                     stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
                     request.receiveAmount(itemStack.getAmount());
                     itemStack.setAmount(0);
@@ -1223,8 +1169,10 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
-            for (int slot : AdvancedGreedyBlock.INPUT_SLOTS) {
+        // Crafters
+        for (BlockMenu blockMenu : getCrafterOutputs()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
                         request,
@@ -1240,11 +1188,35 @@ public class NetworkRoot extends NetworkNode {
                     stackToReturn.setAmount(0);
                 }
 
-                // Escape if fulfilled request
-                if (request.getAmount() <= 0) {
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
                     progressing = false;
                     notifyAll();
                     return stackToReturn;
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
+        for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
+            for (int slot : AdvancedGreedyBlock.INPUT_SLOTS) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
+                        request,
+                        itemStack,
+                        true
+                )) {
+                    continue;
+                }
+
+                // Stack is null, so we can fill it here
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
@@ -1278,13 +1250,6 @@ public class NetworkRoot extends NetworkNode {
             if (stackToReturn == null) {
                 stackToReturn = itemStack.clone();
                 stackToReturn.setAmount(0);
-            }
-
-            // Escape if fulfilled request
-            if (request.getAmount() <= 0) {
-                progressing = false;
-                notifyAll();
-                return stackToReturn;
             }
 
             if (request.getAmount() <= itemStack.getAmount()) {
@@ -1574,27 +1539,13 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        StorageUnitData fallbackCache = null;
         for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
-            if (fallbackCache == null) {
-                // 如果 cache 仍有空位，则记录这个 cache
-                if (cache.getStoredTypeCount() < cache.getSizeType().getMaxItemCount()) {
-                    fallbackCache = cache;
-                }
-            }
-
             // 先填充存在这个物品的存储
             cache.depositItemStack(incoming, true);
 
             // 填充完成
             if (incoming.getAmount() == 0) {
                 return;
-            }
-        }
-
-        if (incoming.getAmount() > 0) {
-            if (fallbackCache != null) {
-                fallbackCache.depositItemStack(incoming, false);
             }
         }
 

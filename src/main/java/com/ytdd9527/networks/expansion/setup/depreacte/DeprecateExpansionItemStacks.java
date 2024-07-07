@@ -16,6 +16,7 @@ import java.text.MessageFormat;
  * @author ytdd9527
  * @since 1.4.0
  */
+@Deprecated
 public final class DeprecateExpansionItemStacks {
 
     //工作台
