@@ -1,7 +1,6 @@
 package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.AbstractMySlimefunItem;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -51,7 +50,6 @@ public class StorageUnitUpgradeTableModel extends NetworkObject{
     private final int outputSlot = 15;
     private final int actionBtnSlot = 17;
     private final ItemStack actionBtn = new CustomItemStack(Material.REDSTONE_TORCH, "&6点击升级", "");
-    private final ItemStack noOutput = new CustomItemStack(Material.BARRIER, "&c无输出", "");
 
     public StorageUnitUpgradeTableModel(
             ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
@@ -68,7 +66,7 @@ public class StorageUnitUpgradeTableModel extends NetworkObject{
                 for (int slot : innerBorder) {
                     addItem(slot, innerBorderItem, ChestMenuUtils.getEmptyClickHandler());
                 }
-                addItem(outputSlot, noOutput, new AdvancedMenuClickHandler() {
+                addItem(outputSlot, null, new AdvancedMenuClickHandler() {
                     @Override
                     public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
                         ItemStack itemInSlot = e.getInventory().getItem(slot);
@@ -134,32 +132,41 @@ public class StorageUnitUpgradeTableModel extends NetworkObject{
     private void craft(BlockMenu menu) {
         for (Map.Entry<ItemStack[], ItemStack> each : recipes.entrySet()) {
             if (match(menu, each.getKey())) {
+                ItemStack itemInSlot = menu.getItemInSlot(outputSlot);
                 int id = CargoStorageUnit.getBoundId(menu.getItemInSlot(inputSlots[4]));
                 ItemStack out = each.getValue().clone();
                 if (id != -1) {
                     if (DataStorage.isContainerLoaded(id)) {
-                        DataStorage.getCachedStorageData(id).ifPresent(this::upgrade);
+                        if (DataStorage.getCachedStorageData(id).isPresent()) {
+                            StorageUnitData data = DataStorage.getCachedStorageData(id).get();
+                            upgrade(data);
+                        }
                     } else {
                         // Schedule to the same thread to ensure that this task is running after data request
                         DataStorage.requestStorageData(id);
                         Networks.getQueryQueue().scheduleQuery(() -> {
-                            Optional<StorageUnitData> data = DataStorage.getCachedStorageData(id);
-                            data.ifPresent(this::upgrade);
+                            if (DataStorage.getCachedStorageData(id).isPresent()) {
+                                StorageUnitData data = DataStorage.getCachedStorageData(id).get();
+                                upgrade(data);
+                            }
                             return true;
                         });
                     }
                     out = CargoStorageUnit.bindId(out,id);
                 }
-                if (!StackUtils.itemsMatch(menu.getItemInSlot(outputSlot), out)) {
+                if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
+                    menu.replaceExistingItem(outputSlot, out);
+                } else if (StackUtils.itemsMatch(itemInSlot, out)) {
+                    if (itemInSlot.getAmount() + out.getAmount() <= itemInSlot.getMaxStackSize()) {
+                        itemInSlot.setAmount(itemInSlot.getAmount() + out.getAmount());
+                    } else {
+                        return;
+                    }
+                } else {
                     return;
                 }
                 for (int slot : inputSlots) {
                     menu.consumeItem(slot);
-                }
-                if (menu.getItemInSlot(outputSlot) == null || menu.getItemInSlot(outputSlot).getType() == Material.AIR) {
-                    menu.replaceExistingItem(outputSlot, out);
-                } else {
-                    menu.pushItem(out, outputSlot);
                 }
             }
         }

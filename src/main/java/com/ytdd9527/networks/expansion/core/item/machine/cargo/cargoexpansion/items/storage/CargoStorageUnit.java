@@ -290,16 +290,22 @@ public class CargoStorageUnit extends NetworkObject {
                 Location l = e.getBlock().getLocation();
                 ItemStack itemInHand = e.getItemInHand();
                 Player p = e.getPlayer();
+                if (!canUse(p, true) || !Slimefun.getProtectionManager().hasPermission(p, l, Interaction.INTERACT_BLOCK)) {
+                    return;
+                }
                 int id = getBoundId(itemInHand);
                 if (id != -1) {
                     StorageUnitData data = DataStorage.getCachedStorageData(id).orElse(null);
-                    if (data != null && data.isPlaced() && !l.equals(data.getLastLocation())){
+                    if (data != null && data.isPlaced() && !l.equals(data.getLastLocation())) {
                         // This container already exists and placed in another location
-                        p.sendMessage(ChatColor.RED+"该容器已在其它位置存在！");
+                        p.sendMessage(ChatColor.RED + "该容器已在其它位置存在！");
                         Location currLoc = data.getLastLocation();
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&e"+currLoc.getWorld().getName()+" &7| &e"+currLoc.getBlockX()+"&7/&e"+currLoc.getBlockY()+"&7/&e"+currLoc.getBlockZ()+"&7;"));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e" + currLoc.getWorld().getName() + " &7| &e" + currLoc.getBlockX() + "&7/&e" + currLoc.getBlockY() + "&7/&e" + currLoc.getBlockZ() + "&7;"));
                         e.setCancelled(true);
-                        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(currLoc);
+                        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
+                        if (useSpecialModel) {
+                            removeDisplay(l);
+                        }
                         return;
                     }
                     // Request data

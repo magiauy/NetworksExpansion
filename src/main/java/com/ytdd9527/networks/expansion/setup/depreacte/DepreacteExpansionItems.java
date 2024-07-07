@@ -33,6 +33,7 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
 
 @UtilityClass
+@Deprecated
 public class DepreacteExpansionItems {
 
     public static final ExpansionWorkbench NE_EXPANSION_WORKBENCH = new ExpansionWorkbench(

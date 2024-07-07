@@ -45,7 +45,7 @@ public class DataSource {
 
         connect();
         createTable();
-        logger = Bukkit.getLogger();
+        logger = Networks.getInstance().getLogger();
         // Load item ids
         itemMap = new HashMap<>();
         loadItemMap();
