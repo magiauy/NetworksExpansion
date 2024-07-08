@@ -31,6 +31,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
@@ -38,6 +40,7 @@ import java.util.function.Function;
 
 
 public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
+    private static BukkitTask transferTask;
 
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
@@ -81,12 +84,17 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     }
     private void performGrabbingOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryGrabItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
+        }
+    }
+    public static void cancelTransferTask() {
+        if (transferTask != null && !transferTask.isCancelled()) {
+            transferTask.cancel();
         }
     }
     @Override

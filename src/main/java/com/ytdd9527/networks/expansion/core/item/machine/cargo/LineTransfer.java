@@ -28,6 +28,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,6 +36,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem {
+    private static BukkitTask transferTask;
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
@@ -121,7 +123,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     }
     private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryPushItem(blockMenu);
@@ -131,12 +133,18 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     }
     private void performGrabItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryGrabItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
+        }
+    }
+
+    public static void cancelTransferTask() {
+        if (transferTask != null && !transferTask.isCancelled()) {
+            transferTask.cancel();
         }
     }
     @Override
@@ -241,7 +249,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                         int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                         if (space > 0) {
                             itemRequest.setAmount(space);
-                            ItemStack retrieved = root.getItemStack(itemRequest);
+                            ItemStack retrieved = root.getItemStackAsync(itemRequest);
                             if (retrieved != null && retrieved.getAmount() > 0) {
                                 targetMenu.pushItem(retrieved, slot);
                                 // 显示粒子效果（如果需要）

@@ -3,7 +3,6 @@ package com.ytdd9527.networks.expansion.core.item.machine.network.advanced;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
@@ -27,7 +26,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
+    private static BukkitTask transferTask;
 
     private static final int[] INPUT_SLOTS = new int[]{
             0,1,2,3,4,5,6,7,8,
@@ -87,12 +87,17 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
 
     private void performAddItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryAddItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
+        }
+    }
+    public static void cancelTransferTask() {
+        if (transferTask != null && !transferTask.isCancelled()) {
+            transferTask.cancel();
         }
     }
 
@@ -138,7 +143,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
             }
         };
     }
-    @NotNull
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();

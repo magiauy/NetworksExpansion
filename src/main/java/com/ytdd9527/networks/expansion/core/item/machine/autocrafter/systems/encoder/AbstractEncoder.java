@@ -140,7 +140,6 @@ public abstract class AbstractEncoder extends NetworkObject {
 
         ItemStack crafted = null;
 
-
         for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
             if (getRecipeTester(inputs, entry.getKey())) {
                 crafted = new ItemStack(entry.getValue().clone());
@@ -151,8 +150,6 @@ public abstract class AbstractEncoder extends NetworkObject {
             player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
             return;
         }
-
-
 
         // 确保crafted不是AIR，避免NullPointerException
         if (crafted.getType() == Material.AIR) {
@@ -173,6 +170,7 @@ public abstract class AbstractEncoder extends NetworkObject {
             blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
         } else {
             player.sendMessage(Theme.WARNING + "需要清空输出烂");
+            return;
         }
         root.removeRootPower(CHARGE_COST);
     }

@@ -30,6 +30,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -38,6 +39,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem {
+    private static BukkitTask transferTask;
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
             10,
@@ -128,7 +130,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     }
     private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryPushItem(blockMenu);
@@ -136,9 +138,15 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             }.runTaskAsynchronously(Networks.getInstance());
         }
     }
+
+    public static void cancelTransferTask() {
+        if (transferTask != null && !transferTask.isCancelled()) {
+            transferTask.cancel();
+        }
+    }
     private void performGrabItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryGrabItem(blockMenu);
@@ -254,7 +262,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
                         // 直接推送物品
                         final ItemRequest itemRequest = new ItemRequest(clone, freeAmount);
-                        ItemStack retrieved = root.getItemStack(itemRequest);
+                        ItemStack retrieved = root.getItemStackAsync(itemRequest);
                         if (retrieved != null) {
                             targetMenu.pushItem(retrieved, slots);
                         }
@@ -275,7 +283,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
                                 // 推送物品
                                 final ItemRequest itemRequest = new ItemRequest(clone, amount);
-                                ItemStack retrieved = root.getItemStack(itemRequest);
+                                ItemStack retrieved = root.getItemStackAsync(itemRequest);
 
                                 // 只推送到指定的格
                                 if (retrieved != null) {
@@ -314,7 +322,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
                                 // 推送物品
                                 final ItemRequest itemRequest = new ItemRequest(clone, amount);
-                                ItemStack retrieved = root.getItemStack(itemRequest);
+                                ItemStack retrieved = root.getItemStackAsync(itemRequest);
 
                                 // 只推送到指定的格
                                 if (retrieved != null) {

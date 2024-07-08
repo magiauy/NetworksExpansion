@@ -89,12 +89,12 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int coordinateTransmitters = root.getCoordinateTransmitters().size();
             final int coordinateReceivers = root.getCoordinateReceivers().size();
             final int chainDispatchers = root.getChainDispatchers().size();
+            final int chainVanillaPushers = root.getChainVanillaPushers().size();
+            final int chainVanillaGrabbers = root.getChainVanillaGrabbers().size();
 
             long totalItems = allNetworkItems.values().stream().mapToLong(integer -> integer).sum();
 
-            final String nodeCount = root.getNodeCount() >= root.getMaxNodes()
-                    ? Theme.ERROR + "" + root.getNodeCount() + "+"
-                    : String.valueOf(root.getNodeCount());
+            final String nodeCount = (root.getNodeCount() >= root.getMaxNodes() ? Theme.ERROR : "") + String.valueOf(root.getNodeCount());
 
             final ChatColor c = Theme.CLICK_INFO.getColor();
             final ChatColor p = Theme.SUCCESS.getColor();
@@ -130,6 +130,8 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             player.sendMessage(formatter("网络链式推送器", chainPushers));
             player.sendMessage(formatter("网络链式抓取器", chainGrabbers));
             player.sendMessage(formatter("网链调度器", chainDispatchers));
+            player.sendMessage(formatter("网络链式原版推送器", chainVanillaPushers));
+            player.sendMessage(formatter("网络链式原版抓取器", chainVanillaGrabbers));
             player.sendMessage(formatter("网络高级入口", advancedImporters));
             player.sendMessage(formatter("网络高级出口", advancedExporters));
             player.sendMessage(formatter("网络坐标传输器", coordinateTransmitters));
@@ -138,7 +140,7 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             player.sendMessage(formatter("物品类型数量", distinctItems));
             player.sendMessage(formatter("累计物品数量", totalItems));
             player.sendMessage("------------------------------");
-            player.sendMessage(MESSAGE_FORMAT.format(new Object[]{c, "累计节点", p, nodeCount + "/" + root.getMaxNodes()}, new StringBuffer(), null).toString());
+            player.sendMessage(formatter("累计节点", nodeCount + "/" + root.getMaxNodes()));
             if (root.isOverburdened()) {
                 player.sendMessage(Theme.ERROR + "警告: " + Theme.PASSIVE +
                         "该网络已达到最大节点数量限制，部分节点可能会无法正常工作。请减少网络节点的数量。"
@@ -152,5 +154,8 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
     }
     public String formatter(String name, long count) {
         return MESSAGE_FORMAT.format(new Object[]{Theme.CLICK_INFO.getColor(), name, Theme.SUCCESS.getColor(), count}, new StringBuffer(), null).toString();
+    }
+    public String formatter(String name, String s) {
+        return MESSAGE_FORMAT.format(new Object[]{Theme.CLICK_INFO.getColor(), name, Theme.SUCCESS.getColor(), s}, new StringBuffer(), null).toString();
     }
 }

@@ -67,27 +67,28 @@ public class StorageUnitData {
     public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
-        boolean isVoidExcess = StorageCacheUtils.getData(getLastLocation(), "voidExcess") != null;
+        boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
         for (ItemContainer each : storedItems.values()) {
             if(each.isSimilar(wrapper)) {
                 // Found existing one, add amount
+                add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                 if (isVoidExcess) {
-                    add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                     if (add > 0) {
                         each.addAmount(add);
                         DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
+                    } else {
+                        item.setAmount(0);
+                        return add;
                     }
-                    return add;
                 } else {
-                    add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                     each.addAmount(add);
                     DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
-                    return add;
                 }
+                return add;
             }
         }
-        // If in content locked mode or void excess mode, no new input allowed
-        if (contentLocked || StorageCacheUtils.getData(getLastLocation(), "locked") != null) return 0;
+        // If in content locked mode, no new input allowed
+        if (contentLocked || CargoStorageUnit.isLocked(getLastLocation())) return 0;
         // Not found, new one
         if (storedItems.size() < sizeType.getMaxItemCount()) {
             add = Math.min(amount,sizeType.getEachMaxSize());
@@ -239,26 +240,6 @@ public class StorageUnitData {
         // if item is a bundle, it's blacklisted
         if (itemStack.getType() == Material.BUNDLE) {
             return true;
-        }
-
-        SlimefunItem item = SlimefunItem.getByItem(itemStack);
-        if (item != null) {
-            // if item is a cargo storage unit, it's blacklisted
-            if (item instanceof CargoStorageUnit) {
-                return true;
-            }
-            // if item is a quantum storage, it's blacklisted
-            if (item instanceof NetworkQuantumStorage) {
-                return true;
-            }
-            // if item is an infinity barrel, it's blacklisted
-            if (Networks.getSupportedPluginManager().isInfinityExpansion() && item instanceof StorageUnit) {
-                return true;
-            }
-            // if item is a backpack, it's blacklisted
-            if (item instanceof SlimefunBackpack) {
-                return true;
-            }
         }
 
         return false;

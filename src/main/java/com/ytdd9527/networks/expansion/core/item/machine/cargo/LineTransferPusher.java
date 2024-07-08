@@ -33,6 +33,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -41,6 +42,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class LineTransferPusher extends NetworkDirectional implements RecipeDisplayItem {
+    private static BukkitTask transferTask;
 
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
@@ -101,12 +103,18 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     }
     private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryPushItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
+        }
+    }
+
+    public static void cancelTransferTask() {
+        if (transferTask != null && !transferTask.isCancelled()) {
+            transferTask.cancel();
         }
     }
     @Override
@@ -176,7 +184,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                         }
                     }
 
-                    ItemStack retrieved = definition.getNode().getRoot().getItemStack(itemRequest);
+                    ItemStack retrieved = definition.getNode().getRoot().getItemStackAsync(itemRequest);
                     if (retrieved != null) {
                         targetMenu.pushItem(retrieved, slots);
                         //showParticle(blockMenu.getBlock().getLocation(), direction);

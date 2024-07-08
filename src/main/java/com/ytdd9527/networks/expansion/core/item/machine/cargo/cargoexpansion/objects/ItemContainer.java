@@ -1,6 +1,6 @@
 package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects;
 
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.util.CargoExpansionItemUtils;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,7 +28,7 @@ public class ItemContainer {
     }
 
     public boolean isSimilar(ItemStack other) {
-        return CargoExpansionItemUtils.isItemSimilar(wrapper, other);
+        return StackUtils.itemsMatch(wrapper, other);
     }
 
     public int getAmount() {

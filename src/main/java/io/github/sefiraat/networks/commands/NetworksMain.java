@@ -66,16 +66,13 @@ public class NetworksMain implements TabExecutor {
             case "reducestorageitem":
             case "setquantum":
             case "restore":
+            case "setcontainerid":
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(Theme.ERROR + "只有玩家才能执行该命令");
                     return false;
                 }
         }
         if (sender instanceof Player player) {
-            if (args.length == 0) {
-                return false;
-            }
-
             if (args[0].equalsIgnoreCase("fillquantum")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.fillquantum")) && args.length >= 2) {
                     if (args.length >= 2) {
@@ -255,7 +252,7 @@ public class NetworksMain implements TabExecutor {
                 StorageUnitData data = opData.get();
                 String sfId = ExpansionItemStacks.getStorageItemFromType(data.getSizeType()).getItemId();
 
-                CargoStorageUnit.addBlockInfo(l, data.getId());
+                CargoStorageUnit.addBlockInfo(l, data.getId(), false, false);
                 Slimefun.getDatabaseManager().getBlockDataController().createBlock(l, sfId);
                 p.sendMessage(ChatColor.GREEN+"已成功恢复！");
             } else {
@@ -391,6 +388,37 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
+    public static void setContainerId(Player player, int containerId) {
+        Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
+        if (targetBlock == null || targetBlock.getType() == Material.AIR) {
+            player.sendMessage(ChatColor.RED + "你必须指着一个货运存储才能执行该指令!");
+            return;
+        }
+
+        SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
+        if (slimefunItem == null) {
+            player.sendMessage(ChatColor.RED + "你必须指着一个货运存储才能执行该指令!");
+            return;
+        }
+
+        if (!(slimefunItem instanceof CargoStorageUnit)) {
+            player.sendMessage(ChatColor.RED + "你必须指着一个货运存储才能执行该指令!");
+            return;
+        }
+
+        Location location = targetBlock.getLocation();
+
+        player.sendMessage(ChatColor.GREEN + "已请求数据，请稍候...");
+        CargoStorageUnit.requestData(location, containerId);
+        player.sendMessage(ChatColor.GREEN +
+                "已设置位于为" + location.getWorld().getName()
+                + " " + location.getBlockX()
+                + " " + location.getBlockY()
+                + " " + location.getBlockZ()
+                + " 的货运存储的容器ID为" + containerId + ".");
+    }
+
+
     @Override
     public @Nullable List<String> onTabComplete(
             @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -406,7 +434,8 @@ public class NetworksMain implements TabExecutor {
                     "restore",
                     "addstorageitem",
                     "reducestorageitem",
-                    "setquantum"
+                    "setquantum",
+                    "setcontainerid"
             );
         } else if (args.length == 2) {
             return switch (args[0]) {
@@ -415,6 +444,7 @@ public class NetworksMain implements TabExecutor {
                 case "addstorageitem"  -> List.of("<amount>");
                 case "reducestorageitem"  -> List.of("<amount>");
                 case "setquantum" -> List.of("<amount>");
+                case "setcontainerid" -> List.of("<containerId>");
                 case "restore" -> List.of();
                 default -> List.of();
             };
