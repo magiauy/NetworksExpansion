@@ -195,29 +195,35 @@ public class CargoStorageUnit extends NetworkObject {
                 requestData(l, getContainerId(l));
                 // Restore mode
                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
+                String modeStr = null;
+                String lock = null;
+                String voidExcess = null;
+                String quickModeStr = null;
                 if (blockData != null) {
-                    String modeStr = blockData.getData("transportMode");
-                    TransportMode mode = modeStr == null ? TransportMode.REJECT : TransportMode.valueOf(modeStr);
-                    transportModes.put(l, mode);
-                    String quickModeStr = blockData.getData("quickTransferMode");
-                    QuickTransferMode quickTransferMode = QuickTransferMode.valueOf(quickModeStr == null ? "FROM_QUANTUM" : "TO_QUANTUM");
-                    quickTransferModes.put(l, quickTransferMode);
-                    if (blockData.getData("locked") != null) {
-                        locked.add(l);
-                        menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
-                    } else {
-                        menu.replaceExistingItem(lockModeSlot, getContentLockItem(false));
-                    }
-
-                    if (blockData.getData("voidExcess") != null) {
-                        voidExcesses.add(l);
-                        menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(true));
-                    } else {
-                        menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
-                    }
-
-                    menu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(quickTransferMode));
+                    modeStr = blockData.getData("transportMode");
+                    lock = blockData.getData("locked");
+                    voidExcess = blockData.getData("voidExcess");
+                    quickModeStr = blockData.getData("quickTransferMode");
                 }
+                TransportMode mode = modeStr == null ? TransportMode.REJECT : TransportMode.valueOf(modeStr);
+                transportModes.put(l, mode);
+                QuickTransferMode quickTransferMode = quickModeStr == null ? QuickTransferMode.FROM_QUANTUM : QuickTransferMode.valueOf(quickModeStr);
+                quickTransferModes.put(l, quickTransferMode);
+                if(lock != null) {
+                    locked.add(l);
+                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
+                } else {
+                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(false));
+                }
+
+                if(voidExcess != null) {
+                    voidExcesses.add(l);
+                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(true));
+                } else {
+                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
+                }
+
+                menu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(quickTransferMode));
 
                 // Add lock mode switcher
                 menu.addMenuClickHandler(lockModeSlot, (p, slot, item1, action) -> {

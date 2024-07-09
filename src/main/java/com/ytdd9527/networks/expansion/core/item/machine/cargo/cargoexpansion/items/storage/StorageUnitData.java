@@ -48,7 +48,15 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     public int addStoredItem(ItemStack item, boolean contentLocked) {
-        return addStoredItem(item, item.getAmount(), contentLocked);
+        return addStoredItem(item, item.getAmount(), contentLocked, false);
+    }
+
+    public int addStoredItem(ItemStack item, boolean contentLocked, boolean force) {
+        return addStoredItem(item, item.getAmount(), contentLocked, force);
+    }
+
+    public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
+        return addStoredItem(item, amount, contentLocked, false);
     }
 
     /**
@@ -57,7 +65,7 @@ public class StorageUnitData {
      * @param amount: amount will be added
      * @return the amount actual added
      */
-    public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
+    public int addStoredItem(ItemStack item, int amount, boolean contentLocked, boolean force) {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
         boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
@@ -80,8 +88,12 @@ public class StorageUnitData {
                 return add;
             }
         }
-        // If in content locked mode, no new input allowed
-        if (contentLocked || CargoStorageUnit.isLocked(getLastLocation())) return 0;
+
+        // isforce?
+        if (!force) {
+            // If in content locked mode, no new input allowed
+            if (contentLocked || CargoStorageUnit.isLocked(getLastLocation())) return 0;
+        }
         // Not found, new one
         if (storedItems.size() < sizeType.getMaxItemCount()) {
             add = Math.min(amount,sizeType.getEachMaxSize());
@@ -238,14 +250,18 @@ public class StorageUnitData {
         return false;
     }
 
-    public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked) {
+    public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
-        int actualAdded = addStoredItem(itemsToDeposit, contentLocked);
+        int actualAdded = addStoredItem(itemsToDeposit, contentLocked, force);
         itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
         CargoReceipt receipt = new CargoReceipt(this.id, actualAdded, 0, this.getTotalAmount(), this.getStoredTypeCount(), this.sizeType);
         CargoStorageUnit.putRecord(getLastLocation(), receipt);
+    }
+
+    public void depositItemStack(ItemStack item, boolean contentLocked) {
+        depositItemStack(item, contentLocked, false);
     }
 
     public String toString() {
