@@ -10,7 +10,11 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class StorageUnitData {
 
@@ -53,11 +57,7 @@ public class StorageUnitData {
      * @param amount: amount will be added
      * @return the amount actual added
      */
-
     public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
-        return addStoredItem(item, amount, contentLocked, false);
-    }
-    public int addStoredItem(ItemStack item, int amount, boolean contentLocked, boolean force) {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
         boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
@@ -81,7 +81,7 @@ public class StorageUnitData {
             }
         }
         // If in content locked mode, no new input allowed
-        if (!force && (contentLocked || CargoStorageUnit.isLocked(getLastLocation()))) return 0;
+        if (contentLocked || CargoStorageUnit.isLocked(getLastLocation())) return 0;
         // Not found, new one
         if (storedItems.size() < sizeType.getMaxItemCount()) {
             add = Math.min(amount,sizeType.getEachMaxSize());
@@ -236,16 +236,6 @@ public class StorageUnitData {
         }
 
         return false;
-    }
-
-    public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
-        if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
-            return;
-        }
-        int actualAdded = addStoredItem(itemsToDeposit, itemsToDeposit.getAmount(), contentLocked, force);
-        itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
-        CargoReceipt receipt = new CargoReceipt(this.id, actualAdded, 0, this.getTotalAmount(), this.getStoredTypeCount(), this.sizeType);
-        CargoStorageUnit.putRecord(getLastLocation(), receipt);
     }
 
     public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked) {
