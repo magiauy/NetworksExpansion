@@ -56,7 +56,7 @@ public class StorageUnitData {
 
     public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem(item, amount, contentLocked, false);
-    })
+    }
     public int addStoredItem(ItemStack item, int amount, boolean contentLocked, boolean force) {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
@@ -242,7 +242,7 @@ public class StorageUnitData {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
-        int actualAdded = addStoredItem(itemsToDeposit, contentLocked, force);
+        int actualAdded = addStoredItem(itemsToDeposit, itemsToDeposit.getAmount(), contentLocked, force);
         itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
         CargoReceipt receipt = new CargoReceipt(this.id, actualAdded, 0, this.getTotalAmount(), this.getStoredTypeCount(), this.sizeType);
         CargoStorageUnit.putRecord(getLastLocation(), receipt);
