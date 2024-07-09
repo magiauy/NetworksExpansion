@@ -592,7 +592,7 @@ public class CargoStorageUnit extends NetworkObject {
                     // 如果点击的是空白
                     if (itemOnCursor.getType() != Material.AIR) {
                         ItemStack clone = itemOnCursor.clone();
-                        data.depositItemStack(clone, false);
+                        data.depositItemStack(clone, false, true);
                         if (clone.getAmount() != 0) {
                             // 如果存储可以增加更多类型
                             if (canAddMoreType(l, clone)) {

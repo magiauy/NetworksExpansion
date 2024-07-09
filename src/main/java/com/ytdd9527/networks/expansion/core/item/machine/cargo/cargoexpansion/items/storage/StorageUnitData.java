@@ -1,27 +1,16 @@
 package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
-import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
-import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class StorageUnitData {
 
@@ -64,7 +53,11 @@ public class StorageUnitData {
      * @param amount: amount will be added
      * @return the amount actual added
      */
+
     public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
+        return addStoredItem(item, amount, contentLocked, false);
+    })
+    public int addStoredItem(ItemStack item, int amount, boolean contentLocked, boolean force) {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
         boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
@@ -88,7 +81,7 @@ public class StorageUnitData {
             }
         }
         // If in content locked mode, no new input allowed
-        if (contentLocked || CargoStorageUnit.isLocked(getLastLocation())) return 0;
+        if (!force && (contentLocked || CargoStorageUnit.isLocked(getLastLocation()))) return 0;
         // Not found, new one
         if (storedItems.size() < sizeType.getMaxItemCount()) {
             add = Math.min(amount,sizeType.getEachMaxSize());
@@ -243,6 +236,16 @@ public class StorageUnitData {
         }
 
         return false;
+    }
+
+    public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
+        if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
+            return;
+        }
+        int actualAdded = addStoredItem(itemsToDeposit, contentLocked, force);
+        itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
+        CargoReceipt receipt = new CargoReceipt(this.id, actualAdded, 0, this.getTotalAmount(), this.getStoredTypeCount(), this.sizeType);
+        CargoStorageUnit.putRecord(getLastLocation(), receipt);
     }
 
     public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked) {
