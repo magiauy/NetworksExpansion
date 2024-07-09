@@ -1504,7 +1504,7 @@ public class NetworkRoot extends NetworkNode {
 
     public boolean contains(@Nonnull ItemRequest request) {
 
-        int found = 0;
+        long found = 0;
 
         // Barrels
         for (BarrelIdentity barrelIdentity : getBarrels()) {
@@ -1634,7 +1634,7 @@ public class NetworkRoot extends NetworkNode {
         return false;
     }
     public int getAmount(@Nonnull ItemStack itemStack) {
-        int totalAmount = 0;
+        long totalAmount = 0;
         for (BlockMenu menu : getAdvancedGreedyBlocks()) {
             for (int slot : AdvancedGreedyBlock.INPUT_SLOTS) {
                 final ItemStack inputSlotItem = menu.getItemInSlot(slot);
@@ -1672,7 +1672,11 @@ public class NetworkRoot extends NetworkNode {
                 }
             }
         }
-        return totalAmount;
+        if (totalAmount > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        } else {
+            return (int) totalAmount;
+        }
     }
 
     public void addItemStack(@Nonnull ItemStack incoming) {

@@ -5,13 +5,20 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
+import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
+import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
+import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
+import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -27,6 +34,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,7 +44,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,10 +51,12 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Function;
 
+//!TODO 对于一些复杂的逻辑，需要重构
 public class CargoStorageUnit extends NetworkObject {
 
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
     private static final Map<Location, TransportMode> transportModes = new HashMap<>();
+    private static final Map<Location, QuickTransferMode> quickTransferModes = new HashMap<>();
     private static final Map<Location, CargoReceipt> cargoRecords = new HashMap<>();
     private static final Set<Location> locked = new HashSet<>();
     private static final Set<Location> voidExcesses = new HashSet<>();
@@ -60,9 +69,12 @@ public class CargoStorageUnit extends NetworkObject {
     private static final int storageInfoSlot = 4;
     private static final NamespacedKey idKey = new NamespacedKey(Networks.getInstance(),"CONTAINER_ID");
     private final StorageUnitType sizeType;
-    private final int[] border = {0,1,2,3,5,6,9,17,18,26,27,35,36,44,45,53};
+    private final int[] border = {0,1,2,3,5,6,17,26,35,36,44,45,53};
     private final int voidModeSlot = 7;
     private final int lockModeSlot = 8;
+    private static final int quantumSlot = 9;
+    private static final int quickTransferSlot = 18;
+    private static final int itemChooseSlot = 27;
     private static final ItemStack errorBorder = new CustomItemStack(Material.BARRIER, " ", " ", " ", " ");
 
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType) {
@@ -90,13 +102,17 @@ public class CargoStorageUnit extends NetworkObject {
                 String modeStr = null;
                 String lock = null;
                 String voidExcess = null;
+                String quickModeStr = null;
                 if (blockData != null) {
                     modeStr = blockData.getData("transportMode");
                     lock = blockData.getData("locked");
                     voidExcess = blockData.getData("voidExcess");
+                    quickModeStr = blockData.getData("quickTransferMode");
                 }
                 TransportMode mode = modeStr == null ? TransportMode.REJECT : TransportMode.valueOf(modeStr);
                 transportModes.put(l, mode);
+                QuickTransferMode quickTransferMode = quickModeStr == null ? QuickTransferMode.FROM_QUANTUM : QuickTransferMode.valueOf(quickModeStr);
+                quickTransferModes.put(l, quickTransferMode);
                 if(lock != null) {
                     locked.add(l);
                     menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
@@ -111,6 +127,8 @@ public class CargoStorageUnit extends NetworkObject {
                     menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
                 }
 
+                menu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(quickTransferMode));
+
                 // Add lock mode switcher
                 menu.addMenuClickHandler(lockModeSlot, (p, slot, item1, action) -> {
                     switchLock(menu, l);
@@ -119,6 +137,15 @@ public class CargoStorageUnit extends NetworkObject {
 
                 menu.addMenuClickHandler(voidModeSlot, (p, slot, item1, action) -> {
                     switchVoidExcess(menu, l);
+                    return false;
+                });
+
+                menu.addMenuClickHandler(quickTransferSlot, (p, slot, item1, action) -> {
+                    if (action.isRightClicked()) {
+                        switchQuickTransferMode(menu, l);
+                    } else {
+                        quickTransfer(menu, l, p);
+                    }
                     return false;
                 });
 
@@ -159,6 +186,7 @@ public class CargoStorageUnit extends NetworkObject {
                 addItem(storageInfoSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 addItem(lockModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 addItem(voidModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(quickTransferSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
 
             @Override
@@ -171,6 +199,9 @@ public class CargoStorageUnit extends NetworkObject {
                     String modeStr = blockData.getData("transportMode");
                     TransportMode mode = modeStr == null ? TransportMode.REJECT : TransportMode.valueOf(modeStr);
                     transportModes.put(l, mode);
+                    String quickModeStr = blockData.getData("quickTransferMode");
+                    QuickTransferMode quickTransferMode = QuickTransferMode.valueOf(quickModeStr == null ? "FROM_QUANTUM" : "TO_QUANTUM");
+                    quickTransferModes.put(l, quickTransferMode);
                     if (blockData.getData("locked") != null) {
                         locked.add(l);
                         menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
@@ -184,6 +215,8 @@ public class CargoStorageUnit extends NetworkObject {
                     } else {
                         menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
                     }
+
+                    menu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(quickTransferMode));
                 }
 
                 // Add lock mode switcher
@@ -194,6 +227,15 @@ public class CargoStorageUnit extends NetworkObject {
 
                 menu.addMenuClickHandler(voidModeSlot, (p, slot, item1, action) -> {
                     switchVoidExcess(menu, l);
+                    return false;
+                });
+
+                menu.addMenuClickHandler(quickTransferSlot, (p, slot, item1, action) -> {
+                    if (action.isRightClicked()) {
+                        switchQuickTransferMode(menu, l);
+                    } else {
+                        quickTransfer(menu, l, p);
+                    }
                     return false;
                 });
 
@@ -666,12 +708,159 @@ public class CargoStorageUnit extends NetworkObject {
         }
     }
 
+    private static void switchQuickTransferMode(BlockMenu blockMenu, Location location) {
+        QuickTransferMode mode = quickTransferModes.get(location);
+        if (mode == null || mode == QuickTransferMode.TO_QUANTUM) {
+            mode = QuickTransferMode.FROM_QUANTUM;
+        } else {
+            mode = QuickTransferMode.TO_QUANTUM;
+        }
+        quickTransferModes.put(location, mode);
+        blockMenu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(mode));
+        StorageCacheUtils.setData(location, "quickTransferMode", mode.name());
+    }
+
+    private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
+        ItemStack itemStack = blockMenu.getItemInSlot(quantumSlot);
+        ItemStack toTransfer = blockMenu.getItemInSlot(itemChooseSlot);
+        if (toTransfer == null || toTransfer.getType() == Material.AIR) {
+            player.sendMessage(ChatColor.RED + "请在下方放入你要传输的物品");
+            return;
+        }
+        StorageUnitData thisStorage = storages.get(location);
+        for (ItemContainer each : thisStorage.getStoredItems()) {
+            ItemStack sample = each.getSample();
+            if (StackUtils.itemsMatch(sample, toTransfer)) {
+                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+
+                if (!(slimefunItem instanceof NetworkQuantumStorage)) {
+                    player.sendMessage(ChatColor.RED + "这不是一个量子存储");
+                    return;
+                }
+
+                ItemMeta meta = itemStack.getItemMeta();
+                QuantumCache quantumCache = DataTypeMethods.getCustom(
+                        meta,
+                        Keys.QUANTUM_STORAGE_INSTANCE,
+                        PersistentQuantumStorageType.TYPE
+                );
+
+                QuickTransferMode mode = quickTransferModes.get(location);
+                switch (mode) {
+                    case FROM_QUANTUM -> {
+                        if (quantumCache == null || quantumCache.getItemStack() == null || quantumCache.getAmount() <= 0) {
+                            player.sendMessage(ChatColor.RED + "量子存储无物品或已损坏");
+                            return;
+                        }
+                        if (!StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
+                            player.sendMessage(ChatColor.RED + "量子存储中的物品与要传输的物品不同");
+                            return;
+                        }
+                        long quantumAmount = quantumCache.getAmount();
+                        int canAdd = (int) Math.min(quantumAmount, thisStorage.getSizeType().getEachMaxSize() - each.getAmount());
+                        if (canAdd <= 0) {
+                            player.sendMessage(ChatColor.RED + "量子存储中没有足够的物品或无法存入更多的物品");
+                            return;
+                        }
+
+                        quantumCache.setAmount((int)quantumAmount - canAdd);
+                        DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+                        quantumCache.updateMetaLore(meta);
+                        itemStack.setItemMeta(meta);
+
+                        ItemStack clone = quantumCache.getItemStack().clone();
+                        clone.setAmount(canAdd);
+                        thisStorage.depositItemStack(clone, true);
+                        player.sendMessage(ChatColor.GREEN + "已存入物品！");
+                        return;
+                    }
+
+                    case TO_QUANTUM -> {
+                        if (each.getAmount() == 1 && locked.contains(location)) {
+                            player.sendMessage(ChatColor.RED + "此容器物品不足，无法转移至量子存储");
+                            return;
+                        }
+
+                        if (quantumCache == null) {
+                            Map<SlimefunItemStack, Integer> quantumMap = new HashMap<>();
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_0, 64);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_1, 4096);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_2, 32768);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_3, 262144);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_4, 2097152);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_5, 16777216);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_6, 134217728);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_7, 1073741824);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_8, Integer.MAX_VALUE);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_9, 256);
+                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_10, 1024);
+                            quantumMap.put(ExpansionItemStacks.ADVANCED_QUANTUM_STORAGE, Integer.MAX_VALUE);
+
+                            Integer quantumLimit = quantumMap.get(slimefunItem.getItem());
+                            if (quantumLimit == null) {
+                                player.sendMessage(ChatColor.RED + "该量子存储不支持快速转移");
+                                return;
+                            }
+                            int unitAmount = each.getAmount();
+                            if (locked.contains(location)) {
+                                unitAmount -= 1;
+                            }
+                            int canAdd = Math.min(unitAmount, quantumLimit);
+                            if (canAdd <= 0) {
+                                player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                                return;
+                            }
+                            ItemStack clone = sample.clone();
+
+                            thisStorage.requestItem(new ItemRequest(clone, canAdd));
+                            storages.put(location, thisStorage);
+
+                            quantumCache = new QuantumCache(clone, canAdd, quantumLimit, false, false);
+                            DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+                            quantumCache.updateMetaLore(meta);
+                            itemStack.setItemMeta(meta);
+
+                            player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
+                            return;
+                        } else if (StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
+                            int quantumLimit = quantumCache.getLimit();
+                            int quantumAmount = (int) quantumCache.getAmount();
+                            int unitAmount = each.getAmount();
+                            if (locked.contains(location)) {
+                                unitAmount -= 1;
+                            }
+                            int canAdd = Math.min(unitAmount, quantumLimit - quantumAmount);
+                            if (canAdd <= 0) {
+                                player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                                return;
+                            }
+                            ItemStack clone = sample.clone();
+
+                            thisStorage.requestItem(new ItemRequest(clone, canAdd));
+                            storages.put(location, thisStorage);
+
+                            quantumCache = new QuantumCache(clone, quantumAmount + canAdd, quantumLimit, false, false);
+                            DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+                            quantumCache.updateMetaLore(meta);
+                            itemStack.setItemMeta(meta);
+                            player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        player.sendMessage(ChatColor.RED + "未找到物品" + ItemStackHelper.getDisplayName(toTransfer));
+    }
+
     private ItemStack getLocationErrorItem(int id, Location lastLoc) {
         return new CustomItemStack(Material.REDSTONE_TORCH, "&c位置错误", "",
                 "&e这个容器已在其它位置存在",
                 "&e请不要将同ID的容器放在多个不同的位置",
                 "&e如果您认为这是个意外，请联系管理员处理",
-                "",
+                " ",
                 "&6容器信息:",
                 "&b容器ID: &a" + id,
                 "&b所在世界: &e" + (lastLoc.getWorld() == null ? "Unknown" : lastLoc.getWorld().getName()),
@@ -730,6 +919,21 @@ public class CargoStorageUnit extends NetworkObject {
                 "",
                 "&7开启此模式后，超过存储上限的物品的数量不会再增加，但仍能存入",
                 voidExcess ? "&e点击禁用" : "&e点击启用"
+        );
+    }
+
+    private static ItemStack getQuickTransferItem(QuickTransferMode mode) {
+        return new CustomItemStack(
+                mode == QuickTransferMode.FROM_QUANTUM ? Material.GREEN_CONCRETE_POWDER : Material.BLUE_CONCRETE_POWDER,
+                "&6快速转移模式",
+                "",
+                "&b状态: " + (mode == QuickTransferMode.FROM_QUANTUM ? "&a从量子存储转移" : "&c转移至量子存储"),
+                " ",
+                "&e在上方放入量子存储",
+                "&e在下方放入要转移的物品",
+                " ",
+                "&e点击左键开始转移",
+                "&e点击右键切换模式"
         );
     }
 

@@ -1,11 +1,7 @@
 package com.ytdd9527.networks.expansion.setup;
 
 
-
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitType;
-import com.ytdd9527.networks.expansion.core.util.ConfigUtil;
-import com.ytdd9527.networks.libs.plugin.util.TextUtil;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -25,7 +21,7 @@ import java.util.Map;
  * @author ytdd9527
  * @since 2.0
  */
-public final class ExpansionItemStacks {
+public class ExpansionItemStacks {
     //工作台
 
     public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH =  Theme.Random(
