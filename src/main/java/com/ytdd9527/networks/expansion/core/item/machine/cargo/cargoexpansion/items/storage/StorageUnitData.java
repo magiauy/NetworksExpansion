@@ -1,16 +1,9 @@
 package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
-import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
-import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +48,15 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     public int addStoredItem(ItemStack item, boolean contentLocked) {
-        return addStoredItem(item, item.getAmount(), contentLocked);
+        return addStoredItem(item, item.getAmount(), contentLocked, false);
+    }
+
+    public int addStoredItem(ItemStack item, boolean contentLocked, boolean force) {
+        return addStoredItem(item, item.getAmount(), contentLocked, force);
+    }
+
+    public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
+        return addStoredItem(item, amount, contentLocked, false);
     }
 
     /**
@@ -64,30 +65,35 @@ public class StorageUnitData {
      * @param amount: amount will be added
      * @return the amount actual added
      */
-    public int addStoredItem(ItemStack item, int amount, boolean contentLocked) {
+    public int addStoredItem(ItemStack item, int amount, boolean contentLocked, boolean force) {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
-        boolean isVoidExcess = StorageCacheUtils.getData(getLastLocation(), "voidExcess") != null;
+        boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
         for (ItemContainer each : storedItems.values()) {
             if(each.isSimilar(wrapper)) {
                 // Found existing one, add amount
+                add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                 if (isVoidExcess) {
-                    add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                     if (add > 0) {
                         each.addAmount(add);
                         DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
+                    } else {
+                        item.setAmount(0);
+                        return add;
                     }
-                    return add;
                 } else {
-                    add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                     each.addAmount(add);
                     DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
-                    return add;
                 }
+                return add;
             }
         }
-        // If in content locked mode or void excess mode, no new input allowed
-        if (contentLocked || StorageCacheUtils.getData(getLastLocation(), "locked") != null) return 0;
+
+        // isforce?
+        if (!force) {
+            // If in content locked mode, no new input allowed
+            if (contentLocked || CargoStorageUnit.isLocked(getLastLocation())) return 0;
+        }
         // Not found, new one
         if (storedItems.size() < sizeType.getMaxItemCount()) {
             add = Math.min(amount,sizeType.getEachMaxSize());
@@ -241,37 +247,21 @@ public class StorageUnitData {
             return true;
         }
 
-        SlimefunItem item = SlimefunItem.getByItem(itemStack);
-        if (item != null) {
-            // if item is a cargo storage unit, it's blacklisted
-            if (item instanceof CargoStorageUnit) {
-                return true;
-            }
-            // if item is a quantum storage, it's blacklisted
-            if (item instanceof NetworkQuantumStorage) {
-                return true;
-            }
-            // if item is an infinity barrel, it's blacklisted
-            if (Networks.getSupportedPluginManager().isInfinityExpansion() && item instanceof StorageUnit) {
-                return true;
-            }
-            // if item is a backpack, it's blacklisted
-            if (item instanceof SlimefunBackpack) {
-                return true;
-            }
-        }
-
         return false;
     }
 
-    public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked) {
+    public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
-        int actualAdded = addStoredItem(itemsToDeposit, contentLocked);
+        int actualAdded = addStoredItem(itemsToDeposit, contentLocked, force);
         itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
         CargoReceipt receipt = new CargoReceipt(this.id, actualAdded, 0, this.getTotalAmount(), this.getStoredTypeCount(), this.sizeType);
         CargoStorageUnit.putRecord(getLastLocation(), receipt);
+    }
+
+    public void depositItemStack(ItemStack item, boolean contentLocked) {
+        depositItemStack(item, contentLocked, false);
     }
 
     public String toString() {

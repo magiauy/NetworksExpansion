@@ -1,9 +1,19 @@
 package io.github.sefiraat.networks;
 
+import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced.AbstractAdvancedAutoCrafter;
+import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced.AdvancedAutoCraftingCrafter;
+import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.basic.AbstractAutoCrafter;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransfer;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferPusher;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferPusher;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataSource;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.QueryQueue;
 
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.setup.SetupUtil;
 
 import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
@@ -148,8 +158,34 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("正在保存配置信息...");
         this.configManager.saveAll();
         getLogger().info("正在保存数据库信息，请不要结束进程！");
+        if (autoSaveThread != null) {
+            autoSaveThread.cancel();
+        }
         DataStorage.saveAmountChange();
+        if (queryQueue != null) {
+            while (!queryQueue.isAllDone()) {
+                getLogger().info("当前队列: "+queryQueue.getTaskAmount());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            queryQueue.scheduleAbort();
+        }
         getLogger().info("已保存数据库信息！");
+        getLogger().info("正在结束任务...");
+        AbstractAutoCrafter.cancelCraftTask();
+        AdvancedAutoCraftingCrafter.cancelCraftTask();
+        AbstractAdvancedAutoCrafter.cancelCraftTask();
+        AdvancedLineTransfer.cancelTransferTask();
+        AdvancedLineTransferGrabber.cancelTransferTask();
+        AdvancedLineTransferPusher.cancelTransferTask();
+        LineTransfer.cancelTransferTask();
+        LineTransferGrabber.cancelTransferTask();
+        LineTransferPusher.cancelTransferTask();
+        AdvancedImport.cancelTransferTask();
+        getLogger().info("已结束任务！");
         getLogger().info("已安全禁用附属！");
     }
 
@@ -180,7 +216,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 NetheoPlants.setup();
                 getLogger().info("检测到安装了下界乌托邦，注册相关物品！");
             } catch (NoClassDefFoundError e) {
-                getLogger().severe("未安装下界乌托邦！相关物品将不会注册.");
+                getLogger().warning("未安装下界乌托邦！相关物品将不会注册.");
             }
         }
     }

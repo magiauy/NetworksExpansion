@@ -72,7 +72,7 @@ public class StackUtils {
         final ItemMeta cachedMeta = cache.getItemMeta();
 
         // ItemMetas are different types and cannot match
-        if (!itemMeta.getClass().equals(cachedMeta.getClass())) {
+        if (cachedMeta != null && !itemMeta.getClass().equals(cachedMeta.getClass())) {
             return false;
         }
 
@@ -172,16 +172,6 @@ public class StackUtils {
                 return true;
             }
             if (!Objects.equals(instanceOne.getGeneration(), instanceTwo.getGeneration())) {
-                return true;
-            }
-        }
-
-        // Bundle
-        if (metaOne instanceof BundleMeta instanceOne && metaTwo instanceof BundleMeta instanceTwo) {
-            if (instanceOne.hasItems() != instanceTwo.hasItems()) {
-                return true;
-            }
-            if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
                 return true;
             }
         }
@@ -310,6 +300,17 @@ public class StackUtils {
                 return true;
             }
             return !instanceOne.getPatternColor().equals(instanceTwo.getPatternColor());
+        }
+
+        // We don't care about the bundle, it's already deprecated.
+        // Bundle
+        if (metaOne instanceof BundleMeta instanceOne && metaTwo instanceof BundleMeta instanceTwo) {
+            if (instanceOne.hasItems() != instanceTwo.hasItems()) {
+                return true;
+            }
+            if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
+                return true;
+            }
         }
 
         // Cannot escape via any meta extension check

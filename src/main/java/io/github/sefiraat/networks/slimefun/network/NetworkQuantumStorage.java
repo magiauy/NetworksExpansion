@@ -246,7 +246,7 @@ public class NetworkQuantumStorage extends AbstractMySlimefunItem implements Dis
         CACHES.put(blockMenu.getLocation(), cache);
     }
 
-    public static void setItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack itemStack, @Nonnull int amount) {
+    public static void setItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack itemStack, int amount) {
         if (isBlacklisted(itemStack)) {
             return;
         }
@@ -263,7 +263,7 @@ public class NetworkQuantumStorage extends AbstractMySlimefunItem implements Dis
         CACHES.put(blockMenu.getLocation(), cache);
     }
 
-    private void setCustomMaxAmount(@Nonnull BlockMenu blockMenu, @Nonnull Player player, @Nonnull int newMaxAmount ) {
+    private void setCustomMaxAmount(@Nonnull BlockMenu blockMenu, @Nonnull Player player, int newMaxAmount ) {
         final QuantumCache cache = CACHES.get(blockMenu.getLocation());
         if (cache == null || !cache.supportsCustomMaxAmount()) {
             Utils.send(player,"高级量子存储不存在 不可设置 请检查高级量子存储是否存在!");
@@ -655,7 +655,7 @@ public class NetworkQuantumStorage extends AbstractMySlimefunItem implements Dis
         }
     }
 
-    private static void updateDisplayItem(@Nonnull BlockMenu menu, @Nonnull QuantumCache cache) {
+    public static void updateDisplayItem(@Nonnull BlockMenu menu, @Nonnull QuantumCache cache) {
         if (cache.getItemStack() == null) {
             menu.replaceExistingItem(ITEM_SLOT, NO_ITEM);
         } else {
@@ -682,7 +682,7 @@ public class NetworkQuantumStorage extends AbstractMySlimefunItem implements Dis
         }
     }
 
-    private static void syncBlock(@Nonnull Location location, @Nonnull QuantumCache cache) {
+    public static void syncBlock(@Nonnull Location location, @Nonnull QuantumCache cache) {
         var blockData = StorageCacheUtils.getBlock(location);
         blockData.setData(BS_AMOUNT, String.valueOf(cache.getAmount()));
         blockData.setData(BS_VOID, String.valueOf(cache.isVoidExcess()));

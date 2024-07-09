@@ -8,8 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -21,6 +21,7 @@ public class StorageUnitSource implements CargoInventory {
     private final Map<Integer, Integer> matched;
     private final TransportMode mode;
     private final boolean locked;
+    private final boolean voidExcess;
     private int totalIn = 0;
     private int totalOut = 0;
 
@@ -29,6 +30,7 @@ public class StorageUnitSource implements CargoInventory {
 
         // Load data
         locked = CargoStorageUnit.isLocked(l);
+        voidExcess = CargoStorageUnit.isVoidExcess(l);
         this.data = CargoStorageUnit.getStorageData(l);
         // Skip if no data or location is not matched
         this.mode = (data == null || !l.equals(data.getLastLocation())) ? TransportMode.REJECT : CargoStorageUnit.getTransportMode(l);
@@ -50,7 +52,8 @@ public class StorageUnitSource implements CargoInventory {
     }
 
     @Override
-    @NotNull
+    @Nonnull
+    @Deprecated
     public Set<Material> pushItem(SourcedItemContainer container, boolean oneStackMode) {
         if(mode.canInput()) {
             int tryAdd = oneStackMode ? Math.min(container.getAmount(), container.getWrapper().getMaxStackSize()) : container.getAmount();
@@ -79,7 +82,8 @@ public class StorageUnitSource implements CargoInventory {
     }
 
     @Override
-    @NotNull
+    @Nonnull
+    @Deprecated
     public List<SourcedItemStack> getMatched(Predicate<ItemStack> filter) {
         List<SourcedItemStack> re = new LinkedList<>();
 
@@ -111,7 +115,7 @@ public class StorageUnitSource implements CargoInventory {
     }
 
     @Override
-    @NotNull
+    @Nonnull
     public Location getLocation() {
         return l;
     }

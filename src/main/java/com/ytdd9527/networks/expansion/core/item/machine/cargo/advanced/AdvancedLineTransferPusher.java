@@ -33,6 +33,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,6 +41,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class AdvancedLineTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
+    private static BukkitTask transferTask;
 
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
@@ -119,12 +121,18 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     }
     private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            new BukkitRunnable() {
+            transferTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     tryPushItem(blockMenu);
                 }
             }.runTaskAsynchronously(Networks.getInstance());
+        }
+    }
+
+    public static void cancelTransferTask() {
+        if (transferTask != null && !transferTask.isCancelled()) {
+            transferTask.cancel();
         }
     }
     @Override
@@ -209,7 +217,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
                         // 直接推送物品
                         final ItemRequest itemRequest = new ItemRequest(clone, freeAmount);
-                        ItemStack retrieved = root.getItemStack(itemRequest);
+                        ItemStack retrieved = root.getItemStackAsync(itemRequest);
                         if (retrieved != null) {
                             targetMenu.pushItem(retrieved, slots);
                         }
@@ -230,7 +238,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
                                 // 推送物品
                                 final ItemRequest itemRequest = new ItemRequest(clone, amount);
-                                ItemStack retrieved = root.getItemStack(itemRequest);
+                                ItemStack retrieved = root.getItemStackAsync(itemRequest);
 
                                 // 只推送到指定的格
                                 if (retrieved != null) {
@@ -269,7 +277,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
                                 // 推送物品
                                 final ItemRequest itemRequest = new ItemRequest(clone, amount);
-                                ItemStack retrieved = root.getItemStack(itemRequest);
+                                ItemStack retrieved = root.getItemStackAsync(itemRequest);
 
                                 // 只推送到指定的格
                                 if (retrieved != null) {

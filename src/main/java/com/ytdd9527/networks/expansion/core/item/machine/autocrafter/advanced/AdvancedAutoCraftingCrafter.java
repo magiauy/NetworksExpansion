@@ -36,6 +36,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -45,6 +46,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class AdvancedAutoCraftingCrafter extends NetworkObject {
+    private static BukkitTask craftTask;
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
         return SupportedRecipes.getRecipes().entrySet();
     }
@@ -111,7 +113,7 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
     }
 
     protected void performCraftAsync(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
-        new BukkitRunnable() {
+        craftTask = new BukkitRunnable() {
             @Override
             public void run() {
                 BlockMenu blockMenu = data.getBlockMenu();
@@ -121,6 +123,12 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
                 }
             }
         }.runTaskAsynchronously(Networks.getInstance());
+    }
+
+    public static void cancelCraftTask() {
+        if (craftTask != null && !craftTask.isCancelled()) {
+            craftTask.cancel();
+        }
     }
 
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {
@@ -224,7 +232,7 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
-                final ItemStack fetched = root.getItemStack(new ItemRequest(requested, requested.getAmount() * blueprintAmount));
+                final ItemStack fetched = root.getItemStackAsync(new ItemRequest(requested, requested.getAmount() * blueprintAmount));
                 if (fetched != null) {
                     acutalInputs[i] = fetched;
                     ItemStack fetchedClone = fetched.clone();

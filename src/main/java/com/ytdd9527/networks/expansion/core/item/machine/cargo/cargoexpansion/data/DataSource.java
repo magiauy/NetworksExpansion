@@ -4,10 +4,9 @@ import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.it
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitType;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.QueuedTask;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.util.CargoExpansionItemUtils;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import lombok.extern.java.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -112,7 +111,7 @@ public class DataSource {
         ItemStack clone = item.clone();
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         for (Map.Entry<Integer, ItemStack> each : itemMap.entrySet()) {
-            if (CargoExpansionItemUtils.isItemSimilar(each.getValue(), wrapper)) {
+            if (StackUtils.itemsMatch(each.getValue(), wrapper)) {
                 return each.getKey();
             }
         }
