@@ -1,5 +1,6 @@
 package com.ytdd9527.networks.expansion.core.item.machine.grid;
 
+import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -109,7 +110,7 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_GRID.canUse(player, false)
+                return ExpansionItems.NETWORK_ENCODING_GRID_NEW_STYLE.canUse(player, false)
                     && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }
 

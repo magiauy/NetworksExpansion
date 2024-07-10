@@ -75,17 +75,17 @@ public class NetworksMain implements TabExecutor {
         ID_UPDATE_MAP.put("NE_CHAING_PUSHER", "NTW_EXPANSION_LINE_TRANSFER_PUSHER");
         ID_UPDATE_MAP.put("NE_EXPANSION_GRABBER_1", "NTW_EXPANSION_LINE_TRANSFER_GRABBER");
         ID_UPDATE_MAP.put("NE_CHAIN_DISPATCHER", "NTW_EXPANSION_LINE_TRANSFER");
-        ID_UPDATE_MAP.put("NE_CHAING_PUSHER_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER");
-        ID_UPDATE_MAP.put("NE_EXPANSION_GRABBER_1_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER");
+        ID_UPDATE_MAP.put("NE_CHAIN_PUSHER_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER");
+        ID_UPDATE_MAP.put("NE_EXPANSION_GRABBER_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER");
         ID_UPDATE_MAP.put("NE_CHAIN_DISPATCHER_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAING_PUSHER", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_EXPANSION_GRABBER_1", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER");
+        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_PUSHER", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER");
+        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_GRABBER", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER");
         ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_DISPATCHER", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAING_PUSHER_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_EXPANSION_GRABBER_1_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER");
+        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_PUSHER_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER");
+        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_GRABBER_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER");
         ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_DISPATCHER_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS");
 
-        /*
+        /*4
         ID_UPDATE_MAP.put("NE_MAGIC_WORKBENCH_BLUEPRINT", "NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT");
         ID_UPDATE_MAP.put("NE_ARMOR_FORGE_BLUEPRINT", "NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT");
         ID_UPDATE_MAP.put("NE_SMELTERY_BLUEPRINT", "NTW_EXPANSION_SMELTERY_BLUEPRINT");
@@ -159,7 +159,7 @@ public class NetworksMain implements TabExecutor {
         switch (args[0]) {
             case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "restore", "setcontainerid" -> {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Theme.ERROR + "只有玩家才能执行该命令");
+                    sender.sendMessage(getErrorMessage(ERROR_TYPE.MUST_BE_PLAYER));
                     return false;
                 }
             }
@@ -177,7 +177,7 @@ public class NetworksMain implements TabExecutor {
                     help(sender, null);
                 }
             } else {
-                sender.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                sender.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 return true;
             }
         }
@@ -192,98 +192,114 @@ public class NetworksMain implements TabExecutor {
                             fillQuantum(player, number);
                             return true;
                         } catch (NumberFormatException exception) {
-                            player.sendMessage(Theme.ERROR + "Wrong argument: <amount>. Range: 0 ~ 2147483647");
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
                         }
                     } else {
-                        player.sendMessage(Theme.ERROR + "Missing argument: <amount>");
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 }
                 return true;
             }
-            if (args[0].equalsIgnoreCase("fixblueprint")) {
+
+            else if (args[0].equalsIgnoreCase("fixblueprint")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.fixblueprint"))) {
                     if (args.length >= 2) {
                         String before = args[1];
                         fixBlueprint(player, before);
                     } else {
-                        player.sendMessage(Theme.ERROR + "Missing argument: <keyInMeta>");
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "keyInMeta"));
                     }
                 } else {
-                    player.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 }
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("restore")) {
+            else if (args[0].equalsIgnoreCase("restore")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.restore"))) {
                     restore(player);
                 } else {
-                    player.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 }
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("setQuantum")) {
+            else if (args[0].equalsIgnoreCase("setQuantum")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.setquantum"))) {
                     if (args.length >= 2) {
-                        setQuantum(player, Integer.parseInt(args[1]));
+                        try {
+                            setQuantum(player, Integer.parseInt(args[1]));
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            return true;
+                        }
                     } else {
-                        player.sendMessage(Theme.ERROR + "Missing argument: <amount>");
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 }
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("addstorage")) {
+            else if (args[0].equalsIgnoreCase("addstorageitem")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.addstorage"))) {
                     if (args.length >= 2) {
-                        int amount = Integer.parseInt(args[1]);
-                        addStorageItem(player, amount);
+                        try {
+                            int amount = Integer.parseInt(args[1]);
+                            addStorageItem(player, amount);
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            return true;
+                        }
                     } else {
-                        player.sendMessage(Theme.ERROR + "Missing argument: <amount>");
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 }
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("reducestorage")) {
+            else if (args[0].equalsIgnoreCase("reducestorageitem")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.reducestorage"))) {
                     if (args.length >= 2) {
-                        int amount = Integer.parseInt(args[1]);
-                        reduceStorageItem(player, amount);
+                        try {
+                            int amount = Integer.parseInt(args[1]);
+                            reduceStorageItem(player, amount);
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            return true;
+                        }
                     } else {
-                        player.sendMessage(Theme.ERROR + "Missing argument: <amount>");
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 }
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("setcontainerid")) {
+            else if (args[0].equalsIgnoreCase("setcontainerid")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.setcontainerid"))) {
                     if (args.length >= 2) {
                         String containerId = args[1];
                         try {
                             setContainerId(player, Integer.parseInt(containerId));
                         } catch (NumberFormatException e) {
-                            player.sendMessage(Theme.ERROR + "Invalid container ID: " + containerId);
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "containerId"));
                         }
                     } else {
-                        player.sendMessage(Theme.ERROR + "Missing argument: <containerId>");
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "containerId"));
                     }
                 } else {
-                    player.sendMessage(Theme.ERROR + "你没有权限执行该命令");
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
                 }
             }
 
-            if (args[0].equalsIgnoreCase("worldedit")) {
+            else if (args[0].equalsIgnoreCase("worldedit")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.worldedit.*"))) {
                     switch (args[1].toLowerCase(Locale.ROOT)) {
                         case "pos1" -> {
@@ -311,7 +327,7 @@ public class NetworksMain implements TabExecutor {
                             } else if (args.length == 3) {
                                 worldeditPaste(player, args[2]);
                             } else {
-                                player.sendMessage(Theme.ERROR + "Missing argument: <sfId>");
+                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "sfId"));
                             }
 
                         }
@@ -323,18 +339,18 @@ public class NetworksMain implements TabExecutor {
                                             try {
                                                 worldeditBlockMenuSetSlot(player, Integer.parseInt(args[3]));
                                             } catch (NumberFormatException e) {
-                                                player.sendMessage(Theme.ERROR + "Invalid slot: " + args[3]);
+                                                player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "slot"));
                                             }
                                         } else {
-                                            player.sendMessage(Theme.ERROR + "Missing argument: <slot>");
+                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "slot"));
                                         }
                                     }
                                     default -> {
-                                        player.sendMessage(Theme.ERROR + "Invalid sub-command: " + args[2]);
+                                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                                     }
                                 }
                             } else {
-                                player.sendMessage(Theme.ERROR + "Missing argument: <subCommand>");
+                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
                         case "blockinfo" -> {
@@ -342,11 +358,11 @@ public class NetworksMain implements TabExecutor {
                                 switch (args[2].toLowerCase(Locale.ROOT)) {
                                     case "add", "set" -> {
                                         if (args.length == 3) {
-                                            player.sendMessage(Theme.ERROR + "Missing argument: <key>");
+                                            player.sendMessage(Theme.ERROR + getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
                                         }
 
                                         if (args.length == 4) {
-                                            player.sendMessage(Theme.ERROR + "Missing argument: <value>");
+                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "value"));
                                         }
 
                                         if (args.length >= 5) {
@@ -357,7 +373,7 @@ public class NetworksMain implements TabExecutor {
                                     }
                                     case "remove" -> {
                                         if (args.length == 3) {
-                                            player.sendMessage(Theme.ERROR + "Missing argument: <key>");
+                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
                                         }
                                         if (args.length >= 4) {
                                             String key = args[3];
@@ -366,16 +382,18 @@ public class NetworksMain implements TabExecutor {
                                     }
                                 }
                             } else {
-                                player.sendMessage(Theme.ERROR + "Missing argument: <subCommand>");
+                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
                     }
                 }
             }
-            if (args[0].equalsIgnoreCase("updateItem")) {
+            else if (args[0].equalsIgnoreCase("updateItem")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.updateitem"))) {
                     updateItem(player);
                 }
+            } else {
+                help(sender, null);
             }
         } else {
             // 仅控制台时执行的操作
@@ -571,6 +589,8 @@ public class NetworksMain implements TabExecutor {
 
             clone.setAmount(amount);
             data.depositItemStack(clone, false);
+            CargoStorageUnit.setStorageData(targetLocation, data);
+            player.sendMessage(ChatColor.GREEN + "已更新物品");
         } else {
             player.sendMessage(ChatColor.RED + "你必须指着一个货运存储才能执行该指令!");
             return;
@@ -614,6 +634,8 @@ public class NetworksMain implements TabExecutor {
 
             clone.setAmount(1);
             data.requestItem(new ItemRequest(clone, amount));
+            CargoStorageUnit.setStorageData(targetLocation, data);
+            player.sendMessage(ChatColor.GREEN + "已更新物品");
         } else {
             player.sendMessage(ChatColor.RED + "你必须指着一个货运存储才能执行该指令!");
             return;
@@ -1016,11 +1038,11 @@ public class NetworksMain implements TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(
             @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        List<String> raw = onTabCompleteRaw(args);
+        List<String> raw = onTabCompleteRaw(sender, args);
         return StringUtil.copyPartialMatches(args[args.length - 1], raw, new ArrayList<>());
     }
 
-    public @NotNull List<String> onTabCompleteRaw(@NotNull String[] args) {
+    public @NotNull List<String> onTabCompleteRaw(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 1) {
             return List.of(
                     "addstorageitem",
@@ -1077,11 +1099,44 @@ public class NetworksMain implements TabExecutor {
                             case "setslot" -> List.of("0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53");
                             default -> List.of();
                         };
-
+                    case "blockinfo" ->
+                            sender instanceof Player player
+                                    ? (BlockStorage.hasBlockInfo(player.getTargetBlockExact(8, FluidCollisionMode.NEVER).getLocation())
+                                       ? BlockStorage.getLocationInfo(player.getTargetBlockExact(8, FluidCollisionMode.NEVER).getLocation())
+                                            .getKeys()
+                                            .stream()
+                                            .toList()
+                                        : List.of()
+                                        )
+                                    : List.of();
                     default -> List.of();
                 };
             }
         }
         return new ArrayList<>();
+    }
+
+    public enum ERROR_TYPE {
+        NO_PERMISSION,
+        NO_ITEM_IN_HAND,
+        MISSING_REQUIRED_ARGUMENT,
+        INVALID_REQUIRED_ARGUMENT,
+        MUST_BE_PLAYER,
+        UNKNOWN_ERROR
+    }
+
+    public String getErrorMessage(ERROR_TYPE errorType) {
+        return getErrorMessage(errorType, null);
+    }
+
+    public String getErrorMessage(ERROR_TYPE errorType, String argument) {
+        return switch (errorType) {
+            case NO_PERMISSION -> "你没有权限执行此命令! ";
+            case NO_ITEM_IN_HAND -> "你必须在手上持有物品! ";
+            case MISSING_REQUIRED_ARGUMENT -> "缺少必要参数: " + argument + ">";
+            case INVALID_REQUIRED_ARGUMENT -> "无效的参数: <" + argument + ">";
+            case MUST_BE_PLAYER -> "此命令只能由玩家执行! ";
+            default -> "未知错误! ";
+        };
     }
 }

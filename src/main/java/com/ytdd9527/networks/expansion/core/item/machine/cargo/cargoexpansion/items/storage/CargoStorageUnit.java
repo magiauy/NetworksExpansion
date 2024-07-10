@@ -309,6 +309,16 @@ public class CargoStorageUnit extends NetworkObject {
         return storages.get(l);
     }
 
+    @Nullable
+    public static Map<Location, StorageUnitData> getAllStorageData() {
+        return storages;
+    }
+
+    @Nullable
+    public static void setStorageData(Location l, StorageUnitData data) {
+        storages.put(l, data);
+    }
+
     @NotNull
     public static TransportMode getTransportMode(Location l) {
         return transportModes.getOrDefault(l, TransportMode.REJECT);
@@ -728,6 +738,9 @@ public class CargoStorageUnit extends NetworkObject {
 
     private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
         ItemStack itemStack = blockMenu.getItemInSlot(quantumSlot);
+        if (itemStack.getAmount() > 1) {
+            player.sendMessage(ChatColor.RED + "量子存储槽只能放入一个物品！");
+        }
         ItemStack toTransfer = blockMenu.getItemInSlot(itemChooseSlot);
         if (toTransfer == null || toTransfer.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "请在下方放入你要传输的物品");
@@ -939,7 +952,9 @@ public class CargoStorageUnit extends NetworkObject {
                 "&e在下方放入要转移的物品",
                 " ",
                 "&e点击左键开始转移",
-                "&e点击右键切换模式"
+                "&e点击右键切换模式",
+                " ",
+                "&c需要货运单元中存在此物品才能运输！"
         );
     }
 

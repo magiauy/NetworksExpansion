@@ -1,7 +1,6 @@
 package com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -39,11 +38,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class AdvancedAutoCraftingCrafter extends NetworkObject {
     private static BukkitTask craftTask;
@@ -331,7 +326,7 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE.canUse(player, false)
+                return this.getSlimefunItem().canUse(player, false)
                         && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }
 

@@ -1078,9 +1078,9 @@ public class NetworkRoot extends NetworkNode {
      * to the amount requested. Items are withdrawn in this order:
      * <p>
      * Deep Storages (Barrels)
+     * Cargo Storage Units
      * Cells
      * Crafters
-     * Cargo Storage Units
      * Advanced Greedy Blocks
      * Greedy Blocks
      *
@@ -1145,6 +1145,25 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
+        // Units
+        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
+            ItemStack take = cache.requestItem(request);
+            if (take != null) {
+                if (stackToReturn == null) {
+                    stackToReturn = take.clone();
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
+                }
+                request.receiveAmount(stackToReturn.getAmount());
+
+                if (request.getAmount() <= 0) {
+                    progressing = false;
+                    notifyAll();
+                    return stackToReturn;
+                }
+            }
+        }
+
         // Cells
         for (BlockMenu blockMenu : getCellMenus()) {
             for (ItemStack itemStack : blockMenu.getContents()) {
@@ -1176,25 +1195,6 @@ public class NetworkRoot extends NetworkNode {
                     stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
                     request.receiveAmount(itemStack.getAmount());
                     itemStack.setAmount(0);
-                }
-            }
-        }
-
-        // Units
-        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
-            ItemStack take = cache.requestItem(request);
-            if (take != null) {
-                if (stackToReturn == null) {
-                    stackToReturn = take.clone();
-                } else {
-                    stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
-                }
-                request.receiveAmount(stackToReturn.getAmount());
-
-                if (request.getAmount() <= 0) {
-                    progressing = false;
-                    notifyAll();
-                    return stackToReturn;
                 }
             }
         }
@@ -1352,6 +1352,23 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
+        // Units
+        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
+            ItemStack take = cache.requestItem(request);
+            if (take != null) {
+                if (stackToReturn == null) {
+                    stackToReturn = take.clone();
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
+                }
+                request.receiveAmount(stackToReturn.getAmount());
+
+                if (request.getAmount() <= 0) {
+                    return stackToReturn;
+                }
+            }
+        }
+
         // Cells
         for (BlockMenu blockMenu : getCellMenus()) {
             for (ItemStack itemStack : blockMenu.getContents()) {
@@ -1381,23 +1398,6 @@ public class NetworkRoot extends NetworkNode {
                     stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
                     request.receiveAmount(itemStack.getAmount());
                     itemStack.setAmount(0);
-                }
-            }
-        }
-
-        // Units
-        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
-            ItemStack take = cache.requestItem(request);
-            if (take != null) {
-                if (stackToReturn == null) {
-                    stackToReturn = take.clone();
-                } else {
-                    stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
-                }
-                request.receiveAmount(stackToReturn.getAmount());
-
-                if (request.getAmount() <= 0) {
-                    return stackToReturn;
                 }
             }
         }

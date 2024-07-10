@@ -1,7 +1,6 @@
 package com.ytdd9527.networks.expansion.core.item.machine.autocrafter.basic;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -213,7 +212,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
-                final ItemStack fetched = root.getItemStackAsync(new ItemRequest(instance.getRecipeItems()[i], 1));
+                final ItemStack fetched = root.getItemStackAsync(new ItemRequest(requested, 1));
                 inputs[i] = fetched;
             } else {
                 inputs[i] = null;
@@ -279,7 +278,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return ExpansionItems.AUTO_ANCIENT_ALTAR.canUse(player, false)
+                return this.getSlimefunItem().canUse(player, false)
                     && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }
 
