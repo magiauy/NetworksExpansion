@@ -22,17 +22,14 @@ import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.Advanc
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedPurger;
 import com.ytdd9527.networks.expansion.core.item.tool.CoordinateConfigurator;
-
-
+import com.ytdd9527.networks.expansion.core.item.tool.NetworksExpansionWorldEditAxe;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.slimefun.NetworksItemGroups;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 
 
 public class ExpansionItems {
@@ -574,6 +571,11 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_NODE_QUICK_TOOL,
             RecipeType.ENHANCED_CRAFTING_TABLE,
             ExpansionRecipes.CARGO_NODE_QUICK_TOOL
+    );
+
+    public static final NetworksExpansionWorldEditAxe WORLD_EDIT_AXE = new NetworksExpansionWorldEditAxe(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.WORLD_EDIT_AXE
     );
 
     public static final StorageUnitUpgradeTable STORAGE_UNIT_UPGRADE_TABLE = new StorageUnitUpgradeTable(

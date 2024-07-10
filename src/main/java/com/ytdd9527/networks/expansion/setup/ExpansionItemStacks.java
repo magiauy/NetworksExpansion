@@ -38,6 +38,14 @@ public class ExpansionItemStacks {
             Theme.MACHINE,
             "网络坐标配置器"
     );
+    public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
+            "NTW_EXPANSION_WORLD_EDIT_AXE",
+            new ItemStack(Material.DIAMOND_AXE),
+            Theme.TOOL,
+            "网络粘液创世神",
+            "右键选择第一个位置",
+            "Shift + 右键选择第二个位置"
+    );
     //高级网络物品
     public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
             "NTW_EXPANSION_ADVANCED_IMPORT",

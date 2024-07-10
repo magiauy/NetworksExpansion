@@ -78,7 +78,7 @@ public class CargoStorageUnit extends NetworkObject {
     private static final ItemStack errorBorder = new CustomItemStack(Material.BARRIER, " ", " ", " ", " ");
 
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CELL);
+        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
 
         this.sizeType = sizeType;
 

@@ -92,6 +92,10 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
+        // model just for network rake, so we don't need to register it
+        if (type == NodeType.MODEL) {
+            return;
+        }
         // when we found it lived in nodeLocations,
         // it means it's already registered,
         // so we remove it first
