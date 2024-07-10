@@ -740,6 +740,7 @@ public class CargoStorageUnit extends NetworkObject {
         ItemStack itemStack = blockMenu.getItemInSlot(quantumSlot);
         if (itemStack.getAmount() > 1) {
             player.sendMessage(ChatColor.RED + "量子存储槽只能放入一个物品！");
+            return;
         }
         ItemStack toTransfer = blockMenu.getItemInSlot(itemChooseSlot);
         if (toTransfer == null || toTransfer.getType() == Material.AIR) {
