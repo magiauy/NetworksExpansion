@@ -1,6 +1,6 @@
 package com.ytdd9527.networks.expansion.core.item.machine.grid;
 
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
+import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -11,10 +11,10 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -69,7 +69,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_GRID.canUse(player, false)
+                return ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
                     && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }
 

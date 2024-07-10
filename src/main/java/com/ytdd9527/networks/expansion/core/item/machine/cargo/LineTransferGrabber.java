@@ -2,7 +2,6 @@ package com.ytdd9527.networks.expansion.core.item.machine.cargo;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
-
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -14,10 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
@@ -228,48 +224,17 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes  = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩运行频率⇩",
+                "&a⇩传输数据⇩",
                 "",
-                "&e执行频率&f:",
-                "&f-&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
-                "&f-&7[&a1 SfTick=0.5s]",
-                "",
-                "&f-&7 简而言之，链式推送器不会频繁操作，从而保持服务器流畅"
+                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
+                "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次"
         ));
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",
-                "&e最大距离&7: &6"+maxDistance+"格",
-                "",
-                "&e运行流程&f:",
-                "&f-&7 打开界面设置你所需的方向",
-                "&f-&7 网络链式抓取器当前方块开始，沿着设定方向搜索",
-                "",
-                "&e抓取逻辑&f:",
-                "&f-&7[&a抓取物品&7]&f:&7将输出槽上的物品全部抓取网络中",
-                "&f-&7[&a停止条件&7]&f:&7达到最大抓取距离[&6"+maxDistance+"格]",
-                "&f-&7 遇到的方块为空，或者",
-                "&f-&7 没有更多可抓取的物品,或没有足够网络空间",
-                "&f-&7 抓取将停止操作"
-        ));
-        displayRecipes.add(AIR);
-        displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩使用指南⇩",
-                "",
-                "&7网络链式抓取器效率最大化建议：",
-                "",
-                "&f-&7 如果你使用网络链式抓取器就没必要给机器继续使用抓取器了",
-                "&f-&7 不要双管齐下多此一举",
-                "",
-                "&f-&7 充分利用网络链式抓取器范围: 每次抓取物品可以覆盖长达&7[&6"+maxDistance+"格&7]的距离",
-                "&f-&7 确保您的布局设计能够覆盖多个机器，以实现最大效率",
-                "",
-                "&f-&7 避免单个机器配置: 不要仅在一个机器上使用链式抓取器",
-                "&f-&7 这样做会限制您的自动化系统的潜力和扩展性",
-                "",
-                "&f-&7请遵循这些建议，您将能够最大化每个链式抓取器的工作效能，",
-                "&f-&7同时保持也可以服务器流畅运行"
+                "&e与链式不同的是，此机器&c只有连续抓取的功能",
+                "&c而不是连续转移物品！"
         ));
         return displayRecipes ;
     }

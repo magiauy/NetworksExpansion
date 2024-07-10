@@ -1,7 +1,7 @@
 package com.ytdd9527.networks.expansion.core.item.machine.network.advanced;
 
+import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -64,7 +64,7 @@ public class AdvancedGreedyBlock extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
+                return ExpansionItems.ADVANCED_GREEDY_BLOCK.canUse(player, false)
                     && Slimefun.getProtectionManager()
                     .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }

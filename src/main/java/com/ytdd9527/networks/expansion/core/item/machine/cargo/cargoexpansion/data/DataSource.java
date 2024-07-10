@@ -80,7 +80,7 @@ public class DataSource {
     }
 
     @Nullable
-    StorageUnitData getStorageData(int id) {
+    public StorageUnitData getStorageData(int id) {
         StorageUnitData re = null;
 
         String sql = "SELECT * FROM " + DataTables.CONTAINER + " WHERE ContainerID = " + id + ";";

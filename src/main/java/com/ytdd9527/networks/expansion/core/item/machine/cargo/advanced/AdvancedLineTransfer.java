@@ -15,10 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
@@ -39,6 +36,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem {
+    private static final ItemStack AIR = new ItemStack(Material.AIR);
     private static BukkitTask transferTask;
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
@@ -494,48 +492,23 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     @NotNull
     @Override
     public List<ItemStack> getDisplayRecipes() {
-        List<ItemStack> displayRecipes  = new ArrayList<>(4);
+        List<ItemStack> displayRecipes  = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩运行频率⇩",
+                "&a⇩传输数据⇩",
                 "",
-                "&e执行频率&f:",
-                "&f-&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次",
-                "&f-&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
-                "&f-&7[&a1 SfTick=0.5s]",
-                "",
-                "&f-&7 简而言之，网链调度器不会频繁操作，从而保持服务器流畅"
+                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
+                "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次",
+                "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
+                "&7[&a运输耗电&7]&f:&7 每次运输消耗 &6" + requiredPower + " J 网络电力"
         ));
-        displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩电力消耗⇩",
-                "",
-                "&e网络电力消耗&f:",
-                "&f-&7[&a推送 ⚡&7]&f: &6" + requiredPower + " J&7 每次推送",
-                "&f-&7[&a抓取 ⚡&7]&f: &6" + requiredPower + " J&7 每次抓取"
-        ));
+        displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",
-                "&e最大距离&7: &6" + maxDistance + "格",
-                "&f-&7 可以同时推送物品且抓取物品",
-                "&f-&7 推送物品需要全部该机器的输入槽上有指定的物品推送",
-                "",
-                "&e运行流程&f:",
-                "&f-&7 打开界面设置你所需的方向",
-                "&f-&7 网链调度器当前方块开始，沿着设定方向搜索",
-                "",
-                "&e推送条件&f:",
-                "&f-&7[&a推送物品&7]&f:&7指定需要推送的物品到机器输入槽上[确保槽位上是否有指定需要推送的物品]",
-                "&f-&7[&a停止条件①&7]&f:&7如果机器输入槽上没有指定需要推送的物品则不进行推送",
-                "&f-&7[&a停止条件②&7]&f:&7达到最大推送距离[&6" + maxDistance + "格&7]",
-                "",
-                "&e抓取逻辑&f:",
-                "&f-&7[&a抓取物品&7]&f:&7将输出槽上的物品全部抓取网络中",
-                "&f-&7[&a停止条件&7]&f:&7达到最大抓取距离[&6" + maxDistance + "格&7]",
-                "&f-&7 遇到的方块为空，或者",
-                "&f-&7 没有更多可抓取的物品,或没有足够网络空间",
-                "&f-&7 抓取将停止操作"
+                "&e与链式不同的是，此机器&c只有连续推送和抓取的功能",
+                "&c而不是连续转移物品！"
         ));
-        return displayRecipes;
+        return displayRecipes ;
     }
 
     @Override

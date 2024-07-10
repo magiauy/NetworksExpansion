@@ -6,9 +6,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
-
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -214,7 +212,7 @@ public class CoordinateTransmitter extends NetworkObject implements RecipeDispla
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
+                return this.getSlimefunItem().canUse(player, false)
                     && Slimefun.getProtectionManager()
                     .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }

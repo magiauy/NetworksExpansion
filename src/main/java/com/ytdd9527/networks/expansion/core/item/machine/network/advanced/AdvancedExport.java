@@ -2,13 +2,13 @@ package com.ytdd9527.networks.expansion.core.item.machine.network.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
@@ -208,7 +208,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_GRID.canUse(player, false)
+                return ExpansionItems.ADVANCED_EXPORT.canUse(player, false)
                         && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }
 

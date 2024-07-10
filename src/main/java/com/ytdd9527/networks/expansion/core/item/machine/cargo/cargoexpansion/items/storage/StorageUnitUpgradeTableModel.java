@@ -14,7 +14,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -37,7 +39,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
-public class StorageUnitUpgradeTableModel extends NetworkObject{
+public class StorageUnitUpgradeTableModel extends NetworkObject {
 
     private static Map<ItemStack[], ItemStack> recipes = new HashMap<>();
     private static final String KEY_UUID = "display-uuid";
@@ -53,7 +55,7 @@ public class StorageUnitUpgradeTableModel extends NetworkObject{
 
     public StorageUnitUpgradeTableModel(
             ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CELL);
+        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
 
         new BlockMenuPreset(this.getId(), this.getItemName()) {
 
@@ -91,7 +93,7 @@ public class StorageUnitUpgradeTableModel extends NetworkObject{
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || canUse(p,false);
+                return p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
             }
 
             @Override

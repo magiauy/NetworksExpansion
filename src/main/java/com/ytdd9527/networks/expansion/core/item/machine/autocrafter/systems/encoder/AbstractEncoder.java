@@ -4,7 +4,6 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
@@ -86,7 +85,7 @@ public abstract class AbstractEncoder extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_RECIPE_ENCODER.canUse(player, false)
+                return this.getSlimefunItem().canUse(player, false)
                     && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }
 
