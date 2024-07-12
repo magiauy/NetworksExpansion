@@ -31,7 +31,11 @@ import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 
@@ -132,15 +136,14 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         final BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
-
-         for (int i = 0; i < maxDistance; i++) {
+        for (int i = 0; i < maxDistance; i++) {
             // 如果方块是空气，退出
-            if (currentBlock.getType() == Material.AIR) {
+            if (currentBlock.getType().isAir()) {
                 break;
             }
 
             BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
-            // 如果无menu，退出
+            // 如果没有blockMenu，退出
             if (targetMenu == null) {
                 break;
             }
@@ -148,27 +151,16 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
             for (int slot : slots) {
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
-
-                if (itemStack != null) {
-
-                    if (isItemTransferable(itemStack)) {
-                        int before = itemStack.getAmount();
-
-                        root.addItemStack(itemStack);
-
-                        if (itemStack.getAmount() < before) {
-                            //抓取成功显示粒子
-                            //showParticle(blockMenu.getBlock().getLocation(), direction);
-                            targetMenu.replaceExistingItem(slot, itemStack);
-                        }
-                    }
+                if (itemStack != null && !itemStack.getType().isAir()) {
+                    int canConsume = itemStack.getMaxStackSize();
+                    ItemStack clone = itemStack.clone();
+                    clone.setAmount(canConsume);
+                    root.addItemStack(clone);
+                    itemStack.setAmount(itemStack.getAmount() - canConsume);
                 }
             }
             currentBlock = currentBlock.getRelative(direction);
         }
-    }
-    private boolean isItemTransferable(@Nullable ItemStack itemStack) {
-        return itemStack != null && itemStack.getType() != Material.AIR;
     }
     @Override
     protected Particle.DustOptions getDustOptions() {

@@ -35,7 +35,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -48,7 +52,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 
 //!TODO 对于一些复杂的逻辑，需要重构
@@ -326,7 +337,7 @@ public class CargoStorageUnit extends NetworkObject {
 
     public static void update(Location l, CargoReceipt receipt, boolean force) {
         BlockMenu menu = StorageCacheUtils.getMenu(l);
-        if (menu != null && (force||menu.hasViewer())) {
+        if (menu != null && (force || menu.hasViewer())) {
 
             int maxEach = receipt.getSizeType().getEachMaxSize();
 
@@ -435,6 +446,10 @@ public class CargoStorageUnit extends NetworkObject {
                 // Remove block
                 Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
                 b.setType(Material.AIR);
+                BlockMenu menu = StorageCacheUtils.getMenu(l);
+                if (menu != null) {
+                    menu.dropItems(l, quantumSlot, itemChooseSlot);
+                }
 
                 // Drop custom item if data exists
                 if(data != null) {
@@ -604,91 +619,44 @@ public class CargoStorageUnit extends NetworkObject {
             // 添加点击事件
             blockMenu.addMenuClickHandler(s, (player, slot, clickItem, action) -> {
                 ItemStack itemOnCursor = player.getItemOnCursor();
-                if (StackUtils.itemsMatch(clickItem, errorBorder)) {
-                    // 如果点击的是空白
-                    if (itemOnCursor.getType() != Material.AIR) {
-                        ItemStack clone = itemOnCursor.clone();
-                        data.depositItemStack(clone, false, true);
-                        if (clone.getAmount() != 0) {
-                            // 如果存储可以增加更多类型
-                            if (canAddMoreType(l, clone)) {
-                                // 存储光标上的物品
-                                data.depositItemStack(clone, true);
+                if (itemOnCursor.getType().isAir()) {
+                    // 手上无物品时
+                    if (StackUtils.itemsMatch(clickItem, errorBorder)) {
+                        // 点击的是空位
+                        // [ 无操作 ]
+                    } else {
+                        // 点击的是物品
+                        int index = Arrays.stream(displaySlots).filter(i -> i == slot).sum();
+                        ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
+
+                        ItemRequest itemRequest = new ItemRequest(take, take.getMaxStackSize());
+                        if (action.isShiftClicked()) {
+                            // 如果shift，取出1组物品
+                            itemRequest.setAmount(clickItem.getMaxStackSize());
+                        } else {
+                            // 否则，取出1个物品
+                            itemRequest.setAmount(1);
+                        }
+
+                        ItemStack requestedItemStack = data.requestItem(itemRequest);
+                        if (action.isRightClicked()) {
+                            // 如果是右键
+                            if (requestedItemStack != null) {
+                                player.setItemOnCursor(requestedItemStack.clone());
+                            }
+                        } else {
+                            // 如果是左键
+                            if (requestedItemStack != null) {
+                                HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(requestedItemStack);
+                                remnant.values().stream().findFirst().ifPresent(leftOver ->
+                                        data.depositItemStack(leftOver, false)
+                                );
                             }
                         }
-                        // 更新玩家光标上的物品
-                        player.setItemOnCursor(clone);
-                        // 数据更新
-                        CargoStorageUnit.update(l, new CargoReceipt(data.getId(), itemOnCursor.getAmount(), 0, data.getTotalAmount(), data.getStoredTypeCount(), data.getSizeType()), true);
                     }
                 } else {
-                    // 如果点击的不是空白
-                    int camount = 1;
-                    if (action.isRightClicked()) {
-                        camount = 64;
-                    }
-
-                    // 获取实际物品
-                    int index = -1;
-                    for (int i = 0; i < displaySlots.length; i++) {
-                        if (displaySlots[i] == slot) {
-                            index = i;
-                            break;
-                        }
-                    }
-                    if (index == -1) {
-                        return false;
-                    }
-                    ItemStack clone = storages.get(l).getStoredItems().get(index).getSample().clone();
-
-
-                    camount = Math.min(camount, clone.getMaxStackSize());
-                    if (action.isShiftClicked()) {
-                        // 如果Shift，加到背包里
-
-                        // 取出物品
-                        ItemStack requestingStack = data.requestItem(new ItemRequest(clone, camount));
-                        if (requestingStack == null) {
-                            return false;
-                        }
-
-                        HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(requestingStack);
-                        requestingStack = remnant.values().stream().findFirst().orElse(null);
-                        if (requestingStack != null) {
-                            data.depositItemStack(requestingStack, false);
-                        }
-                    } else {
-                        // 没有Shift，放到光标上
-
-                        // 取出物品
-                        ItemStack requestingStack = data.requestItem(new ItemRequest(clone, camount));
-                        if (requestingStack == null) {
-                            return false;
-                        }
-
-                        if (itemOnCursor.getType() == Material.AIR) {
-                            // 如果光标是空气，直接替换就行
-                            player.setItemOnCursor(requestingStack.clone());
-                        } else if (StackUtils.itemsMatch(requestingStack, itemOnCursor)) {
-                            // 如果不是空气并且物品相同
-                            ItemStack cursorClone = itemOnCursor.clone();
-                            int cursorAmount = cursorClone.getAmount();
-                            int takeAmount = requestingStack.getAmount();
-                            if (cursorAmount + takeAmount <= cursorClone.getMaxStackSize()) {
-                                // 可以直接存储
-                                cursorClone.setAmount(cursorAmount + takeAmount);
-                            } else {
-                                // 超过最大容量，只取最大容量
-                                cursorClone.setAmount(cursorClone.getMaxStackSize());
-                                // 设置剩余的数量
-                                requestingStack.setAmount(takeAmount - (cursorClone.getMaxStackSize() - cursorAmount));
-                                // 数据更新
-                                data.depositItemStack(requestingStack, false);
-                            }
-                            // 更新玩家光标上的物品
-                            player.setItemOnCursor(cursorClone);
-                        }
-                    }
+                    // 手上有物品时
+                    data.depositItemStack(itemOnCursor, false);
                 }
                 return false;
             });
@@ -817,10 +785,12 @@ public class CargoStorageUnit extends NetworkObject {
                             quantumMap.put(ExpansionItemStacks.ADVANCED_QUANTUM_STORAGE, Integer.MAX_VALUE);
 
                             Integer quantumLimit = quantumMap.get(slimefunItem.getItem());
+
                             if (quantumLimit == null) {
                                 player.sendMessage(ChatColor.RED + "该量子存储不支持快速转移");
                                 return;
                             }
+
                             int unitAmount = each.getAmount();
                             if (locked.contains(location)) {
                                 unitAmount -= 1;

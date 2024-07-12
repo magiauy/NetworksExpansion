@@ -5,6 +5,7 @@ import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
@@ -28,18 +29,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 public class LineTransferPusher extends NetworkDirectional implements RecipeDisplayItem {
-    private static BukkitTask transferTask;
-
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
@@ -97,22 +98,12 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
             }
         }
     }
-    private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
+    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            transferTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tryPushItem(blockMenu);
-                }
-            }.runTaskAsynchronously(Networks.getInstance());
+            tryPushItem(blockMenu);
         }
     }
 
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
-    }
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
@@ -121,7 +112,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % pushItemTick;
         if (tickCounter == 0) {
-            performPushItemOperationAsync(blockMenu);
+            performPushItemOperation(blockMenu);
         }
         updateTickCounter(location, tickCounter);
     }
@@ -142,7 +133,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         if (definition == null || definition.getNode() == null) {
             return;
         }
-
+        final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
@@ -168,26 +159,28 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
 
                 int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
 
+                int freeSpace = 0;
                 for (int slot : slots) {
                     final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-
-                    if (itemStack != null && itemStack.getType() != Material.AIR) {
-                        final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
-                        if (space > 0 && StackUtils.itemsMatch(itemRequest, itemStack, true)) {
-                            itemRequest.setAmount(space);
-                        } else {
-                            continue;
+                    if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                        final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                        if (availableSpace > 0) {
+                            freeSpace += availableSpace;
                         }
+                    } else {
+                        freeSpace += clone.getMaxStackSize();
                     }
+                }
+                if (freeSpace <= 0) {
+                    continue;
+                }
+                itemRequest.setAmount(freeSpace);
 
-                    ItemStack retrieved = definition.getNode().getRoot().getItemStackAsync(itemRequest);
-                    if (retrieved != null) {
-                        targetMenu.pushItem(retrieved, slots);
-                        //showParticle(blockMenu.getBlock().getLocation(), direction);
-                        //显示粒子
+                ItemStack retrieved = root.getItemStack(itemRequest);
+                if (retrieved != null && !retrieved.getType().isAir()) {
+                    for (int slot: slots) {
+                        targetMenu.pushItem(retrieved, slot);
                     }
-
-                    break;
                 }
             }
             targetBlock = targetBlock.getRelative(direction);

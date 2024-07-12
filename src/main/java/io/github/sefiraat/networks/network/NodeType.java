@@ -38,6 +38,7 @@ public enum NodeType {
     LINE_TRANSMITTER_VANILLA_PUSHER,
     LINE_TRANSMITTER_VANILLA_GRABBER,
     // models are not nodes, but they are included here for networks rake.
-    MODEL
-
+    MODEL,
+    STACK_MACHINE,
+    STACK_GENERATOR
 }

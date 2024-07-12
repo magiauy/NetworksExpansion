@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.ytdd9527.networks.expansion.setup.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -105,9 +106,11 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
     private void tryAddItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
-        if (definition.getNode() == null) {
+        if (definition == null || definition.getNode() == null) {
             return;
         }
+
+        final NetworkRoot root = definition.getNode().getRoot();
 
         for (int inputSlot : INPUT_SLOTS) {
             final ItemStack itemStack = blockMenu.getItemInSlot(inputSlot);
@@ -115,7 +118,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
             if (itemStack == null || itemStack.getType() == Material.AIR) {
                 continue;
             }
-            definition.getNode().getRoot().addItemStack(itemStack);
+            root.addItemStack(itemStack);
         }
     }
 

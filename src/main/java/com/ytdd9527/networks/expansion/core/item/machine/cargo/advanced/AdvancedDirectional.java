@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.libs.plugin.util.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.utils.NetworkUtils;
@@ -17,13 +18,14 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.MaterialHelper;
-
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -38,7 +40,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class AdvancedDirectional extends NetworkDirectional {
 
@@ -103,9 +110,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
         addItemHandler(
                 new BlockTicker() {
-
-                    private int tick = 1;
-
                     @Override
                     public boolean isSynchronized() {
                         return runSync();
@@ -113,9 +117,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
                     @Override
                     public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                        if (tick <= 1) {
-                            onTick(data.getBlockMenu(), block);
-                        }
+                        onTick(data.getBlockMenu(), block);
                     }
 
                     @Override
@@ -176,10 +178,11 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         addToRegistry(block);
         updateGui(blockMenu);
-        updateIcons(blockMenu.getLocation());
     }
 
-    protected void onUniqueTick() {}
+    protected void onUniqueTick() {
+        super.onUniqueTick();
+    }
 
     @Override
     public void onPlace(@Nonnull BlockPlaceEvent event) {
@@ -246,11 +249,11 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
                 if (rawMode == null) {
                     mode = TRANSPORT_MODE_NONE;
-                    StorageCacheUtils.setData(blockMenu.getLocation(), TRANSPORT_MODE_KEY, mode);
+                    StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, mode);
                 } else {
                     mode = rawMode;
                 }
-                NETWORK_TRANSPORT_MODE_MAP.put(blockMenu.getLocation().clone(), mode);
+                NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
 
                 blockMenu.addMenuClickHandler(getNorthSlot(), (player, i, itemStack, clickAction) ->
                         directionClick(player, clickAction, blockMenu, BlockFace.NORTH));
@@ -268,14 +271,17 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                 blockMenu.addMenuClickHandler(getShowSlot(), (player, i, itemStack, clickAction) -> false);
 
                 blockMenu.addMenuClickHandler(getAddSlot(), (p, slot, item, action) -> 
-                    addClick(blockMenu.getLocation(), action));
+                    addClick(location, action));
                 blockMenu.addMenuClickHandler(getMinusSlot(), (p, slot, item, action) -> 
-                    minusClick(blockMenu.getLocation(), action));
+                    minusClick(location, action));
 
                 if (getTransportModeSlot() != -1) {
                     blockMenu.addMenuClickHandler(getTransportModeSlot(), (p, slot, item, action) -> 
-                        toggleTransportMode(blockMenu.getLocation()));
+                        toggleTransportMode(location));
                 }
+
+                updateShowIcon(location);
+                updateTransportModeIcon(location);
             }
 
             @Override
@@ -307,16 +313,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     @ParametersAreNonnullByDefault
     public void openDirection(Player player, BlockMenu blockMenu, BlockFace blockFace) {
-        final BlockMenu targetMenu = StorageCacheUtils.getMenu(blockMenu.getBlock().getRelative(blockFace).getLocation());
-        if (targetMenu != null) {
-            final Location location = targetMenu.getLocation();
-            final SlimefunItem item = StorageCacheUtils.getSfItem(location);
-            if (item.canUse(player, true)
-                    && Slimefun.getProtectionManager().hasPermission(player, blockMenu.getLocation(), Interaction.INTERACT_BLOCK)
-            ) {
-                targetMenu.open(player);
-            }
-        }
+        super.openDirection(player, blockMenu, blockFace);
     }
 
     @ParametersAreNonnullByDefault
@@ -347,13 +344,10 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (action.isShiftClicked()) {
             n = 64;
         }
+        Networks.getInstance().getLogger().info("@addClick 1 current number: " + getCurrentNumber(location));
         addNumber(location, n);
+        Networks.getInstance().getLogger().info("@addClick 2 current number: " + getCurrentNumber(location));
         return false;
-    }
-
-    public void updateIcons(Location location) {
-        updateShowIcon(location);
-        updateTransportModeIcon(location);
     }
 
     @Nonnull
@@ -457,7 +451,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     protected Particle.DustOptions getDustOptions() {
-        return new Particle.DustOptions(Color.RED, 1);
+        return super.getDustOptions();
     }
 
     protected void showParticle(@Nonnull Location location, @Nonnull BlockFace blockFace) {
@@ -487,7 +481,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public int getCurrentNumber(Location location) {
         Integer number = NETWORK_NUMBER_MAP.get(location.clone());
         if (number == null) {
-            number = Integer.parseInt(BlockStorage.getLocationInfo(location, LIMIT_KEY));
+            number = Integer.parseInt(StorageCacheUtils.getData(location, LIMIT_KEY));
             NETWORK_NUMBER_MAP.put(location.clone(), number);
         }
         return number;
@@ -495,13 +489,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     public void setCurrentNumber(Location location, int number) {
         NETWORK_NUMBER_MAP.put(location.clone(), number);
-        BlockStorage.addBlockInfo(location, LIMIT_KEY, Integer.toString(number));
+        StorageCacheUtils.setData(location, LIMIT_KEY, Integer.toString(number));
     }
 
     public String getCurrentTransportMode(Location location) {
         String mode = NETWORK_TRANSPORT_MODE_MAP.get(location.clone());
         if (mode == null) {
-            mode = BlockStorage.getLocationInfo(location, TRANSPORT_MODE_KEY);
+            mode = StorageCacheUtils.getData(location, TRANSPORT_MODE_KEY);
             NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
         }
         return mode;
@@ -509,7 +503,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     public void setTransportMode(Location location, String mode) {
         NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
-        BlockStorage.addBlockInfo(location, TRANSPORT_MODE_KEY, mode);
+        StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, mode);
     }
 
     public boolean toggleTransportMode(Location location) {
