@@ -9,6 +9,7 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.utils.BlockMenuUtils;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -28,22 +29,22 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 public class AdvancedLineTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
-    private static BukkitTask transferTask;
-
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private static final ItemStack AIR = new ItemStack(Material.AIR);
-    private static final int TRANSPORT_LIMIT = 64;
+    private static final int TRANSPORT_LIMIT = 3456;
 
     private static final int TRANSPORT_MODE_SLOT = 27;
     private static final int MINUS_SLOT = 36;
@@ -52,7 +53,6 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
     private int pushItemTick;
     private int maxDistance;
-    private int limit;
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 27, 28, 30, 31, 33, 34, 35, 39, 40, 41, 42, 43, 44
     };
@@ -69,7 +69,8 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
 
-    private static Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
+    private static final Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
+    private static final Map<Location, ArrayList<BlockMenu>> CACHE_BLOCKMENU_MAP = new HashMap<>();
     public AdvancedLineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER);
         for (int slot : TEMPLATE_SLOTS) {
@@ -115,22 +116,12 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
             }
         }
     }
-    private void performPushItemOperationAsync(@Nullable BlockMenu blockMenu) {
+    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            transferTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tryPushItem(blockMenu);
-                }
-            }.runTaskAsynchronously(Networks.getInstance());
+            tryPushItem(blockMenu);
         }
     }
 
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
-    }
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
@@ -138,7 +129,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % pushItemTick;
         if (tickCounter == 0) {
-            performPushItemOperationAsync(blockMenu);
+            performPushItemOperation(blockMenu);
         }
         updateTickCounter(location, tickCounter);
     }
@@ -156,7 +147,8 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getBlock().getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+
         if (definition == null || definition.getNode() == null) {
             return;
         }
@@ -164,19 +156,18 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
         Block targetBlock = blockMenu.getBlock().getRelative(direction);
+        String currentTransportMode = getCurrentTransportMode(blockMenu.getLocation());
+        int currentLimit = getCurrentNumber(blockMenu.getLocation());
 
         for (int i = 0; i <= maxDistance; i++) {
-
             final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
 
-            if (targetMenu == null || targetBlock.getType() == Material.AIR) {
-                return;
+            if (targetMenu == null) {
+                break;
             }
 
-            int currentLimit = getCurrentNumber(blockMenu.getLocation());
-            String currentTransportMode = getCurrentTransportMode(blockMenu.getLocation());
-
             for (int itemSlot : this.getItemSlots()) {
+
                 final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
 
                 if (testItem == null || testItem.getType() == Material.AIR) {
@@ -185,111 +176,89 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
 
                 final ItemStack clone = testItem.clone();
                 clone.setAmount(1);
+                final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
 
                 int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
 
-                int freeAmount = 0;
-                int retrievedAmount = 0;
-                // 读取模式
                 switch (currentTransportMode) {
-                    // 无限制模式
                     case TRANSPORT_MODE_NONE -> {
-                        // 计算总共需要推送的数量
+                        int freeSpace = 0;
                         for (int slot : slots) {
                             final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                            if (itemStack == null || itemStack.getType() == Material.AIR) {
-                                freeAmount += clone.getMaxStackSize();
+                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                                if (availableSpace > 0) {
+                                    freeSpace += availableSpace;
+                                }
                             } else {
-                                if (StackUtils.itemsMatch(itemStack, clone)) {
-                                    freeAmount += itemStack.getMaxStackSize() - itemStack.getAmount();
-                                }
-                            }
-
-                            if (freeAmount > currentLimit) {
-                                freeAmount = currentLimit;
-                                break;
+                                freeSpace += clone.getMaxStackSize();
                             }
                         }
+                        if (freeSpace <= 0) {
+                            continue;
+                        }
+                        itemRequest.setAmount(Math.min(freeSpace, currentLimit));
 
-                        // 直接推送物品
-                        final ItemRequest itemRequest = new ItemRequest(clone, freeAmount);
-                        ItemStack retrieved = root.getItemStackAsync(itemRequest);
-                        if (retrieved != null) {
-                            targetMenu.pushItem(retrieved, slots);
+                        ItemStack retrieved = root.getItemStack(itemRequest);
+                        if (retrieved != null && !retrieved.getType().isAir()) {
+                            BlockMenuUtils.pushItem(targetMenu, retrieved, slots);
                         }
                     }
-                    // 仅空模式
+
                     case TRANSPORT_MODE_NULL_ONLY -> {
-                        for (int slot : slots) {
-                            // 读取每个槽的物品
-                            final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-
-                            // 仅空槽会被运输
-                            if (itemStack == null || itemStack.getType() == Material.AIR) {
-                                // 计算需要推送的数量
-                                int amount = clone.getMaxStackSize();
-                                if (retrievedAmount + amount > currentLimit) {
-                                    amount = currentLimit - retrievedAmount;
-                                }
-
-                                // 推送物品
-                                final ItemRequest itemRequest = new ItemRequest(clone, amount);
-                                ItemStack retrieved = root.getItemStackAsync(itemRequest);
-
-                                // 只推送到指定的格
-                                if (retrieved != null) {
-                                    targetMenu.pushItem(retrieved, slot);
-                                    // 增加数量
-                                    retrievedAmount += retrieved.getAmount();
-                                }
+                        int free = currentLimit;
+                        for (int slot: slots) {
+                            ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                            if (itemStack == null || itemStack.getType().isAir()) {
+                                itemRequest.setAmount(clone.getMaxStackSize());
+                            } else {
+                                continue;
                             }
-                            if (retrievedAmount >= currentLimit) {
-                                break;
+                            itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
+
+                            ItemStack retrieved = root.getItemStack(itemRequest);
+                            if (retrieved != null && !retrieved.getType().isAir()) {
+                                free -= retrieved.getAmount();
+                                targetMenu.pushItem(retrieved, slot);
+                                if (free <= 0) {
+                                    break;
+                                }
                             }
                         }
                     }
 
-                    // 仅非空模式
                     case TRANSPORT_MODE_NONNULL_ONLY -> {
-                        for (int slot : slots) {
-                            if (retrievedAmount >= currentLimit) {
-                                break;
-                            }
-                            // 读取每个槽的物品
-                            final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-
-                            // 仅非空模式本质上就是只运输到有相同物品的格子
-                            if (StackUtils.itemsMatch(clone, itemStack)) {
-
-                                // 计算需要推送的数量
-                                int amount = itemStack.getMaxStackSize() - itemStack.getAmount();
-                                if (retrievedAmount + amount > currentLimit) {
-                                    amount = currentLimit - retrievedAmount;
-                                }
-
-                                if (amount <= 0) {
+                        int free = currentLimit;
+                        for (int slot: slots) {
+                            ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                            if (StackUtils.itemsMatch(testItem, itemStack)) {
+                                final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
+                                if (space > 0) {
+                                    itemRequest.setAmount(space);
+                                } else {
                                     continue;
                                 }
+                            } else {
+                                continue;
+                            }
+                            itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                                // 推送物品
-                                final ItemRequest itemRequest = new ItemRequest(clone, amount);
-                                ItemStack retrieved = root.getItemStackAsync(itemRequest);
-
-                                // 只推送到指定的格
-                                if (retrieved != null) {
-                                    // 增加数量
-                                    targetMenu.pushItem(retrieved, slot);
-                                    retrievedAmount += amount - retrieved.getAmount();
+                            ItemStack retrieved = root.getItemStack(itemRequest);
+                            if (retrieved != null && !retrieved.getType().isAir()) {
+                                free -= retrieved.getAmount();
+                                targetMenu.pushItem(retrieved, slot);
+                                if (free <= 0) {
+                                    break;
                                 }
                             }
                         }
                     }
                 }
-
             }
             targetBlock = targetBlock.getRelative(direction);
         }
     }
+
     @Nonnull
     @Override
     protected int[] getBackgroundSlots() {
@@ -338,7 +307,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         return new Particle.DustOptions(Color.BLUE, 2);
     }
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -347,7 +316,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);

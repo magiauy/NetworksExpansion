@@ -74,7 +74,7 @@ public class AdvancedGreedyBlock extends NetworkObject {
                 if (flow == ItemTransportFlow.INSERT) {
                     return INPUT_SLOTS;
                 }
-                return new int[]{0};
+                return new int[0];
             }
 
         };

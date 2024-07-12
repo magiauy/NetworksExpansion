@@ -5,17 +5,13 @@ import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced.Ad
 import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.basic.AbstractAutoCrafter;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransfer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferPusher;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferPusher;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataSource;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.QueryQueue;
-
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.setup.SetupUtil;
-
 import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
 import com.ytdd9527.networks.expansion.util.ConfigManager;
 import io.github.sefiraat.networks.commands.NetworksMain;
@@ -37,7 +33,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -178,13 +173,11 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         AbstractAutoCrafter.cancelCraftTask();
         AdvancedAutoCraftingCrafter.cancelCraftTask();
         AbstractAdvancedAutoCrafter.cancelCraftTask();
-        AdvancedLineTransfer.cancelTransferTask();
-        AdvancedLineTransferGrabber.cancelTransferTask();
-        AdvancedLineTransferPusher.cancelTransferTask();
-        LineTransfer.cancelTransferTask();
-        LineTransferGrabber.cancelTransferTask();
-        LineTransferPusher.cancelTransferTask();
         AdvancedImport.cancelTransferTask();
+        LineTransfer.cancelTransferTask();
+        AdvancedLineTransfer.cancelTransferTask();
+        LineTransferGrabber.cancelTransferTask();
+        AdvancedLineTransferGrabber.cancelTransferTask();
         getLogger().info("已结束任务！");
         getLogger().info("已安全禁用附属！");
     }

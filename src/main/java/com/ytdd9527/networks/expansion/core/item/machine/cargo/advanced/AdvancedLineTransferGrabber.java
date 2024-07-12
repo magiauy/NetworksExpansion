@@ -31,7 +31,11 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem {
@@ -139,59 +143,45 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+
         if (definition == null || definition.getNode() == null) {
             return;
         }
         final NetworkRoot root = definition.getNode().getRoot();
-        BlockFace direction = this.getCurrentDirection(blockMenu);
+
+        final BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
-        for (int i = 0; i < maxDistance && currentBlock.getType() != Material.AIR; i++) {
-            BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
+        for (int i = 0; i < maxDistance; i++) {
+            // 如果方块是空气，退出
+            if (currentBlock.getType().isAir()) {
+                break;
+            }
 
+            BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
+            // 如果没有blockMenu，退出
             if (targetMenu == null) {
                 break;
             }
+            // 获取输出槽
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            int totalAmount = 0;
-            int currentNumber = getCurrentNumber(blockMenu.getLocation());
+            int free = getCurrentNumber(blockMenu.getLocation());
             for (int slot : slots) {
-                if (totalAmount >= currentNumber) {
-                    break;
-                }
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
-
-                if (itemStack != null) {
-
-                    if (isItemTransferable(itemStack)) {
-                        int before = itemStack.getAmount();
-                        if (totalAmount + before > currentNumber) {
-                            ItemStack clone = itemStack.clone();
-                            clone.setAmount(currentNumber - totalAmount);
-                            root.addItemStack(clone);
-                            if (clone.getAmount() < currentNumber - totalAmount) {
-                                itemStack.setAmount(before - (currentNumber - totalAmount - clone.getAmount()));
-                                targetMenu.replaceExistingItem(slot, itemStack);
-                            }
-                            totalAmount = currentNumber;
-                        } else {
-                            root.addItemStack(itemStack);
-
-                            if (itemStack.getAmount() < before) {
-                                totalAmount += before - itemStack.getAmount();
-                                //抓取成功显示粒子
-                                //showParticle(blockMenu.getBlock().getLocation(), direction);
-                                targetMenu.replaceExistingItem(slot, itemStack);
-                            }
-                        }
+                if (itemStack != null && !itemStack.getType().isAir()) {
+                    int canConsume = Math.min(itemStack.getMaxStackSize(), free);
+                    ItemStack clone = itemStack.clone();
+                    clone.setAmount(canConsume);
+                    root.addItemStack(clone);
+                    itemStack.setAmount(itemStack.getAmount() - canConsume);
+                    free -= canConsume;
+                    if (free <= 0) {
+                        break;
                     }
                 }
             }
             currentBlock = currentBlock.getRelative(direction);
         }
-    }
-    private boolean isItemTransferable(@Nullable ItemStack itemStack) {
-        return itemStack != null && itemStack.getType() != Material.AIR;
     }
     @Override
     protected Particle.DustOptions getDustOptions() {

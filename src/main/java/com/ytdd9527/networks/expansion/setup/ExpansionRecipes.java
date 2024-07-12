@@ -1,13 +1,11 @@
 package com.ytdd9527.networks.expansion.setup;
 
-
 import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.*;
-import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_EXPORT;
 
 public class ExpansionRecipes {
 

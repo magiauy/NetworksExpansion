@@ -94,7 +94,7 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
 
             long totalItems = allNetworkItems.values().stream().mapToLong(integer -> integer).sum();
 
-            final String nodeCount = (root.getNodeCount() >= root.getMaxNodes() ? Theme.ERROR : "") + String.valueOf(root.getNodeCount());
+            final String nodeCount = (root.getNodeCount() >= root.getMaxNodes() ? Theme.ERROR + String.valueOf(root.getNodeCount()) + "+" : String.valueOf(root.getNodeCount()));
 
             final ChatColor c = Theme.CLICK_INFO.getColor();
             final ChatColor p = Theme.SUCCESS.getColor();
