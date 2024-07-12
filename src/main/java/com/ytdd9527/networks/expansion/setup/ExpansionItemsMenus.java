@@ -45,6 +45,7 @@ public final class ExpansionItemsMenus {
     // cargo system
     public static final SubFlexItemGroup MAIN_MENU_CARGO_SYSTEM = ConfigUtil.getSubFlexItemGroup("NET_EXPANSION_MAIN_MENU_CARGO_SYSTEM", Material.FURNACE_MINECART, TextUtil.colorRandomString("货运与存储"));
     public static final SubFlexItemGroup SUB_MENU_ADVANCED_STORAGE = ConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_ADVANCED_STORAGE", Material.BOOKSHELF, TextUtil.colorRandomString("货运与存储 - 高级存储"));
+    public static final SubFlexItemGroup SUB_MENU_NETWORKS_DRAWERS = ConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_NETWORKS_DRAWERS", Material.CHISELED_BOOKSHELF, TextUtil.colorRandomString("货运与存储 - 网络抽屉"));
     public static final SubFlexItemGroup SUB_MENU_CARGO = ConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_CARGO", Material.END_ROD, TextUtil.colorRandomString("货运与存储 - 货运"));
 
     // functional machine
