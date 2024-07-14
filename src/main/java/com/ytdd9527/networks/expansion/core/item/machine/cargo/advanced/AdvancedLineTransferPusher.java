@@ -70,7 +70,6 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     );
 
     private static final Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
-    private static final Map<Location, ArrayList<BlockMenu>> CACHE_BLOCKMENU_MAP = new HashMap<>();
     public AdvancedLineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER);
         for (int slot : TEMPLATE_SLOTS) {

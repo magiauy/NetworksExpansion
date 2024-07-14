@@ -86,6 +86,12 @@ public class StackUtils {
             return false;
         }
 
+        if (itemMeta.hasDisplayName() && cachedMeta.hasDisplayName()) {
+            if (!Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
+                return false;
+            }
+        }
+
         // Custom model data is different, no match
         final boolean hasCustomOne = itemMeta.hasCustomModelData();
         final boolean hasCustomTwo = cachedMeta.hasCustomModelData();
@@ -124,10 +130,8 @@ public class StackUtils {
             return optionalStackId1.get().equals(optionalStackId2.get());
         }
 
-        // Finally, check the display name
-        return !itemMeta.hasDisplayName() || (itemMeta.getDisplayName().equals(cachedMeta.getDisplayName()));
-
         // Everything should match if we've managed to get here
+        return true;
     }
 
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {

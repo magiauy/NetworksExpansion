@@ -28,7 +28,12 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NetworkRoot extends NetworkNode {
@@ -1317,9 +1322,7 @@ public class NetworkRoot extends NetworkNode {
         ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
-            stackToReturn = request.getItemStack().clone();
-            stackToReturn.setAmount(request.getAmount());
-            return stackToReturn;
+            return null;
         }
 
         // Barrels first
@@ -1658,13 +1661,20 @@ public class NetworkRoot extends NetworkNode {
         for (BarrelIdentity barrelIdentity : getBarrels()) {
             if (StackUtils.itemsMatch(barrelIdentity.getItemStack(), itemStack)) {
                 totalAmount += barrelIdentity.getAmount();
+                if (barrelIdentity instanceof InfinityBarrel) {
+                    totalAmount -= 2;
+                }
             }
         }
-        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
+        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        for (StorageUnitData cache : cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
                 if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack)) {
                     totalAmount += itemContainer.getAmount();
+                    if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
+                        totalAmount -= 1;
+                    }
                 }
             }
         }
@@ -1681,6 +1691,74 @@ public class NetworkRoot extends NetworkNode {
         } else {
             return (int) totalAmount;
         }
+    }
+
+    public HashMap<ItemStack, Long> getAmount(@Nonnull Set<ItemStack> itemStacks) {
+        HashMap<ItemStack, Long> totalAmounts = new HashMap<>();
+        for (BlockMenu menu : getAdvancedGreedyBlocks()) {
+            for (int slot : AdvancedGreedyBlock.INPUT_SLOTS) {
+                final ItemStack inputSlotItem = menu.getItemInSlot(slot);
+                if (inputSlotItem != null) {
+                    for (ItemStack itemStack : itemStacks) {
+                        if (StackUtils.itemsMatch(inputSlotItem, itemStack)) {
+                            totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + inputSlotItem.getAmount());
+                        }
+                    }
+                }
+            }
+        }
+        // 遍历所有贪婪方块
+        for (BlockMenu blockMenu : getGreedyBlocks()) {
+            ItemStack inputSlotItem = blockMenu.getItemInSlot(NetworkGreedyBlock.INPUT_SLOT);
+            if (inputSlotItem != null) {
+                for (ItemStack itemStack : itemStacks) {
+                    if (StackUtils.itemsMatch(inputSlotItem, itemStack)) {
+                        totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + inputSlotItem.getAmount());
+                    }
+                }
+            }
+        }
+        // 遍历所有桶
+        for (BarrelIdentity barrelIdentity : getBarrels()) {
+            for (ItemStack itemStack : itemStacks) {
+                if (StackUtils.itemsMatch(barrelIdentity.getItemStack(), itemStack)) {
+                    long totalAmount = barrelIdentity.getAmount();
+                    if (barrelIdentity instanceof InfinityBarrel) {
+                        totalAmount -= 2;
+                    }
+                    totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + totalAmount);
+                }
+            }
+        }
+        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        for (StorageUnitData cache : cacheMap.keySet()) {
+            final List<ItemContainer> storedItems = cache.getStoredItems();
+            for (ItemContainer itemContainer : storedItems) {
+                for (ItemStack itemStack : itemStacks) {
+                    if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack)) {
+                        long totalAmount = itemContainer.getAmount();
+                        if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
+                            totalAmount -= 1;
+                        }
+                        totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + totalAmount);
+                    }
+                }
+            }
+        }
+        // 遍历所有单元格菜单
+        for (BlockMenu blockMenu : getCellMenus()) {
+            for (ItemStack cellItem : blockMenu.getContents()) {
+                if (cellItem != null) {
+                    for (ItemStack itemStack : itemStacks) {
+                        if (StackUtils.itemsMatch(cellItem, itemStack)) {
+                            totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + cellItem.getAmount());
+                        }
+                    }
+                }
+            }
+        }
+
+        return totalAmounts;
     }
 
     public void addItemStack(@Nonnull ItemStack incoming) {

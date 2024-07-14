@@ -9,6 +9,7 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.utils.BlockMenuUtils;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -254,9 +255,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
 
                         ItemStack retrieved = root.getItemStack(itemRequest);
                         if (retrieved != null && !retrieved.getType().isAir()) {
-                            for (int slot: slots) {
-                                targetMenu.pushItem(retrieved, slot);
-                            }
+                            BlockMenuUtils.pushItem(targetMenu, retrieved, slots);
                         }
                     }
 
@@ -341,7 +340,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             for (int slot : slots) {
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
                 if (itemStack != null && !itemStack.getType().isAir()) {
-                    int canConsume = Math.min(itemStack.getMaxStackSize(), free);
+                    int canConsume = Math.min(itemStack.getAmount(), free);
                     ItemStack clone = itemStack.clone();
                     clone.setAmount(canConsume);
                     root.addItemStack(clone);

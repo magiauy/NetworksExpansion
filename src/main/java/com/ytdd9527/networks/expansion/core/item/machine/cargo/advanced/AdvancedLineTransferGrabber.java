@@ -169,7 +169,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             for (int slot : slots) {
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
                 if (itemStack != null && !itemStack.getType().isAir()) {
-                    int canConsume = Math.min(itemStack.getMaxStackSize(), free);
+                    int canConsume = Math.min(itemStack.getAmount(), free);
                     ItemStack clone = itemStack.clone();
                     clone.setAmount(canConsume);
                     root.addItemStack(clone);
