@@ -10,7 +10,7 @@
 - [ ] **7**.快捷键 接入网格获取材料自动获取可合成的配方比如增强型快捷键网格，就是获取增强型工作台的配方显示在快捷键里面 以此类推 (魔法工作台，远古祭坛等)
 - [ ] **8**.射电桩配方链式传输使用 32 64 传输能源电力
 - [ ] **9**.添加网络工坊比如
-![](https://cdn.jsdelivr.net/gh/ytdd9527/NetworksExpansion@master/images/wiki/gongfan.png)  
+[![](https://cdn.jsdelivr.net/gh/ytdd9527/NetworksExpansion@master/images/wiki/gongfan.png)  ](https://github.com/ytdd9527/NetworksExpansion/blob/master/images/wiki/gongfan.png)
 
 
 ## 网络拓展
