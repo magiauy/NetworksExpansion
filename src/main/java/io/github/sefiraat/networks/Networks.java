@@ -3,6 +3,7 @@ package io.github.sefiraat.networks;
 import io.github.sefiraat.networks.commands.NetworksMain;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
+import io.github.sefiraat.networks.slimefun.HudCallbacks;
 import io.github.sefiraat.networks.slimefun.NetheoPlants;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
@@ -35,7 +36,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     private SupportedPluginManager supportedPluginManager;
 
     public Networks() {
-        this.username = "ybw0014";
+        this.username = "SlimefunGuguProject";
         this.repo = "Networks";
         this.branch = "master";
     }
@@ -78,11 +79,18 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     public void setupSlimefun() {
         NetworkSlimefunItems.setup();
         WikiUtils.setupJson(this);
-        if (supportedPluginManager.isNetheopoiesis()){
+        if (supportedPluginManager.isNetheopoiesis()) {
             try {
                 NetheoPlants.setup();
             } catch (NoClassDefFoundError e) {
-                getLogger().severe("你必须更新下界乌托邦才能让网络添加相关功能.");
+                getLogger().severe("你必须更新下界乌托邦才能让网络添加相关功能。");
+            }
+        }
+        if (supportedPluginManager.isSlimeHud()) {
+            try {
+                HudCallbacks.setup();
+            } catch (NoClassDefFoundError e) {
+                getLogger().severe("你必须更新 SlimeHUD 才能让网络添加相关功能。");
             }
         }
     }
