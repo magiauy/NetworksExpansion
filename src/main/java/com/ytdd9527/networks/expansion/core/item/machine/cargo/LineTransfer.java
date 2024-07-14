@@ -10,6 +10,7 @@ import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
+import io.github.sefiraat.networks.utils.BlockMenuUtils;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -214,7 +215,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
                 final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
 
-                if (testItem == null || testItem.getType() == Material.AIR) {
+                if (testItem == null || testItem.getType().isAir()) {
                     continue;
                 }
 
@@ -235,6 +236,9 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                     } else {
                         freeSpace += clone.getMaxStackSize();
                     }
+                    if (freeSpace > 0) {
+                        break;
+                    }
                 }
                 if (freeSpace <= 0) {
                     continue;
@@ -243,9 +247,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
                 ItemStack retrieved = root.getItemStack(itemRequest);
                 if (retrieved != null && !retrieved.getType().isAir()) {
-                    for (int slot: slots) {
-                        targetMenu.pushItem(retrieved, slot);
-                    }
+                    BlockMenuUtils.pushItem(targetMenu, retrieved, slots);
                 }
             }
             targetBlock = targetBlock.getRelative(direction);
@@ -278,11 +280,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
             for (int slot : slots) {
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
                 if (itemStack != null && !itemStack.getType().isAir()) {
-                    int canConsume = itemStack.getMaxStackSize();
-                    ItemStack clone = itemStack.clone();
-                    clone.setAmount(canConsume);
-                    root.addItemStack(clone);
-                    itemStack.setAmount(itemStack.getAmount() - canConsume);
+                    root.addItemStack(itemStack);
                 }
             }
             currentBlock = currentBlock.getRelative(direction);

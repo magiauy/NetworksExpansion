@@ -152,11 +152,8 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
             for (int slot : slots) {
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
                 if (itemStack != null && !itemStack.getType().isAir()) {
-                    int canConsume = itemStack.getMaxStackSize();
-                    ItemStack clone = itemStack.clone();
-                    clone.setAmount(canConsume);
-                    root.addItemStack(clone);
-                    itemStack.setAmount(itemStack.getAmount() - canConsume);
+                    root.addItemStack(itemStack);
+                    return;
                 }
             }
             currentBlock = currentBlock.getRelative(direction);

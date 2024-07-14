@@ -11,6 +11,8 @@ import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.da
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.QueryQueue;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
+import com.ytdd9527.networks.expansion.core.item.machine.stackmachine.StackGenerator;
+import com.ytdd9527.networks.expansion.core.item.machine.stackmachine.StackMachine;
 import com.ytdd9527.networks.expansion.setup.SetupUtil;
 import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
 import com.ytdd9527.networks.expansion.util.ConfigManager;
@@ -33,6 +35,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -133,6 +136,19 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("正在注册物品...");
         setupSlimefun();
 
+        /*
+        getLogger().info("正在注册堆叠机器...");
+        try {
+            StackMachine.initialize();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            StackGenerator.initialize();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        */
         getLogger().info("正在注册指令...");
         this.listenerManager = new ListenerManager();
         this.getCommand("networks").setExecutor(new NetworksMain());

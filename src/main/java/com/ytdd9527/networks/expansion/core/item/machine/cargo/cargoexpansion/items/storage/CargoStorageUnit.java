@@ -184,7 +184,7 @@ public class CargoStorageUnit extends NetworkObject {
 
     }
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.CELL);
+        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
 
         this.sizeType = sizeType;
 
@@ -365,7 +365,8 @@ public class CargoStorageUnit extends NetworkObject {
                 Location l = e.getBlock().getLocation();
                 ItemStack itemInHand = e.getItemInHand();
                 Player p = e.getPlayer();
-                if (!canUse(p, true) || !Slimefun.getProtectionManager().hasPermission(p, l, Interaction.INTERACT_BLOCK)) {
+                if(!(p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, e.getBlock(), Interaction.INTERACT_BLOCK)))) {
+                    e.setCancelled(true);
                     return;
                 }
                 boolean a = false;
@@ -626,7 +627,11 @@ public class CargoStorageUnit extends NetworkObject {
                         // [ 无操作 ]
                     } else {
                         // 点击的是物品
-                        int index = Arrays.stream(displaySlots).filter(i -> i == slot).sum();
+                        List<Integer> a = new ArrayList<>();
+                        for (int i : displaySlots) {
+                            a.add(i);
+                        }
+                        int index = a.indexOf(slot);
                         ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
 
                         ItemRequest itemRequest = new ItemRequest(take, take.getMaxStackSize());
@@ -656,7 +661,7 @@ public class CargoStorageUnit extends NetworkObject {
                     }
                 } else {
                     // 手上有物品时
-                    data.depositItemStack(itemOnCursor, false);
+                    data.depositItemStack(itemOnCursor, false, true);
                 }
                 return false;
             });

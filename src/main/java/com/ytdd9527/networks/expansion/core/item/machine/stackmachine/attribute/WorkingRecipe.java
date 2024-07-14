@@ -10,11 +10,11 @@ public class WorkingRecipe {
     public String recipeName;
     public int duration;
     public int energy;
-    public HashMap<ItemStack, Integer> inputs;
-    public HashMap<ItemStack, Integer> outputs;
-    public HashMap<ItemStack, Integer> weights;
+    public Map<ItemStack, Integer> inputs;
+    public Map<ItemStack, Integer> outputs;
+    public Map<ItemStack, Integer> weights;
 
-    public WorkingRecipe(String recipeName, int duration, int energy, HashMap<ItemStack, Integer> inputs, HashMap<ItemStack, Integer> outputs, HashMap<ItemStack, Integer> weights) {
+    public WorkingRecipe(String recipeName, int duration, int energy, Map<ItemStack, Integer> inputs, Map<ItemStack, Integer> outputs, Map<ItemStack, Integer> weights) {
         this.recipeName = recipeName;
         this.duration = duration;
         this.energy = energy;
@@ -23,18 +23,20 @@ public class WorkingRecipe {
         this.weights = weights;
     }
 
-    public boolean isMatch(ItemStack[] incomings) {
-        // 创建一个映射来存储传入物品栈的数量
-        HashMap<ItemStack, Integer> incomingCounts = new HashMap<ItemStack, Integer>(4, 0.75f);
-        for (ItemStack item : incomings) {
-            incomingCounts.merge(item, item.getAmount(), Integer::sum);
-        }
+    public WorkingRecipe(String recipeName, int duration, int energy, Map<ItemStack, Integer> inputs, Map<ItemStack, Integer> outputs) {
+        this.recipeName = recipeName;
+        this.duration = duration;
+        this.energy = energy;
+        this.inputs = inputs;
+        this.outputs = outputs;
+    }
 
+    public boolean isMatch(Map<ItemStack, Integer> incomings) {
         // 检查输入是否匹配
         for (Map.Entry<ItemStack, Integer> entry : this.inputs.entrySet()) {
             ItemStack input = entry.getKey();
             Integer requiredAmount = entry.getValue();
-            Integer incomingAmount = incomingCounts.getOrDefault(input, 0);
+            Integer incomingAmount = incomings.getOrDefault(input, 0);
             if (incomingAmount < requiredAmount) {
                 return false;
             }
@@ -51,15 +53,15 @@ public class WorkingRecipe {
         return this.energy;
     }
 
-    public HashMap<ItemStack, Integer> getInputs() {
+    public Map<ItemStack, Integer> getInputs() {
         return this.inputs;
     }
 
-    public HashMap<ItemStack, Integer> getOutputs() {
+    public Map<ItemStack, Integer> getOutputs() {
         return this.outputs;
     }
 
-    public HashMap<ItemStack, Integer> getWeights() {
+    public Map<ItemStack, Integer> getWeights() {
         return this.weights;
     }
 
@@ -71,29 +73,33 @@ public class WorkingRecipe {
         this.energy = energy;
     }
 
-    public void setInputs(HashMap<ItemStack, Integer> inputs) {
+    public void setInputs(Map<ItemStack, Integer> inputs) {
         this.inputs = inputs;
     }
 
-    public void setOutputs(HashMap<ItemStack, Integer> outputs) {
+    public void setOutputs(Map<ItemStack, Integer> outputs) {
         this.outputs = outputs;
     }
 
-    public void setWeights(HashMap<ItemStack, Integer> weights) {
+    public void setWeights(Map<ItemStack, Integer> weights) {
         this.weights = weights;
     }
 
-    public HashMap<ItemStack, Integer> outputItems() {
-        HashMap<ItemStack, Integer> goings = new HashMap<ItemStack, Integer>(4, 0.75f);
+    public Map<ItemStack, Integer> outputItems() {
+        Map<ItemStack, Integer> goings = new HashMap<>(4, 0.75f);
         Random random = new Random();
         for (ItemStack outputItem: this.outputs.keySet()) {
-            int weight = this.weights.get(outputItem);
-            if (weight == 100) {
-                goings.put(outputItem, this.outputs.get(outputItem));
-            } else {
-                if (random.nextInt(100) < weight) {
+            if (weights != null) {
+                int weight = this.weights.get(outputItem);
+                if (weight == 100) {
                     goings.put(outputItem, this.outputs.get(outputItem));
+                } else {
+                    if (random.nextInt(100) < weight) {
+                        goings.put(outputItem, this.outputs.get(outputItem));
+                    }
                 }
+            } else {
+                goings.put(outputItem, this.outputs.get(outputItem));
             }
         }
         return goings;
