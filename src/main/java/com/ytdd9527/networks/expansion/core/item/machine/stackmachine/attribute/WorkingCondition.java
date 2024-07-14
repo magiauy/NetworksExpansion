@@ -1,15 +1,20 @@
 package com.ytdd9527.networks.expansion.core.item.machine.stackmachine.attribute;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Waterlogged;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.util.Locale;
 
 public class WorkingCondition {
 
     private WorkingConditionType type;
-    private String value;
+    private YamlConfiguration value;
 
-    public WorkingCondition(WorkingConditionType type, String value) {
+    public WorkingCondition(WorkingConditionType type, YamlConfiguration value) {
         this.type = type;
         this.value = value;
     }
@@ -27,7 +32,7 @@ public class WorkingCondition {
         return this.type;
     }
 
-    public String getValue() {
+    public YamlConfiguration getValue() {
         return this.value;
     }
 
@@ -35,7 +40,7 @@ public class WorkingCondition {
         this.type = type;
     }
 
-    public void setValue(String value) {
+    public void setValue(YamlConfiguration value) {
         this.value = value;
     }
 
@@ -45,26 +50,39 @@ public class WorkingCondition {
         }
         switch (this.type) {
             case LIGHT_LEVEL -> {
-                return block.getLightFromSky() >= Integer.parseInt(this.value);
+                return block.getLightFromSky() >= this.value.getInt("light_level");
             }
             case BLOCK -> {
-                //TODO: no idea yet.
-                return false;
+                 ConfigurationSection direction = this.value.getConfigurationSection("direction");
+                 int x = direction.getInt("x");
+                 int y = direction.getInt("y");
+                 int z = direction.getInt("z");
+                 Block targetBlock = block.getRelative(x, y, z);
+                 ConfigurationSection list = this.value.getConfigurationSection("list");
+                 String blockName = list.getString("mc");
+                 if (blockName != null && blockName.toLowerCase(Locale.ROOT).equals(targetBlock.getType().name().toUpperCase(Locale.ROOT))) {
+                    return true;
+                 }
+                 String sfId = list.getString("sf");
+                 if (sfId != null && sfId.equals(StorageCacheUtils.getSfItem(targetBlock.getLocation()).getId())) {
+                     return true;
+                 }
+                 return false;
             }
             case WATERLOGGED -> {
                 BlockData blockData = block.getBlockData();
                 if (blockData instanceof Waterlogged waterlogged) {
-                    return waterlogged.isWaterlogged() == Boolean.parseBoolean(this.value);
+                    return waterlogged.isWaterlogged() == this.value.getBoolean("value");
                 }  else {
                     return false;
                 }
             }
             case WORLD_NAME -> {
-                return block.getWorld().getName().equals(this.value);
+                return block.getWorld().getName().equals(this.value.getString("world_name"));
             }
             case GAME_TIME -> {
-                int min = Integer.parseInt(this.value.split("..")[0]);
-                int max = Integer.parseInt(this.value.split("..")[1]);
+                int min = Integer.parseInt(this.value.getString("range").split("..")[0]);
+                int max = Integer.parseInt(this.value.getString("range").split("..")[1]);
                 return min <= block.getWorld().getTime() && block.getWorld().getTime() <= max;
             }
             default -> {
