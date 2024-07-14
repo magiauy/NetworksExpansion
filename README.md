@@ -11,6 +11,7 @@
 - [ ] **8**.射电桩配方链式传输使用 32 64 传输能源电力
 - [ ] **9**.添加网络工坊比如
 [点击查看]https://github.com/ytdd9527/NetworksExpansion/blob/master/images/wiki/gongfan.png
+- [ ] **9**.网络粘贴剪切器 网络吸尘器 优化或魔改一些
 ## 网络拓展
 顾名思义就是拓展网络物品 提高了网络的可玩性。
 
