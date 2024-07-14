@@ -10,14 +10,14 @@
 - [ ] **7**.快捷键 接入网格获取材料自动获取可合成的配方比如增强型快捷键网格，就是获取增强型工作台的配方显示在快捷键里面 以此类推 (魔法工作台，远古祭坛等)
 - [ ] **8**.射电桩配方链式传输使用 32 64 传输能源电力
 - [ ] **9**.添加网络工坊比如
-![](https://cdn.jsdelivr.net/gh/SlimefunGuguProject/Networks@master/images/wiki/gongfan.png)
+![](https://cdn.jsdelivr.net/gh/SlimefunGuguProject/Networks@master/images/wiki/gongfan.png)  
 
 
 ![](https://cdn.jsdelivr.net/gh/SlimefunGuguProject/Networks@master/images/logo/logo_large.png)
 
 网络是一个Slimefun附属插件，可以创建一个简单有效的物品存储与运输系统，并可以与货运系统交互。
 
-![](https://cdn.jsdelivr.net/gh/SlimefunGuguProject/Networks@master/images/wiki/setup.png)
+![](https://cdn.jsdelivr.net/gh/SlimefunGuguProject/Networks@master/images/wiki/gongfan.png)
 
 ## 网络拓展
 顾名思义就是拓展网络物品 提高了网络的可玩性。
