@@ -9,7 +9,7 @@
 - [ ] **6**.网络原版推送和抓取可以重写一下
 - [ ] **7**.快捷键 接入网格获取材料自动获取可合成的配方比如增强型快捷键网格，就是获取增强型工作台的配方显示在快捷键里面 以此类推 (魔法工作台，远古祭坛等)
 - [ ] **8**.射电桩配方链式传输使用 32 64 传输能源电力
-- [ ] **9**.添加网络工坊比如![Uploading 014f1fa7452da5c4089ea4be8ace399f.png…]()
+- [ ] **9**.添加网络工坊比如![](https://cdn.jsdelivr.net/gh/SlimefunGuguProject/Networks@master/images/wiki/setup.png)
 
 
 ![](https://cdn.jsdelivr.net/gh/SlimefunGuguProject/Networks@master/images/logo/logo_large.png)
