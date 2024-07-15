@@ -50,7 +50,7 @@ public class NetworkAutoCrafter extends NetworkObject {
     private static final int[] OUTPUT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
 
     private static final int BLUEPRINT_SLOT = 10;
-    private static final int OUTPUT_SLOT = 16;
+    public static final int OUTPUT_SLOT = 16;
 
     public static final CustomItemStack BLUEPRINT_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "合成蓝图"

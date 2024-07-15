@@ -68,10 +68,7 @@ public class NetworkGreedyBlock extends NetworkObject {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.INSERT) {
-                    return new int[]{INPUT_SLOT};
-                }
-                return new int[0];
+                return new int[]{INPUT_SLOT};
             }
 
         };
