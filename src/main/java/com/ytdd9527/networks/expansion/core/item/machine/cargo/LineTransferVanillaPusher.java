@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -67,10 +68,10 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         FileConfiguration config = Networks.getInstance().getConfig();
 
         int defaultMaxDistance = 32;
-        int defaultGrabItemTick = 5;
+        int defaultGrabItemTick = 1;
 
-        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
-        this.pushItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
+        maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
+        pushItemTick = config.getInt("items." + itemId + ".pushitem-tick", defaultGrabItemTick);
     }
 
 
@@ -131,7 +132,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d < maxDistance; d++) {
             // 如果方块是空气，退出
-            if (targetBlock.getType() == Material.AIR) {
+            if (targetBlock.getType().isAir()) {
                 break;
             }
 
@@ -142,9 +143,15 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
             }
 
             for (int slot : getInputSlots()) {
-                final ItemStack stack = blockMenu.getItemInSlot(slot);
+                final ItemStack templateItem = blockMenu.getItemInSlot(slot);
 
-                if (stack == null || stack.getType() == Material.AIR) {
+                if (templateItem == null || templateItem.getType().isAir()) {
+                    continue;
+                }
+
+                final ItemStack stack = root.getItemStack(new ItemRequest(templateItem.clone(), templateItem.getMaxStackSize()));
+
+                if (stack == null || stack.getType().isAir()) {
                     continue;
                 }
 
@@ -206,14 +213,14 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
     private void handleBrewingStand(@Nonnull ItemStack stack, @Nonnull BrewerInventory brewer) {
         if (stack.getType() == Material.BLAZE_POWDER) {
-            if (brewer.getFuel() == null || brewer.getFuel().getType() == Material.AIR) {
+            if (brewer.getFuel() == null || brewer.getFuel().getType().isAir()) {
                 brewer.setFuel(stack.clone());
                 stack.setAmount(0);
             }
         } else if (stack.getType() == Material.POTION) {
             for (int i = 0; i < 3; i++) {
                 final ItemStack stackInSlot = brewer.getContents()[i];
-                if (stackInSlot == null || stackInSlot.getType() == Material.AIR) {
+                if (stackInSlot == null || stackInSlot.getType().isAir()) {
                     final ItemStack[] contents = brewer.getContents();
                     contents[i] = stack.clone();
                     brewer.setContents(contents);
@@ -221,7 +228,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                     return;
                 }
             }
-        } else if (brewer.getIngredient() == null || brewer.getIngredient().getType() == Material.AIR) {
+        } else if (brewer.getIngredient() == null || brewer.getIngredient().getType().isAir()) {
             brewer.setIngredient(stack.clone());
             stack.setAmount(0);
         }
@@ -294,7 +301,13 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                 "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
                 "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次"
         ));
-        displayRecipes.add(AIR);
+        displayRecipes.add(new CustomItemStack(Material.BOOK,
+                "&a⇩参数⇩",
+                "&7默认运输模式: &6首位阻断",
+                "&c不可调整运输模式",
+                "&7默认运输数量: &664",
+                "&c不可调整运输数量"
+        ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",

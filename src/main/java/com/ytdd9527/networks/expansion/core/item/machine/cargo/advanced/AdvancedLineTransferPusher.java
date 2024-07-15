@@ -372,7 +372,13 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                 "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
                 "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次"
         ));
-        displayRecipes.add(AIR);
+        displayRecipes.add(new CustomItemStack(Material.BOOK,
+                "&a⇩参数⇩",
+                "&7默认运输模式: &6无限制",
+                "&a可调整运输模式",
+                "&7默认运输数量: &63456",
+                "&a可调整运输数量"
+        ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",
