@@ -153,7 +153,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
                 if (itemStack != null && !itemStack.getType().isAir()) {
                     root.addItemStack(itemStack);
-                    return;
+                    break;
                 }
             }
             currentBlock = currentBlock.getRelative(direction);
@@ -217,6 +217,13 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
                 "",
                 "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
                 "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次"
+        ));
+        displayRecipes.add(new CustomItemStack(Material.BOOK,
+                "&a⇩参数⇩",
+                "&7默认运输模式: &6首位阻断",
+                "&c不可调整运输模式",
+                "&7默认运输数量: &664",
+                "&c不可调整运输数量"
         ));
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,

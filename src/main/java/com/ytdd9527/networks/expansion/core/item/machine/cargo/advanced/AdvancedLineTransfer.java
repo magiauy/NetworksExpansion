@@ -452,7 +452,13 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
                 "&7[&a运输耗电&7]&f:&7 每次运输消耗 &6" + requiredPower + " J 网络电力"
         ));
-        displayRecipes.add(AIR);
+        displayRecipes.add(new CustomItemStack(Material.BOOK,
+                "&a⇩参数⇩",
+                "&7默认运输模式: &6无限制",
+                "&a可调整运输模式",
+                "&7默认运输数量: &63456",
+                "&a可调整运输数量"
+        ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",

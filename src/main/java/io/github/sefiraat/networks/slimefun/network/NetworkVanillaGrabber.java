@@ -133,14 +133,14 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
                     final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
                     if (potionMeta.getBasePotionData().getType() != PotionType.WATER) {
                         grabItem(blockMenu, stack);
-                        return;
+                        break;
                     }
                 }
             }
         } else {
             for (ItemStack stack : inventory.getContents()) {
                 if (grabItem(blockMenu, stack)) {
-                    return;
+                    break;
                 }
             }
         }

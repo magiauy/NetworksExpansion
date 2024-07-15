@@ -12,7 +12,6 @@ import io.github.sefiraat.networks.network.barrel.NetworkStorage;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
-import io.github.sefiraat.networks.slimefun.network.NetworkAutoCrafter;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
@@ -104,12 +103,14 @@ public class NetworkRoot extends NetworkNode {
         if (type == NodeType.MODEL) {
             return;
         }
+        /*
         // when we found it lived in nodeLocations,
         // it means it's already registered,
         // so we remove it first
         if (nodeLocations.contains(location)) {
             removeOldNode(location, type);
         }
+        */
         nodeLocations.add(location);
         switch (type) {
             case CONTROLLER -> {
@@ -120,7 +121,15 @@ public class NetworkRoot extends NetworkNode {
             case IMPORT -> importers.add(location);
             case EXPORT -> exporters.add(location);
             case GRID -> grids.add(location);
-            case CELL -> cells.add(location);
+            case CELL -> {
+                BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+                if (blockMenu == null) {
+                    return;
+                }
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
+                    cells.add(location);
+                }
+            }
             case WIPER -> wipers.add(location);
             case GRABBER -> grabbers.add(location);
             case PUSHER -> pushers.add(location);
@@ -129,7 +138,15 @@ public class NetworkRoot extends NetworkNode {
             case POWER_NODE -> powerNodes.add(location);
             case POWER_DISPLAY -> powerDisplays.add(location);
             case ENCODER -> encoders.add(location);
-            case GREEDY_BLOCK -> greedyBlocks.add(location);
+            case GREEDY_BLOCK -> {
+                BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+                if (blockMenu == null) {
+                    return;
+                }
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
+                    greedyBlocks.add(location);
+                }
+            }
             case CUTTER -> cutters.add(location);
             case PASTER -> pasters.add(location);
             case VACUUM -> vacuums.add(location);
@@ -143,7 +160,15 @@ public class NetworkRoot extends NetworkNode {
             case LINE_TRANSMITTER_GRABBER_PLUS -> chainGrabbers.add(location);
             case NEA_IMPORT -> advancedImporters.add(location);
             case NEA_EXPORT -> advancedExporters.add(location);
-            case NEA_GREEDY_BLOCK -> advancedGreedyBlocks.add(location);
+            case NEA_GREEDY_BLOCK -> {
+                BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+                if (blockMenu == null) {
+                    return;
+                }
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), AdvancedGreedyBlock.INPUT_SLOTS)) {
+                    advancedGreedyBlocks.add(location);
+                }
+            }
             case COORDINATE_TRANSMITTER ->coordinateTransmitters.add(location);
             case NE_COORDINATE_RECEIVER ->coordinateReceivers.add(location);
             case LINE_TRANSMITTER -> chainDispatchers.add(location);
@@ -152,6 +177,7 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
+    /*
     public void removeOldNode(@Nonnull Location location, @Nonnull NodeType type) {
         if (type != NodeType.BRIDGE) {
             for (Location testLocation : getBridges()) {
@@ -453,6 +479,7 @@ public class NetworkRoot extends NetworkNode {
             }
         }
     }
+    */
 
     public Set<Location> getNodeLocations() {
         return this.nodeLocations;
@@ -644,10 +671,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                getAdvancedGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -672,10 +695,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null || itemStack.getType() == Material.AIR) {
                 continue;
@@ -698,10 +717,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getCrafterOutputs()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkAutoCrafter.OUTPUT_SLOT})) {
-                getCrafterOutputs().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -726,10 +741,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getCellMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
-                getCellMenus().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack != null && itemStack.getType() != Material.AIR) {
@@ -780,10 +791,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null || itemStack.getType() == Material.AIR) {
                 continue;
@@ -806,10 +813,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getCrafterOutputs()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkAutoCrafter.OUTPUT_SLOT})) {
-                getCrafterOutputs().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -834,10 +837,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getCellMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
-                getCellMenus().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack != null && itemStack.getType() != Material.AIR) {
@@ -866,10 +865,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                getAdvancedGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -1254,10 +1249,6 @@ public class NetworkRoot extends NetworkNode {
         // Crafters
         for (BlockMenu blockMenu : getCrafterOutputs()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkAutoCrafter.OUTPUT_SLOT})) {
-                getCrafterOutputs().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
@@ -1290,10 +1281,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                getAdvancedGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
@@ -1327,10 +1314,6 @@ public class NetworkRoot extends NetworkNode {
         // Greedy Blocks
         for (BlockMenu blockMenu : getGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null
                     || itemStack.getType() == Material.AIR
@@ -1436,10 +1419,6 @@ public class NetworkRoot extends NetworkNode {
         // Cells
         for (BlockMenu blockMenu : getCellMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
-                getCellMenus().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
@@ -1475,10 +1454,6 @@ public class NetworkRoot extends NetworkNode {
         // Crafters
         for (BlockMenu blockMenu : getCrafterOutputs()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkAutoCrafter.OUTPUT_SLOT})) {
-                getCrafterOutputs().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
@@ -1509,10 +1484,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                getAdvancedGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
@@ -1544,10 +1515,6 @@ public class NetworkRoot extends NetworkNode {
         // Greedy Blocks
         for (BlockMenu blockMenu : getGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null
                     || itemStack.getType() == Material.AIR
@@ -1615,10 +1582,6 @@ public class NetworkRoot extends NetworkNode {
         // Crafters
         for (BlockMenu blockMenu : getCrafterOutputs()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkAutoCrafter.OUTPUT_SLOT})) {
-                getCrafterOutputs().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
@@ -1665,10 +1628,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                getAdvancedGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
@@ -1690,10 +1649,6 @@ public class NetworkRoot extends NetworkNode {
         // Greedy Blocks
         for (BlockMenu blockMenu : getGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null
                     || itemStack.getType() == Material.AIR
@@ -1713,10 +1668,6 @@ public class NetworkRoot extends NetworkNode {
         // Cells
         for (BlockMenu blockMenu : getCellMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
-                getCellMenus().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
@@ -1741,10 +1692,6 @@ public class NetworkRoot extends NetworkNode {
         long totalAmount = 0;
         for (BlockMenu menu : getAdvancedGreedyBlocks()) {
             int[] slots = menu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                getAdvancedGreedyBlocks().remove(menu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack inputSlotItem = menu.getItemInSlot(slot);
                 if (inputSlotItem != null && StackUtils.itemsMatch(inputSlotItem, itemStack)) {
@@ -1755,10 +1702,6 @@ public class NetworkRoot extends NetworkNode {
         // 遍历所有贪婪方块
         for (BlockMenu blockMenu : getGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             ItemStack inputSlotItem = blockMenu.getItemInSlot(slots[0]);
             if (inputSlotItem != null && StackUtils.itemsMatch(inputSlotItem, itemStack)) {
                 totalAmount += inputSlotItem.getAmount();
@@ -1788,10 +1731,6 @@ public class NetworkRoot extends NetworkNode {
         // 遍历所有单元格菜单
         for (BlockMenu blockMenu : getCellMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
-                getCellMenus().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack cellItem = blockMenu.getItemInSlot(slot);
                 if (cellItem != null && StackUtils.itemsMatch(cellItem, itemStack)) {
@@ -1810,10 +1749,6 @@ public class NetworkRoot extends NetworkNode {
         HashMap<ItemStack, Long> totalAmounts = new HashMap<>();
         for (BlockMenu menu : getAdvancedGreedyBlocks()) {
             int[] slots = menu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                getAdvancedGreedyBlocks().remove(menu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack inputSlotItem = menu.getItemInSlot(slot);
                 if (inputSlotItem != null) {
@@ -1828,10 +1763,6 @@ public class NetworkRoot extends NetworkNode {
         // 遍历所有贪婪方块
         for (BlockMenu blockMenu : getGreedyBlocks()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             ItemStack inputSlotItem = blockMenu.getItemInSlot(slots[0]);
             if (inputSlotItem != null) {
                 for (ItemStack itemStack : itemStacks) {
@@ -1871,10 +1802,6 @@ public class NetworkRoot extends NetworkNode {
         // 遍历所有单元格菜单
         for (BlockMenu blockMenu : getCellMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
-            if (!Arrays.equals(slots, NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
-                getCellMenus().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack cellItem = blockMenu.getItemInSlot(slot);
                 if (cellItem != null) {
@@ -1896,10 +1823,6 @@ public class NetworkRoot extends NetworkNode {
         for (BlockMenu menu : getAdvancedGreedyBlocks()) {
             if (StackUtils.itemsMatch(menu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT), incoming)) {
                 int[] slots = menu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
-                if (!Arrays.equals(slots, AdvancedGreedyBlock.INPUT_SLOTS)) {
-                    getAdvancedGreedyBlocks().remove(menu);
-                    continue;
-                }
                 for (int slot : slots) {
                     final ItemStack itemStack = menu.getItemInSlot(slot);
                     // If this is an empty slot - move on, if it's our first, store it for later.
@@ -1949,10 +1872,6 @@ public class NetworkRoot extends NetworkNode {
             }
 
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
-            if (!Arrays.equals(slots, new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
-                getGreedyBlocks().remove(blockMenu);
-                continue;
-            }
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
 
             if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -2003,10 +1922,6 @@ public class NetworkRoot extends NetworkNode {
 
         for (BlockMenu blockMenu : getCellMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
-            if (!Arrays.equals(slots, NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
-                getCellMenus().remove(blockMenu);
-                continue;
-            }
             for (int slot : slots) {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 // If this is an empty slot - move on, if it's our first, store it for later.

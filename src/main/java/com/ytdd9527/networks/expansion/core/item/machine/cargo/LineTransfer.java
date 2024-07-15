@@ -281,6 +281,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 ItemStack itemStack = targetMenu.getItemInSlot(slot);
                 if (itemStack != null && !itemStack.getType().isAir()) {
                     root.addItemStack(itemStack);
+                    break;
                 }
             }
             currentBlock = currentBlock.getRelative(direction);
@@ -390,7 +391,13 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
                 "&7[&a运输耗电&7]&f:&7 每次运输消耗 &6" + requiredPower + " J 网络电力"
         ));
-        displayRecipes.add(AIR);
+        displayRecipes.add(new CustomItemStack(Material.BOOK,
+                "&a⇩参数⇩",
+                "&7默认运输模式: &6首位阻断",
+                "&c不可调整运输模式",
+                "&7默认运输数量: &664",
+                "&c不可调整运输数量"
+        ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",

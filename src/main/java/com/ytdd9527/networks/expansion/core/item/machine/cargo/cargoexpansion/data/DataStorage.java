@@ -107,7 +107,7 @@ public class DataStorage {
     }
 
     public static void saveAmountChange() {
-
+        Networks.getInstance().getLogger().info("正在保存网络抽屉物品数据...");
         Map<Integer, Map<Integer, Integer>> lastChanges = changes;
         changes = new ConcurrentHashMap<>();
         for (Map.Entry<Integer, Map<Integer, Integer>> each : lastChanges.entrySet()) {
@@ -115,7 +115,7 @@ public class DataStorage {
                 dataSource.updateItemAmount(each.getKey(),eachItem.getKey(), eachItem.getValue());
             }
         }
-
+        Networks.getInstance().getLogger().info("保存成功!");
     }
 
     public static boolean isContainerLoaded(int id) {
