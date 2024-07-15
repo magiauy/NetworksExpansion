@@ -25,7 +25,7 @@ public class SetupUtil {
         ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(
         ExpansionItems.ADVANCED_QUANTUM_STORAGE.registerThis()
         );
-        ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(
+        ExpansionItemsMenus.SUB_MENU_NETWORKS_DRAWERS.addTo(
                 ExpansionItems.CARGO_STORAGE_UNIT_1.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_2.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_3.registerThis(),
@@ -40,7 +40,7 @@ public class SetupUtil {
                 ExpansionItems.CARGO_STORAGE_UNIT_12.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_13.registerThis()
         );
-        ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(
+        ExpansionItemsMenus.SUB_MENU_NETWORKS_DRAWERS.addTo(
                 ExpansionItems.CARGO_STORAGE_UNIT_1_MODEL.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_2_MODEL.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_3_MODEL.registerThis(),
@@ -176,9 +176,11 @@ public class SetupUtil {
 
         ExpansionItemsMenus.MAIN_ITEM_GROUP.addTo(ExpansionItemsMenus.MAIN_MENU_CARGO_SYSTEM,
                 ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE,
+                ExpansionItemsMenus.SUB_MENU_NETWORKS_DRAWERS,
                 ExpansionItemsMenus.SUB_MENU_CARGO);
         ExpansionItemsMenus.MAIN_MENU_CARGO_SYSTEM.addFrom(
                 ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE,
+                ExpansionItemsMenus.SUB_MENU_NETWORKS_DRAWERS,
                 ExpansionItemsMenus.SUB_MENU_CARGO);
 
         ExpansionItemsMenus.MAIN_ITEM_GROUP.addTo(ExpansionItemsMenus.MAIN_MENU_FUNCTIONAL_MACHINE,
