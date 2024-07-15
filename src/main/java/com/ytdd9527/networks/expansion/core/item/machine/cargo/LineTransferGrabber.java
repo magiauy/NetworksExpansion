@@ -225,7 +225,6 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
                 "&7默认运输数量: &664",
                 "&c不可调整运输数量"
         ));
-        displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",
