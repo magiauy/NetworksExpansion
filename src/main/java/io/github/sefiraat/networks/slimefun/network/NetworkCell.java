@@ -2,19 +2,14 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
-
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
@@ -36,7 +31,7 @@ public class NetworkCell extends NetworkObject {
     private boolean useSpecialModel = false;
     private static final String KEY_UUID = "display-uuid";
 
-    private static final List<Integer> SLOTS = new ArrayList<>();
+    public static final List<Integer> SLOTS = new ArrayList<>();
     static {
         for (int i = 0; i < 54; i++) {
             SLOTS.add(i);
@@ -67,7 +62,7 @@ public class NetworkCell extends NetworkObject {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                return new int[0];
+                return SLOTS.stream().mapToInt(Integer::intValue).toArray();
             }
         };
     }

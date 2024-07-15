@@ -4,6 +4,7 @@ import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import lombok.experimental.UtilityClass;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
@@ -62,6 +63,10 @@ public class StackUtils {
             return false;
         }
 
+        if (!ItemStackHelper.getDisplayName(itemStack).equals(ItemStackHelper.getDisplayName(cache.getItemStack()))) {
+            return false;
+        }
+
         // If either item does not have a meta then either a mismatch or both without meta = vanilla
         if (!itemStack.hasItemMeta() || !cache.getItemStack().hasItemMeta()) {
             return itemStack.hasItemMeta() == cache.getItemStack().hasItemMeta();
@@ -79,17 +84,6 @@ public class StackUtils {
         // Quick meta-extension escapes
         if (canQuickEscapeMetaVariant(itemMeta, cachedMeta)) {
             return false;
-        }
-
-        // Has a display name (checking the name occurs later)
-        if (itemMeta.hasDisplayName() != cachedMeta.hasDisplayName()) {
-            return false;
-        }
-
-        if (itemMeta.hasDisplayName() && cachedMeta.hasDisplayName()) {
-            if (!Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
-                return false;
-            }
         }
 
         // Custom model data is different, no match
