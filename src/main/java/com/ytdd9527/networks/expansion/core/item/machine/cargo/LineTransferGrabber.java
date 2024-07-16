@@ -231,6 +231,6 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
                 "&e与链式不同的是，此机器&c只有连续抓取的功能",
                 "&c而不是连续转移物品！"
         ));
-        return displayRecipes ;
+        return displayRecipes;
     }
 }

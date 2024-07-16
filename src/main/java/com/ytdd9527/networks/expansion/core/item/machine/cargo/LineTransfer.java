@@ -53,19 +53,21 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
             36,37,38,
             45,46,47
     };
-    private static final int[] TEMPLATE_BACKGROUND = new int[]{3,
+    private static final int[] TEMPLATE_BACKGROUND = new int[]{
+            3,
             12,
             21,
             30,
             39,
-            48};
+            48
+    };
     private static final int[] TEMPLATE_SLOTS = new int[]{
-            3, 4, 5, 6, 7, 8,
-            12, 13, 14, 15, 16, 17,
-            21, 22, 23, 24, 25, 26,
-            30, 31, 32, 33, 34, 35,
-            39, 40, 41, 42, 43, 44,
-            48, 49, 50, 51, 52, 53,
+            4, 5, 6, 7, 8,
+            13, 14, 15, 16, 17,
+            22, 23, 24, 25, 26,
+            31, 32, 33, 34, 35,
+            40, 41, 42, 43, 44,
+            49, 50, 51, 52, 53,
     };
     private static final int NORTH_SLOT = 1;
     private static final int SOUTH_SLOT = 19;
