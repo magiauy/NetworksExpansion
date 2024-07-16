@@ -173,8 +173,9 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                     ItemStack clone = itemStack.clone();
                     clone.setAmount(canConsume);
                     root.addItemStack(clone);
-                    itemStack.setAmount(itemStack.getAmount() - canConsume);
-                    free -= canConsume;
+                    int consumed = canConsume - clone.getAmount();
+                    itemStack.setAmount(itemStack.getAmount() - consumed);
+                    free -= consumed;
                     if (free <= 0) {
                         break;
                     }
