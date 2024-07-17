@@ -73,16 +73,17 @@ public class StackUtils {
         }
 
         // Now we need to compare meta's directly - cache is already out, but let's fetch the 2nd meta also
+        // 上面已经比较了是否存在itemMeta, 这里直接比较meta的具体内容
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemMeta cachedMeta = cache.getItemMeta();
 
         // ItemMetas are different types and cannot match
-        if (cachedMeta != null && !itemMeta.getClass().equals(cachedMeta.getClass())) {
+        if (!itemMeta.getClass().equals(cachedMeta.getClass())) {
             return false;
         }
 
-        // Quick meta-extension escapes
-        if (canQuickEscapeMetaVariant(itemMeta, cachedMeta)) {
+        // Check the lore
+        if (checkLore && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
             return false;
         }
 
@@ -102,6 +103,11 @@ public class StackUtils {
             return false;
         }
 
+        // Quick meta-extension escapes
+        if (canQuickEscapeMetaVariant(itemMeta, cachedMeta)) {
+            return false;
+        }
+
         // Make sure enchantments match
         if (!itemMeta.getEnchants().equals(cachedMeta.getEnchants())) {
             return false;
@@ -109,11 +115,6 @@ public class StackUtils {
 
         // Check item flags
         if (!itemMeta.getItemFlags().equals(cachedMeta.getItemFlags())) {
-            return false;
-        }
-
-        // Check the lore
-        if (checkLore && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
             return false;
         }
 
