@@ -21,7 +21,7 @@ public class AncientAltarEncoder extends AbstractEncoder {
         AncientAltarBlueprint.setBlueprint(itemStack, inputs, crafted);
     }
 
-    public boolean isVaildBlueprint(ItemStack blueprint) {
+    public boolean isValidBlueprint(ItemStack blueprint) {
         return SlimefunItem.getByItem(blueprint) instanceof AncientAltarBlueprint;
     }
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {

@@ -21,7 +21,7 @@ public class SmelteryEncoder extends AbstractEncoder {
         SmelteryBlueprint.setBlueprint(itemStack, inputs, crafted);
     }
 
-    public boolean isVaildBlueprint(ItemStack blueprint) {
+    public boolean isValidBlueprint(ItemStack blueprint) {
         return SlimefunItem.getByItem(blueprint) instanceof SmelteryBlueprint;
     }
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {

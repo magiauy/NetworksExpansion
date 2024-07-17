@@ -21,7 +21,7 @@ public class ArmorForgeEncoder extends AbstractEncoder {
         ArmorForgeBlueprint.setBlueprint(itemStack, inputs, crafted);
     }
 
-    public boolean isVaildBlueprint(ItemStack blueprint) {
+    public boolean isValidBlueprint(ItemStack blueprint) {
         return SlimefunItem.getByItem(blueprint) instanceof ArmorForgeBlueprint;
     }
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {

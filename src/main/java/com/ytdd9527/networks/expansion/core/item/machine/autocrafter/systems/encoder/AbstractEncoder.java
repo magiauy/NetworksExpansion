@@ -111,16 +111,9 @@ public abstract class AbstractEncoder extends NetworkObject {
             return;
         }
 
-        final ItemStack outputStack = blockMenu.getItemInSlot(OUTPUT_SLOT);
-
-        if (outputStack != null && outputStack.getType() != Material.AIR) {
-            player.sendMessage(Theme.WARNING + "需要清空输出栏");
-            return;
-        }
-
         ItemStack blueprint = blockMenu.getItemInSlot(BLANK_BLUEPRINT_SLOT);
 
-        if (!isVaildBlueprint(blueprint)) {
+        if (!isValidBlueprint(blueprint)) {
             player.sendMessage(Theme.WARNING + "你需要提供一个正确的空白的蓝图");
             return;
         }
@@ -145,13 +138,13 @@ public abstract class AbstractEncoder extends NetworkObject {
                 break;
             }
         }
-        if (crafted == null || crafted.getType() == Material.AIR) {
+        if (crafted == null || crafted.getType().isAir()) {
             player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
             return;
         }
 
         // 确保crafted不是AIR，避免NullPointerException
-        if (crafted.getType() == Material.AIR) {
+        if (crafted.getType().isAir()) {
             player.sendMessage(Theme.WARNING + "编码的结果是空气，这不是一个有效的配方。");
             return;
         }
@@ -171,11 +164,12 @@ public abstract class AbstractEncoder extends NetworkObject {
             player.sendMessage(Theme.WARNING + "需要清空输出烂");
             return;
         }
+
         root.removeRootPower(CHARGE_COST);
     }
 
     public abstract void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted);
-    public abstract boolean isVaildBlueprint(ItemStack itemStack);
+    public abstract boolean isValidBlueprint(ItemStack itemStack);
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
     public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
 }

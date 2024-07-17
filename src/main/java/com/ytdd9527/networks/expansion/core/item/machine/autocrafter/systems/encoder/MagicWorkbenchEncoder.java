@@ -21,7 +21,7 @@ public class MagicWorkbenchEncoder extends AbstractEncoder {
         MagicWorkbenchBlueprint.setBlueprint(itemStack, inputs, crafted);
     }
 
-    public boolean isVaildBlueprint(ItemStack blueprint) {
+    public boolean isValidBlueprint(ItemStack blueprint) {
         return SlimefunItem.getByItem(blueprint) instanceof MagicWorkbenchBlueprint;
     }
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
