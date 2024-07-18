@@ -31,7 +31,7 @@ public class AutoExpansionWorkbenchCrafter extends AbstractAutoCrafter {
         return SupportedExpansionWorkbenchRecipes.testRecipe(inputs, recipe);
     }
 
-    public boolean isVaildBlueprint(SlimefunItem item) {
+    public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof ExpansionWorkbenchBlueprint;
     }
 }

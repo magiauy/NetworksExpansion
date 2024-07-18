@@ -31,7 +31,7 @@ public class AutoAncientAltarCrafter extends AbstractAutoCrafter {
         return SupportedAncientAltarRecipes.testRecipe(inputs, recipe);
     }
 
-    public boolean isVaildBlueprint(SlimefunItem item) {
+    public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof AncientAltarBlueprint;
     }
 }

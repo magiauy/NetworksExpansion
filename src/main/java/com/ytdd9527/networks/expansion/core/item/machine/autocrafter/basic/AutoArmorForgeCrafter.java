@@ -31,7 +31,7 @@ public class AutoArmorForgeCrafter extends AbstractAutoCrafter {
         return SupportedArmorForgeRecipes.testRecipe(inputs, recipe);
     }
 
-    public boolean isVaildBlueprint(SlimefunItem item) {
+    public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof ArmorForgeBlueprint;
     }
 }
