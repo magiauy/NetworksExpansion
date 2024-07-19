@@ -126,7 +126,7 @@ public class NetworkRoot extends NetworkNode {
                 if (blockMenu == null) {
                     return;
                 }
-                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), NetworkCell.SLOTS)) {
                     cells.add(location);
                 }
             }
