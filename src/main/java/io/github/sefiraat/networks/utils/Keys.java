@@ -20,6 +20,8 @@ public class Keys {
     public static final NamespacedKey BLUEPRINT_INSTANCE3 = customNewKey("networks-changed", "ntw_blueprint");
     public static final NamespacedKey FACE = newKey("face");
     public static final NamespacedKey ITEM = newKey("item");
+    public static final NamespacedKey AMOUNT = newKey("amount");
+    public static final NamespacedKey TRANSFER_MODE = newKey("transfer_mode");
     public static final NamespacedKey networkskey = newKey("networkskey");
 
 

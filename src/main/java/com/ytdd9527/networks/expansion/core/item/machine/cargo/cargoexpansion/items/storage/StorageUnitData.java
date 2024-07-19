@@ -146,7 +146,7 @@ public class StorageUnitData {
     }
 
     public void setItemAmount(int itemId, int amount) {
-        if (amount <= 0) {
+        if (amount < 0) {
             // Directly remove
             removeItem(itemId);
             return;
@@ -162,7 +162,7 @@ public class StorageUnitData {
         ItemContainer container = storedItems.get(itemId);
         if (container != null) {
             container.removeAmount(amount);
-            if (container.getAmount() <= 0) {
+            if (container.getAmount() <= 0 && !CargoStorageUnit.isLocked(getLastLocation())) {
                 removeItem(itemId);
                 return;
             }
@@ -208,9 +208,6 @@ public class StorageUnitData {
         for (ItemContainer itemContainer: getStoredItems()) {
             int containerAmount = itemContainer.getAmount();
             if (StackUtils.itemsMatch(itemContainer.getSample(), item)) {
-                if (CargoStorageUnit.isLocked(getLastLocation())) {
-                    containerAmount--;
-                }
                 int take = Math.min(amount, containerAmount);
                 if (take <= 0) {
                     break;

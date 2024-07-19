@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedDirectional;
 import de.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.utils.Keys;
@@ -38,17 +39,44 @@ public class NetworkConfigurator extends SlimefunItem {
                     if (optional.isPresent()) {
                         final Block block = optional.get();
                         final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
-                        if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)
-                                && slimefunItem instanceof NetworkDirectional directional
-                        ) {
-                            final var blockMenu = StorageCacheUtils.getMenu(block.getLocation());
-                            if (player.isSneaking()) {
-                                setConfigurator(directional, e.getItem(), blockMenu, player);
+
+                        if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
+                            if (slimefunItem instanceof NetworkDirectional directional) {
+                                final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+                                if (blockMenu == null) {
+                                    return;
+                                }
+                                if (player.isSneaking()) {
+                                    if (slimefunItem instanceof AdvancedDirectional advancedDirectional) {
+                                        ItemMeta itemMeta = e.getItem().getItemMeta();
+                                        int amount = advancedDirectional.getCurrentNumber(blockMenu.getLocation());
+                                        DataTypeMethods.setCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER, amount);
+                                        player.sendMessage(Theme.SUCCESS + "已保存传输数量为 " + amount);
+                                        String transportMode = advancedDirectional.getCurrentTransportMode(blockMenu.getLocation());
+                                        DataTypeMethods.setCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING, transportMode);
+                                        player.sendMessage(Theme.SUCCESS + "已保存传输模式为 " + transportMode);
+                                        e.getItem().setItemMeta(itemMeta);
+                                    }
+                                    setConfigurator(directional, e.getItem(), blockMenu, player);
+                                } else {
+                                    if (slimefunItem instanceof AdvancedDirectional advancedDirectional) {
+                                        ItemMeta itemMeta = e.getItem().getItemMeta();
+                                        Integer amount = DataTypeMethods.getCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER);
+                                        if (amount != null) {
+                                            advancedDirectional.setCurrentNumber(blockMenu.getLocation(), amount);
+                                            player.sendMessage(Theme.SUCCESS + "已设置传输数量为 " + amount);
+                                        }
+                                        String transportMode = DataTypeMethods.getCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING);
+                                        if (transportMode != null) {
+                                            advancedDirectional.setTransportMode(blockMenu.getLocation(), transportMode);
+                                            player.sendMessage(Theme.SUCCESS + "已设置传输模式为 " + transportMode);
+                                        }
+                                    }
+                                    NetworkUtils.applyConfig(directional, e.getItem(), blockMenu, player);
+                                }
                             } else {
-                                NetworkUtils.applyConfig(directional, e.getItem(), blockMenu, player);
+                                player.sendMessage(Theme.ERROR + "你必须指向一个带方向选择的网络方块");
                             }
-                        } else {
-                            player.sendMessage(Theme.ERROR + "你必须指向一个带方向选择的网络方块");
                         }
                     }
                     e.cancel();
@@ -57,8 +85,10 @@ public class NetworkConfigurator extends SlimefunItem {
     }
 
     private void setConfigurator(@Nonnull NetworkDirectional directional, @Nonnull ItemStack itemStack, @Nonnull BlockMenu blockMenu, @Nonnull Player player) {
-        final BlockFace blockFace = NetworkDirectional.getSelectedFace(blockMenu.getLocation());
-
+        BlockFace blockFace = NetworkDirectional.getSelectedFace(blockMenu.getLocation());
+        if (blockFace == null) {
+            blockFace = AdvancedDirectional.getSelectedFace(blockMenu.getLocation());
+        }
         if (blockFace == null) {
             player.sendMessage(Theme.ERROR + "该方块没有指定朝向");
             return;

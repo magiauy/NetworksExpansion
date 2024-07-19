@@ -76,17 +76,17 @@ public class CargoStorageUnit extends NetworkObject {
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
 
-    private static final int[] displaySlots = {10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43,46,47,48,49,50,51,52};
-    private static final int storageInfoSlot = 4;
+    private static final int[] DISPLAY_SLOTS = {10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,37,38,39,40,41,42,43,46,47,48,49,50,51,52};
+    private static final int STORAGE_INFO_SLOT = 4;
     private static final NamespacedKey idKey = new NamespacedKey(Networks.getInstance(),"CONTAINER_ID");
     private final StorageUnitType sizeType;
-    private final int[] border = {0,1,2,3,5,6,17,26,35,36,44,45,53};
-    private final int voidModeSlot = 7;
-    private final int lockModeSlot = 8;
-    private static final int quantumSlot = 9;
-    private static final int quickTransferSlot = 18;
-    private static final int itemChooseSlot = 27;
-    private static final ItemStack errorBorder = new CustomItemStack(Material.BARRIER, " ", " ", " ", " ");
+    private final int[] BORDER = {0,1,2,3,5,6,17,26,35,36,44,45,53};
+    private final int VOID_MODE_SLOT = 7;
+    private final int LOCK_MODE_SLOT = 8;
+    private static final int QUANTUM_SLOT = 9;
+    private static final int QUICK_TRANSFER_SLOT = 18;
+    private static final int ITEM_CHOOSE_SLOT = 27;
+    private static final ItemStack ERROR_BORDER = new CustomItemStack(Material.BARRIER, " ", " ", " ", " ");
 
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType) {
         super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
@@ -96,12 +96,12 @@ public class CargoStorageUnit extends NetworkObject {
         new BlockMenuPreset(this.getId(), this.getItemName()) {
             @Override
             public void init() {
-                for (int slot : border) {
+                for (int slot : BORDER) {
                     addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 }
-                addItem(storageInfoSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                addItem(lockModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                addItem(voidModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(STORAGE_INFO_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(LOCK_MODE_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(VOID_MODE_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
 
             @Override
@@ -126,32 +126,32 @@ public class CargoStorageUnit extends NetworkObject {
                 quickTransferModes.put(l, quickTransferMode);
                 if(lock != null) {
                     locked.add(l);
-                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
+                    menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(true));
                 } else {
-                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(false));
+                    menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(false));
                 }
 
                 if(voidExcess != null) {
                     voidExcesses.add(l);
-                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(true));
+                    menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(true));
                 } else {
-                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
+                    menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(false));
                 }
 
-                menu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(quickTransferMode));
+                menu.replaceExistingItem(QUICK_TRANSFER_SLOT, getQuickTransferItem(quickTransferMode));
 
                 // Add lock mode switcher
-                menu.addMenuClickHandler(lockModeSlot, (p, slot, item1, action) -> {
+                menu.addMenuClickHandler(LOCK_MODE_SLOT, (p, slot, item1, action) -> {
                     switchLock(menu, l);
                     return false;
                 });
 
-                menu.addMenuClickHandler(voidModeSlot, (p, slot, item1, action) -> {
+                menu.addMenuClickHandler(VOID_MODE_SLOT, (p, slot, item1, action) -> {
                     switchVoidExcess(menu, l);
                     return false;
                 });
 
-                menu.addMenuClickHandler(quickTransferSlot, (p, slot, item1, action) -> {
+                menu.addMenuClickHandler(QUICK_TRANSFER_SLOT, (p, slot, item1, action) -> {
                     if (action.isRightClicked()) {
                         switchQuickTransferMode(menu, l);
                     } else {
@@ -191,13 +191,13 @@ public class CargoStorageUnit extends NetworkObject {
         new BlockMenuPreset(this.getId(), this.getItemName()) {
             @Override
             public void init() {
-                for (int slot : border) {
+                for (int slot : BORDER) {
                     addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 }
-                addItem(storageInfoSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                addItem(lockModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                addItem(voidModeSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                addItem(quickTransferSlot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(STORAGE_INFO_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(LOCK_MODE_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(VOID_MODE_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(QUICK_TRANSFER_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
 
             @Override
@@ -222,32 +222,32 @@ public class CargoStorageUnit extends NetworkObject {
                 quickTransferModes.put(l, quickTransferMode);
                 if(lock != null) {
                     locked.add(l);
-                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
+                    menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(true));
                 } else {
-                    menu.replaceExistingItem(lockModeSlot, getContentLockItem(false));
+                    menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(false));
                 }
 
                 if(voidExcess != null) {
                     voidExcesses.add(l);
-                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(true));
+                    menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(true));
                 } else {
-                    menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
+                    menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(false));
                 }
 
-                menu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(quickTransferMode));
+                menu.replaceExistingItem(QUICK_TRANSFER_SLOT, getQuickTransferItem(quickTransferMode));
 
                 // Add lock mode switcher
-                menu.addMenuClickHandler(lockModeSlot, (p, slot, item1, action) -> {
+                menu.addMenuClickHandler(LOCK_MODE_SLOT, (p, slot, item1, action) -> {
                     switchLock(menu, l);
                     return false;
                 });
 
-                menu.addMenuClickHandler(voidModeSlot, (p, slot, item1, action) -> {
+                menu.addMenuClickHandler(VOID_MODE_SLOT, (p, slot, item1, action) -> {
                     switchVoidExcess(menu, l);
                     return false;
                 });
 
-                menu.addMenuClickHandler(quickTransferSlot, (p, slot, item1, action) -> {
+                menu.addMenuClickHandler(QUICK_TRANSFER_SLOT, (p, slot, item1, action) -> {
                     if (action.isRightClicked()) {
                         switchQuickTransferMode(menu, l);
                     } else {
@@ -342,16 +342,16 @@ public class CargoStorageUnit extends NetworkObject {
             int maxEach = receipt.getSizeType().getEachMaxSize();
 
             // Update information
-            menu.replaceExistingItem(storageInfoSlot, getStorageInfoItem(receipt.getContainerId(), receipt.getTypeCount(),receipt.getSizeType().getMaxItemCount(),maxEach, isLocked(l), isVoidExcess(l)));
+            menu.replaceExistingItem(STORAGE_INFO_SLOT, getStorageInfoItem(receipt.getContainerId(), receipt.getTypeCount(),receipt.getSizeType().getMaxItemCount(),maxEach, isLocked(l), isVoidExcess(l)));
 
             // Update item display
             List<ItemContainer> itemStored = storages.get(l).getStoredItems();
-            for (int i = 0; i < displaySlots.length; i++) {
+            for (int i = 0; i < DISPLAY_SLOTS.length; i++) {
                 if (i < itemStored.size()) {
                     ItemContainer each = itemStored.get(i);
-                    menu.replaceExistingItem(displaySlots[i], getDisplayItem(each.getSample(), each.getAmount(), maxEach));
+                    menu.replaceExistingItem(DISPLAY_SLOTS[i], getDisplayItem(each.getSample(), each.getAmount(), maxEach));
                 } else {
-                    menu.replaceExistingItem(displaySlots[i], errorBorder);
+                    menu.replaceExistingItem(DISPLAY_SLOTS[i], ERROR_BORDER);
                 }
             }
         }
@@ -449,7 +449,7 @@ public class CargoStorageUnit extends NetworkObject {
                 b.setType(Material.AIR);
                 BlockMenu menu = StorageCacheUtils.getMenu(l);
                 if (menu != null) {
-                    menu.dropItems(l, quantumSlot, itemChooseSlot);
+                    menu.dropItems(l, QUANTUM_SLOT, ITEM_CHOOSE_SLOT);
                 }
 
                 // Drop custom item if data exists
@@ -492,9 +492,11 @@ public class CargoStorageUnit extends NetworkObject {
             requestData(l, getContainerId(l));
             return;
         }
-        for (ItemContainer each : data.getStoredItems()) {
-            if (each.getAmount() == 0) {
-                data.removeItem(each.getId());
+        if (!isLocked(l)) {
+            for (ItemContainer each : data.getStoredItems()) {
+                if (each.getAmount() == 0) {
+                    data.removeItem(each.getId());
+                }
             }
         }
         BlockMenu menu = StorageCacheUtils.getMenu(l);
@@ -504,10 +506,10 @@ public class CargoStorageUnit extends NetworkObject {
         if (!l.equals(data.getLastLocation())) {
             ItemStack itemInBorder = menu.getItemInSlot(0);
             if (data.isPlaced() && itemInBorder != null) {
-                menu.replaceExistingItem(storageInfoSlot, getLocationErrorItem(data.getId(), data.getLastLocation()));
+                menu.replaceExistingItem(STORAGE_INFO_SLOT, getLocationErrorItem(data.getId(), data.getLastLocation()));
 
-                for (int slot : border) {
-                    menu.replaceExistingItem(slot, errorBorder);
+                for (int slot : BORDER) {
+                    menu.replaceExistingItem(slot, ERROR_BORDER);
                 }
                 return;
             }
@@ -588,7 +590,7 @@ public class CargoStorageUnit extends NetworkObject {
 
     private static ItemStack getDisplayItem(ItemStack item, int amount, int max) {
         if (item == null) {
-            return errorBorder;
+            return ERROR_BORDER;
         }
         try {
             return new CustomItemStack(item, (String) null, "", "&b存储数量: &e" + amount + " &7/ &6" + max);
@@ -616,19 +618,19 @@ public class CargoStorageUnit extends NetworkObject {
         }
         StorageUnitData data = storages.get(l);
         // 遍历每一个显示槽
-        for (int s : displaySlots) {
+        for (int s : DISPLAY_SLOTS) {
             // 添加点击事件
             blockMenu.addMenuClickHandler(s, (player, slot, clickItem, action) -> {
                 ItemStack itemOnCursor = player.getItemOnCursor();
                 if (itemOnCursor.getType().isAir()) {
                     // 手上无物品时
-                    if (StackUtils.itemsMatch(clickItem, errorBorder)) {
+                    if (StackUtils.itemsMatch(clickItem, ERROR_BORDER)) {
                         // 点击的是空位
                         // [ 无操作 ]
                     } else {
                         // 点击的是物品
                         List<Integer> a = new ArrayList<>();
-                        for (int i : displaySlots) {
+                        for (int i : DISPLAY_SLOTS) {
                             a.add(i);
                         }
                         int index = a.indexOf(slot);
@@ -705,17 +707,17 @@ public class CargoStorageUnit extends NetworkObject {
             mode = QuickTransferMode.TO_QUANTUM;
         }
         quickTransferModes.put(location, mode);
-        blockMenu.replaceExistingItem(quickTransferSlot, getQuickTransferItem(mode));
+        blockMenu.replaceExistingItem(QUICK_TRANSFER_SLOT, getQuickTransferItem(mode));
         StorageCacheUtils.setData(location, "quickTransferMode", mode.name());
     }
 
     private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
-        ItemStack itemStack = blockMenu.getItemInSlot(quantumSlot);
+        ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
         if (itemStack.getAmount() > 1) {
             player.sendMessage(ChatColor.RED + "量子存储槽只能放入一个物品！");
             return;
         }
-        ItemStack toTransfer = blockMenu.getItemInSlot(itemChooseSlot);
+        ItemStack toTransfer = blockMenu.getItemInSlot(ITEM_CHOOSE_SLOT);
         if (toTransfer == null || toTransfer.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "请在下方放入你要传输的物品");
             return;
@@ -756,11 +758,15 @@ public class CargoStorageUnit extends NetworkObject {
                             return;
                         }
 
-                        quantumCache.setAmount((int)quantumAmount - canAdd);
-                        DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
-                        quantumCache.updateMetaLore(meta);
-                        itemStack.setItemMeta(meta);
-
+                        int left = (int)quantumAmount - canAdd;
+                        if (left > 0) {
+                            quantumCache.setAmount(left);
+                            DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+                            quantumCache.updateMetaLore(meta);
+                            itemStack.setItemMeta(meta);
+                        } else {
+                            blockMenu.replaceExistingItem(QUANTUM_SLOT, slimefunItem.getItem());
+                        }
                         ItemStack clone = quantumCache.getItemStack().clone();
                         clone.setAmount(canAdd);
                         thisStorage.depositItemStack(clone, true);
@@ -769,7 +775,7 @@ public class CargoStorageUnit extends NetworkObject {
                     }
 
                     case TO_QUANTUM -> {
-                        if (each.getAmount() == 1 && locked.contains(location)) {
+                        if (each.getAmount() == 0 && locked.contains(location)) {
                             player.sendMessage(ChatColor.RED + "此容器物品不足，无法转移至量子存储");
                             return;
                         }
@@ -797,9 +803,6 @@ public class CargoStorageUnit extends NetworkObject {
                             }
 
                             int unitAmount = each.getAmount();
-                            if (locked.contains(location)) {
-                                unitAmount -= 1;
-                            }
                             int canAdd = Math.min(unitAmount, quantumLimit);
                             if (canAdd <= 0) {
                                 player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
@@ -821,9 +824,6 @@ public class CargoStorageUnit extends NetworkObject {
                             int quantumLimit = quantumCache.getLimit();
                             int quantumAmount = (int) quantumCache.getAmount();
                             int unitAmount = each.getAmount();
-                            if (locked.contains(location)) {
-                                unitAmount -= 1;
-                            }
                             int canAdd = Math.min(unitAmount, quantumLimit - quantumAmount);
                             if (canAdd <= 0) {
                                 player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
@@ -872,11 +872,11 @@ public class CargoStorageUnit extends NetworkObject {
         if (locked.contains(l)) {
             StorageCacheUtils.removeData(l, "locked");
             locked.remove(l);
-            menu.replaceExistingItem(lockModeSlot, getContentLockItem(false));
+            menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(false));
         } else {
             StorageCacheUtils.setData(l, "locked", "enable");
             locked.add(l);
-            menu.replaceExistingItem(lockModeSlot, getContentLockItem(true));
+            menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(true));
         }
     }
 
@@ -884,11 +884,11 @@ public class CargoStorageUnit extends NetworkObject {
         if (voidExcesses.contains(l)) {
             StorageCacheUtils.removeData(l, "voidExcess");
             voidExcesses.remove(l);
-            menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(false));
+            menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(false));
         } else {
             StorageCacheUtils.setData(l, "voidExcess", "enable");
             voidExcesses.add(l);
-            menu.replaceExistingItem(voidModeSlot, getVoidExcessItem(true));
+            menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(true));
         }
     }
 

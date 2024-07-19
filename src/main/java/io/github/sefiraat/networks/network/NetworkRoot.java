@@ -126,7 +126,7 @@ public class NetworkRoot extends NetworkNode {
                 if (blockMenu == null) {
                     return;
                 }
-                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), NetworkCell.SLOTS.stream().mapToInt(Integer::intValue).toArray())) {
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), NetworkCell.SLOTS)) {
                     cells.add(location);
                 }
             }
@@ -662,9 +662,6 @@ public class NetworkRoot extends NetworkNode {
                         newAmount = currentAmount + itemContainer.getAmount();
                     }
                 }
-                if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
-                    newAmount -= 1;
-                }
                 itemStacks.put(itemContainer.getSample(), newAmount);
             }
         }
@@ -901,9 +898,6 @@ public class NetworkRoot extends NetworkNode {
                     } else {
                         newAmount = currentAmount + itemContainer.getAmount();
                     }
-                }
-                if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
-                    newAmount -= 1;
                 }
                 itemStacks.put(itemContainer.getSample(), newAmount);
             }
@@ -1613,9 +1607,6 @@ public class NetworkRoot extends NetworkNode {
                 }
 
                 int amount = itemContainer.getAmount();
-                if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
-                    amount -= 1;
-                }
                 found += amount;
 
 
@@ -1722,9 +1713,6 @@ public class NetworkRoot extends NetworkNode {
             for (ItemContainer itemContainer : storedItems) {
                 if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack)) {
                     totalAmount += itemContainer.getAmount();
-                    if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
-                        totalAmount -= 1;
-                    }
                 }
             }
         }
@@ -1791,9 +1779,6 @@ public class NetworkRoot extends NetworkNode {
                 for (ItemStack itemStack : itemStacks) {
                     if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack)) {
                         long totalAmount = itemContainer.getAmount();
-                        if (CargoStorageUnit.isLocked(cacheMap.get(cache))) {
-                            totalAmount -= 1;
-                        }
                         totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + totalAmount);
                     }
                 }
