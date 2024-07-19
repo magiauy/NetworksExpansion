@@ -234,12 +234,14 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                 brewer.setFuel(stack.clone());
                 stack.setAmount(0);
             } else if (brewer.getIngredient() == null || brewer.getIngredient().getType().isAir()) {
-                final ItemStack stack = root.getItemStack(new ItemRequest(template.clone(), template.getMaxStackSize()));
-                if (stack == null) {
-                    return;
+                if (brewer.getIngredient() == null || brewer.getIngredient().getType().isAir()) {
+                    final ItemStack stack = root.getItemStack(new ItemRequest(template.clone(), template.getMaxStackSize()));
+                    if (stack == null) {
+                        return;
+                    }
+                    brewer.setIngredient(stack.clone());
+                    stack.setAmount(0);
                 }
-                brewer.setIngredient(stack.clone());
-                stack.setAmount(0);
             }
         } else if (template.getType() == Material.POTION) {
             for (int i = 0; i < 3; i++) {
