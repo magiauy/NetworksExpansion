@@ -45,18 +45,18 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> wipers = ConcurrentHashMap.newKeySet();
     private final Set<Location> grabbers = ConcurrentHashMap.newKeySet();
     private final Set<Location> pushers = ConcurrentHashMap.newKeySet();
-    private final Set<Location> purgers = ConcurrentHashMap.newKeySet();
-    private final Set<Location> crafters = ConcurrentHashMap.newKeySet();
-    private final Set<Location> powerNodes = ConcurrentHashMap.newKeySet();
-    private final Set<Location> powerDisplays = ConcurrentHashMap.newKeySet();
-    private final Set<Location> encoders = ConcurrentHashMap.newKeySet();
-    private final Set<Location> greedyBlocks = ConcurrentHashMap.newKeySet();
     private final Set<Location> cutters = ConcurrentHashMap.newKeySet();
     private final Set<Location> pasters = ConcurrentHashMap.newKeySet();
     private final Set<Location> vacuums = ConcurrentHashMap.newKeySet();
+    private final Set<Location> purgers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> crafters = ConcurrentHashMap.newKeySet();
+    private final Set<Location> powerNodes = ConcurrentHashMap.newKeySet();
+    private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
+    private final Set<Location> powerDisplays = ConcurrentHashMap.newKeySet();
+    private final Set<Location> encoders = ConcurrentHashMap.newKeySet();
+    private final Set<Location> greedyBlocks = ConcurrentHashMap.newKeySet();
     private final Set<Location> wirelessTransmitters = ConcurrentHashMap.newKeySet();
     private final Set<Location> wirelessReceivers = ConcurrentHashMap.newKeySet();
-    private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
 
     private Set<BarrelIdentity> barrels = null;
 
@@ -87,18 +87,18 @@ public class NetworkRoot extends NetworkNode {
             case WIPER -> wipers.add(location);
             case GRABBER -> grabbers.add(location);
             case PUSHER -> pushers.add(location);
-            case PURGER -> purgers.add(location);
-            case CRAFTER -> crafters.add(location);
-            case POWER_NODE -> powerNodes.add(location);
-            case POWER_DISPLAY -> powerDisplays.add(location);
-            case ENCODER -> encoders.add(location);
-            case GREEDY_BLOCK -> greedyBlocks.add(location);
             case CUTTER -> cutters.add(location);
             case PASTER -> pasters.add(location);
             case VACUUM -> vacuums.add(location);
+            case PURGER -> purgers.add(location);
+            case CRAFTER -> crafters.add(location);
+            case POWER_NODE -> powerNodes.add(location);
+            case POWER_OUTLET -> powerOutlets.add(location);
+            case POWER_DISPLAY -> powerDisplays.add(location);
+            case ENCODER -> encoders.add(location);
+            case GREEDY_BLOCK -> greedyBlocks.add(location);
             case WIRELESS_TRANSMITTER -> wirelessTransmitters.add(location);
             case WIRELESS_RECEIVER -> wirelessReceivers.add(location);
-            case POWER_OUTLET -> powerOutlets.add(location);
         }
     }
 
@@ -168,26 +168,6 @@ public class NetworkRoot extends NetworkNode {
         return this.pushers;
     }
 
-    public Set<Location> getPurgers() {
-        return this.purgers;
-    }
-
-    public Set<Location> getCrafters() {
-        return this.crafters;
-    }
-
-    public Set<Location> getPowerNodes() {
-        return this.powerNodes;
-    }
-
-    public Set<Location> getPowerDisplays() {
-        return this.powerDisplays;
-    }
-
-    public Set<Location> getEncoders() {
-        return this.encoders;
-    }
-
     public Set<Location> getCutters() {
         return this.cutters;
     }
@@ -200,16 +180,40 @@ public class NetworkRoot extends NetworkNode {
         return this.vacuums;
     }
 
+    public Set<Location> getPurgers() {
+        return this.purgers;
+    }
+
+    public Set<Location> getCrafters() {
+        return this.crafters;
+    }
+
+    public Set<Location> getPowerNodes() {
+        return this.powerNodes;
+    }
+
+    public Set<Location> getPowerOutlets() {
+        return this.powerOutlets;
+    }
+
+    public Set<Location> getPowerDisplays() {
+        return this.powerDisplays;
+    }
+
+    public Set<Location> getEncoders() {
+        return this.encoders;
+    }
+
+    public Set<Location> getGreedyBlockLocations() {
+        return this.greedyBlocks;
+    }
+
     public Set<Location> getWirelessTransmitters() {
         return this.wirelessTransmitters;
     }
 
     public Set<Location> getWirelessReceivers() {
         return this.wirelessReceivers;
-    }
-
-    public Set<Location> getPowerOutlets() {
-        return this.powerOutlets;
     }
 
     @Nonnull
