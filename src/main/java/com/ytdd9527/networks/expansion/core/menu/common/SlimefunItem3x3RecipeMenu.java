@@ -27,7 +27,7 @@ import java.util.List;
  * @author Final_ROOT
  * @since 2.0
  */
-public class SlimefunItemSmallRecipeMenu extends ChestMenu {
+public class SlimefunItem3x3RecipeMenu extends ChestMenu {
     private final int BACK_SLOT = 1;
     private final int RECIPE_TYPE = 10;
     private final int RECIPE_RESULT = 16;
@@ -45,11 +45,11 @@ public class SlimefunItemSmallRecipeMenu extends ChestMenu {
     private final SlimefunItem slimefunItem;
     private final ItemGroup itemGroup;
 
-    public SlimefunItemSmallRecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup) {
+    public SlimefunItem3x3RecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup) {
         this(player, playerProfile, slimefunGuideMode, slimefunItem, itemGroup, 0);
     }
 
-    public SlimefunItemSmallRecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup, int page) {
+    public SlimefunItem3x3RecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup, int page) {
         super(slimefunItem.getItemName());
         this.player = player;
         this.playerProfile = playerProfile;
@@ -124,7 +124,7 @@ public class SlimefunItemSmallRecipeMenu extends ChestMenu {
 
             this.addItem(PREVIOUS_SLOT, ChestMenuUtils.getPreviousButton(this.player, page, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1));
             this.addMenuClickHandler(PREVIOUS_SLOT, (p, slot, item, action) -> {
-                SlimefunItemSmallRecipeMenu instance = this;
+                SlimefunItem3x3RecipeMenu instance = this;
                 RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(instance.player, instance.playerProfile, instance.slimefunGuideMode, instance.slimefunItem.getItem(), Math.max(page - 1, 1));
                 if (recipeItemGroup != null) {
                     GuideUtil.removeLastEntry(instance.playerProfile.getGuideHistory());
@@ -135,7 +135,7 @@ public class SlimefunItemSmallRecipeMenu extends ChestMenu {
 
             this.addItem(NEXT_SLOT, ChestMenuUtils.getNextButton(this.player, page, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1));
             this.addMenuClickHandler(NEXT_SLOT, (p, slot, item, action) -> {
-                SlimefunItemSmallRecipeMenu instance = this;
+                SlimefunItem3x3RecipeMenu instance = this;
                 RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(instance.player, instance.playerProfile, instance.slimefunGuideMode, instance.slimefunItem.getItem(), Math.min(page + 1, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1));
                 if (recipeItemGroup != null) {
                     GuideUtil.removeLastEntry(instance.playerProfile.getGuideHistory());

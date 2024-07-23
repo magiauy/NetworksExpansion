@@ -1,61 +1,41 @@
-package com.ytdd9527.networks.expansion.core.item.machine.grid;
+package com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid;
 
 import com.ytdd9527.networks.expansion.setup.ExpansionItems;
-import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.network.NetworkRoot;
-import io.github.sefiraat.networks.network.NodeDefinition;
-import io.github.sefiraat.networks.network.SupportedRecipes;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
-import io.github.sefiraat.networks.utils.StackUtils;
-import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.Material;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
+public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
     private static final int[] BACKGROUND_SLOTS = {
-        5, 14, 23, 40, 41, 42, 43, 44, 45, 48
+        40, 41, 42, 43, 44, 45, 48
     };
 
     private static final int[] DISPLAY_SLOTS = {
-        0, 1, 2, 3, 4,
-        9, 10, 11, 12, 13,
-        18, 19, 20, 21, 22,
-        27, 28, 29, 30, 31
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        27, 28, 29, 30, 31, 32, 33, 34, 35
     };
 
     private static final int[] INPUT_SLOTS = {
         49, 50, 51, 52, 53
     };
-
-    private static final int[] RECIPE_SLOTS = {
-        6, 7, 8,
-        15, 16, 17,
-        24, 25, 26
-    };
-
-    private static final int BLUEPRINT_BACK = 32;
 
     private static final int CHANGE_SORT = 36;
     private static final int CLICK_SEARCH_SLOT = 45;
@@ -66,32 +46,14 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
     private static final int TOGGLE_MODE_SLOT = 39;
     private static final int ORANGE_BACKGROUND = 48;
 
-    private static final int BLANK_BLUEPRINT_SLOT = 33;
-    private static final int CHARGE_COST = 2000;
-    private static final int ENCODE_SLOT = 34;
-    private static final int OUTPUT_SLOT = 35;
-
-    public static final CustomItemStack BLUEPRINT_BACK_STACK = new CustomItemStack(
-        Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "空白蓝图 →"
-    );
-
-    public static final CustomItemStack ENCODE_STACK = new CustomItemStack(
-        Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "点击此处进行编码"
-    );
-
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
-    public NetworkEncodingGridNewStyle(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkGridNewStyle(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         for(int slot: getInputSlots()){
             this.getSlotsToDrop().add(slot);
         }
-        this.getSlotsToDrop().add(getAutoFilterSlot());
-        for(int slot: getRecipeSlots()){
-            this.getSlotsToDrop().add(slot);
-        }
-        this.getSlotsToDrop().add(getOutputSlot());
-        this.getSlotsToDrop().add(getBlankBlueprintSlot());
+        this.getSlotsToDrop().add(AUTO_FILTER_SLOT);
     }
 
     @Override
@@ -99,18 +61,15 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
     protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
-            @SuppressWarnings("deprecation")
             @Override
             public void init() {
                 drawBackground(getBackgroundSlots());
                 setSize(54);
-                addItem(ENCODE_SLOT, ENCODE_STACK, (player, i, itemStack, clickAction) -> false);
-                addItem(BLUEPRINT_BACK, BLUEPRINT_BACK_STACK, (player, i, itemStack, clickAction) -> false);
             }
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return ExpansionItems.NETWORK_ENCODING_GRID_NEW_STYLE.canUse(player, false)
+                return ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
                     && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
             }
 
@@ -168,11 +127,6 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addMenuClickHandler(ENCODE_SLOT, (player, i, itemStack, clickAction) -> {
-                    tryEncode(player, menu);
-                    return false;
-                });
-
                 menu.replaceExistingItem(getClickSearchSlot(), getClickSearchStack());
                 menu.addMenuClickHandler(getClickSearchSlot(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
@@ -187,6 +141,7 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
                     return false;
                 });
 
+                
             }
         };
     }
@@ -206,10 +161,6 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
 
     public int[] getInputSlots() {
         return INPUT_SLOTS;
-    }
-
-    public int[] getRecipeSlots() {
-        return RECIPE_SLOTS;
     }
 
     public int getChangeSort() {
@@ -235,14 +186,6 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
         return AUTO_FILTER_SLOT;
     }
 
-    public int getOutputSlot() {
-        return OUTPUT_SLOT;
-    }
-
-    public int getBlankBlueprintSlot() {
-        return BLANK_BLUEPRINT_SLOT;
-    }
-
     public int getToggleModeSlot() {
         return TOGGLE_MODE_SLOT;
     }
@@ -250,81 +193,5 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
     @Override
     protected int getFilterSlot() {
         return FILTER;
-    }
-
-    @SuppressWarnings("deprecation")
-    public void tryEncode(@Nonnull Player player, @Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-
-        if (definition == null || definition.getNode() == null) {
-            return;
-        }
-
-        final NetworkRoot root = definition.getNode().getRoot();
-        final long networkCharge = root.getRootPower();
-
-        if (networkCharge < CHARGE_COST) {
-            player.sendMessage(Theme.WARNING + "网络中的电力不足，无法完成该任务");
-            return;
-        }
-
-        ItemStack blueprint = blockMenu.getItemInSlot(BLANK_BLUEPRINT_SLOT);
-
-        if (!(SlimefunItem.getByItem(blueprint) instanceof CraftingBlueprint)) {
-            player.sendMessage(Theme.WARNING + "你需要提供一个空的合成蓝图");
-            return;
-        }
-
-        // Get the recipe input
-        final ItemStack[] inputs = new ItemStack[RECIPE_SLOTS.length];
-        int i = 0;
-        for (int recipeSlot : RECIPE_SLOTS) {
-            ItemStack stackInSlot = blockMenu.getItemInSlot(recipeSlot);
-            if (stackInSlot != null) {
-                inputs[i] = new ItemStack(stackInSlot);
-                inputs[i].setAmount(1);
-            }
-            i++;
-        }
-
-        ItemStack crafted = null;
-
-        // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedRecipes.getRecipes().entrySet()) {
-            if (SupportedRecipes.testRecipe(inputs, entry.getKey())) {
-                crafted = new ItemStack(entry.getValue().clone());
-                break;
-            }
-        }
-
-        // If no slimefun recipe found, try a vanilla one
-        if (crafted == null) {
-            crafted = Bukkit.craftItem(inputs.clone(), player.getWorld(), player);
-        }
-
-        // If no item crafted OR result doesn't fit, escape
-        if (crafted.getType() == Material.AIR) {
-            player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
-            return;
-        }
-
-        final ItemStack blueprintClone = StackUtils.getAsQuantity(blueprint, 1);
-
-        CraftingBlueprint.setBlueprint(blueprintClone, inputs, crafted);
-
-        if (blockMenu.fits(blueprintClone, OUTPUT_SLOT)) {
-            blueprint.setAmount(blueprint.getAmount() - 1);
-            for (int recipeSlot : RECIPE_SLOTS) {
-                ItemStack slotItem = blockMenu.getItemInSlot(recipeSlot);
-                if (slotItem != null) {
-                    slotItem.setAmount(slotItem.getAmount() - 1);
-                }
-            }
-            blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
-        } else {
-            player.sendMessage(Theme.WARNING + "需要清空输出烂");
-        }
-
-        root.removeRootPower(CHARGE_COST);
     }
 }

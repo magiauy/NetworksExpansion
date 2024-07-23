@@ -1,11 +1,10 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkCraftingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkEncodingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkCraftingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkEncodingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkGridNewStyle;
 import de.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkCraftingGrid;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;

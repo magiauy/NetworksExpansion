@@ -2,6 +2,7 @@ package com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.core.enums.TransportMode;
 import com.ytdd9527.networks.libs.plugin.util.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -89,10 +90,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             TextUtil.colorRandomString("运输模式"),
             TextUtil.colorRandomString("当前模式：") + TextUtil.colorRandomString("无")
     );
-
-    public static final String TRANSPORT_MODE_NONE = "NONE";
-    public static final String TRANSPORT_MODE_NULL_ONLY = "NULL_ONLY";
-    public static final String TRANSPORT_MODE_NONNULL_ONLY = "NONNULL_ONLY";
+    public TransportMode transportMode = TransportMode.FIRST_STOP;
 
     private final ItemStack showIconClone;
     private final ItemStack transportModeIconClone;
@@ -101,7 +99,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
     private static final Map<Location, Integer> NETWORK_NUMBER_MAP = new HashMap<>();
-    private static final Map<Location, String> NETWORK_TRANSPORT_MODE_MAP = new HashMap<>();
+    private static final Map<Location, TransportMode> NETWORK_TRANSPORT_MODE_MAP = new HashMap<>();
 
     protected AdvancedDirectional(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
@@ -191,7 +189,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
         blockData.setData(DIRECTION, BlockFace.SELF.name());
         blockData.setData(LIMIT_KEY, String.valueOf(getMaxLimit()));
-        blockData.setData(TRANSPORT_MODE_KEY, TRANSPORT_MODE_NONE);
+        blockData.setData(TRANSPORT_MODE_KEY, String.valueOf(TransportMode.FIRST_STOP));
         NetworkUtils.applyConfig(instance, blockData.getBlockMenu(), event.getPlayer());
     }
 
@@ -223,7 +221,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
             @Override
             public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block b) {
-                String mode;
                 final BlockFace direction;
                 final Location location = blockMenu.getLocation();
                 final String string = StorageCacheUtils.getData(location, DIRECTION);
@@ -247,11 +244,12 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                 }
                 NETWORK_NUMBER_MAP.put(location.clone(), limit);
 
+                TransportMode mode;
                 if (rawMode == null) {
-                    mode = TRANSPORT_MODE_NONE;
-                    StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, mode);
+                    mode = TransportMode.FIRST_STOP;
+                    StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, String.valueOf(mode));
                 } else {
-                    mode = rawMode;
+                    mode = TransportMode.valueOf(rawMode);
                 }
                 NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
 
@@ -492,36 +490,23 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         StorageCacheUtils.setData(location, LIMIT_KEY, Integer.toString(number));
     }
 
-    public String getCurrentTransportMode(Location location) {
-        String mode = NETWORK_TRANSPORT_MODE_MAP.get(location.clone());
+    public TransportMode getCurrentTransportMode(Location location) {
+        TransportMode mode = NETWORK_TRANSPORT_MODE_MAP.get(location.clone());
         if (mode == null) {
-            mode = StorageCacheUtils.getData(location, TRANSPORT_MODE_KEY);
+            mode = TransportMode.valueOf(StorageCacheUtils.getData(location, TRANSPORT_MODE_KEY));
             NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
         }
         return mode;
     }
 
-    public void setTransportMode(Location location, String mode) {
+    public void setTransportMode(Location location, TransportMode mode) {
         NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
-        StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, mode);
+        StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, String.valueOf(mode));
     }
 
     public boolean toggleTransportMode(Location location) {
-        String mode = getCurrentTransportMode(location);
-        switch (mode) {
-            case TRANSPORT_MODE_NONE -> {
-                setTransportMode(location, TRANSPORT_MODE_NULL_ONLY);
-            }
-            case TRANSPORT_MODE_NULL_ONLY -> {
-                setTransportMode(location, TRANSPORT_MODE_NONNULL_ONLY);
-            }
-            case TRANSPORT_MODE_NONNULL_ONLY -> {
-                setTransportMode(location, TRANSPORT_MODE_NONE);
-            }
-            default -> {
-                setTransportMode(location, TRANSPORT_MODE_NONE);
-            }
-        }
+        TransportMode mode = getCurrentTransportMode(location);
+        setTransportMode(location, mode.next());
         updateTransportModeIcon(location);
         return false;
     }
@@ -564,7 +549,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateTransportModeIcon(Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, Theme.NOTICE + "当前模式: " + Theme.MECHANISM + toText(getCurrentTransportMode(location)));
+        lore.set(0, Theme.NOTICE + "当前模式: " + Theme.MECHANISM + getCurrentTransportMode(location).getName());
         itemMeta.setLore(lore);
         this.transportModeIconClone.setItemMeta(itemMeta);
 
@@ -573,22 +558,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             int slot = getTransportModeSlot();
             if (slot != -1) {
                 blockMenu.replaceExistingItem(slot, this.transportModeIconClone);
-            }
-        }
-    }
-    public String toText(String mode) {
-        switch (mode) {
-            case TRANSPORT_MODE_NONE -> {
-                return TextUtil.colorRandomString("无");
-            }
-            case TRANSPORT_MODE_NULL_ONLY -> {
-                return TextUtil.colorRandomString("仅空");
-            }
-            case TRANSPORT_MODE_NONNULL_ONLY -> {
-                return TextUtil.colorRandomString("仅非空");
-            }
-            default -> {
-                return TextUtil.colorRandomString("未知");
             }
         }
     }

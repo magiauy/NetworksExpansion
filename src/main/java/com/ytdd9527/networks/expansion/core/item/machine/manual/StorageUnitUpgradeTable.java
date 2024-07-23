@@ -1,19 +1,18 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage;
+package com.ytdd9527.networks.expansion.core.item.machine.manual;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
-import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
-import dev.sefiraat.sefilib.entity.display.DisplayGroup;
+import com.ytdd9527.networks.expansion.core.item.AbstractMySlimefunItem;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.util.databases.DataStorage;
+import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
+import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
+import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.network.NetworkObject;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -23,29 +22,24 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 
-public class StorageUnitUpgradeTableModel extends NetworkObject {
+public class StorageUnitUpgradeTable extends AbstractMySlimefunItem {
+    public final static RecipeType TYPE = new RecipeType(
+            Keys.STORAGE_UNIT_UPGRADE_TABLE,
+            ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE,
+            StorageUnitUpgradeTable::addRecipe
+    );
 
-    private static Map<ItemStack[], ItemStack> recipes = new HashMap<>();
-    private static final String KEY_UUID = "display-uuid";
-    private boolean useSpecialModel;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
-
+    private static final Map<ItemStack[], ItemStack> recipes = new HashMap<>();
     private final int[] border = {0,8,9,17,18,26};
     private final int[] innerBorder = {1,5,6,7,10,14,16,19,23,24,25};
     private final int[] inputSlots = {2,3,4,11,12,13,20,21,22};
@@ -53,9 +47,9 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
     private final int actionBtnSlot = 17;
     private final ItemStack actionBtn = new CustomItemStack(Material.REDSTONE_TORCH, "&6点击升级", "");
 
-    public StorageUnitUpgradeTableModel(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
+    public StorageUnitUpgradeTable(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(this.getId(), this.getItemName()) {
 
@@ -84,10 +78,10 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
 
             @Override
             public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
-                menu.addMenuClickHandler(actionBtnSlot, ((p, slot, item, action) -> {
+                menu.addMenuClickHandler(actionBtnSlot, (p, slot, item, action) -> {
                     craft(menu);
                     return false;
-                }));
+                });
                 menu.replaceExistingItem(actionBtnSlot, actionBtn);
             }
 
@@ -101,32 +95,8 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
                 return new int[0];
             }
         };
-        loadConfigurations(itemId);
     }
 
-    private void loadConfigurations(String itemId) {
-        FileConfiguration config = Networks.getInstance().getConfig();
-
-
-        boolean defaultUseSpecialModel = false;
-        this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
-
-
-        Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
-        generatorMap.put("StorageUnitUpgradeTable", DisplayGroupGenerators::generateStorageUnitUpgradeTable);
-
-        this.displayGroupGenerator = null;
-
-        if (this.useSpecialModel) {
-            String generatorKey = config.getString("items." + itemId + ".use-special-model.type");
-            this.displayGroupGenerator = generatorMap.get(generatorKey);
-            if (this.displayGroupGenerator == null) {
-                Networks.getInstance().getLogger().warning("未知的展示组类型 '" + generatorKey + "', 特殊模型已禁用。");
-                this.useSpecialModel = false;
-            }
-        }
-
-    }
     public static void addRecipe(ItemStack[] recipe, ItemStack out) {
         recipes.put(recipe, out);
     }
@@ -180,10 +150,11 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
                 SlimefunItem sfItem = SlimefunItem.getByItem(menu.getItemInSlot(inputSlots[i]));
                 if (sfItem != null && SlimefunUtils.isItemSimilar(recipe[i], sfItem.getItem(), true, false)) {
                     continue;
+                } else if (!StackUtils.itemsMatch(recipe[i], menu.getItemInSlot(inputSlots[i]))) {
+                    return false;
                 }
-                return false;
             }
-            if (!SlimefunUtils.isItemSimilar(recipe[i], menu.getItemInSlot(inputSlots[i]), true, false)) {
+            if (!StackUtils.itemsMatch(recipe[i], menu.getItemInSlot(inputSlots[i]))) {
                 return false;
             }
         }
@@ -195,56 +166,5 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
         if (next != null) {
             d.setSizeType(next);
         }
-    }
-
-    @Override
-    public void preRegister() {
-        if (useSpecialModel) {
-            addItemHandler(new BlockPlaceHandler(false) {
-                @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
-                    e.getBlock().setType(Material.BARRIER);
-                    setupDisplay(e.getBlock().getLocation());
-                }
-            });
-        }
-
-        // 添加破坏处理器，不管 useSpecialModel 的值如何，破坏时的逻辑都应该执行
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                Location location = e.getBlock().getLocation();
-                removeDisplay(location);
-                e.getBlock().setType(Material.AIR);
-            }
-        });
-    }
-    private void setupDisplay(@Nonnull Location location) {
-        if (this.displayGroupGenerator != null) {
-            DisplayGroup displayGroup = this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
-            StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
-        }
-    }
-    private void removeDisplay(@Nonnull Location location) {
-        DisplayGroup group = getDisplayGroup(location);
-        if (group != null) {
-            group.remove();
-        }
-    }
-    @Nullable
-    private UUID getDisplayGroupUUID(@Nonnull Location location) {
-        String uuid = StorageCacheUtils.getData(location, KEY_UUID);
-        if (uuid == null) {
-            return null;
-        }
-        return UUID.fromString(uuid);
-    }
-    @Nullable
-    private DisplayGroup getDisplayGroup(@Nonnull Location location) {
-        UUID uuid = getDisplayGroupUUID(location);
-        if (uuid == null) {
-            return null;
-        }
-        return DisplayGroup.fromUUID(uuid);
     }
 }

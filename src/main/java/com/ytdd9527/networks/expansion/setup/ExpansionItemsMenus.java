@@ -24,16 +24,16 @@ public final class ExpansionItemsMenus {
     // TODO head texture
 
     /* Slimefun item group */
-    public static final NestedItemGroup MAIN_MENU = new NestedItemGroup(new NamespacedKey(Networks.getInstance(), "NET_EXPANSION_CATEGORY_MAIN"), new CustomItemStack(Material.LECTERN)) {
+    public static final NestedItemGroup MAIN_MENU = new NestedItemGroup(getKey("NET_EXPANSION_CATEGORY_MAIN"), new CustomItemStack(Material.LECTERN)) {
         @Override
         public boolean isVisible(@Nonnull Player p, @Nonnull PlayerProfile profile, @Nonnull SlimefunGuideMode mode) {
             return false;
         }
     };
 
-    public static final SubItemGroup MENU_ITEMS = new SubItemGroup(new NamespacedKey(Networks.getInstance(), "NET_EXPANSION_ITEMS"), MAIN_MENU , new CustomItemStack(Material.AMETHYST_SHARD,TextUtil.colorRandomString( ("网络拓展 - 物品"))));
-    public static final SubItemGroup MENU_CARGO_SYSTEM = new SubItemGroup(new NamespacedKey(Networks.getInstance(), "NET_EXPANSION_SYSTEM"), MAIN_MENU, new CustomItemStack(Material.FURNACE_MINECART, TextUtil.colorRandomString( ("网络拓展 - 货运与存储"))));
-    public static final SubItemGroup MENU_FUNCTIONAL_MACHINE = new SubItemGroup(new NamespacedKey(Networks.getInstance(), "NET_EXPANSION_FUNCTIONAL_MACHINE"), MAIN_MENU, new CustomItemStack(Material.LECTERN,TextUtil.colorRandomString( ("网络拓展 - 功能机器"))));
+    public static final SubItemGroup MENU_ITEMS = new SubItemGroup(getKey("NET_EXPANSION_ITEMS"), MAIN_MENU , new CustomItemStack(Material.AMETHYST_SHARD,TextUtil.colorRandomString( ("网络拓展 - 物品"))));
+    public static final SubItemGroup MENU_CARGO_SYSTEM = new SubItemGroup(getKey("NET_EXPANSION_SYSTEM"), MAIN_MENU, new CustomItemStack(Material.FURNACE_MINECART, TextUtil.colorRandomString( ("网络拓展 - 货运与存储"))));
+    public static final SubItemGroup MENU_FUNCTIONAL_MACHINE = new SubItemGroup(getKey("NET_EXPANSION_FUNCTIONAL_MACHINE"), MAIN_MENU, new CustomItemStack(Material.LECTERN,TextUtil.colorRandomString( ("网络拓展 - 功能机器"))));
 
     /* My item group */
     public static final MainItemGroup MAIN_ITEM_GROUP = ConfigUtil.getMainItemGroup("NET_EXPANSION_ITEM_GROUP", Material.CHEST_MINECART,  TextUtil.colorRandomString("Networks - Expansion"));
@@ -57,4 +57,7 @@ public final class ExpansionItemsMenus {
     public static final SubFlexItemGroup SUB_MENU_ENCODER = ConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_ENCODER", Material.TARGET, TextUtil.colorRandomString("功能机器 - 编码器"));
     public static final SubFlexItemGroup SUB_MENU_CRAFTER_MACHINE = ConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_CRAFTER_MACHINE", Material.CRAFTING_TABLE, TextUtil.colorRandomString("功能机器 - 自动合成机器"));
 
+    private static NamespacedKey getKey(String key) {
+        return new NamespacedKey(Networks.getInstance(), key);
+    }
 }

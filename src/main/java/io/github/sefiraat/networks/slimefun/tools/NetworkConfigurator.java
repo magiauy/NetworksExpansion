@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.core.enums.TransportMode;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedDirectional;
 import de.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
@@ -52,8 +53,8 @@ public class NetworkConfigurator extends SlimefunItem {
                                         int amount = advancedDirectional.getCurrentNumber(blockMenu.getLocation());
                                         DataTypeMethods.setCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER, amount);
                                         player.sendMessage(Theme.SUCCESS + "已保存传输数量为 " + amount);
-                                        String transportMode = advancedDirectional.getCurrentTransportMode(blockMenu.getLocation());
-                                        DataTypeMethods.setCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING, transportMode);
+                                        TransportMode transportMode = advancedDirectional.getCurrentTransportMode(blockMenu.getLocation());
+                                        DataTypeMethods.setCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING, String.valueOf(transportMode));
                                         player.sendMessage(Theme.SUCCESS + "已保存传输模式为 " + transportMode);
                                         e.getItem().setItemMeta(itemMeta);
                                     }
@@ -68,7 +69,7 @@ public class NetworkConfigurator extends SlimefunItem {
                                         }
                                         String transportMode = DataTypeMethods.getCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING);
                                         if (transportMode != null) {
-                                            advancedDirectional.setTransportMode(blockMenu.getLocation(), transportMode);
+                                            advancedDirectional.setTransportMode(blockMenu.getLocation(), TransportMode.valueOf(transportMode));
                                             player.sendMessage(Theme.SUCCESS + "已设置传输模式为 " + transportMode);
                                         }
                                     }

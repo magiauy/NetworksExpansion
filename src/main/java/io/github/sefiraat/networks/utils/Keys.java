@@ -22,6 +22,8 @@ public class Keys {
     public static final NamespacedKey ITEM = newKey("item");
     public static final NamespacedKey AMOUNT = newKey("amount");
     public static final NamespacedKey TRANSFER_MODE = newKey("transfer_mode");
+    public static final NamespacedKey STORAGE_UNIT_UPGRADE_TABLE = newKey("storage_upgrade_table");
+    public static final NamespacedKey STORAGE_UNIT_UPGRADE_TABLE_MODEL = newKey("storage_upgrade_table_model");
     public static final NamespacedKey networkskey = newKey("networkskey");
 
 

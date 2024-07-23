@@ -29,7 +29,7 @@ import java.util.List;
  * @author Final_ROOT
  * @since 2.0
  */
-public class SlimefunItemBigRecipeMenu extends ChestMenu {
+public class SlimefunItem6x6RecipeMenu extends ChestMenu {
     private final int BACK_SLOT = 1;
     private final int RECIPE_TYPE = 10;
     private final int RECIPE_RESULT = 37;
@@ -51,11 +51,11 @@ public class SlimefunItemBigRecipeMenu extends ChestMenu {
     private final SlimefunItem slimefunItem;
     private final ItemGroup itemGroup;
 
-    public SlimefunItemBigRecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup) {
+    public SlimefunItem6x6RecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup) {
         this(player, playerProfile, slimefunGuideMode, slimefunItem, itemGroup, 1);
     }
 
-    public SlimefunItemBigRecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup, int page) {
+    public SlimefunItem6x6RecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup, int page) {
         super(slimefunItem.getItemName());
         this.player = player;
         this.playerProfile = playerProfile;

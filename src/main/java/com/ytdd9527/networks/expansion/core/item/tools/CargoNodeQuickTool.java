@@ -1,4 +1,4 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items;
+package com.ytdd9527.networks.expansion.core.item.tools;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -6,6 +6,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.core.item.AbstractMySlimefunItem;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -186,8 +187,8 @@ public class CargoNodeQuickTool extends AbstractMySlimefunItem {
     }
 
     private ItemStack isInclude(ItemStack item, Map<ItemStack,Boolean> checkList){
-        for(ItemStack each : checkList.keySet()){
-            if(item!=null && SlimefunUtils.isItemSimilar(each,item,true,false) && item.getAmount() >= each.getAmount()){
+        for(ItemStack each : checkList.keySet()) {
+            if(item != null && StackUtils.itemsMatch(each, item, true, false) && item.getAmount() >= each.getAmount()) {
                 checkList.put(each,true);
                 return each;
             }
@@ -202,12 +203,12 @@ public class CargoNodeQuickTool extends AbstractMySlimefunItem {
         return true;
     }
 
-    private boolean isTool(ItemStack tool){
-        if(tool!=null&&tool.getItemMeta()!=null){
+    private boolean isTool(ItemStack tool) {
+        if (tool != null && tool.getItemMeta() != null){
             NamespacedKey idKey = new NamespacedKey(Slimefun.instance(),"slimefun_item");
             PersistentDataContainer container = tool.getItemMeta().getPersistentDataContainer();
-            if(container.has(idKey, PersistentDataType.STRING))
-                return container.get(idKey,PersistentDataType.STRING).equalsIgnoreCase(getId())&&(tool.getAmount()==1);
+            if (container.has(idKey, PersistentDataType.STRING))
+                return container.get(idKey, PersistentDataType.STRING).equalsIgnoreCase(getId()) && (tool.getAmount() == 1);
         }
         return false;
     }

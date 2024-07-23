@@ -1,9 +1,9 @@
 package io.github.sefiraat.networks.network;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.CargoStorageUnit;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitData;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
+import com.ytdd9527.networks.expansion.core.data.ItemContainer;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedGreedyBlock;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.Networks;
@@ -44,6 +44,9 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> nodeLocations = new HashSet<>();
     private int maxNodes;
     private boolean isOverburdened = false;
+    private final int[] CELL_AVAILABLE_SLOTS = NetworkCell.SLOTS.stream().mapToInt(i -> i).toArray();
+    private final int[] GREEDY_BLOCK_AVAILABLE_SLOTS = new int[] {NetworkGreedyBlock.INPUT_SLOT};
+    private final int[] ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS = AdvancedGreedyBlock.INPUT_SLOTS;
 
     private final Set<Location> bridges = ConcurrentHashMap.newKeySet();
     private final Set<Location> monitors = ConcurrentHashMap.newKeySet();
@@ -126,7 +129,7 @@ public class NetworkRoot extends NetworkNode {
                 if (blockMenu == null) {
                     return;
                 }
-                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), NetworkCell.SLOTS)) {
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), CELL_AVAILABLE_SLOTS)) {
                     cells.add(location);
                 }
             }
@@ -143,7 +146,7 @@ public class NetworkRoot extends NetworkNode {
                 if (blockMenu == null) {
                     return;
                 }
-                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), new int[]{NetworkGreedyBlock.INPUT_SLOT})) {
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), GREEDY_BLOCK_AVAILABLE_SLOTS)) {
                     greedyBlocks.add(location);
                 }
             }
@@ -165,7 +168,7 @@ public class NetworkRoot extends NetworkNode {
                 if (blockMenu == null) {
                     return;
                 }
-                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), AdvancedGreedyBlock.INPUT_SLOTS)) {
+                if (Arrays.equals(blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW), ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS)) {
                     advancedGreedyBlocks.add(location);
                 }
             }
@@ -935,6 +938,9 @@ public class NetworkRoot extends NetworkNode {
             if (Networks.getSupportedPluginManager()
                     .isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
                 final InfinityBarrel infinityBarrel = getInfinityBarrel(menu, unit);
                 if (infinityBarrel != null) {
                     barrelSet.add(infinityBarrel);
@@ -944,6 +950,9 @@ public class NetworkRoot extends NetworkNode {
 
             if (slimefunItem instanceof NetworkQuantumStorage) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
                 final NetworkStorage storage = getNetworkStorage(menu);
                 if (storage != null) {
                     barrelSet.add(storage);

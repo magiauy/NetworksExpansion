@@ -1,4 +1,4 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage;
+package com.ytdd9527.networks.expansion.core.enums;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +51,16 @@ public enum StorageUnitType {
     @Nullable
     public StorageUnitType next() {
         int index = this.ordinal()+1;
-        if(index == values().length) {
+        if(index >= values().length) {
+            return null;
+        }
+        return values()[index];
+    }
+
+    @Nullable
+    public StorageUnitType previous() {
+        int index = this.ordinal()-1;
+        if (index < 0) {
             return null;
         }
         return values()[index];

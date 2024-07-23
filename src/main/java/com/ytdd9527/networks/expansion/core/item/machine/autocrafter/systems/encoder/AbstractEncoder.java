@@ -124,17 +124,18 @@ public abstract class AbstractEncoder extends NetworkObject {
         for (int recipeSlot : RECIPE_SLOTS) {
             ItemStack stackInSlot = blockMenu.getItemInSlot(recipeSlot);
             if (stackInSlot != null) {
-                inputs[i] = new ItemStack(stackInSlot);
-                inputs[i].setAmount(1);
+                inputs[i] = stackInSlot.clone();
             }
             i++;
         }
 
         ItemStack crafted = null;
 
+        Map.Entry<ItemStack[], ItemStack> lastEntry = null;
         for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
             if (getRecipeTester(inputs, entry.getKey())) {
                 crafted = new ItemStack(entry.getValue().clone());
+                lastEntry = entry;
                 break;
             }
         }
@@ -150,14 +151,16 @@ public abstract class AbstractEncoder extends NetworkObject {
         }
         final ItemStack blueprintClone = StackUtils.getAsQuantity(blueprint, 1);
 
-        blueprintSetter(blueprintClone, inputs, crafted);
+        blueprintSetter(blueprintClone, lastEntry.getKey(), crafted);
         if (blockMenu.fits(blueprintClone, OUTPUT_SLOT)) {
             blueprint.setAmount(blueprint.getAmount() - 1);
+            int j = 0;
             for (int recipeSlot : RECIPE_SLOTS) {
                 ItemStack slotItem = blockMenu.getItemInSlot(recipeSlot);
                 if (slotItem != null) {
-                    slotItem.setAmount(slotItem.getAmount() - 1);
+                    slotItem.setAmount(slotItem.getAmount() - lastEntry.getKey()[j].getAmount());
                 }
+                j++;
             }
             blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
         } else {

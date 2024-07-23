@@ -1,14 +1,12 @@
 package com.ytdd9527.networks.expansion.core.group;
 
-import com.ytdd9527.networks.expansion.core.helper.Icon;
-import com.ytdd9527.networks.expansion.core.menu.common.SlimefunItemBigRecipeMenu;
-import com.ytdd9527.networks.expansion.core.menu.common.SlimefunItemSmallRecipeMenu;
+import com.ytdd9527.networks.expansion.core.menu.common.SlimefunItem6x6RecipeMenu;
+import com.ytdd9527.networks.expansion.core.menu.common.SlimefunItem3x3RecipeMenu;
 import com.ytdd9527.networks.libs.plugin.util.ItemStackUtil;
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
@@ -72,9 +70,9 @@ public class RecipeItemGroup extends FlexItemGroup {
         SlimefunItem slimefunItem = SlimefunItem.getById(this.id);
         if (slimefunItem != null) {
             if (slimefunItem.getRecipe().length <= SMALL_LIMIT) {
-                return new SlimefunItemSmallRecipeMenu(player, playerProfile, slimefunGuideMode, slimefunItem, this, this.page);
+                return new SlimefunItem3x3RecipeMenu(player, playerProfile, slimefunGuideMode, slimefunItem, this, this.page);
             } else if (slimefunItem.getRecipe().length <= BIG_LIMIT) {
-                return new SlimefunItemBigRecipeMenu(player, playerProfile, slimefunGuideMode, slimefunItem, this, this.page);
+                return new SlimefunItem6x6RecipeMenu(player, playerProfile, slimefunGuideMode, slimefunItem, this, this.page);
             } else {
                 // TODO support vary large recipe of slimefunItem
                 return null;

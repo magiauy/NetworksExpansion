@@ -1,7 +1,7 @@
 package com.ytdd9527.networks.expansion.setup;
 
 
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitType;
+import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -471,7 +471,7 @@ public class ExpansionItemStacks {
     //网桥
     public static final SlimefunItemStack NETWORK_BRIDGE_WHITE = Theme.Random(
             "NTW_EXPANSION_BRIDGE_WHITE",
-            new ItemStack(Material.WHITE_STAINED_GLASS_PANE),
+            new ItemStack(Material.WHITE_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(白色)",
             "网桥用于连接不同的网络物品",
@@ -480,7 +480,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_GRAY = Theme.Random(
             "NTW_EXPANSION_BRIDGE_LIGHT_GRAY",
-            new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE),
+            new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(淡灰色)",
             "网桥用于连接不同的网络物品",
@@ -489,7 +489,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_GRAY = Theme.Random(
             "NTW_EXPANSION_BRIDGE_GRAY",
-            new ItemStack(Material.GRAY_STAINED_GLASS_PANE),
+            new ItemStack(Material.GRAY_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(灰色)",
             "网桥用于连接不同的网络物品",
@@ -498,7 +498,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_BLACK = Theme.Random(
             "NTW_EXPANSION_BRIDGE_BLACK",
-            new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
+            new ItemStack(Material.BLACK_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(黑色)",
             "网桥用于连接不同的网络物品",
@@ -507,7 +507,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_BROWN = Theme.Random(
             "NTW_EXPANSION_BRIDGE_BROWN",
-            new ItemStack(Material.BROWN_STAINED_GLASS_PANE),
+            new ItemStack(Material.BROWN_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(棕色)",
             "网桥用于连接不同的网络物品",
@@ -516,7 +516,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_RED = Theme.Random(
             "NTW_EXPANSION_BRIDGE_RED",
-            new ItemStack(Material.RED_STAINED_GLASS_PANE),
+            new ItemStack(Material.RED_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(红色)",
             "网桥用于连接不同的网络物品",
@@ -525,7 +525,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_ORANGE = Theme.Random(
             "NTW_EXPANSION_BRIDGE_ORANGE",
-            new ItemStack(Material.ORANGE_STAINED_GLASS_PANE),
+            new ItemStack(Material.ORANGE_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(橙色)",
             "网桥用于连接不同的网络物品",
@@ -534,7 +534,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_YELLOW = Theme.Random(
             "NTW_EXPANSION_BRIDGE_YELLOW",
-            new ItemStack(Material.YELLOW_STAINED_GLASS_PANE),
+            new ItemStack(Material.YELLOW_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(黄色)",
             "网桥用于连接不同的网络物品",
@@ -543,7 +543,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_LIME = Theme.Random(
             "NTW_EXPANSION_BRIDGE_LIME",
-            new ItemStack(Material.LIME_STAINED_GLASS_PANE),
+            new ItemStack(Material.LIME_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(黄绿色)",
             "网桥用于连接不同的网络物品",
@@ -552,7 +552,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_GREEN = Theme.Random(
             "NTW_EXPANSION_BRIDGE_GREEN",
-            new ItemStack(Material.GREEN_STAINED_GLASS_PANE),
+            new ItemStack(Material.GREEN_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(绿色)",
             "网桥用于连接不同的网络物品",
@@ -561,7 +561,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_CYAN = Theme.Random(
             "NTW_EXPANSION_BRIDGE_CYAN",
-            new ItemStack(Material.CYAN_STAINED_GLASS_PANE),
+            new ItemStack(Material.CYAN_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(青色)",
             "网桥用于连接不同的网络物品",
@@ -570,7 +570,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_BLUE = Theme.Random(
             "NTW_EXPANSION_BRIDGE_LIGHT_BLUE",
-            new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE),
+            new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(淡蓝色)",
             "网桥用于连接不同的网络物品",
@@ -579,7 +579,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_BLUE = Theme.Random(
             "NTW_EXPANSION_BRIDGE_BLUE",
-            new ItemStack(Material.BLUE_STAINED_GLASS_PANE),
+            new ItemStack(Material.BLUE_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(蓝色)",
             "网桥用于连接不同的网络物品",
@@ -588,7 +588,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_PURPLE = Theme.Random(
             "NTW_EXPANSION_BRIDGE_PURPLE",
-            new ItemStack(Material.PURPLE_STAINED_GLASS_PANE),
+            new ItemStack(Material.PURPLE_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(紫色)",
             "网桥用于连接不同的网络物品",
@@ -597,7 +597,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_MAGENTA = Theme.Random(
             "NTW_EXPANSION_BRIDGE_MAGENTA",
-            new ItemStack(Material.MAGENTA_STAINED_GLASS_PANE),
+            new ItemStack(Material.MAGENTA_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(品红色)",
             "网桥用于连接不同的网络物品",
@@ -606,7 +606,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack NETWORK_BRIDGE_PINK = Theme.Random(
             "NTW_EXPANSION_BRIDGE_PINK",
-            new ItemStack(Material.PINK_STAINED_GLASS_PANE),
+            new ItemStack(Material.PINK_STAINED_GLASS),
             Theme.MACHINE,
             "网桥(粉红色)",
             "网桥用于连接不同的网络物品",

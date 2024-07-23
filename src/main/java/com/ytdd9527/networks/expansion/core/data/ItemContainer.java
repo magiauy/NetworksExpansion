@@ -1,4 +1,4 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects;
+package com.ytdd9527.networks.expansion.core.data;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;

@@ -1,4 +1,4 @@
-package com.ytdd9527.networks.expansion.core.item.machine.grid;
+package com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
