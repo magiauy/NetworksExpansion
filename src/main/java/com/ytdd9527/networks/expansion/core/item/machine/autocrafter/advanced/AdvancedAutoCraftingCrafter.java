@@ -140,14 +140,14 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
 
         if (!this.withholding) {
             final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
-            if (stored != null && stored.getType() != Material.AIR) {
+            if (stored != null && !stored.getType().isAir()) {
                 root.addItemStack(stored);
             }
         }
 
         final ItemStack blueprint = blockMenu.getItemInSlot(BLUEPRINT_SLOT);
 
-        if (blueprint == null || blueprint.getType() == Material.AIR) {
+        if (blueprint == null || blueprint.getType().isAir()) {
             return;
         }
 
@@ -187,7 +187,7 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
             int blueprintAmount = blueprint.getAmount();
 
             if (output != null
-                    && output.getType() != Material.AIR
+                    && !output.getType().isAir()
                     && (output.getAmount() + instance.getItemStack().getAmount()*blueprintAmount > output.getMaxStackSize() || !StackUtils.itemsMatch(instance, output, true))
             ) {
                 return;
@@ -270,7 +270,7 @@ public class AdvancedAutoCraftingCrafter extends NetworkObject {
         }
 
         // If no item crafted OR result doesn't fit, escape
-        if (crafted == null || crafted.getType() == Material.AIR) {
+        if (crafted == null || crafted.getType().isAir()) {
             returnItems(root, acutalInputs);
             return false;
         }

@@ -1,6 +1,5 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data;
+package com.ytdd9527.networks.expansion.util.databases;
 
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.QueuedTask;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.scheduler.BukkitRunnable;
 

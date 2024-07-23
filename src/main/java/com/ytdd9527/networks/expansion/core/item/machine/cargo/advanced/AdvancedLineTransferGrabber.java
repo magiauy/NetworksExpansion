@@ -1,6 +1,7 @@
 package com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.core.enums.TransportMode;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -47,10 +48,10 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private static final int TRANSPORT_LIMIT = 3456;
 
     private static final int[] BACKGROUND_SLOTS = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 19, 21, 23, 24, 25, 26, 27, 28, 29, 21, 31, 32, 34, 35, 39, 40, 41, 42, 43, 44
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 19, 21, 23, 24, 25, 26, 28, 29, 21, 31, 32, 34, 35, 39, 40, 41, 42, 43, 44
     };
     // 抓取不需要设置运输模式
-    private static final int TRANSPORT_MODE_SLOT = -1;
+    private static final int TRANSPORT_MODE_SLOT = 27;
     private static final int MINUS_SLOT = 36;
     private static final int SHOW_SLOT = 37;
     private static final int ADD_SLOT = 38;
@@ -150,6 +151,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         final NetworkRoot root = definition.getNode().getRoot();
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        final TransportMode mode = this.getCurrentTransportMode(blockMenu.getLocation());
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
         for (int i = 0; i < maxDistance; i++) {
@@ -166,18 +168,73 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             // 获取输出槽
             int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
             int free = getCurrentNumber(blockMenu.getLocation());
-            for (int slot : slots) {
-                ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                if (itemStack != null && !itemStack.getType().isAir()) {
-                    int canConsume = Math.min(itemStack.getAmount(), free);
-                    ItemStack clone = itemStack.clone();
-                    clone.setAmount(canConsume);
-                    root.addItemStack(clone);
-                    int consumed = canConsume - clone.getAmount();
-                    itemStack.setAmount(itemStack.getAmount() - consumed);
-                    free -= consumed;
-                    if (free <= 0) {
-                        break;
+
+            switch (mode) {
+                case NULL_ONLY, NONNULL_ONLY -> {
+                    // 无操作
+                }
+                case NONE -> {
+                    for (int slot : slots) {
+                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                        if (itemStack != null && !itemStack.getType().isAir()) {
+                            int canConsume = Math.min(itemStack.getAmount(), free);
+                            ItemStack clone = itemStack.clone();
+                            clone.setAmount(canConsume);
+                            root.addItemStack(clone);
+                            int consumed = canConsume - clone.getAmount();
+                            itemStack.setAmount(itemStack.getAmount() - consumed);
+                            free -= consumed;
+                            if (free <= 0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                case FIRST_ONLY -> {
+                    int slot = slots[0];
+                    ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                    if (itemStack != null && !itemStack.getType().isAir()) {
+                        int canConsume = Math.min(itemStack.getAmount(), free);
+                        ItemStack clone = itemStack.clone();
+                        clone.setAmount(canConsume);
+                        root.addItemStack(clone);
+                        int consumed = canConsume - clone.getAmount();
+                        itemStack.setAmount(itemStack.getAmount() - consumed);
+                        free -= consumed;
+                        if (free <= 0) {
+                            break;
+                        }
+                    }
+                }
+                case LAST_ONLY -> {
+                    int slot = slots[slots.length - 1];
+                    ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                    if (itemStack != null && !itemStack.getType().isAir()) {
+                        int canConsume = Math.min(itemStack.getAmount(), free);
+                        ItemStack clone = itemStack.clone();
+                        clone.setAmount(canConsume);
+                        root.addItemStack(clone);
+                        int consumed = canConsume - clone.getAmount();
+                        itemStack.setAmount(itemStack.getAmount() - consumed);
+                        free -= consumed;
+                        if (free <= 0) {
+                            break;
+                        }
+                    }
+                }
+                case FIRST_STOP -> {
+                    for (int slot : slots) {
+                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                        if (itemStack != null && !itemStack.getType().isAir()) {
+                            int canConsume = Math.min(itemStack.getAmount(), free);
+                            ItemStack clone = itemStack.clone();
+                            clone.setAmount(canConsume);
+                            root.addItemStack(clone);
+                            int consumed = canConsume - clone.getAmount();
+                            itemStack.setAmount(itemStack.getAmount() - consumed);
+                            free -= consumed;
+                            break;
+                        }
                     }
                 }
             }

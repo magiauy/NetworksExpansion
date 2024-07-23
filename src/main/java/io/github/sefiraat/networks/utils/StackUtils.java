@@ -1,10 +1,12 @@
 package io.github.sefiraat.networks.utils;
 
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import lombok.experimental.UtilityClass;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
@@ -24,16 +26,19 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @UtilityClass
 public class StackUtils {
-
     @Nonnull
     public static ItemStack getAsQuantity(@Nonnull ItemStack itemStack, int amount) {
         ItemStack clone = itemStack.clone();
@@ -42,7 +47,23 @@ public class StackUtils {
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, true);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, true, false);
+    }
+
+    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false);
+    }
+
+    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount);
+    }
+
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
+        return itemsMatch(cache, itemStack, true, false);
+    }
+
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
+        return itemsMatch(cache, itemStack, checkLore, false);
     }
 
     /**
@@ -52,7 +73,7 @@ public class StackUtils {
      * @param itemStack The {@link ItemStack} being evaluated
      * @return True if items match
      */
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
         // Null check
         if (cache.getItemStack() == null || itemStack == null) {
             return itemStack == null && cache.getItemStack() == null;
@@ -63,7 +84,7 @@ public class StackUtils {
             return false;
         }
 
-        if (!ItemStackHelper.getDisplayName(itemStack).equals(ItemStackHelper.getDisplayName(cache.getItemStack()))) {
+        if (checkAmount && itemStack.getAmount() > cache.getItemStack().getAmount()) {
             return false;
         }
 
@@ -73,7 +94,6 @@ public class StackUtils {
         }
 
         // Now we need to compare meta's directly - cache is already out, but let's fetch the 2nd meta also
-        // 上面已经比较了是否存在itemMeta, 这里直接比较meta的具体内容
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemMeta cachedMeta = cache.getItemMeta();
 
@@ -82,8 +102,13 @@ public class StackUtils {
             return false;
         }
 
-        // Check the lore
-        if (checkLore && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+        // Quick meta-extension escapes
+        if (canQuickEscapeMetaVariant(itemMeta, cachedMeta)) {
+            return false;
+        }
+
+        // Has a display name (checking the name occurs later)
+        if (itemMeta.hasDisplayName() != cachedMeta.hasDisplayName()) {
             return false;
         }
 
@@ -99,12 +124,7 @@ public class StackUtils {
         }
 
         // PDCs don't match
-        if (!itemMeta.getPersistentDataContainer().equals(cachedMeta.getPersistentDataContainer())) {
-            return false;
-        }
-
-        // Quick meta-extension escapes
-        if (canQuickEscapeMetaVariant(itemMeta, cachedMeta)) {
+        if(!isPDCMatch(itemMeta, cachedMeta)) {
             return false;
         }
 
@@ -117,7 +137,12 @@ public class StackUtils {
         if (!itemMeta.getItemFlags().equals(cachedMeta.getItemFlags())) {
             return false;
         }
-
+        // Check the lore
+        if (checkLore) {
+            if (!isLoreMatch(itemMeta, cachedMeta)) {
+                return false;
+            }
+        }
         // Slimefun ID check no need to worry about distinction, covered in PDC + lore
         final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(itemMeta);
         final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(cachedMeta);
@@ -125,9 +150,53 @@ public class StackUtils {
             return optionalStackId1.get().equals(optionalStackId2.get());
         }
 
+        // Finally, check the display name
+        if (itemMeta.hasDisplayName() && (!itemMeta.getDisplayName().equals(cachedMeta.getDisplayName()))) {
+            return false;
+        }
+
         // Everything should match if we've managed to get here
         return true;
     }
+
+    public static boolean isPDCMatch(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta cachedMeta) {
+        PersistentDataContainer persistentDataContainer1 = itemMeta.getPersistentDataContainer();
+        PersistentDataContainer persistentDataContainer2 = cachedMeta.getPersistentDataContainer();
+        Set<NamespacedKey> keys1 = persistentDataContainer1.getKeys();
+        Set<NamespacedKey> keys2 = persistentDataContainer2.getKeys();
+        if (keys1.size() != keys2.size()) {
+            return false;
+        }
+
+        for (NamespacedKey namespacedKey : keys1) {
+            if (!persistentDataContainer2.has(namespacedKey, PersistentDataType.STRING)) {
+                return false;
+            }
+            if (!Objects.equals(persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING), persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isLoreMatch(@Nonnull ItemMeta itemMeta1, @Nonnull ItemMeta itemMeta2) {
+        if (itemMeta1.hasLore() && itemMeta2.hasLore()) {
+            List<String> lore1 = itemMeta1.getLore();
+            List<String> lore2 = itemMeta2.getLore();
+            if (lore1.size() != lore2.size()) {
+                return false;
+            }
+            for (int i = 0; i < lore1.size(); i++) {
+                if (!lore1.get(i).equals(lore2.get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return !itemMeta1.hasLore() && !itemMeta2.hasLore();
+        }
+    }
+
 
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
 
@@ -171,6 +240,16 @@ public class StackUtils {
                 return true;
             }
             if (!Objects.equals(instanceOne.getGeneration(), instanceTwo.getGeneration())) {
+                return true;
+            }
+        }
+
+        // Bundle
+        if (metaOne instanceof BundleMeta instanceOne && metaTwo instanceof BundleMeta instanceTwo) {
+            if (instanceOne.hasItems() != instanceTwo.hasItems()) {
+                return true;
+            }
+            if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
                 return true;
             }
         }
@@ -298,16 +377,7 @@ public class StackUtils {
             if (!instanceOne.getBodyColor().equals(instanceTwo.getBodyColor())) {
                 return true;
             }
-            return !instanceOne.getPatternColor().equals(instanceTwo.getPatternColor());
-        }
-
-        // We don't care about the bundle, it's already deprecated.
-        // Bundle
-        if (metaOne instanceof BundleMeta instanceOne && metaTwo instanceof BundleMeta instanceTwo) {
-            if (instanceOne.hasItems() != instanceTwo.hasItems()) {
-                return true;
-            }
-            if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
+            if (!instanceOne.getPatternColor().equals(instanceTwo.getPatternColor())) {
                 return true;
             }
         }
@@ -345,5 +415,4 @@ public class StackUtils {
         }
         return false;
     }
-
 }

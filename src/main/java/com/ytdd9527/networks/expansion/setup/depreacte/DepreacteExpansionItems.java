@@ -12,15 +12,15 @@ import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.Advanced
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.CoordinateTransmitter;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.CoordinateReceiver;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkCraftingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkEncodingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkCraftingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkEncodingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkGridNewStyle;
 import com.ytdd9527.networks.expansion.core.item.machine.manual.ExpansionWorkbench;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedExport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedPurger;
-import com.ytdd9527.networks.expansion.core.item.tool.CoordinateConfigurator;
+import com.ytdd9527.networks.expansion.core.item.tools.CoordinateConfigurator;
 
 import com.ytdd9527.networks.expansion.setup.ExpansionRecipes;
 import io.github.sefiraat.networks.Networks;

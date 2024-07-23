@@ -129,14 +129,14 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
         if (!this.withholding) {
             final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
-            if (stored != null && stored.getType() != Material.AIR) {
+            if (stored != null && !stored.getType().isAir()) {
                 root.addItemStack(stored);
             }
         }
 
         final ItemStack blueprint = blockMenu.getItemInSlot(BLUEPRINT_SLOT);
 
-        if (blueprint == null || blueprint.getType() == Material.AIR) {
+        if (blueprint == null || blueprint.getType().isAir()) {
             return;
         }
 
@@ -175,7 +175,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
 
             if (output != null
-                    && output.getType() != Material.AIR
+                    && !output.getType().isAir()
                     && (output.getAmount() + instance.getItemStack().getAmount() > output.getMaxStackSize() || !StackUtils.itemsMatch(instance, output, true))) {
                 return;
             }
@@ -212,7 +212,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
-                final ItemStack fetched = root.getItemStackAsync(new ItemRequest(requested, 1));
+                final ItemStack fetched = root.getItemStackAsync(new ItemRequest(requested, requested.getAmount()));
                 inputs[i] = fetched;
             } else {
                 inputs[i] = null;
@@ -230,7 +230,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         }
 
         // If no item crafted OR result doesn't fit, escape
-        if (crafted == null || crafted.getType() == Material.AIR) {
+        if (crafted == null || crafted.getType().isAir()) {
             returnItems(root, inputs);
             return false;
         }

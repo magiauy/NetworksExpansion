@@ -7,9 +7,9 @@ import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransfer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferGrabber;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataSource;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.QueryQueue;
+import com.ytdd9527.networks.expansion.util.databases.DataSource;
+import com.ytdd9527.networks.expansion.util.databases.DataStorage;
+import com.ytdd9527.networks.expansion.util.databases.QueryQueue;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.setup.SetupUtil;
 import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
@@ -172,7 +172,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         DataStorage.saveAmountChange();
         if (queryQueue != null) {
             while (!queryQueue.isAllDone()) {
-                getLogger().info("当前队列: "+queryQueue.getTaskAmount());
+                getLogger().info("当前队列: " + queryQueue.getTaskAmount());
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -212,6 +212,11 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     public static DataSource getDataSource() {
         return dataSource;
     }
+
+    public static BukkitRunnable getAutoSaveThread() {
+        return autoSaveThread;
+    }
+
     public void setupSlimefun() {
         NetworkSlimefunItems.setup();
         DepreacteExpansionItems.setup();

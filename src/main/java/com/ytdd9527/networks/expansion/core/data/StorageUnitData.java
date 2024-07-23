@@ -1,7 +1,9 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage;
+package com.ytdd9527.networks.expansion.core.data;
 
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
+import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.util.databases.DataStorage;
+import com.ytdd9527.networks.expansion.core.data.ItemContainer;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -216,8 +218,6 @@ public class StorageUnitData {
                 DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
                 ItemStack clone = item.clone();
                 clone.setAmount(take);
-                CargoReceipt receipt = new CargoReceipt(this.id, 0, take, this.getTotalAmount(), this.getStoredTypeCount(), this.sizeType);
-                CargoStorageUnit.putRecord(getLastLocation(), receipt);
                 return clone;
             }
         }
@@ -257,8 +257,6 @@ public class StorageUnitData {
         }
         int actualAdded = addStoredItem(itemsToDeposit, contentLocked, force);
         itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
-        CargoReceipt receipt = new CargoReceipt(this.id, actualAdded, 0, this.getTotalAmount(), this.getStoredTypeCount(), this.sizeType);
-        CargoStorageUnit.putRecord(getLastLocation(), receipt);
     }
 
     public void depositItemStack(ItemStack item, boolean contentLocked) {

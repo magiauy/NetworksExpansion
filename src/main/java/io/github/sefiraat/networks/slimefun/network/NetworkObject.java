@@ -31,7 +31,7 @@ public abstract class NetworkObject extends AbstractMySlimefunItem implements Ad
 
     @Getter
     private final NodeType nodeType;
-    @Getter
+
     private final List<Integer> slotsToDrop = new ArrayList<>();
 
     protected NetworkObject(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {

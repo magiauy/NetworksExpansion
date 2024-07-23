@@ -1,15 +1,17 @@
-package io.github.sefiraat.networks.utils;
+package com.ytdd9527.networks.expansion.util;
 
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BlockMenuUtils {
     @Nullable
-    public static ItemStack pushItem(BlockMenu blockMenu, ItemStack item, int... slots) {
+    public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, ItemStack item, int... slots) {
         if (item == null || item.getType().isAir()) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }

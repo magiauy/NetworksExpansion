@@ -2,8 +2,8 @@ package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.*;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.CargoStorageUnit;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitUpgradeTableModel;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.item.machine.manual.StorageUnitUpgradeTableModel;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedExport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedPurger;

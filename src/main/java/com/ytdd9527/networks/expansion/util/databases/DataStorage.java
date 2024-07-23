@@ -1,7 +1,7 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data;
+package com.ytdd9527.networks.expansion.util.databases;
 
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitData;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitType;
+import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
+import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -112,7 +112,7 @@ public class DataStorage {
         changes = new ConcurrentHashMap<>();
         for (Map.Entry<Integer, Map<Integer, Integer>> each : lastChanges.entrySet()) {
             for ( Map.Entry<Integer, Integer> eachItem : each.getValue().entrySet()) {
-                dataSource.updateItemAmount(each.getKey(),eachItem.getKey(), eachItem.getValue());
+                dataSource.updateItemAmount(each.getKey(), eachItem.getKey(), eachItem.getValue());
             }
         }
         Networks.getInstance().getLogger().info("保存成功!");

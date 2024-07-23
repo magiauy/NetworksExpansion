@@ -1,4 +1,4 @@
-package com.ytdd9527.networks.expansion.core.item.tool;
+package com.ytdd9527.networks.expansion.core.item.tools;
 
 import com.ytdd9527.networks.expansion.core.item.AbstractMySlimefunItem;
 import io.github.sefiraat.networks.commands.NetworksMain;

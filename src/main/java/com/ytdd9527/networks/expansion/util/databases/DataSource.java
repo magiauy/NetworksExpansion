@@ -1,9 +1,9 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data;
+package com.ytdd9527.networks.expansion.util.databases;
 
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitData;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitType;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.QueuedTask;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
+import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
+import com.ytdd9527.networks.expansion.core.data.ItemContainer;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -154,7 +154,12 @@ public class DataSource {
     }
 
     void updateItemAmount(int containerId, int itemId, int amount) {
-        if (amount <= 0) {
+        if (CargoStorageUnit.isLocked(containerId)) {
+            if (amount < 0) {
+                deleteStoredItem(containerId, itemId);
+                return;
+            }
+        } else if (amount <= 0) {
             deleteStoredItem(containerId, itemId);
             return;
         }

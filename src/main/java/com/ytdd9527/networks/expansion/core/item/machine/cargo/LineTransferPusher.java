@@ -10,7 +10,7 @@ import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
-import io.github.sefiraat.networks.utils.BlockMenuUtils;
+import com.ytdd9527.networks.expansion.util.BlockMenuUtils;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -45,7 +45,6 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
-    private static final ItemStack AIR = new CustomItemStack(Material.AIR);
     private int pushItemTick;
     private int maxDistance;
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -158,7 +157,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                 clone.setAmount(1);
                 final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
 
-                int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
+                final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
 
                 int freeSpace = 0;
                 for (int slot : slots) {
@@ -236,7 +235,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         return new Particle.DustOptions(Color.BLUE, 2);
     }
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -245,7 +244,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
@@ -302,6 +301,6 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                 "&e与链式不同的是，此机器&c只有连续推送的功能",
                 "&c而不是连续转移物品！"
         ));
-        return displayRecipes ;
+        return displayRecipes;
     }
 }

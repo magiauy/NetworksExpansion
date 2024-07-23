@@ -1,10 +1,13 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage;
+package com.ytdd9527.networks.expansion.core.item.machine.cargo;
 
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data.DataStorage;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects.ItemContainer;
+import com.ytdd9527.networks.expansion.util.databases.DataStorage;
+import com.ytdd9527.networks.expansion.core.enums.QuickTransferMode;
+import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
+import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
+import com.ytdd9527.networks.expansion.core.data.ItemContainer;
 import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
 import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -53,7 +56,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -66,9 +68,7 @@ import java.util.function.Function;
 public class CargoStorageUnit extends NetworkObject {
 
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
-    private static final Map<Location, TransportMode> transportModes = new HashMap<>();
     private static final Map<Location, QuickTransferMode> quickTransferModes = new HashMap<>();
-    private static final Map<Location, CargoReceipt> cargoRecords = new HashMap<>();
     private static final Set<Location> locked = new HashSet<>();
     private static final Set<Location> voidExcesses = new HashSet<>();
 
@@ -90,6 +90,8 @@ public class CargoStorageUnit extends NetworkObject {
 
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType) {
         super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
+        this.getSlotsToDrop().add(QUANTUM_SLOT);
+        this.getSlotsToDrop().add(ITEM_CHOOSE_SLOT);
 
         this.sizeType = sizeType;
 
@@ -110,18 +112,14 @@ public class CargoStorageUnit extends NetworkObject {
                 requestData(l, getContainerId(l));
                 // Restore mode
                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
-                String modeStr = null;
                 String lock = null;
                 String voidExcess = null;
                 String quickModeStr = null;
                 if (blockData != null) {
-                    modeStr = blockData.getData("transportMode");
                     lock = blockData.getData("locked");
                     voidExcess = blockData.getData("voidExcess");
                     quickModeStr = blockData.getData("quickTransferMode");
                 }
-                TransportMode mode = modeStr == null ? TransportMode.REJECT : TransportMode.valueOf(modeStr);
-                transportModes.put(l, mode);
                 QuickTransferMode quickTransferMode = quickModeStr == null ? QuickTransferMode.FROM_QUANTUM : QuickTransferMode.valueOf(quickModeStr);
                 quickTransferModes.put(l, quickTransferMode);
                 if(lock != null) {
@@ -162,12 +160,7 @@ public class CargoStorageUnit extends NetworkObject {
 
                 StorageUnitData data = storages.get(l);
                 if (data != null) {
-                    CargoReceipt receipt = cargoRecords.get(l);
-                    if (receipt != null) {
-                        update(l, receipt, true);
-                    } else {
-                        update(l, new CargoReceipt(data.getId(), 0, 0, data.getTotalAmount(), data.getStoredTypeCount(), data.getSizeType()), true);
-                    }
+                    update(l, true);
                 }
             }
 
@@ -185,6 +178,8 @@ public class CargoStorageUnit extends NetworkObject {
     }
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
+        this.getSlotsToDrop().add(QUANTUM_SLOT);
+        this.getSlotsToDrop().add(ITEM_CHOOSE_SLOT);
 
         this.sizeType = sizeType;
 
@@ -206,18 +201,14 @@ public class CargoStorageUnit extends NetworkObject {
                 requestData(l, getContainerId(l));
                 // Restore mode
                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
-                String modeStr = null;
                 String lock = null;
                 String voidExcess = null;
                 String quickModeStr = null;
                 if (blockData != null) {
-                    modeStr = blockData.getData("transportMode");
                     lock = blockData.getData("locked");
                     voidExcess = blockData.getData("voidExcess");
                     quickModeStr = blockData.getData("quickTransferMode");
                 }
-                TransportMode mode = modeStr == null ? TransportMode.REJECT : TransportMode.valueOf(modeStr);
-                transportModes.put(l, mode);
                 QuickTransferMode quickTransferMode = quickModeStr == null ? QuickTransferMode.FROM_QUANTUM : QuickTransferMode.valueOf(quickModeStr);
                 quickTransferModes.put(l, quickTransferMode);
                 if(lock != null) {
@@ -258,12 +249,7 @@ public class CargoStorageUnit extends NetworkObject {
 
                 StorageUnitData data = storages.get(l);
                 if (data != null) {
-                    CargoReceipt receipt = cargoRecords.get(l);
-                    if (receipt != null) {
-                        update(l, receipt, true);
-                    } else {
-                        update(l, new CargoReceipt(data.getId(), 0, 0, data.getTotalAmount(), data.getStoredTypeCount(), data.getSizeType()), true);
-                    }
+                    update(l, true);
                 }
             }
 
@@ -320,29 +306,25 @@ public class CargoStorageUnit extends NetworkObject {
         return storages.get(l);
     }
 
-    @Nullable
+    @Nonnull
     public static Map<Location, StorageUnitData> getAllStorageData() {
         return storages;
     }
 
-    @Nullable
     public static void setStorageData(Location l, StorageUnitData data) {
         storages.put(l, data);
     }
 
-    @NotNull
-    public static TransportMode getTransportMode(Location l) {
-        return transportModes.getOrDefault(l, TransportMode.REJECT);
-    }
-
-    public static void update(Location l, CargoReceipt receipt, boolean force) {
+    public static void update(Location l, boolean force) {
         BlockMenu menu = StorageCacheUtils.getMenu(l);
         if (menu != null && (force || menu.hasViewer())) {
 
-            int maxEach = receipt.getSizeType().getEachMaxSize();
+            StorageUnitData data = storages.get(l);
+            StorageUnitType sizeType = data.getSizeType();
+            int maxEach = sizeType.getEachMaxSize();
 
             // Update information
-            menu.replaceExistingItem(STORAGE_INFO_SLOT, getStorageInfoItem(receipt.getContainerId(), receipt.getTypeCount(),receipt.getSizeType().getMaxItemCount(),maxEach, isLocked(l), isVoidExcess(l)));
+            menu.replaceExistingItem(STORAGE_INFO_SLOT, getStorageInfoItem(data.getId(), data.getStoredTypeCount(), sizeType.getMaxItemCount(), maxEach, isLocked(l), isVoidExcess(l)));
 
             // Update item display
             List<ItemContainer> itemStored = storages.get(l).getStoredItems();
@@ -387,7 +369,7 @@ public class CargoStorageUnit extends NetworkObject {
                         return;
                     }
                     // Request data
-                    Location lastLoc = null;
+                    Location lastLoc;
                     if (data != null) {
                         lastLoc = data.getLastLocation();
                         a = locked.contains(lastLoc);
@@ -411,10 +393,9 @@ public class CargoStorageUnit extends NetworkObject {
                     storages.put(l, data);
                 }
 
-                StorageUnitData cache = storages.get(l);
                 BlockMenu menu = StorageCacheUtils.getMenu(l);
                 if (menu != null) {
-                    update(l, new CargoReceipt(id, 0, 0, cache.getTotalAmount(), cache.getStoredTypeCount(), cache.getSizeType()), true);
+                    update(l, true);
                     // 如果存在菜单，添加点击事件
                     addClickHandler(l);
                 }
@@ -464,10 +445,6 @@ public class CargoStorageUnit extends NetworkObject {
                         b.getWorld().dropItemNaturally(l, bindId(getItem(), id));
                     }
                 }
-
-                // Remove cache
-                transportModes.remove(l);
-                cargoRecords.remove(l);
             }
         });
 
@@ -517,19 +494,10 @@ public class CargoStorageUnit extends NetworkObject {
             data.setPlaced(true);
             data.setLastLocation(l);
         }
-        if(menu.hasViewer()) {
+        if (menu.hasViewer()) {
             // Update display item
-            CargoReceipt receipt = cargoRecords.get(l);
-            if(receipt != null) {
-                CargoStorageUnit.update(l, receipt, false);
-            } else {
-                CargoStorageUnit.update(l, new CargoReceipt(data.getId(), 0, 0, data.getTotalAmount(), data.getStoredTypeCount(), data.getSizeType()), false);
-            }
+            update(l, false);
         }
-    }
-
-    public static boolean canAddMoreType(Location l, ItemStack itemStack) {
-        return storages.get(l).getStoredItems().size() < storages.get(l).getSizeType().getMaxItemCount() && !isLocked(l) && !CargoStorageUnit.contains(l, itemStack);
     }
 
     public static boolean contains(Location l, ItemStack itemStack) {
@@ -575,7 +543,6 @@ public class CargoStorageUnit extends NetworkObject {
         // Save id
         StorageCacheUtils.setData(l, "containerId", String.valueOf(id));
         // Save mode
-        setMode(l);
         setLock(l, lock);
         setVoidExcess(l, voidExcess);
     }
@@ -584,6 +551,14 @@ public class CargoStorageUnit extends NetworkObject {
         return locked.contains(l);
     }
 
+    public static boolean isLocked(int containerId) {
+        for (Location l : locked) {
+            if (getContainerId(l) == containerId) {
+                return true;
+            }
+        }
+        return false;
+    }
     public static boolean isVoidExcess(Location l) {
         return voidExcesses.contains(l);
     }
@@ -602,9 +577,7 @@ public class CargoStorageUnit extends NetworkObject {
     public static void requestData(Location l, int id) {
         if (id == -1) return;
         if (DataStorage.isContainerLoaded(id)) {
-            DataStorage.getCachedStorageData(id).ifPresent(data -> {
-                storages.put(l, data);
-            });
+            DataStorage.getCachedStorageData(id).ifPresent(data -> storages.put(l, data));
         } else {
             DataStorage.requestStorageData(id);
         }
@@ -680,11 +653,6 @@ public class CargoStorageUnit extends NetworkObject {
         );
     }
 
-    private static void setMode(Location l) {
-        transportModes.put(l, TransportMode.ACCEPT);
-        StorageCacheUtils.setData(l, "transportMode", TransportMode.ACCEPT.name());
-    }
-
     private static void setLock(Location l, boolean lock) {
         if (lock) {
             locked.add(l);
@@ -713,12 +681,16 @@ public class CargoStorageUnit extends NetworkObject {
 
     private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
         ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
+        if (itemStack == null || itemStack.getType().isAir()) {
+            player.sendMessage(ChatColor.RED + "请在量子存储槽放入量子存储");
+            return;
+        }
         if (itemStack.getAmount() > 1) {
             player.sendMessage(ChatColor.RED + "量子存储槽只能放入一个物品！");
             return;
         }
         ItemStack toTransfer = blockMenu.getItemInSlot(ITEM_CHOOSE_SLOT);
-        if (toTransfer == null || toTransfer.getType() == Material.AIR) {
+        if (toTransfer == null || toTransfer.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "请在下方放入你要传输的物品");
             return;
         }
@@ -863,7 +835,7 @@ public class CargoStorageUnit extends NetworkObject {
         );
     }
 
-    private int getContainerId(Location l) {
+    private static int getContainerId(Location l) {
         String str = StorageCacheUtils.getData(l, "containerId");
         return str == null ? -1 : Integer.parseInt(str);
     }
@@ -934,10 +906,6 @@ public class CargoStorageUnit extends NetworkObject {
         );
     }
 
-    public static void putRecord(Location l, CargoReceipt receipt) {
-        cargoRecords.put(l, receipt);
-    }
-
     private void setupDisplay(@Nonnull Location location) {
         if (this.displayGroupGenerator != null) {
             DisplayGroup displayGroup = this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
@@ -950,7 +918,7 @@ public class CargoStorageUnit extends NetworkObject {
             group.remove();
         }
     }
-    @javax.annotation.Nullable
+    @Nullable
     private UUID getDisplayGroupUUID(@Nonnull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
@@ -958,7 +926,7 @@ public class CargoStorageUnit extends NetworkObject {
         }
         return UUID.fromString(uuid);
     }
-    @javax.annotation.Nullable
+    @Nullable
     private DisplayGroup getDisplayGroup(@Nonnull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {

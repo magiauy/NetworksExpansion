@@ -35,46 +35,29 @@ import com.ytdd9527.networks.expansion.core.item.machine.cargo.PointTransferGrab
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferGrabber;
 import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferPusher;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.CargoNodeQuickTool;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.CargoStorageUnit;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitType;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitUpgradeTable;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.items.storage.StorageUnitUpgradeTableModel;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkCraftingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkEncodingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.grid.NetworkGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.tools.CargoNodeQuickTool;
+import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
+import com.ytdd9527.networks.expansion.core.item.machine.manual.StorageUnitUpgradeTable;
+import com.ytdd9527.networks.expansion.core.item.machine.manual.StorageUnitUpgradeTableModel;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkCraftingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkEncodingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkGridNewStyle;
 import com.ytdd9527.networks.expansion.core.item.machine.manual.ExpansionWorkbench;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedExport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedPurger;
-import com.ytdd9527.networks.expansion.core.item.tool.CoordinateConfigurator;
-import com.ytdd9527.networks.expansion.core.item.tool.NetworksExpansionWorldEditAxe;
-import io.github.sefiraat.networks.Networks;
+import com.ytdd9527.networks.expansion.core.item.tools.CoordinateConfigurator;
+import com.ytdd9527.networks.expansion.core.item.tools.NetworksExpansionWorldEditAxe;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.NamespacedKey;
 
 
 public class ExpansionItems {
-
-    public static final RecipeType STORAGE_UPGRADE_TABLE;
-    public static final RecipeType STORAGE_UPGRADE_TABLE_MODEL;
-    static {
-        STORAGE_UPGRADE_TABLE = new RecipeType(
-                new NamespacedKey(Networks.getInstance(), "STORAGE_UPGRADE_TABLE"),
-                ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE,
-                StorageUnitUpgradeTable::addRecipe
-        );
-        STORAGE_UPGRADE_TABLE_MODEL = new RecipeType(
-                new NamespacedKey(Networks.getInstance(), "STORAGE_UPGRADE_TABLE_MODEL"),
-                ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
-                StorageUnitUpgradeTableModel::addRecipe
-        );
-    }
     public static final ExpansionWorkbench NETWORK_EXPANSION_WORKBENCH = new ExpansionWorkbench(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.NETWORK_EXPANSION_WORKBENCH,
@@ -615,7 +598,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_1 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_1,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_1,
             StorageUnitType.TINY
     );
@@ -623,7 +606,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_2 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_2,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_2,
             StorageUnitType.MINI
     );
@@ -631,7 +614,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_3 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_3,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_3,
             StorageUnitType.SMALL
     );
@@ -639,7 +622,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_4 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_4,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_4,
             StorageUnitType.MEDIUM
     );
@@ -647,7 +630,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_5 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_5,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_5,
             StorageUnitType.LARGE
     );
@@ -655,7 +638,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_6 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_6,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_6,
             StorageUnitType.ENHANCED
     );
@@ -663,7 +646,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_7 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_7,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_7,
             StorageUnitType.ADVANCED
     );
@@ -671,7 +654,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_8 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_8,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_8,
             StorageUnitType.EXTRA
     );
@@ -679,7 +662,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_9 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_9,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_9,
             StorageUnitType.ULTRA
     );
@@ -687,28 +670,28 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_10 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_10,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_10,
             StorageUnitType.END_GAME_BASIC
     );
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_11 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_11,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_11,
             StorageUnitType.END_GAME_INTERMEDIATE
     );
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_12 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_12,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_12,
             StorageUnitType.END_GAME_ADVANCED
     );
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_13 = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_13,
-            STORAGE_UPGRADE_TABLE,
+            StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_13,
             StorageUnitType.END_GAME_MAX
     );
@@ -722,7 +705,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_1_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_1_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_1_MODEL,
             StorageUnitType.TINY,
             "CARGO_STORAGE_UNIT_1_MODEL"
@@ -731,7 +714,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_2_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_2_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_2_MODEL,
             StorageUnitType.MINI,
             "CARGO_STORAGE_UNIT_2_MODEL"
@@ -740,7 +723,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_3_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_3_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_3_MODEL,
             StorageUnitType.SMALL,
             "CARGO_STORAGE_UNIT_3_MODEL"
@@ -749,7 +732,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_4_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_4_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_4_MODEL,
             StorageUnitType.MEDIUM,
             "CARGO_STORAGE_UNIT_4_MODEL"
@@ -758,7 +741,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_5_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_5_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_5_MODEL,
             StorageUnitType.LARGE,
             "CARGO_STORAGE_UNIT_5_MODEL"
@@ -767,7 +750,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_6_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_6_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_6_MODEL,
             StorageUnitType.ENHANCED,
             "CARGO_STORAGE_UNIT_6_MODEL"
@@ -776,7 +759,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_7_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_7_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_7_MODEL,
             StorageUnitType.ADVANCED,
             "CARGO_STORAGE_UNIT_7_MODEL"
@@ -785,7 +768,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_8_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_8_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_8_MODEL,
             StorageUnitType.EXTRA,
             "CARGO_STORAGE_UNIT_8_MODEL"
@@ -794,7 +777,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_9_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_9_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_9_MODEL,
             StorageUnitType.ULTRA,
             "CARGO_STORAGE_UNIT_9_MODEL"
@@ -803,7 +786,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_10_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_10_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_10_MODEL,
             StorageUnitType.END_GAME_BASIC,
             "CARGO_STORAGE_UNIT_10_MODEL"
@@ -811,7 +794,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_11_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_11_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_11_MODEL,
             StorageUnitType.END_GAME_INTERMEDIATE,
             "CARGO_STORAGE_UNIT_11_MODEL"
@@ -819,7 +802,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_12_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_12_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_12_MODEL,
             StorageUnitType.END_GAME_ADVANCED,
             "CARGO_STORAGE_UNIT_12_MODEL"
@@ -827,7 +810,7 @@ public class ExpansionItems {
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_13_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_13_MODEL,
-            STORAGE_UPGRADE_TABLE_MODEL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_13_MODEL,
             StorageUnitType.END_GAME_MAX,
             "CARGO_STORAGE_UNIT_13_MODEL"

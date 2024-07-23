@@ -1,4 +1,4 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.data;
+package com.ytdd9527.networks.expansion.util.databases;
 
 public class DataTables {
 

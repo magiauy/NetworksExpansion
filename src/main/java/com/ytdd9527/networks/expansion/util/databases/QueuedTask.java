@@ -1,4 +1,4 @@
-package com.ytdd9527.networks.expansion.core.item.machine.cargo.cargoexpansion.objects;
+package com.ytdd9527.networks.expansion.util.databases;
 
 public interface QueuedTask {
 
