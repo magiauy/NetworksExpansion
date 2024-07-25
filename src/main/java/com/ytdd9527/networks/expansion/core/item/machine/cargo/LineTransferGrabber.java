@@ -82,14 +82,9 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         }
 
     }
-    private void performGrabbingOperationAsync(@Nullable BlockMenu blockMenu) {
+    private void performGrabbingOperation(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            transferTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tryGrabItem(blockMenu);
-                }
-            }.runTaskAsynchronously(Networks.getInstance());
+            tryGrabItem(blockMenu);
         }
     }
     public static void cancelTransferTask() {
@@ -108,7 +103,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
 
         // 每10个Tick执行一次抓取操作
         if (tickCounter == 0) {
-            performGrabbingOperationAsync(blockMenu);
+            performGrabbingOperation(blockMenu);
         }
 
         // 更新Tick计数器

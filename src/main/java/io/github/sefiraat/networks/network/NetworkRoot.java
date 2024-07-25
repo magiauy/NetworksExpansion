@@ -19,6 +19,7 @@ import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
@@ -41,55 +42,86 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NetworkRoot extends NetworkNode {
 
     private boolean progressing = false;
+    @Getter
     private final Set<Location> nodeLocations = new HashSet<>();
+    @Getter
     private int maxNodes;
     private boolean isOverburdened = false;
     private final int[] CELL_AVAILABLE_SLOTS = NetworkCell.SLOTS.stream().mapToInt(i -> i).toArray();
     private final int[] GREEDY_BLOCK_AVAILABLE_SLOTS = new int[] {NetworkGreedyBlock.INPUT_SLOT};
     private final int[] ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS = AdvancedGreedyBlock.INPUT_SLOTS;
 
+    @Getter
     private final Set<Location> bridges = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> monitors = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> importers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> exporters = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> grids = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> cells = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> wipers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> grabbers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> pushers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> purgers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> crafters = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> powerNodes = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> powerDisplays = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> encoders = ConcurrentHashMap.newKeySet();
     private final Set<Location> greedyBlocks = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> cutters = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> pasters = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> vacuums = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> wirelessTransmitters = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> wirelessReceivers = ConcurrentHashMap.newKeySet();
 
+    @Getter
     private final Set<Location> chainPushers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> chainGrabbers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> chainDispatchers = ConcurrentHashMap.newKeySet();
     private final Set<Location> advancedImporters = ConcurrentHashMap.newKeySet();
     private final Set<Location> advancedExporters = ConcurrentHashMap.newKeySet();
 
     private final Set<Location> advancedGreedyBlocks = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> coordinateTransmitters = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> coordinateReceivers = ConcurrentHashMap.newKeySet();
 
+    @Getter
     private final Set<Location> chainVanillaPushers = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
 
 
+    @Getter
     private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
     private Set<BarrelIdentity> barrels = null;
 
     private Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
 
+    @Getter
     private long rootPower = 0;
 
+    @Getter
     private boolean displayParticles = false;
 
     public NetworkRoot(@Nonnull Location location, @Nonnull NodeType type, int maxNodes) {
@@ -106,14 +138,7 @@ public class NetworkRoot extends NetworkNode {
         if (type == NodeType.MODEL) {
             return;
         }
-        /*
-        // when we found it lived in nodeLocations,
-        // it means it's already registered,
-        // so we remove it first
-        if (nodeLocations.contains(location)) {
-            removeOldNode(location, type);
-        }
-        */
+
         nodeLocations.add(location);
         switch (type) {
             case CONTROLLER -> {
@@ -180,318 +205,6 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    /*
-    public void removeOldNode(@Nonnull Location location, @Nonnull NodeType type) {
-        if (type != NodeType.BRIDGE) {
-            for (Location testLocation : getBridges()) {
-                if (testLocation.equals(location)) {
-                    getBridges().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.STORAGE_MONITOR) {
-            for (Location testLocation : getMonitors()) {
-                if (testLocation.equals(location)) {
-                    getMonitors().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.IMPORT) {
-            for (Location testLocation : getImporters()) {
-                if (testLocation.equals(location)) {
-                    getImporters().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.EXPORT) {
-            for (Location testLocation : getExporters()) {
-                if (testLocation.equals(location)) {
-                    getExporters().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.GRID) {
-            for (Location testLocation : getGrids()) {
-                if (testLocation.equals(location)) {
-                    getGrids().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.CELL) {
-            for (Location testLocation : getCells()) {
-                if (testLocation.equals(location)) {
-                    getCells().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.WIPER) {
-            for (Location testLocation : getWipers()) {
-                if (testLocation.equals(location)) {
-                    getWipers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.GRABBER) {
-            for (Location testLocation : getGrabbers()) {
-                if (testLocation.equals(location)) {
-                    getGrabbers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.PUSHER) {
-            for (Location testLocation : getPushers()) {
-                if (testLocation.equals(location)) {
-                    getPushers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.PURGER) {
-            for (Location testLocation : getPurgers()) {
-                if (testLocation.equals(location)) {
-                    getPurgers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.CRAFTER) {
-            for (Location testLocation : getCrafters()) {
-                if (testLocation.equals(location)) {
-                    getCrafters().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.POWER_NODE) {
-            for (Location testLocation : getPowerNodes()) {
-                if (testLocation.equals(location)) {
-                    getPowerNodes().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.POWER_DISPLAY) {
-            for (Location testLocation : getPowerDisplays()) {
-                if (testLocation.equals(location)) {
-                    getPowerDisplays().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.ENCODER) {
-            for (Location testLocation : getEncoders()) {
-                if (testLocation.equals(location)) {
-                    getEncoders().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.GREEDY_BLOCK) {
-            for (BlockMenu blockMenu : getGreedyBlocks()) {
-                Location testLocation = blockMenu.getLocation();
-                if (testLocation.equals(location)) {
-                    getGreedyBlocks().remove(blockMenu);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.CUTTER) {
-            for (Location testLocation : getCutters()) {
-                if (testLocation.equals(location)) {
-                    getCutters().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.PASTER) {
-            for (Location testLocation : getPasters()) {
-                if (testLocation.equals(location)) {
-                    getPasters().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.VACUUM) {
-            for (Location testLocation : getVacuums()) {
-                if (testLocation.equals(location)) {
-                    getVacuums().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.WIRELESS_TRANSMITTER) {
-            for (Location testLocation : getWirelessTransmitters()) {
-                if (testLocation.equals(location)) {
-                    getWirelessTransmitters().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.WIRELESS_RECEIVER) {
-            for (Location testLocation : getWirelessReceivers()) {
-                if (testLocation.equals(location)) {
-                    getWirelessReceivers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.POWER_OUTLET) {
-            for (Location testLocation : getPowerOutlets()) {
-                if (testLocation.equals(location)) {
-                    getPowerOutlets().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        // from networks expansion
-        if (type != NodeType.LINE_TRANSMITTER_PUSHER) {
-            for (Location testLocation : getChainPushers()) {
-                if (testLocation.equals(location)) {
-                    getChainPushers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.LINE_TRANSMITTER_PUSHER_PLUS) {
-            for (Location testLocation : getChainPushers()) {
-                if (testLocation.equals(location)) {
-                    getChainPushers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.LINE_TRANSMITTER_GRABBER) {
-            for (Location testLocation : getChainGrabbers()) {
-                if (testLocation.equals(location)) {
-                    getChainGrabbers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.LINE_TRANSMITTER_GRABBER_PLUS) {
-            for (Location testLocation : getChainGrabbers()) {
-                if (testLocation.equals(location)) {
-                    getChainGrabbers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.NEA_IMPORT) {
-            for (Location testLocation : getAdvancedImports()) {
-                if (testLocation.equals(location)) {
-                    getAdvancedImports().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.NEA_EXPORT) {
-            for (Location testLocation : getAdvancedExports()) {
-                if (testLocation.equals(location)) {
-                    getAdvancedExports().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.NEA_GREEDY_BLOCK) {
-            for (BlockMenu blockMenu : getAdvancedGreedyBlocks()) {
-                Location testLocation = blockMenu.getLocation();
-                if (testLocation.equals(location)) {
-                    getAdvancedGreedyBlocks().remove(blockMenu);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.COORDINATE_TRANSMITTER) {
-            for (Location testLocation : getCoordinateTransmitters()) {
-                if (testLocation.equals(location)) {
-                    getCoordinateTransmitters().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.NE_COORDINATE_RECEIVER) {
-            for (Location testLocation : getCoordinateReceivers()) {
-                if (testLocation.equals(location)) {
-                    getCoordinateReceivers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.LINE_TRANSMITTER) {
-            for (Location testLocation : getChainDispatchers()) {
-                if (testLocation.equals(location)) {
-                    getChainDispatchers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.LINE_TRANSMITTER_VANILLA_GRABBER) {
-            for (Location testLocation : getChainVanillaGrabbers()) {
-                if (testLocation.equals(location)) {
-                    getChainVanillaGrabbers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-
-        if (type != NodeType.LINE_TRANSMITTER_VANILLA_PUSHER) {
-            for (Location testLocation : getChainVanillaPushers()) {
-                if (testLocation.equals(location)) {
-                    getChainVanillaPushers().remove(testLocation);
-                    break;
-                }
-            }
-        }
-    }
-    */
-
-    public Set<Location> getNodeLocations() {
-        return this.nodeLocations;
-    }
-
-    public int getMaxNodes() {
-        return maxNodes;
-    }
-
     public int getNodeCount() {
         return this.nodeLocations.size();
     }
@@ -514,94 +227,6 @@ public class NetworkRoot extends NetworkNode {
         this.isOverburdened = overburdened;
     }
 
-    public Set<Location> getBridges() {
-        return this.bridges;
-    }
-
-    public Set<Location> getMonitors() {
-        return this.monitors;
-    }
-
-    public Set<Location> getImporters() {
-        return this.importers;
-    }
-
-    public Set<Location> getExporters() {
-        return this.exporters;
-    }
-
-    public Set<Location> getGrids() {
-        return this.grids;
-    }
-
-    public Set<Location> getCells() {
-        return this.cells;
-    }
-
-    public Set<Location> getWipers() {
-        return this.wipers;
-    }
-
-    public Set<Location> getGrabbers() {
-        return this.grabbers;
-    }
-
-    public Set<Location> getPushers() {
-        return this.pushers;
-    }
-
-    public Set<Location> getPurgers() {
-        return this.purgers;
-    }
-
-    public Set<Location> getCrafters() {
-        return this.crafters;
-    }
-
-    public Set<Location> getPowerNodes() {
-        return this.powerNodes;
-    }
-
-    public Set<Location> getPowerDisplays() {
-        return this.powerDisplays;
-    }
-
-    public Set<Location> getEncoders() {
-        return this.encoders;
-    }
-    public Set<Location> getCutters() {
-        return this.cutters;
-    }
-
-    public Set<Location> getPasters() {
-        return this.pasters;
-    }
-
-    public Set<Location> getVacuums() {
-        return this.vacuums;
-    }
-
-    public Set<Location> getWirelessTransmitters() {
-        return this.wirelessTransmitters;
-    }
-
-    public Set<Location> getWirelessReceivers() {
-        return this.wirelessReceivers;
-    }
-
-    public Set<Location> getPowerOutlets() {
-        return this.powerOutlets;
-    }
-
-
-    public Set<Location> getChainPushers() {
-        return this.chainPushers;
-    }
-
-    public Set<Location> getChainGrabbers() {
-        return this.chainGrabbers;
-    }
-
     public Set<Location> getAdvancedImports() {
         return this.advancedImporters;
     }
@@ -610,24 +235,6 @@ public class NetworkRoot extends NetworkNode {
         return this.advancedExporters;
     }
 
-    public Set<Location> getCoordinateTransmitters() {
-        return this.coordinateTransmitters;
-    }
-
-    public Set<Location> getCoordinateReceivers() {
-        return this.coordinateReceivers;
-    }
-
-    public Set<Location> getChainDispatchers() {
-        return this.chainDispatchers;
-    }
-
-    public Set<Location> getChainVanillaPushers() {
-        return this.chainVanillaPushers;
-    }
-    public Set<Location> getChainVanillaGrabbers() {
-        return this.chainVanillaGrabbers;
-    }
     @Nonnull
     public Map<ItemStack, Long> getAllNetworkItemsLongType() {
         final Map<ItemStack, Long> itemStacks = new HashMap<>();
@@ -639,7 +246,7 @@ public class NetworkRoot extends NetworkNode {
             if (currentAmount == null) {
                 newAmount = barrelIdentity.getAmount();
             } else {
-                long newLong = (long) currentAmount + (long) barrelIdentity.getAmount();
+                long newLong = currentAmount + barrelIdentity.getAmount();
                 if (newLong < 0) {
                     newAmount = 0;
                 } else {
@@ -654,11 +261,11 @@ public class NetworkRoot extends NetworkNode {
         for (StorageUnitData cache: cacheMap.keySet()) {
             for (ItemContainer itemContainer : cache.getStoredItems()) {
                 final Long currentAmount = itemStacks.get(itemContainer.getSample());
-                long newAmount = 0;
+                long newAmount;
                 if (currentAmount == null) {
                     newAmount = itemContainer.getAmount();
                 } else {
-                    long newLong = (long) currentAmount + (long) itemContainer.getAmount();
+                    long newLong = currentAmount + (long) itemContainer.getAmount();
                     if (newLong < 0) {
                         newAmount = 0;
                     } else {
@@ -682,7 +289,7 @@ public class NetworkRoot extends NetworkNode {
                 if (currentAmount == null) {
                     newAmount = itemStack.getAmount();
                 } else {
-                    long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                    long newLong = currentAmount + (long) itemStack.getAmount();
                     if (newLong < 0) {
                         newAmount = 0;
                     } else {
@@ -705,7 +312,7 @@ public class NetworkRoot extends NetworkNode {
             if (currentAmount == null) {
                 newAmount = itemStack.getAmount();
             } else {
-                long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                long newLong = currentAmount + (long) itemStack.getAmount();
                 if (newLong < 0) {
                     newAmount = 0;
                 } else {
@@ -728,7 +335,7 @@ public class NetworkRoot extends NetworkNode {
                 if (currentAmount == null) {
                     newAmount = itemStack.getAmount();
                 } else {
-                    long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                    long newLong = currentAmount + (long) itemStack.getAmount();
                     if (newLong < 0) {
                         newAmount = 0;
                     } else {
@@ -754,7 +361,7 @@ public class NetworkRoot extends NetworkNode {
                     if (currentAmount == null) {
                         newAmount = itemStack.getAmount();
                     } else {
-                        long newLong = (long) currentAmount + (long) itemStack.getAmount();
+                        long newLong = currentAmount + (long) itemStack.getAmount();
                         if (newLong < 0) {
                             newAmount = 0;
                         } else {
@@ -779,7 +386,7 @@ public class NetworkRoot extends NetworkNode {
             if (currentAmount == null) {
                 newAmount = barrelIdentity.getAmount();
             } else {
-                long newLong = (long) currentAmount + (long) barrelIdentity.getAmount();
+                long newLong = (long) currentAmount + barrelIdentity.getAmount();
                 if (newLong > Integer.MAX_VALUE) {
                     newAmount = Integer.MAX_VALUE;
                 } else {
@@ -891,7 +498,7 @@ public class NetworkRoot extends NetworkNode {
         for (StorageUnitData cache: cacheMap.keySet()) {
             for (ItemContainer itemContainer : cache.getStoredItems()) {
                 final Integer currentAmount = itemStacks.get(itemContainer.getSample());
-                int newAmount = 0;
+                int newAmount;
                 if (currentAmount == null) {
                     newAmount = itemContainer.getAmount();
                 } else {
@@ -1067,7 +674,7 @@ public class NetworkRoot extends NetworkNode {
 
     @Nullable
     private StorageUnitData getCargoStorageUnitData(@Nonnull BlockMenu blockMenu) {
-        return getCargoStorageUnitData(blockMenu.getLocation());
+        return CargoStorageUnit.getStorageData(blockMenu.getLocation());
     }
 
     @Nullable
@@ -1960,10 +1567,6 @@ public class NetworkRoot extends NetworkNode {
         return 0;
     }
 
-    public long getRootPower() {
-        return this.rootPower;
-    }
-
     public void setRootPower(long power) {
         this.rootPower = power;
     }
@@ -1990,10 +1593,6 @@ public class NetworkRoot extends NetworkNode {
                 return;
             }
         }
-    }
-
-    public boolean isDisplayParticles() {
-        return displayParticles;
     }
 
     public void setDisplayParticles(boolean displayParticles) {

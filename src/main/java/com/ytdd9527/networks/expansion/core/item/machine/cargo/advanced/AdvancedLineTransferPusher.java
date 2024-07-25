@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
+// TODO: 需要重构
 public class AdvancedLineTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
@@ -189,18 +190,20 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                         int freeSpace = 0;
                         for (int slot : slots) {
                             final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                            Boolean isMatch = cacheCompareResults.get(itemStack);
-                            if (isMatch == null) {
-                                isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
-                                cacheCompareResults.put(itemStack, isMatch);
-                            }
-                            if (isMatch) {
-                                final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
-                                if (availableSpace > 0) {
-                                    freeSpace += availableSpace;
-                                }
-                            } else {
+                            if (itemStack == null || itemStack.getType().isAir()) {
                                 freeSpace += clone.getMaxStackSize();
+                            } else {
+                                Boolean isMatch = cacheCompareResults.get(itemStack);
+                                if (isMatch == null) {
+                                    isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
+                                    cacheCompareResults.put(itemStack, isMatch);
+                                }
+                                if (isMatch) {
+                                    final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                                    if (availableSpace > 0) {
+                                        freeSpace += availableSpace;
+                                    }
+                                }
                             }
                         }
                         if (freeSpace <= 0) {
@@ -240,6 +243,9 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                         int free = currentLimit;
                         for (int slot: slots) {
                             ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                            if (itemStack == null || itemStack.getType().isAir()) {
+                                continue;
+                            }
                             Boolean isMatch = cacheCompareResults.get(itemStack);
                             if (isMatch == null) {
                                 isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
@@ -269,6 +275,9 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                     }
                     case FIRST_ONLY -> {
                         int free = currentLimit;
+                        if (slots.length == 0) {
+                            break;
+                        }
                         int slot = slots[0];
                         ItemStack itemStack = targetMenu.getItemInSlot(slot);
                         if (itemStack == null || itemStack.getType().isAir()) {
@@ -289,6 +298,9 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                     }
                     case LAST_ONLY -> {
                         int free = currentLimit;
+                        if (slots.length == 0) {
+                            break;
+                        }
                         int slot = slots[slots.length - 1];
                         ItemStack itemStack = targetMenu.getItemInSlot(slot);
                         if (itemStack == null || itemStack.getType().isAir()) {
@@ -311,18 +323,20 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                         int freeSpace = 0;
                         for (int slot : slots) {
                             final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                            Boolean isMatch = cacheCompareResults.get(itemStack);
-                            if (isMatch == null) {
-                                isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
-                                cacheCompareResults.put(itemStack, isMatch);
-                            }
-                            if (isMatch) {
-                                final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
-                                if (availableSpace > 0) {
-                                    freeSpace += availableSpace;
-                                }
-                            } else {
+                            if (itemStack == null || itemStack.getType().isAir()) {
                                 freeSpace += clone.getMaxStackSize();
+                            } else {
+                                Boolean isMatch = cacheCompareResults.get(itemStack);
+                                if (isMatch == null) {
+                                    isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
+                                    cacheCompareResults.put(itemStack, isMatch);
+                                }
+                                if (isMatch) {
+                                    final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                                    if (availableSpace > 0) {
+                                        freeSpace += availableSpace;
+                                    }
+                                }
                             }
                             if (freeSpace > 0) {
                                 break;

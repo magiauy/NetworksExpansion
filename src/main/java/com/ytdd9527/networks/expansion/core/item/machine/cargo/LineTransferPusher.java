@@ -156,19 +156,26 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                 final ItemStack clone = testItem.clone();
                 clone.setAmount(1);
                 final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
-
                 final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
+                final Map<ItemStack, Boolean> cacheCompareResults = new HashMap<>();
 
                 int freeSpace = 0;
                 for (int slot : slots) {
                     final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
-                        final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
-                        if (availableSpace > 0) {
-                            freeSpace += availableSpace;
-                        }
-                    } else {
+                    if (itemStack == null || itemStack.getType().isAir()) {
                         freeSpace += clone.getMaxStackSize();
+                    } else {
+                        Boolean isMatch = cacheCompareResults.get(itemStack);
+                        if (isMatch == null) {
+                            isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
+                            cacheCompareResults.put(itemStack, isMatch);
+                        }
+                        if (isMatch) {
+                            final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                            if (availableSpace > 0) {
+                                freeSpace += availableSpace;
+                            }
+                        }
                     }
                     if (freeSpace > 0) {
                         break;

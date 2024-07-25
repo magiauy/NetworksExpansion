@@ -44,7 +44,6 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private static final String KEY_UUID = "display-uuid";
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
-    private static final ItemStack AIR = new ItemStack(Material.AIR);
     private static final int TRANSPORT_LIMIT = 3456;
 
     private static final int[] BACKGROUND_SLOTS = {
@@ -103,14 +102,9 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
 
     }
-    private void performGrabItemOperationAsync(@Nullable BlockMenu blockMenu) {
+    private void performGrabItemOperation(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            transferTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tryGrabItem(blockMenu);
-                }
-            }.runTaskAsynchronously(Networks.getInstance());
+            tryGrabItem(blockMenu);
         }
     }
 
@@ -126,7 +120,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
         if (tickCounter == 0) {
-            performGrabItemOperationAsync(blockMenu);
+            performGrabItemOperation(blockMenu);
         }
         updateTickCounter(location, tickCounter);
     }
@@ -166,14 +160,14 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                 break;
             }
             // 获取输出槽
-            int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+            final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
             int free = getCurrentNumber(blockMenu.getLocation());
 
             switch (mode) {
-                case NULL_ONLY, NONNULL_ONLY -> {
+                case NULL_ONLY -> {
                     // 无操作
                 }
-                case NONE -> {
+                case NONE, NONNULL_ONLY -> {
                     for (int slot : slots) {
                         ItemStack itemStack = targetMenu.getItemInSlot(slot);
                         if (itemStack != null && !itemStack.getType().isAir()) {

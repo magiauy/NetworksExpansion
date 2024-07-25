@@ -135,14 +135,9 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
             tryPushItem(blockMenu);
         }
     }
-    private void performGrabItemOperationAsync(@Nullable BlockMenu blockMenu) {
+    private void performGrabItemOperation(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            transferTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tryGrabItem(blockMenu);
-                }
-            }.runTaskAsynchronously(Networks.getInstance());
+            tryGrabItem(blockMenu);
         }
     }
 
@@ -165,7 +160,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
         int tryGrabItemtick = getGrabTickCounter(location);
         if (tryGrabItemtick == 0) {
-            performGrabItemOperationAsync(blockMenu);
+            performGrabItemOperation(blockMenu);
         }
         tryGrabItemtick = (tryGrabItemtick + 1) % grabItemTick;
         updateGrabTickCounter(location, tryGrabItemtick);
@@ -224,19 +219,26 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 final ItemStack clone = testItem.clone();
                 clone.setAmount(1);
                 final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
-
-                int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
+                final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
+                final Map<ItemStack, Boolean> cacheCompareResults = new HashMap<>();
 
                 int freeSpace = 0;
                 for (int slot : slots) {
                     final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
-                        final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
-                        if (availableSpace > 0) {
-                            freeSpace += availableSpace;
-                        }
-                    } else {
+                    if (itemStack == null || itemStack.getType().isAir()) {
                         freeSpace += clone.getMaxStackSize();
+                    } else {
+                        Boolean isMatch = cacheCompareResults.get(itemStack);
+                        if (isMatch == null) {
+                            isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
+                            cacheCompareResults.put(itemStack, isMatch);
+                        }
+                        if (isMatch) {
+                            final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                            if (availableSpace > 0) {
+                                freeSpace += availableSpace;
+                            }
+                        }
                     }
                     if (freeSpace > 0) {
                         break;

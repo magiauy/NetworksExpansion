@@ -191,16 +191,6 @@ public class PointTransfer extends NetworkDirectional implements RecipeDisplayIt
             }
         }
     }
-    private void performGrabbingOperationAsync(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tryGrabItem(blockMenu);
-                }
-            }.runTaskAsynchronously(Networks.getInstance());
-        }
-    }
     private int getTickCounter(Block block) {
         String tickCounterValue = BlockStorage.getLocationInfo(block.getLocation(), TICK_COUNTER_KEY);
         try {
