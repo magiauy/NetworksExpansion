@@ -155,7 +155,7 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] ADVANCED_PURGER = new ItemStack[] {
         RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), 
-        RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_TRASH.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
+        RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_PURGER.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
         RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem()
     };
 

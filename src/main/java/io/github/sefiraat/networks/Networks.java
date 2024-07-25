@@ -14,10 +14,11 @@ import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.Advanc
 import com.ytdd9527.networks.expansion.setup.SetupUtil;
 import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
 import com.ytdd9527.networks.expansion.util.ConfigManager;
+import io.github.sefiraat.networks.integrations.HudCallbacks;
 import io.github.sefiraat.networks.commands.NetworksMain;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
-import io.github.sefiraat.networks.slimefun.NetheoPlants;
+import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -228,6 +229,13 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 getLogger().info("检测到安装了下界乌托邦，注册相关物品！");
             } catch (NoClassDefFoundError e) {
                 getLogger().warning("未安装下界乌托邦！相关物品将不会注册.");
+            }
+        }
+        if (supportedPluginManager.isSlimeHud()) {
+            try {
+                HudCallbacks.setup();
+            } catch (NoClassDefFoundError e) {
+                getLogger().severe("你必须更新 SlimeHUD 才能让网络添加相关功能。");
             }
         }
     }
