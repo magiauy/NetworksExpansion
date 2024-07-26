@@ -27,9 +27,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public abstract class NetworkObject extends AbstractMySlimefunItem implements AdminDebuggable {
 
-    @Getter
     private final NodeType nodeType;
 
     private final List<Integer> slotsToDrop = new ArrayList<>();
@@ -123,7 +123,4 @@ public abstract class NetworkObject extends AbstractMySlimefunItem implements Ad
         return false;
     }
 
-    public List<Integer> getSlotsToDrop() {
-        return slotsToDrop;
-    }
 }

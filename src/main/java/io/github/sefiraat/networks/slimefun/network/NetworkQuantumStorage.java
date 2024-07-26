@@ -309,7 +309,7 @@ public class NetworkQuantumStorage extends AbstractMySlimefunItem implements Dis
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+                return player.hasPermission("slimefun.inventory.bypass") || (Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

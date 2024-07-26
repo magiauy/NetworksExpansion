@@ -1162,7 +1162,6 @@ public class NetworkRoot extends NetworkNode {
         return stackToReturn;
     }
 
-
     public boolean contains(@Nonnull ItemRequest request) {
 
         long found = 0;
