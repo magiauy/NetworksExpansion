@@ -64,9 +64,9 @@ public class AdvancedGreedyBlock extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return ExpansionItems.ADVANCED_GREEDY_BLOCK.canUse(player, false)
+                return player.hasPermission("slimefun.inventory.bypass") || (ExpansionItems.ADVANCED_GREEDY_BLOCK.canUse(player, false)
                         && Slimefun.getProtectionManager()
-                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

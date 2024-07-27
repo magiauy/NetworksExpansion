@@ -1,6 +1,9 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransfer;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransferPusher;
 import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransfer;
 import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferGrabber;
 import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferPusher;
@@ -9,6 +12,7 @@ import com.ytdd9527.networks.expansion.core.items.machines.cargo.deprecated.Coor
 import com.ytdd9527.networks.expansion.core.items.machines.cargo.unit.CargoStorageUnit;
 import com.ytdd9527.networks.expansion.core.items.machines.manual.StorageUnitUpgradeTableModel;
 import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedExport;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedPurger;
 import io.github.sefiraat.networks.Networks;
@@ -89,14 +93,18 @@ public class NetworkRake extends LimitedUseItem {
         viableObjects.add(NetworkVacuum.class);
         viableObjects.add(NetworkMorePusher.class);
         viableObjects.add(NetworkBestPusher.class);
-        viableObjects.add(AdvancedPurger.class);
-        viableObjects.add(LineTransferPusher.class);
-        viableObjects.add(LineTransferGrabber.class);
         viableObjects.add(AdvancedExport.class);
         viableObjects.add(AdvancedImport.class);
+        viableObjects.add(AdvancedGreedyBlock.class);
+        viableObjects.add(AdvancedPurger.class);
+        viableObjects.add(LineTransfer.class);
+        viableObjects.add(LineTransferPusher.class);
+        viableObjects.add(LineTransferGrabber.class);
+        viableObjects.add(AdvancedLineTransfer.class);
+        viableObjects.add(AdvancedLineTransferPusher.class);
+        viableObjects.add(AdvancedLineTransferGrabber.class);
         viableObjects.add(CoordinateReceiver.class);
         viableObjects.add(CoordinateTransmitter.class);
-        viableObjects.add(LineTransfer.class);
         viableObjects.add(StorageUnitUpgradeTableModel.class);
         viableObjects.add(CargoStorageUnit.class);
 

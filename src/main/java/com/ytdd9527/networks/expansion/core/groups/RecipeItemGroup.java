@@ -4,6 +4,7 @@ import com.ytdd9527.networks.expansion.core.menu.common.SlimefunItem3x3RecipeMen
 import com.ytdd9527.networks.expansion.core.menu.common.SlimefunItem6x6RecipeMenu;
 import com.ytdd9527.networks.expansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -60,13 +61,13 @@ public class RecipeItemGroup extends FlexItemGroup {
                         if (ID_MAP.containsKey(slimefunItem.getId())) {
                             return ID_MAP.get(slimefunItem.getId());
                         }
-                        RecipeItemGroup recipeItemGroup = new RecipeItemGroup(new NamespacedKey(Networks.getInstance(), "SLIMEFUN_ITEM" + slimefunItem.getId().hashCode() + "_" + page), slimefunItem);
+                        RecipeItemGroup recipeItemGroup = new RecipeItemGroup(Keys.newKey("SLIMEFUN_ITEM" + slimefunItem.getId().hashCode() + "_" + page), slimefunItem);
                         ID_MAP.put(slimefunItem.getId(), recipeItemGroup);
                         return recipeItemGroup;
                     }
                 }
             } else {
-                return new RecipeItemGroup(new NamespacedKey(Networks.getInstance(), "SLIMEFUN_ITEM" + slimefunItem.getId().hashCode()), slimefunItem, page);
+                return new RecipeItemGroup(Keys.newKey("SLIMEFUN_ITEM" + slimefunItem.getId().hashCode()), slimefunItem, page);
             }
         } else if (!ItemStackUtil.isItemNull(itemStack)) {
             Material material = itemStack.getType();
@@ -95,13 +96,13 @@ public class RecipeItemGroup extends FlexItemGroup {
                         if (ID_MAP.containsKey(slimefunItem.getId())) {
                             return ID_MAP.get(slimefunItem.getId());
                         }
-                        RecipeItemGroup recipeItemGroup = new RecipeItemGroup(new NamespacedKey(Networks.getInstance(), "SLIMEFUN_ITEM" + slimefunItem.getId().hashCode() + "_" + page), slimefunItem);
+                        RecipeItemGroup recipeItemGroup = new RecipeItemGroup(Keys.newKey("SLIMEFUN_ITEM" + slimefunItem.getId().hashCode() + "_" + page), slimefunItem);
                         ID_MAP.put(slimefunItem.getId(), recipeItemGroup);
                         return recipeItemGroup;
                     }
                 }
             } else {
-                return new RecipeItemGroup(new NamespacedKey(Networks.getInstance(), "SLIMEFUN_ITEM" + slimefunItem.getId().hashCode()), slimefunItem, page);
+                return new RecipeItemGroup(Keys.newKey("SLIMEFUN_ITEM" + slimefunItem.getId().hashCode()), slimefunItem, page);
             }
         }
         return null;

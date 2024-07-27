@@ -3,6 +3,7 @@ package com.ytdd9527.networks.expansion.core.groups;
 import com.ytdd9527.networks.expansion.utils.GuideUtil;
 import com.ytdd9527.networks.expansion.utils.TextUtil;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
@@ -174,7 +175,7 @@ public class MainItemGroup extends FlexItemGroup {
                     return pageMap.get(page);
                 }
                 MainItemGroup mainItemGroup = pageMap.get(1);
-                mainItemGroup = new MainItemGroup(new NamespacedKey(Networks.getInstance(), this.getKey().getKey() + "_" + page), mainItemGroup.item, mainItemGroup.getTier(), page);
+                mainItemGroup = new MainItemGroup(Keys.newKey(this.getKey().getKey() + "_" + page), mainItemGroup.item, mainItemGroup.getTier(), page);
                 mainItemGroup.fatherItemGroupList = this.fatherItemGroupList;
                 mainItemGroup.sonItemGroupList = this.sonItemGroupList;
                 mainItemGroup.pageMap = this.pageMap;

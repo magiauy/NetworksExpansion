@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -33,6 +34,7 @@ public class NetworkNode {
     protected NetworkRoot root = null;
     protected Location nodePosition;
     protected NodeType nodeType;
+    @Getter
     protected long power;
 
     public NetworkNode(Location location, NodeType type) {
@@ -149,9 +151,4 @@ public class NetworkNode {
         }
         return 0;
     }
-
-    public long getPower() {
-        return this.power;
-    }
-
 }

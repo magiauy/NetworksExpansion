@@ -3,6 +3,7 @@ package com.ytdd9527.networks.expansion.core.groups;
 import com.ytdd9527.networks.expansion.utils.GuideUtil;
 import com.ytdd9527.networks.expansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -71,7 +72,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
     // TODO
     @Nonnull
     public static SubFlexItemGroup generateFromItemGroup(@Nonnull ItemGroup itemGroup, @Nonnull Player player) {
-        SubFlexItemGroup subFlexItemGroup = new SubFlexItemGroup(new NamespacedKey(JAVA_PLUGIN, itemGroup.getKey().getNamespace()), itemGroup.getItem(player), itemGroup.getTier());
+        SubFlexItemGroup subFlexItemGroup = new SubFlexItemGroup(Keys.newKey(itemGroup.getKey().getNamespace()), itemGroup.getItem(player), itemGroup.getTier());
         subFlexItemGroup.addTo(itemGroup.getItems());
         return subFlexItemGroup;
     }

@@ -27,7 +27,7 @@ public class BlockMenuUtil {
             ItemStack stack = blockMenu.getItemInSlot(slot);
 
             if (stack == null) {
-                blockMenu.replaceExistingItem(slot, item);
+                blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, Math.min(item.getAmount(), item.getMaxStackSize())));
                 item.setAmount(Math.max(0, item.getAmount() - item.getMaxStackSize()));
             } else {
                 int maxStackSize = Math.min(stack.getMaxStackSize(), blockMenu.toInventory().getMaxStackSize());

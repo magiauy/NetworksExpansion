@@ -4,6 +4,7 @@ import com.ytdd9527.networks.expansion.utils.GuideUtil;
 import com.ytdd9527.networks.expansion.utils.itemstacks.ItemStackUtil;
 import com.ytdd9527.networks.expansion.utils.registry.SlimefunCraftRegistry;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
@@ -86,7 +87,7 @@ public class CraftItemGroup extends FlexItemGroup {
 
     @Nonnull
     public static CraftItemGroup getBySlimefunItem(@Nonnull SlimefunItem slimefunItem) {
-        return new CraftItemGroup(new NamespacedKey(JAVA_PLUGIN, "" + slimefunItem.getId().hashCode()), slimefunItem);
+        return new CraftItemGroup(Keys.newKey("" + slimefunItem.getId().hashCode()), slimefunItem);
     }
 
     @Override

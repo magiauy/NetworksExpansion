@@ -64,7 +64,7 @@ public class NetworkRemote extends SlimefunItem {
                             ) {
                                 setGrid(e.getItem(), block, player);
                             } else {
-                                player.sendMessage(Theme.ERROR + "必须连接到一个网格 (不能是带合成的)");
+                                player.sendMessage(Theme.ERROR + "必须连接到一个网格");
                             }
                         }
                     } else {
@@ -110,9 +110,11 @@ public class NetworkRemote extends SlimefunItem {
 
     public static void openGrid(@Nonnull Location location, @Nonnull Player player) {
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(location);
+        SlimefunItem item = SlimefunItem.getById(blockData.getSfId());
         StorageCacheUtils.executeAfterLoad(blockData, () -> {
-            if (SlimefunItem.getById(blockData.getSfId()) instanceof NetworkGrid
-                    && Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK)) {
+            if (
+                    (item instanceof NetworkGrid || item instanceof NetworkCraftingGrid || item instanceof NetworkEncodingGridNewStyle || item instanceof NetworkGridNewStyle || item instanceof NetworkCraftingGridNewStyle)
+                    && (player.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK))) {
                 blockData.getBlockMenu().open(player);
             } else {
                 player.sendMessage(Theme.ERROR + "无法找到绑定的网格");

@@ -100,8 +100,8 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return ExpansionItems.NETWORK_ENCODING_GRID_NEW_STYLE.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+                return player.hasPermission("slimefun.inventory.bypass") || (ExpansionItems.NETWORK_ENCODING_GRID_NEW_STYLE.canUse(player, false)
+                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

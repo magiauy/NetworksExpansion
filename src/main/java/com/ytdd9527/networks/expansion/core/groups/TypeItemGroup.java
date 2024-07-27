@@ -5,6 +5,7 @@ import com.ytdd9527.networks.expansion.utils.GuideUtil;
 import com.ytdd9527.networks.expansion.utils.itemstacks.ItemStackUtil;
 import com.ytdd9527.networks.expansion.utils.registry.RecipeTypeRegistry;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
@@ -208,7 +209,7 @@ public class TypeItemGroup extends FlexItemGroup {
                 if (this.pageMap.containsKey(page)) {
                     return this.pageMap.get(page);
                 }
-                TypeItemGroup typeItemGroup = new TypeItemGroup(new NamespacedKey(JAVA_PLUGIN, this.getKey().getKey() + "_" + page), this.recipeType, page);
+                TypeItemGroup typeItemGroup = new TypeItemGroup(Keys.newKey(this.getKey().getKey() + "_" + page), this.recipeType, page);
                 typeItemGroup.pageMap = this.pageMap;
                 this.pageMap.put(page, typeItemGroup);
                 return typeItemGroup;
