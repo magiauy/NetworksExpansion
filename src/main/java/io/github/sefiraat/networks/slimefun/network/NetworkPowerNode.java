@@ -1,8 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
-
+import com.ytdd9527.networks.expansion.utils.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -29,9 +28,10 @@ import java.util.UUID;
 
 public class NetworkPowerNode extends NetworkObject implements EnergyNetComponent {
 
+    private static final String KEY_UUID = "display-uuid";
     private final int capacity;
     private boolean useSpecialModel = false;
-    private static final String KEY_UUID = "display-uuid";
+    private Map<Block, Block> placedBlocks = new HashMap<>();
 
     public NetworkPowerNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int capacity) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_NODE);
@@ -43,11 +43,12 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
     public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
-    private Map<Block, Block> placedBlocks = new HashMap<>();
+
     @Override
     public int getCapacity() {
         return this.capacity;
     }
+
     @Override
     public void preRegister() {
         // 只有当 useSpecialModel 为 true 时，才添加放置处理器
@@ -92,19 +93,23 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
             }
         });
     }
+
     public void setUseSpecialModel(boolean useSpecialModel) {
         this.useSpecialModel = useSpecialModel;
     }
+
     private void setupDisplay(@Nonnull Location location) {
         DisplayGroup displayGroup = DisplayGroupGenerators.generatePowerNode(location.clone().add(0.5, 0, 0.5));
         StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
     }
+
     private void removeDisplay(@Nonnull Location location) {
         DisplayGroup group = getDisplayGroup(location);
         if (group != null) {
             group.remove();
         }
     }
+
     @Nullable
     private UUID getDisplayGroupUUID(@Nonnull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
@@ -113,6 +118,7 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
         }
         return UUID.fromString(uuid);
     }
+
     @Nullable
     private DisplayGroup getDisplayGroup(@Nonnull Location location) {
         UUID uuid = getDisplayGroupUUID(location);

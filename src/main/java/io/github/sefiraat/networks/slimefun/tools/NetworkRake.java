@@ -1,33 +1,37 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.*;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
-import com.ytdd9527.networks.expansion.core.item.machine.manual.StorageUnitUpgradeTableModel;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedExport;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedPurger;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransfer;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferPusher;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.deprecated.CoordinateReceiver;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.deprecated.CoordinateTransmitter;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.unit.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.items.machines.manual.StorageUnitUpgradeTableModel;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedExport;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedImport;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedPurger;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
-import io.github.sefiraat.networks.slimefun.network.NetworkExport;
-import io.github.sefiraat.networks.slimefun.network.NetworkGrabber;
-import io.github.sefiraat.networks.slimefun.network.NetworkImport;
-import io.github.sefiraat.networks.slimefun.network.NetworkMonitor;
-import io.github.sefiraat.networks.slimefun.network.NetworkObject;
-import io.github.sefiraat.networks.slimefun.network.NetworkPusher;
-import io.github.sefiraat.networks.slimefun.network.NetworkVanillaGrabber;
-import io.github.sefiraat.networks.slimefun.network.NetworkVanillaPusher;
-import io.github.sefiraat.networks.slimefun.network.NetworkWirelessTransmitter;
 import io.github.sefiraat.networks.slimefun.network.NetworkAutoCrafter;
+import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
 import io.github.sefiraat.networks.slimefun.network.NetworkControlV;
 import io.github.sefiraat.networks.slimefun.network.NetworkControlX;
 import io.github.sefiraat.networks.slimefun.network.NetworkEncoder;
+import io.github.sefiraat.networks.slimefun.network.NetworkExport;
+import io.github.sefiraat.networks.slimefun.network.NetworkGrabber;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
+import io.github.sefiraat.networks.slimefun.network.NetworkImport;
+import io.github.sefiraat.networks.slimefun.network.NetworkMonitor;
+import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerDisplay;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerOutlet;
+import io.github.sefiraat.networks.slimefun.network.NetworkPusher;
 import io.github.sefiraat.networks.slimefun.network.NetworkVacuum;
+import io.github.sefiraat.networks.slimefun.network.NetworkVanillaGrabber;
+import io.github.sefiraat.networks.slimefun.network.NetworkVanillaPusher;
+import io.github.sefiraat.networks.slimefun.network.NetworkWirelessTransmitter;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkBestPusher;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkMorePusher;
 import io.github.sefiraat.networks.utils.Keys;
@@ -122,8 +126,8 @@ public class NetworkRake extends LimitedUseItem {
             final Player player = e.getPlayer();
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             if (slimefunItem != null
-                && viableObjects.contains(slimefunItem.getClass())
-                && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)
+                    && viableObjects.contains(slimefunItem.getClass())
+                    && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)
             ) {
                 final BlockBreakEvent event = new BlockBreakEvent(block, player);
                 Networks.getPluginManager().callEvent(event);

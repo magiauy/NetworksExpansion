@@ -37,29 +37,29 @@ public class NetworkWirelessConfigurator extends SlimefunItem {
     ) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler(
-            new ItemUseHandler() {
-                @Override
-                public void onRightClick(PlayerRightClickEvent e) {
-                    final Player player = e.getPlayer();
-                    final Optional<Block> optional = e.getClickedBlock();
-                    if (optional.isPresent()) {
-                        final Block block = optional.get();
-                        final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
-                        if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
-                            final ItemStack heldItem = player.getInventory().getItemInMainHand();
-                            final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
-                            if (slimefunItem instanceof NetworkWirelessTransmitter transmitter && player.isSneaking()) {
-                                setTransmitter(transmitter, heldItem, blockMenu, player);
-                            } else if (slimefunItem instanceof NetworkWirelessReceiver && !player.isSneaking()) {
-                                setReceiver(heldItem, blockMenu, player);
+                new ItemUseHandler() {
+                    @Override
+                    public void onRightClick(PlayerRightClickEvent e) {
+                        final Player player = e.getPlayer();
+                        final Optional<Block> optional = e.getClickedBlock();
+                        if (optional.isPresent()) {
+                            final Block block = optional.get();
+                            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
+                            if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
+                                final ItemStack heldItem = player.getInventory().getItemInMainHand();
+                                final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+                                if (slimefunItem instanceof NetworkWirelessTransmitter transmitter && player.isSneaking()) {
+                                    setTransmitter(transmitter, heldItem, blockMenu, player);
+                                } else if (slimefunItem instanceof NetworkWirelessReceiver && !player.isSneaking()) {
+                                    setReceiver(heldItem, blockMenu, player);
+                                }
+                            } else {
+                                player.sendMessage(Theme.ERROR + "必须对着网络无线方块使用。");
                             }
-                        } else {
-                            player.sendMessage(Theme.ERROR + "必须对着网络无线方块使用。");
                         }
+                        e.cancel();
                     }
-                    e.cancel();
                 }
-            }
         );
     }
 

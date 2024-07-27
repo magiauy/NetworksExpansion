@@ -50,8 +50,8 @@ public enum StorageUnitType {
 
     @Nullable
     public StorageUnitType next() {
-        int index = this.ordinal()+1;
-        if(index >= values().length) {
+        int index = this.ordinal() + 1;
+        if (index >= values().length) {
             return null;
         }
         return values()[index];
@@ -59,7 +59,7 @@ public enum StorageUnitType {
 
     @Nullable
     public StorageUnitType previous() {
-        int index = this.ordinal()-1;
+        int index = this.ordinal() - 1;
         if (index < 0) {
             return null;
         }

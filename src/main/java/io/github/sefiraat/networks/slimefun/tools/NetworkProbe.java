@@ -55,6 +55,7 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             }
         }
     }
+
     private void displayToPlayer(@Nonnull Block block, @Nonnull Player player) {
         final NetworkRoot root = NetworkController.getNetworks().get(block.getLocation());
         if (root != null) {
@@ -148,13 +149,16 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             }
         }
     }
+
     @Override
     public int cooldownDuration() {
         return 10;
     }
+
     public String formatter(String name, long count) {
         return MESSAGE_FORMAT.format(new Object[]{Theme.CLICK_INFO.getColor(), name, Theme.SUCCESS.getColor(), count}, new StringBuffer(), null).toString();
     }
+
     public String formatter(String name, String s) {
         return MESSAGE_FORMAT.format(new Object[]{Theme.CLICK_INFO.getColor(), name, Theme.SUCCESS.getColor(), s}, new StringBuffer(), null).toString();
     }

@@ -1,10 +1,10 @@
 package io.github.sefiraat.networks.network;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
-import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
 import com.ytdd9527.networks.expansion.core.data.ItemContainer;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedGreedyBlock;
+import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.unit.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedGreedyBlock;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.barrel.InfinityBarrel;
@@ -41,16 +41,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class NetworkRoot extends NetworkNode {
 
-    private boolean progressing = false;
     @Getter
     private final Set<Location> nodeLocations = new HashSet<>();
-    @Getter
-    private int maxNodes;
-    private boolean isOverburdened = false;
     private final int[] CELL_AVAILABLE_SLOTS = NetworkCell.SLOTS.stream().mapToInt(i -> i).toArray();
-    private final int[] GREEDY_BLOCK_AVAILABLE_SLOTS = new int[] {NetworkGreedyBlock.INPUT_SLOT};
+    private final int[] GREEDY_BLOCK_AVAILABLE_SLOTS = new int[]{NetworkGreedyBlock.INPUT_SLOT};
     private final int[] ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS = AdvancedGreedyBlock.INPUT_SLOTS;
-
     @Getter
     private final Set<Location> bridges = ConcurrentHashMap.newKeySet();
     @Getter
@@ -90,7 +85,6 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> wirelessTransmitters = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> wirelessReceivers = ConcurrentHashMap.newKeySet();
-
     @Getter
     private final Set<Location> chainPushers = ConcurrentHashMap.newKeySet();
     @Getter
@@ -99,21 +93,21 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> chainDispatchers = ConcurrentHashMap.newKeySet();
     private final Set<Location> advancedImporters = ConcurrentHashMap.newKeySet();
     private final Set<Location> advancedExporters = ConcurrentHashMap.newKeySet();
-
     private final Set<Location> advancedGreedyBlocks = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> coordinateTransmitters = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> coordinateReceivers = ConcurrentHashMap.newKeySet();
-
     @Getter
     private final Set<Location> chainVanillaPushers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
-
-
     @Getter
     private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
+    private boolean progressing = false;
+    @Getter
+    private int maxNodes;
+    private boolean isOverburdened = false;
     private Set<BarrelIdentity> barrels = null;
 
     private Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
@@ -197,8 +191,8 @@ public class NetworkRoot extends NetworkNode {
                     advancedGreedyBlocks.add(location);
                 }
             }
-            case COORDINATE_TRANSMITTER ->coordinateTransmitters.add(location);
-            case NE_COORDINATE_RECEIVER ->coordinateReceivers.add(location);
+            case COORDINATE_TRANSMITTER -> coordinateTransmitters.add(location);
+            case NE_COORDINATE_RECEIVER -> coordinateReceivers.add(location);
             case LINE_TRANSMITTER -> chainDispatchers.add(location);
             case LINE_TRANSMITTER_VANILLA_GRABBER -> chainVanillaGrabbers.add(location);
             case LINE_TRANSMITTER_VANILLA_PUSHER -> chainVanillaPushers.add(location);
@@ -258,7 +252,7 @@ public class NetworkRoot extends NetworkNode {
 
         // Cargo storage units
         Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
-        for (StorageUnitData cache: cacheMap.keySet()) {
+        for (StorageUnitData cache : cacheMap.keySet()) {
             for (ItemContainer itemContainer : cache.getStoredItems()) {
                 final Long currentAmount = itemStacks.get(itemContainer.getSample());
                 long newAmount;
@@ -495,7 +489,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
-        for (StorageUnitData cache: cacheMap.keySet()) {
+        for (StorageUnitData cache : cacheMap.keySet()) {
             for (ItemContainer itemContainer : cache.getStoredItems()) {
                 final Integer currentAmount = itemStacks.get(itemContainer.getSample());
                 int newAmount;
@@ -803,7 +797,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Units
-        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
+        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
             ItemStack take = cache.requestItem(request);
             if (take != null) {
                 if (stackToReturn == null) {
@@ -1010,7 +1004,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Units
-        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
+        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
             ItemStack take = cache.requestItem(request);
             if (take != null) {
                 if (stackToReturn == null) {
@@ -1210,7 +1204,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
-        for (StorageUnitData cache: cacheMap.keySet()) {
+        for (StorageUnitData cache : cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
                 final ItemStack itemStack = itemContainer.getSample();
@@ -1294,6 +1288,7 @@ public class NetworkRoot extends NetworkNode {
 
         return false;
     }
+
     public int getAmount(@Nonnull ItemStack itemStack) {
         long totalAmount = 0;
         for (BlockMenu menu : getAdvancedGreedyBlocks()) {
@@ -1506,7 +1501,7 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        for (StorageUnitData cache: getCargoStorageUnitDatas().keySet()) {
+        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
             // 先填充存在这个物品的存储
             cache.depositItemStack(incoming, true);
 

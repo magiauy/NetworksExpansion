@@ -30,39 +30,44 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @SuppressWarnings("deprecation")
 public class NetworkQuantumWorkbench extends SlimefunItem {
 
     private static final int[] BACKGROUND_SLOTS = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 16, 17, 18, 22, 24, 26, 27, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 16, 17, 18, 22, 24, 26, 27, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
     };
     private static final int[] RECIPE_SLOTS = {
-        10, 11, 12, 19, 20, 21, 28, 29, 30
+            10, 11, 12, 19, 20, 21, 28, 29, 30
     };
     private static final int CRAFT_SLOT = 23;
     private static final int OUTPUT_SLOT = 25;
 
     private static final CustomItemStack CRAFT_BUTTON_STACK = new CustomItemStack(
-        Material.CRAFTING_TABLE,
-        Theme.CLICK_INFO + "点击进行量子纠缠"
+            Material.CRAFTING_TABLE,
+            Theme.CLICK_INFO + "点击进行量子纠缠"
     );
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 
     public static final RecipeType TYPE = new RecipeType(
-        Keys.newKey("quantum-workbench"),
-        Theme.themedItemStack(
-            Material.BRAIN_CORAL_BLOCK,
-            Theme.MACHINE,
-            "网络量子工作台",
-            "在量子工作台中制作"
-        ),
-        NetworkQuantumWorkbench::addRecipe
+            Keys.newKey("quantum-workbench"),
+            Theme.themedItemStack(
+                    Material.BRAIN_CORAL_BLOCK,
+                    Theme.MACHINE,
+                    "网络量子工作台",
+                    "在量子工作台中制作"
+            ),
+            NetworkQuantumWorkbench::addRecipe
     );
 
     @ParametersAreNonnullByDefault
     public NetworkQuantumWorkbench(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+    }
+
+    public static void addRecipe(ItemStack[] input, ItemStack output) {
+        RECIPES.put(input, output);
     }
 
     @Override
@@ -102,7 +107,6 @@ public class NetworkQuantumWorkbench extends SlimefunItem {
             }
         };
     }
-
 
     public void craft(@Nonnull BlockMenu menu, @Nonnull Player player) {
         final ItemStack[] inputs = new ItemStack[RECIPE_SLOTS.length];
@@ -157,10 +161,11 @@ public class NetworkQuantumWorkbench extends SlimefunItem {
                 }
                 menu.pushItem(crafted, OUTPUT_SLOT);
             } else {
-                player.sendMessage(Theme.WARNING+ "需要清空输出烂");
+                player.sendMessage(Theme.WARNING + "需要清空输出烂");
             }
         }
     }
+
     private boolean testRecipe(ItemStack[] input, ItemStack[] recipe) {
         for (int test = 0; test < recipe.length; test++) {
             if (!SlimefunUtils.isItemSimilar(input[test], recipe[test], true, false, false)) {
@@ -179,8 +184,5 @@ public class NetworkQuantumWorkbench extends SlimefunItem {
                 menu.dropItems(menu.getLocation(), OUTPUT_SLOT);
             }
         };
-    }
-    public static void addRecipe(ItemStack[] input, ItemStack output) {
-        RECIPES.put(input, output);
     }
 }

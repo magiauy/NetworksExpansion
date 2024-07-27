@@ -28,9 +28,8 @@ public class NetworkController extends NetworkObject {
     private static final String CRAYON = "crayon";
     private static final Map<Location, NetworkRoot> NETWORKS = new HashMap<>();
     private static final Set<Location> CRAYONS = new HashSet<>();
-
-    private final ItemSetting<Integer> maxNodes;
     protected final Map<Location, Boolean> firstTickMap = new HashMap<>();
+    private final ItemSetting<Integer> maxNodes;
 
     public NetworkController(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CONTROLLER);
@@ -68,13 +67,6 @@ public class NetworkController extends NetworkObject {
         );
     }
 
-    private void onFirstTick(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
-        final String crayon = data.getData(CRAYON);
-        if (Boolean.parseBoolean(crayon)) {
-            CRAYONS.add(block.getLocation());
-        }
-    }
-
     public static Map<Location, NetworkRoot> getNetworks() {
         return NETWORKS;
     }
@@ -100,6 +92,13 @@ public class NetworkController extends NetworkObject {
     public static void wipeNetwork(@Nonnull Location location) {
         for (NetworkNode node : NETWORKS.remove(location).getChildrenNodes()) {
             NetworkStorage.removeNode(node.getNodePosition());
+        }
+    }
+
+    private void onFirstTick(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
+        final String crayon = data.getData(CRAYON);
+        if (Boolean.parseBoolean(crayon)) {
+            CRAYONS.add(block.getLocation());
         }
     }
 }

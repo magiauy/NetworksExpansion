@@ -1,10 +1,10 @@
 package com.ytdd9527.networks.expansion.core.menu.common;
 
-import com.ytdd9527.networks.expansion.core.group.CraftItemGroup;
-import com.ytdd9527.networks.expansion.core.group.RecipeItemGroup;
-import com.ytdd9527.networks.expansion.core.group.TypeItemGroup;
-import com.ytdd9527.networks.libs.plugin.util.ItemStackUtil;
-import com.ytdd9527.networks.libs.slimefun.util.GuideUtil;
+import com.ytdd9527.networks.expansion.core.groups.CraftItemGroup;
+import com.ytdd9527.networks.expansion.core.groups.RecipeItemGroup;
+import com.ytdd9527.networks.expansion.core.groups.TypeItemGroup;
+import com.ytdd9527.networks.expansion.utils.GuideUtil;
+import com.ytdd9527.networks.expansion.utils.itemstacks.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -31,13 +30,13 @@ public class SlimefunItem3x3RecipeMenu extends ChestMenu {
     private final int BACK_SLOT = 1;
     private final int RECIPE_TYPE = 10;
     private final int RECIPE_RESULT = 16;
-    private final int[] RECIPE_CONTENT = new int[] {3, 4, 5, 12, 13, 14, 21, 22, 23};
+    private final int[] RECIPE_CONTENT = new int[]{3, 4, 5, 12, 13, 14, 21, 22, 23};
     private final int INFO_SLOT = 9;
 
-    private final int[] BORDER = new int[] {27, 29, 30, 31, 32, 33, 35};
-    private final int PREVIOUS_SLOT =  28;
+    private final int[] BORDER = new int[]{27, 29, 30, 31, 32, 33, 35};
+    private final int PREVIOUS_SLOT = 28;
     private final int NEXT_SLOT = 34;
-    private final int[] WORK_CONTENT = new int[] {36, 45, 37, 46, 38, 47, 39, 48, 40, 49, 41, 50, 42, 51, 43, 52, 44, 53};
+    private final int[] WORK_CONTENT = new int[]{36, 45, 37, 46, 38, 47, 39, 48, 40, 49, 41, 50, 42, 51, 43, 52, 44, 53};
 
     private final Player player;
     private final PlayerProfile playerProfile;
@@ -89,7 +88,7 @@ public class SlimefunItem3x3RecipeMenu extends ChestMenu {
             ItemStack itemStack = slimefunItem.getRecipe()[i];
             ItemStack icon = itemStack;
             SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
-            if(sfItem != null && !this.playerProfile.hasUnlocked(sfItem.getResearch())) {
+            if (sfItem != null && !this.playerProfile.hasUnlocked(sfItem.getResearch())) {
                 icon = ChestMenuUtils.getNotResearchedItem();
             }
             this.addItem(RECIPE_CONTENT[i], ItemStackUtil.cloneWithoutNBT(icon));
@@ -151,7 +150,7 @@ public class SlimefunItem3x3RecipeMenu extends ChestMenu {
                     ItemStack itemStack = displayRecipes.get(index);
                     ItemStack icon = itemStack;
                     SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-                    if(slimefunItem != null && !this.playerProfile.hasUnlocked(slimefunItem.getResearch())) {
+                    if (slimefunItem != null && !this.playerProfile.hasUnlocked(slimefunItem.getResearch())) {
                         icon = ChestMenuUtils.getNotResearchedItem();
                     }
                     this.addItem(WORK_CONTENT[i], ItemStackUtil.cloneWithoutNBT(icon));

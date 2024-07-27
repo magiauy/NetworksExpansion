@@ -2,13 +2,17 @@ package com.ytdd9527.networks.expansion.core.data;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
+@Getter
 public class ItemContainer {
 
     private final int id;
     private final ItemStack sample;
+    @Getter
     private final ItemStackWrapper wrapper;
+    @Getter
     private int amount;
 
     public ItemContainer(int id, ItemStack item, int amount) {
@@ -23,16 +27,8 @@ public class ItemContainer {
         return sample.clone();
     }
 
-    public ItemStackWrapper getWrapper() {
-        return wrapper;
-    }
-
     public boolean isSimilar(ItemStack other) {
         return StackUtils.itemsMatch(wrapper, other);
-    }
-
-    public int getAmount() {
-        return amount;
     }
 
     public void addAmount(int amount) {
@@ -41,6 +37,7 @@ public class ItemContainer {
 
     /**
      * Remove specific amount from container
+     *
      * @param amount: amount will be removed
      * @return amount that actual removed
      */
@@ -57,10 +54,6 @@ public class ItemContainer {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String toString() {

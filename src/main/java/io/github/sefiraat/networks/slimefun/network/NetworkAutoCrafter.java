@@ -43,27 +43,22 @@ import java.util.Optional;
 @SuppressWarnings("deprecation")
 public class NetworkAutoCrafter extends NetworkObject {
 
+    public static final int OUTPUT_SLOT = 16;
+    public static final CustomItemStack BLUEPRINT_BACKGROUND_STACK = new CustomItemStack(
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "合成蓝图"
+    );
+    public static final CustomItemStack OUTPUT_BACKGROUND_STACK = new CustomItemStack(
+            Material.GREEN_STAINED_GLASS_PANE, Theme.PASSIVE + "输出"
+    );
     private static final int[] BACKGROUND_SLOTS = new int[]{
             3, 4, 5, 12, 13, 14, 21, 22, 23
     };
     private static final int[] BLUEPRINT_BACKGROUND = new int[]{0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] OUTPUT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
-
     private static final int BLUEPRINT_SLOT = 10;
-    public static final int OUTPUT_SLOT = 16;
-
-    public static final CustomItemStack BLUEPRINT_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "合成蓝图"
-    );
-
-    public static final CustomItemStack OUTPUT_BACKGROUND_STACK = new CustomItemStack(
-            Material.GREEN_STAINED_GLASS_PANE, Theme.PASSIVE + "输出"
-    );
-
+    private static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
     private final int chargePerCraft;
     private final boolean withholding;
-
-    private static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
 
     public NetworkAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int chargePerCraft, boolean withholding) {
         super(itemGroup, item, recipeType, recipe, NodeType.CRAFTER);

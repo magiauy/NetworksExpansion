@@ -23,9 +23,13 @@ public class SupportedPluginManager {
         this.infinityExpansion = Bukkit.getPluginManager().isPluginEnabled("InfinityExpansion");
         this.netheopoiesis = Bukkit.getPluginManager().isPluginEnabled("Netheopoiesis");
         Networks.getInstance()
-            .getServer()
-            .getScheduler()
-            .runTaskLater(Networks.getInstance(), this::firstTickRegistrations, 1);
+                .getServer()
+                .getScheduler()
+                .runTaskLater(Networks.getInstance(), this::firstTickRegistrations, 1);
+    }
+
+    public static SupportedPluginManager getInstance() {
+        return instance;
     }
 
     private void firstTickRegistrations() {
@@ -47,9 +51,5 @@ public class SupportedPluginManager {
 
     public boolean isWildChests() {
         return wildChests;
-    }
-
-    public static SupportedPluginManager getInstance() {
-        return instance;
     }
 }

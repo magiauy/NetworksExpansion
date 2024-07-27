@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.utils;
 
-import com.ytdd9527.networks.libs.plugin.util.TextUtil;
+import com.ytdd9527.networks.expansion.utils.TextUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
@@ -38,7 +38,6 @@ public enum Theme {
     RECIPE_TYPE(ChatColor.of("#ffe89c"), "配方类型"),
 
 
-
     GUIDE(ChatColor.of("#444444"), "指南");
 
 
@@ -52,31 +51,6 @@ public enum Theme {
         this.color = color;
         this.loreLine = loreLine;
 
-    }
-
-    @Nonnull
-    public Particle.DustOptions getDustOptions(float size) {
-        return new Particle.DustOptions(
-            Color.fromRGB(
-                color.getColor().getRed(),
-                color.getColor().getGreen(),
-                color.getColor().getBlue()
-            ),
-            size
-        );
-    }
-
-    /**
-     * Returns the name of this enum constant, as contained in the
-     * declaration.  This method may be overridden, though it typically
-     * isn't necessary or desirable.  An enum class should override this
-     * method when a more "programmer-friendly" string form exists.
-     *
-     * @return the name of this enum constant
-     */
-    @Override
-    public String toString() {
-        return this.color.toString();
     }
 
     /**
@@ -101,12 +75,13 @@ public enum Theme {
         finalLore.add("");
         finalLore.add(applyThemeToString(Theme.CLICK_INFO, themeType.getLoreLine()));
         return new SlimefunItemStack(
-            id,
-            itemStack,
-            Theme.applyThemeToString(themeType, name),
-            finalLore.toArray(new String[finalLore.size() - 1])
+                id,
+                itemStack,
+                Theme.applyThemeToString(themeType, name),
+                finalLore.toArray(new String[finalLore.size() - 1])
         );
     }
+
     @Nonnull
     @ParametersAreNonnullByDefault
     public static SlimefunItemStack tsItem(String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
@@ -121,6 +96,7 @@ public enum Theme {
                 finalLore.toArray(new String[finalLore.size() - 1])
         );
     }
+
     @Nonnull
     @ParametersAreNonnullByDefault
     public static SlimefunItemStack Random(
@@ -146,7 +122,6 @@ public enum Theme {
         );
     }
 
-
     @Nonnull
     @ParametersAreNonnullByDefault
     public static SlimefunItemStack model(
@@ -165,9 +140,9 @@ public enum Theme {
         }
         finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
         return new SlimefunItemStack(
-                id+"_MODEL",
+                id + "_MODEL",
                 itemStack,
-                coloredName+" &f(&a模型&f)",
+                coloredName + " &f(&a模型&f)",
                 finalLore.toArray(new String[0])
         );
     }
@@ -206,10 +181,35 @@ public enum Theme {
         finalLore.add("");
         finalLore.add(applyThemeToString(Theme.CLICK_INFO, themeType.getLoreLine()));
         return new CustomItemStack(
-            material,
-            Theme.applyThemeToString(themeType, name),
-            finalLore.toArray(new String[finalLore.size() - 1])
+                material,
+                Theme.applyThemeToString(themeType, name),
+                finalLore.toArray(new String[finalLore.size() - 1])
         );
+    }
+
+    @Nonnull
+    public Particle.DustOptions getDustOptions(float size) {
+        return new Particle.DustOptions(
+                Color.fromRGB(
+                        color.getColor().getRed(),
+                        color.getColor().getGreen(),
+                        color.getColor().getBlue()
+                ),
+                size
+        );
+    }
+
+    /**
+     * Returns the name of this enum constant, as contained in the
+     * declaration.  This method may be overridden, though it typically
+     * isn't necessary or desirable.  An enum class should override this
+     * method when a more "programmer-friendly" string form exists.
+     *
+     * @return the name of this enum constant
+     */
+    @Override
+    public String toString() {
+        return this.color.toString();
     }
 
 

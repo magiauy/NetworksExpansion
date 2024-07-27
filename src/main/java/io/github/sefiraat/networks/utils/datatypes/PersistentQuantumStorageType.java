@@ -29,6 +29,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
     public static final NamespacedKey MAX_AMOUNT = Keys.newKey("max_amount");
     public static final NamespacedKey VOID = Keys.newKey("void");
     public static final NamespacedKey SUPPORTS_CUSTOM_MAX_AMOUNT = Keys.newKey("supports_custom_max_amount");
+
     @Override
     @Nonnull
     public Class<PersistentDataContainer> getPrimitiveType() {

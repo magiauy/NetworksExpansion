@@ -2,9 +2,9 @@ package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkCraftingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkEncodingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkGridNewStyle;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.grid.NetworkCraftingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.grid.NetworkEncodingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.grid.NetworkGridNewStyle;
 import de.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkCraftingGrid;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
@@ -34,10 +34,10 @@ public class NetworkRemote extends SlimefunItem {
 
     private static final NamespacedKey KEY = Keys.newKey("location");
     private static final int[] RANGES = new int[]{
-        150,
-        500,
-        0,
-        -1
+            150,
+            500,
+            0,
+            -1
     };
 
     private final int range;
@@ -96,8 +96,8 @@ public class NetworkRemote extends SlimefunItem {
             final boolean sameDimension = location.getWorld().equals(player.getWorld());
 
             if (range == -1
-                || range == 0 && sameDimension
-                || sameDimension && player.getLocation().distance(location) <= range
+                    || range == 0 && sameDimension
+                    || sameDimension && player.getLocation().distance(location) <= range
             ) {
                 openGrid(location, player);
             } else {
@@ -112,7 +112,7 @@ public class NetworkRemote extends SlimefunItem {
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(location);
         StorageCacheUtils.executeAfterLoad(blockData, () -> {
             if (SlimefunItem.getById(blockData.getSfId()) instanceof NetworkGrid
-                && Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK)) {
+                    && Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK)) {
                 blockData.getBlockMenu().open(player);
             } else {
                 player.sendMessage(Theme.ERROR + "无法找到绑定的网格");
@@ -120,12 +120,12 @@ public class NetworkRemote extends SlimefunItem {
         }, false);
     }
 
-    public int getRange() {
-        return this.range;
-    }
-
     public static int[] getRanges() {
         return RANGES;
+    }
+
+    public int getRange() {
+        return this.range;
     }
 
     @Override

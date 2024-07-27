@@ -28,7 +28,7 @@ public final class NetworksItemGroups {
             new CustomItemStack(
                     new ItemStack(Material.BLACK_STAINED_GLASS),
                     Theme.MAIN.getColor() + "网络 (Networks)"
-            ),0
+            ), 0
     );
 
     public static final DummyItemGroup MATERIALS = new DummyItemGroup(
@@ -36,7 +36,7 @@ public final class NetworksItemGroups {
             new CustomItemStack(
                     new ItemStack(Material.WHITE_STAINED_GLASS),
                     Theme.MAIN.getColor() + "合成材料"
-            ),0
+            ), 0
     );
 
     public static final DummyItemGroup TOOLS = new DummyItemGroup(
@@ -44,7 +44,7 @@ public final class NetworksItemGroups {
             new CustomItemStack(
                     new ItemStack(Material.PAINTING),
                     Theme.MAIN.getColor() + "网络管理工具"
-            ),0
+            ), 0
     );
 
     public static final DummyItemGroup NETWORK_ITEMS = new DummyItemGroup(
@@ -52,7 +52,7 @@ public final class NetworksItemGroups {
             new CustomItemStack(
                     new ItemStack(Material.BLACK_STAINED_GLASS),
                     Theme.MAIN.getColor() + "网络物品"
-            ),0
+            ), 0
     );
 
     public static final DummyItemGroup NETWORK_QUANTUMS = new DummyItemGroup(
@@ -60,7 +60,7 @@ public final class NetworksItemGroups {
             new CustomItemStack(
                     new ItemStack(Material.WHITE_TERRACOTTA),
                     Theme.MAIN.getColor() + "量子存储设备"
-            ),0
+            ), 0
     );
 
     public static final ItemGroup DISABLED_ITEMS = new HiddenItemGroup(
@@ -70,6 +70,7 @@ public final class NetworksItemGroups {
                     Theme.MAIN.getColor() + "已禁用/移除的物品"
             )
     );
+
     static {
         final Networks plugin = Networks.getInstance();
 
@@ -81,18 +82,6 @@ public final class NetworksItemGroups {
         NetworksItemGroups.NETWORK_QUANTUMS.register(plugin);
         NetworksItemGroups.DISABLED_ITEMS.register(plugin);
 
-    }
-
-    public static class HiddenItemGroup extends ItemGroup {
-
-        public HiddenItemGroup(NamespacedKey key, ItemStack item) {
-            super(key, item);
-        }
-
-        @Override
-        public boolean isHidden(@Nonnull Player p) {
-            return true;
-        }
     }
 
     @Nonnull
@@ -108,6 +97,18 @@ public final class NetworksItemGroups {
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+
+    public static class HiddenItemGroup extends ItemGroup {
+
+        public HiddenItemGroup(NamespacedKey key, ItemStack item) {
+            super(key, item);
+        }
+
+        @Override
+        public boolean isHidden(@Nonnull Player p) {
+            return true;
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package com.ytdd9527.networks.expansion.core.enums;
 
-import com.ytdd9527.networks.libs.plugin.util.TextUtil;
+import com.ytdd9527.networks.expansion.utils.TextUtil;
 
 public enum TransportMode {
     NONE,

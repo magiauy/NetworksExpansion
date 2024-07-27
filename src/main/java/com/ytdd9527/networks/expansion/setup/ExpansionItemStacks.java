@@ -24,7 +24,7 @@ import java.util.Map;
 public class ExpansionItemStacks {
     //工作台
 
-    public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH =  Theme.Random(
+    public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_WORKBENCH",
             new ItemStack(Material.BAMBOO_BLOCK),
             Theme.MACHINE,
@@ -32,7 +32,7 @@ public class ExpansionItemStacks {
     );
 
     //工具
-    public static final SlimefunItemStack NETWORK_COORDINATE_CONFIGURATOR =  Theme.Random(
+    public static final SlimefunItemStack NETWORK_COORDINATE_CONFIGURATOR = Theme.Random(
             "NTW_EXPANSION_COORDINATE_CONFIGURATOR",
             new ItemStack(Material.RECOVERY_COMPASS),
             Theme.MACHINE,
@@ -102,7 +102,7 @@ public class ExpansionItemStacks {
             "NTW_EXPANSION_POINT_TRANSFER",
             Enchanted(Material.END_ROD),
             Theme.MACHINE,
-           "对点传输器");
+            "对点传输器");
     public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
             "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
             new ItemStack(Material.END_ROD),
@@ -814,7 +814,7 @@ public class ExpansionItemStacks {
             "&6支持网络快速输入/输出",
             "",
             "&7⇨ &e可储存 35 种物品",
-            "&7⇨ &e每种物品可容纳 "+Integer.MAX_VALUE+" 个",
+            "&7⇨ &e每种物品可容纳 " + Integer.MAX_VALUE + " 个",
             "",
             thanks,
             ""
@@ -1011,13 +1011,14 @@ public class ExpansionItemStacks {
             "&6支持网络快速输入/输出",
             "",
             "&7⇨ &e可储存 35 种物品",
-            "&7⇨ &e每种物品可容纳 "+Integer.MAX_VALUE+" 个",
+            "&7⇨ &e每种物品可容纳 " + Integer.MAX_VALUE + " 个",
             "",
             "&7⇨ &e需要网络扳手才能拆除模型方块",
             "",
             thanks,
             ""
     );
+
     static {
         typeMap.put(StorageUnitType.TINY, CARGO_STORAGE_UNIT_1);
         typeMap.put(StorageUnitType.MINI, CARGO_STORAGE_UNIT_2);

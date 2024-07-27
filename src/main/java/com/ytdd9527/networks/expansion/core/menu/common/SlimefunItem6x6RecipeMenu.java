@@ -1,11 +1,11 @@
 package com.ytdd9527.networks.expansion.core.menu.common;
 
-import com.ytdd9527.networks.expansion.core.group.CraftItemGroup;
-import com.ytdd9527.networks.expansion.core.group.RecipeItemGroup;
-import com.ytdd9527.networks.expansion.core.group.TypeItemGroup;
-import com.ytdd9527.networks.expansion.core.helper.Icon;
-import com.ytdd9527.networks.libs.plugin.util.ItemStackUtil;
-import com.ytdd9527.networks.libs.slimefun.util.GuideUtil;
+import com.ytdd9527.networks.expansion.core.groups.CraftItemGroup;
+import com.ytdd9527.networks.expansion.core.groups.RecipeItemGroup;
+import com.ytdd9527.networks.expansion.core.groups.TypeItemGroup;
+import com.ytdd9527.networks.expansion.core.helpers.Icon;
+import com.ytdd9527.networks.expansion.utils.GuideUtil;
+import com.ytdd9527.networks.expansion.utils.itemstacks.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -15,7 +15,6 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -33,8 +32,8 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
     private final int BACK_SLOT = 1;
     private final int RECIPE_TYPE = 10;
     private final int RECIPE_RESULT = 37;
-    private final int[] RECIPE_CONTENT = new int[] {3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25, 26, 30, 31, 32, 33, 34, 35, 39, 40, 41, 42, 43, 44, 48, 49, 50, 51, 52, 53};
-    private final int[] BORDER = new int[] {0, 2, 11, 18, 19, 20, 27, 28, 29, 36, 38, 45, 47};
+    private final int[] RECIPE_CONTENT = new int[]{3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25, 26, 30, 31, 32, 33, 34, 35, 39, 40, 41, 42, 43, 44, 48, 49, 50, 51, 52, 53};
+    private final int[] BORDER = new int[]{0, 2, 11, 18, 19, 20, 27, 28, 29, 36, 38, 45, 47};
     private final int INFO_SLOT = 9;
 
     private final int WORK_BUTTON = 46;
@@ -42,8 +41,8 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
     private final int WORK_BACK_SLOT = 0;
     private final int WORK_PREVIOUS_SLOT = 1;
     private final int WORK_NEXT_SLOT = 7;
-    private final int[] WORK_BORDER = new int[] {2, 3, 4, 5, 6, 8};
-    private final int[] WORK_CONTENT = new int[] {9, 18, 10, 19, 11, 20, 12, 21, 13, 22, 14, 23, 15, 24, 16, 25, 17, 26};
+    private final int[] WORK_BORDER = new int[]{2, 3, 4, 5, 6, 8};
+    private final int[] WORK_CONTENT = new int[]{9, 18, 10, 19, 11, 20, 12, 21, 13, 22, 14, 23, 15, 24, 16, 25, 17, 26};
 
     private final Player player;
     private final PlayerProfile playerProfile;
@@ -96,7 +95,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
             ItemStack itemStack = slimefunItem.getRecipe()[i];
             ItemStack icon = itemStack;
             SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
-            if(sfItem != null && !this.playerProfile.hasUnlocked(sfItem.getResearch())) {
+            if (sfItem != null && !this.playerProfile.hasUnlocked(sfItem.getResearch())) {
                 icon = ChestMenuUtils.getNotResearchedItem();
             }
             this.addItem(RECIPE_CONTENT[i], ItemStackUtil.cloneWithoutNBT(icon));
@@ -179,7 +178,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                     ItemStack itemStack = displayRecipes.get(index);
                     ItemStack icon = itemStack;
                     SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-                    if(slimefunItem != null && !this.playerProfile.hasUnlocked(slimefunItem.getResearch())) {
+                    if (slimefunItem != null && !this.playerProfile.hasUnlocked(slimefunItem.getResearch())) {
                         icon = ChestMenuUtils.getNotResearchedItem();
                     }
                     chestMenu.addItem(WORK_CONTENT[i], ItemStackUtil.cloneWithoutNBT(icon));

@@ -55,8 +55,8 @@ public class MainFlexGroup extends FlexItemGroup {
             45, 46, 47, 48, 49, 50, 51, 52, 53
     };
 
-    public MainFlexGroup(NamespacedKey key, ItemStack item,int tier) {
-        super(key, item,tier);
+    public MainFlexGroup(NamespacedKey key, ItemStack item, int tier) {
+        super(key, item, tier);
     }
 
     @Override
