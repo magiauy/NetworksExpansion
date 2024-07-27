@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -41,7 +42,6 @@ public enum Theme {
     GUIDE(ChatColor.of("#444444"), "指南");
 
 
-    @Getter
     private static final Theme[] cachedValues = values();
     private final ChatColor color;
     private final String loreLine;
@@ -85,7 +85,7 @@ public enum Theme {
     @Nonnull
     @ParametersAreNonnullByDefault
     public static SlimefunItemStack tsItem(String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
-        List<String> finalLore = new ArrayList<>();
+        List<String> finalLore = new ArrayList<>(Arrays.stream(lore).toList());
         finalLore.add("");
         finalLore.add(TextUtil.colorPseudorandomString("此物品即将被删除,请更换最新的物品，将在一个月后彻底删除旧物品"));
         finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));

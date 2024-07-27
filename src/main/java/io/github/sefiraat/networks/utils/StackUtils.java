@@ -149,12 +149,9 @@ public class StackUtils {
         }
 
         // Finally, check the display name
-        if (itemMeta.hasDisplayName() && (!itemMeta.getDisplayName().equals(cachedMeta.getDisplayName()))) {
-            return false;
-        }
+        return !itemMeta.hasDisplayName() || (itemMeta.getDisplayName().equals(cachedMeta.getDisplayName()));
 
         // Everything should match if we've managed to get here
-        return true;
     }
 
     public static boolean isPDCMatch(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta cachedMeta) {
