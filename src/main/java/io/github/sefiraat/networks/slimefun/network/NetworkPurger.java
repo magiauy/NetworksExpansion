@@ -126,8 +126,13 @@ public class NetworkPurger extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+<<<<<<< HEAD
+                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_TRASH.canUse(player, false)
+                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+=======
                 return NetworkSlimefunItems.NETWORK_PURGER.canUse(player, false)
                         && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+>>>>>>> master
             }
 
             @Override

@@ -1,7 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.util.DisplayGroupGenerators;
+import com.ytdd9527.networks.expansion.utils.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
@@ -28,19 +28,20 @@ import java.util.UUID;
 
 public class NetworkCell extends NetworkObject {
 
-    private boolean useSpecialModel = false;
+    public static final List<Integer> SLOTS = new ArrayList<>();
     private static final String KEY_UUID = "display-uuid";
 
-    public static final List<Integer> SLOTS = new ArrayList<>();
     static {
         for (int i = 0; i < 54; i++) {
             SLOTS.add(i);
         }
     }
 
+    private boolean useSpecialModel = false;
+
     public NetworkCell(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CELL);
-        for (int slot: SLOTS) {
+        for (int slot : SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
     }
@@ -56,8 +57,8 @@ public class NetworkCell extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
+                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -66,6 +67,7 @@ public class NetworkCell extends NetworkObject {
             }
         };
     }
+
     @Override
     public void onPlace(BlockPlaceEvent e) {
         super.onPlace(e);
@@ -82,19 +84,23 @@ public class NetworkCell extends NetworkObject {
         removeDisplay(location);
         e.getBlock().setType(Material.AIR);
     }
+
     public void setUseSpecialModel(boolean useSpecialModel) {
         this.useSpecialModel = useSpecialModel;
     }
+
     private void setupDisplay(@Nonnull Location location) {
         DisplayGroup displayGroup = DisplayGroupGenerators.generateCell(location.clone().add(0.5, 0, 0.5));
         StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
     }
+
     private void removeDisplay(@Nonnull Location location) {
         DisplayGroup group = getDisplayGroup(location);
         if (group != null) {
             group.remove();
         }
     }
+
     @Nullable
     private UUID getDisplayGroupUUID(@Nonnull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
@@ -103,6 +109,7 @@ public class NetworkCell extends NetworkObject {
         }
         return UUID.fromString(uuid);
     }
+
     @Nullable
     private DisplayGroup getDisplayGroup(@Nonnull Location location) {
         UUID uuid = getDisplayGroupUUID(location);

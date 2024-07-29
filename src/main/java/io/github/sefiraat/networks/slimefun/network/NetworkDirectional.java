@@ -15,15 +15,17 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.MaterialHelper;
-
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -38,19 +40,24 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public abstract class NetworkDirectional extends NetworkObject {
 
+    protected static final String DIRECTION = "direction";
+    protected static final String OWNER_KEY = "uuid";
     private static final int NORTH_SLOT = 12;
     private static final int SOUTH_SLOT = 30;
     private static final int EAST_SLOT = 22;
     private static final int WEST_SLOT = 20;
     private static final int UP_SLOT = 15;
     private static final int DOWN_SLOT = 33;
-    protected static final String DIRECTION = "direction";
-    protected static final String OWNER_KEY = "uuid";
     private static final Set<Location> locked = new HashSet<>();
     private static final Set<BlockFace> VALID_FACES = EnumSet.of(
             BlockFace.UP,
@@ -98,6 +105,60 @@ public abstract class NetworkDirectional extends NetworkObject {
         );
     }
 
+    @Nonnull
+    public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
+        final ItemStack displayStack = new CustomItemStack(
+                slimefunItem.getItem(),
+                Theme.PASSIVE + "设置朝向: " + blockFace.name() + " (" + ChatColor.stripColor(slimefunItem.getItemName()) + ")"
+        );
+        final ItemMeta itemMeta = displayStack.getItemMeta();
+        itemMeta.setLore(List.of(
+                Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
+                Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
+        ));
+        if (active) {
+            List<String> lore = itemMeta.getLore();
+            lore.add(Theme.SUCCESS + "已设置朝向此容器！");
+            itemMeta.setLore(lore);
+            itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        displayStack.setItemMeta(itemMeta);
+        return displayStack;
+    }
+
+    @Nonnull
+    public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull Material blockMaterial, boolean active) {
+        if (blockMaterial.isItem() && !blockMaterial.isAir()) {
+            final ItemStack displayStack = new CustomItemStack(
+                    blockMaterial,
+                    Theme.PASSIVE + "设置朝向 " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
+            );
+            final ItemMeta itemMeta = displayStack.getItemMeta();
+            if (active) {
+                itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
+            itemMeta.setLore(List.of(
+                    Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
+                    Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
+            ));
+            displayStack.setItemMeta(itemMeta);
+            return displayStack;
+        } else {
+            Material material = active ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
+            return new CustomItemStack(
+                    material,
+                    ChatColor.GRAY + "设置朝向: " + blockFace.name()
+            );
+        }
+    }
+
+    @Nullable
+    public static BlockFace getSelectedFace(@Nonnull Location location) {
+        return SELECTED_DIRECTION_MAP.get(location);
+    }
+
     private void updateGui(@Nullable BlockMenu blockMenu) {
         if (blockMenu == null || !blockMenu.hasViewer()) {
             return;
@@ -110,23 +171,35 @@ public abstract class NetworkDirectional extends NetworkObject {
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             if (slimefunItem != null) {
                 switch (blockFace) {
-                    case NORTH -> blockMenu.replaceExistingItem(getNorthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case SOUTH -> blockMenu.replaceExistingItem(getSouthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case EAST -> blockMenu.replaceExistingItem(getEastSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case WEST -> blockMenu.replaceExistingItem(getWestSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case UP -> blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case DOWN -> blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case NORTH ->
+                            blockMenu.replaceExistingItem(getNorthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case SOUTH ->
+                            blockMenu.replaceExistingItem(getSouthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case EAST ->
+                            blockMenu.replaceExistingItem(getEastSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case WEST ->
+                            blockMenu.replaceExistingItem(getWestSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case UP ->
+                            blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case DOWN ->
+                            blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
                     default -> throw new IllegalStateException("意外的值: " + blockFace);
                 }
             } else {
                 final Material material = block.getType();
                 switch (blockFace) {
-                    case NORTH -> blockMenu.replaceExistingItem(getNorthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case SOUTH -> blockMenu.replaceExistingItem(getSouthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case EAST -> blockMenu.replaceExistingItem(getEastSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case WEST -> blockMenu.replaceExistingItem(getWestSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case UP -> blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case DOWN -> blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case NORTH ->
+                            blockMenu.replaceExistingItem(getNorthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case SOUTH ->
+                            blockMenu.replaceExistingItem(getSouthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case EAST ->
+                            blockMenu.replaceExistingItem(getEastSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case WEST ->
+                            blockMenu.replaceExistingItem(getWestSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case UP ->
+                            blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case DOWN ->
+                            blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
                     default -> throw new IllegalStateException("意外的值: " + blockFace);
                 }
             }
@@ -159,7 +232,8 @@ public abstract class NetworkDirectional extends NetworkObject {
         updateGui(blockMenu);
     }
 
-    protected void onUniqueTick() {}
+    protected void onUniqueTick() {
+    }
 
     @Override
     public void postRegister() {
@@ -212,8 +286,8 @@ public abstract class NetworkDirectional extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return this.getSlimefunItem().canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+                return player.hasPermission("slimefun.inventory.bypass") || (this.getSlimefunItem().canUse(player, false)
+                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -264,7 +338,6 @@ public abstract class NetworkDirectional extends NetworkObject {
         };
     }
 
-
     @Nullable
     protected int[] getOtherBackgroundSlots() {
         return null;
@@ -298,63 +371,17 @@ public abstract class NetworkDirectional extends NetworkObject {
     public int getDownSlot() {
         return DOWN_SLOT;
     }
+
     public int[] getItemSlots() {
         return new int[]{};
     }
 
-    public int[] getInputSlots() { return new int[0]; }
-
-    public int[] getOutputSlots() { return new int[0]; }
-
-    @Nonnull
-    public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
-        final ItemStack displayStack = new CustomItemStack(
-                slimefunItem.getItem(),
-                Theme.PASSIVE + "设置朝向: " + blockFace.name() + " (" + ChatColor.stripColor(slimefunItem.getItemName()) + ")"
-        );
-        final ItemMeta itemMeta = displayStack.getItemMeta();
-        if (active) {
-            itemMeta.addEnchant(Enchantment.LUCK, 1, true);
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-        itemMeta.setLore(List.of(
-                Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
-                Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
-        ));
-        displayStack.setItemMeta(itemMeta);
-        return displayStack;
+    public int[] getInputSlots() {
+        return new int[0];
     }
 
-    @Nonnull
-    public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull Material blockMaterial, boolean active) {
-        if (blockMaterial.isItem() && !blockMaterial.isAir()) {
-            final ItemStack displayStack = new CustomItemStack(
-                    blockMaterial,
-                    Theme.PASSIVE + "设置朝向 " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
-            );
-            final ItemMeta itemMeta = displayStack.getItemMeta();
-            if (active) {
-                itemMeta.addEnchant(Enchantment.LUCK, 1, true);
-                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            }
-            itemMeta.setLore(List.of(
-                    Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
-                    Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
-            ));
-            displayStack.setItemMeta(itemMeta);
-            return displayStack;
-        } else {
-            Material material = active ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
-            return new CustomItemStack(
-                    material,
-                    ChatColor.GRAY + "设置朝向: " + blockFace.name()
-            );
-        }
-    }
-
-    @Nullable
-    public static BlockFace getSelectedFace(@Nonnull Location location) {
-        return SELECTED_DIRECTION_MAP.get(location);
+    public int[] getOutputSlots() {
+        return new int[0];
     }
 
     protected Particle.DustOptions getDustOptions() {

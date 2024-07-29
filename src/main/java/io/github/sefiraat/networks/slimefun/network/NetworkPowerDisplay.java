@@ -24,38 +24,47 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+
 @SuppressWarnings("deprecation")
 public class NetworkPowerDisplay extends NetworkObject {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
-        0, 1, 2, 3, 5, 6, 7, 8
+            0, 1, 2, 3, 5, 6, 7, 8
     };
     private static final int DISPLAY_SLOT = 4;
 
     private static final CustomItemStack EMPTY = new CustomItemStack(
-        Material.RED_STAINED_GLASS_PANE,
-        Theme.CLICK_INFO + "状态",
-        Theme.PASSIVE + "未连接"
+            Material.RED_STAINED_GLASS_PANE,
+            Theme.CLICK_INFO + "状态",
+            Theme.PASSIVE + "未连接"
     );
 
     public NetworkPowerDisplay(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_DISPLAY);
         addItemHandler(
-            new BlockTicker() {
-                @Override
-                public boolean isSynchronized() {
-                    return false;
-                }
+                new BlockTicker() {
+                    @Override
+                    public boolean isSynchronized() {
+                        return false;
+                    }
 
-                @Override
-                public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                    BlockMenu blockMenu = data.getBlockMenu();
-                    if (blockMenu != null) {
-                        addToRegistry(block);
-                        setDisplay(blockMenu);
+                    @Override
+                    public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+                        BlockMenu blockMenu = data.getBlockMenu();
+                        if (blockMenu != null) {
+                            addToRegistry(block);
+                            setDisplay(blockMenu);
+                        }
                     }
                 }
-            }
+        );
+    }
+
+    private static CustomItemStack getChargeStack(long charge) {
+        return new CustomItemStack(
+                Material.GREEN_STAINED_GLASS_PANE,
+                Theme.CLICK_INFO + "状态",
+                Theme.PASSIVE + "网络电力: " + charge + "J"
         );
     }
 
@@ -86,8 +95,8 @@ public class NetworkPowerDisplay extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_POWER_DISPLAY.canUse(player, false)
-                    && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_POWER_DISPLAY.canUse(player, false)
+                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -95,13 +104,5 @@ public class NetworkPowerDisplay extends NetworkObject {
                 return new int[0];
             }
         };
-    }
-
-    private static CustomItemStack getChargeStack(long charge) {
-        return new CustomItemStack(
-            Material.GREEN_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO + "状态",
-            Theme.PASSIVE + "网络电力: " + charge + "J"
-        );
     }
 }

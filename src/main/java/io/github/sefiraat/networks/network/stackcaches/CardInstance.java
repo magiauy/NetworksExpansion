@@ -12,8 +12,8 @@ import java.util.List;
 
 public class CardInstance extends ItemStackCache {
 
-    private int amount;
     private final int limit;
+    private int amount;
 
     public CardInstance(@Nullable ItemStack itemStack, int amount, int limit) {
         super(itemStack);
@@ -25,12 +25,12 @@ public class CardInstance extends ItemStackCache {
         return this.amount;
     }
 
-    public int getLimit() {
-        return this.limit;
-    }
-
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public int getLimit() {
+        return this.limit;
     }
 
     @Nullable

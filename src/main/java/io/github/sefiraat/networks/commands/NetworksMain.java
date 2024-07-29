@@ -2,11 +2,11 @@ package io.github.sefiraat.networks.commands;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.util.databases.DataSource;
-import com.ytdd9527.networks.expansion.util.databases.DataStorage;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
 import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.unit.CargoStorageUnit;
 import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
+import com.ytdd9527.networks.expansion.utils.databases.DataSource;
+import com.ytdd9527.networks.expansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
@@ -27,7 +27,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.FluidCollisionMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
@@ -43,13 +47,21 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 
 //!TODO 调整过于复杂的逻辑，需要重构
 
 public class NetworksMain implements TabExecutor {
 
     private static final Map<Integer, NetworkQuantumStorage> QUANTUM_REPLACEMENT_MAP = new HashMap<>();
+    private static final Map<String, String> ID_UPDATE_MAP = new HashMap<>();
+    private static Location POS1 = null;
+    private static Location POS2 = null;
 
     static {
         QUANTUM_REPLACEMENT_MAP.put(4096, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_1);
@@ -61,8 +73,6 @@ public class NetworksMain implements TabExecutor {
         QUANTUM_REPLACEMENT_MAP.put(1073741824, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_7);
         QUANTUM_REPLACEMENT_MAP.put(Integer.MAX_VALUE, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_8);
     }
-
-    private static final Map<String, String> ID_UPDATE_MAP = new HashMap<>();
 
     static {
         ID_UPDATE_MAP.put("NE_EXPANSION_WORKBENCH", "NTW_EXPANSION_WORKBENCH");
@@ -153,357 +163,17 @@ public class NetworksMain implements TabExecutor {
 
     }
 
-    private static Location POS1 = null;
-    private static Location POS2 = null;
-
-    @Override
-    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
-        if (args.length == 0) {
-            help(sender, null);
-        }
-        switch (args[0]) {
-            case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "restore", "setcontainerid" -> {
-                if (!(sender instanceof Player)) {
-                    sender.sendMessage(getErrorMessage(ERROR_TYPE.MUST_BE_PLAYER));
-                    return false;
-                }
-            }
-            case "help" -> {
-
-            }
-        }
-
-        // 玩家或控制台皆可
-        switch (args[0].toLowerCase(Locale.ROOT)) {
-            case "help" -> {
-                if (sender.isOp()) {
-                    if (args.length >= 2) {
-                        help(sender, args[1]);
-                    } else {
-                        help(sender, null);
-                    }
-                } else {
-                    sender.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-            case "findcachedstorages" -> {
-                if (sender.isOp() || sender.hasPermission("networks.admin") || sender.hasPermission("networks.commands.findcachedstorages")) {
-                    if (args.length >= 2) {
-                        findCachedStorages(sender, args[1]);
-                    } else {
-                        sender.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "playerName"));
-                    }
-                } else {
-                    sender.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-        }
-
-        // 仅玩家
-        if (sender instanceof Player player) {
-            if (args[0].equalsIgnoreCase("fillquantum")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.fillquantum")) && args.length >= 2) {
-                    if (args.length >= 2) {
-                        try {
-                            int number = Integer.parseInt(args[1]);
-                            fillQuantum(player, number);
-                            return true;
-                        } catch (NumberFormatException exception) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
-                        }
-                    } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
-                    }
-                } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("fixblueprint")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.fixblueprint"))) {
-                    if (args.length >= 2) {
-                        String before = args[1];
-                        fixBlueprint(player, before);
-                    } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "keyInMeta"));
-                    }
-                } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("restore")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.restore"))) {
-                    restore(player);
-                } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("setQuantum")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.setquantum"))) {
-                    if (args.length >= 2) {
-                        try {
-                            setQuantum(player, Integer.parseInt(args[1]));
-                        } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
-                            return true;
-                        }
-                    } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
-                    }
-                } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("addstorageitem")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.addstorage"))) {
-                    if (args.length >= 2) {
-                        try {
-                            int amount = Integer.parseInt(args[1]);
-                            addStorageItem(player, amount);
-                        } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
-                            return true;
-                        }
-                    } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
-                    }
-                } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("reducestorageitem")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.reducestorage"))) {
-                    if (args.length >= 2) {
-                        try {
-                            int amount = Integer.parseInt(args[1]);
-                            reduceStorageItem(player, amount);
-                        } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
-                            return true;
-                        }
-                    } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
-                    }
-                } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-                return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("setcontainerid")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.setcontainerid"))) {
-                    if (args.length >= 2) {
-                        String containerId = args[1];
-                        try {
-                            setContainerId(player, Integer.parseInt(containerId));
-                        } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "containerId"));
-                        }
-                    } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "containerId"));
-                    }
-                } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
-                }
-            }
-
-            else if (args[0].equalsIgnoreCase("worldedit")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.worldedit.*"))) {
-                    switch (args[1].toLowerCase(Locale.ROOT)) {
-                        case "pos1" -> {
-                            worldeditPos1(player);
-                        }
-                        case "pos2" -> {
-                            worldeditPos2(player);
-                        }
-                        case "clear" -> {
-                            worldeditClear(player);
-                        }
-                        case "paste" -> {
-                            if (args.length >= 4) {
-                                switch (args[3].toLowerCase(Locale.ROOT)) {
-                                    case "override" -> {
-                                        worldeditPaste(player, args[2], true);
-                                    }
-                                    case "keep" -> {
-                                        worldeditPaste(player, args[2], false);
-                                    }
-                                    default -> {
-                                        worldeditPaste(player, args[2]);
-                                    }
-                                }
-                            } else if (args.length == 3) {
-                                worldeditPaste(player, args[2]);
-                            } else {
-                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "sfId"));
-                            }
-
-                        }
-                        case "blockmenu" -> {
-                            if (args.length >= 3) {
-                                switch (args[2].toLowerCase(Locale.ROOT)) {
-                                    case "setslot" -> {
-                                        if (args.length >= 4) {
-                                            try {
-                                                worldeditBlockMenuSetSlot(player, Integer.parseInt(args[3]));
-                                            } catch (NumberFormatException e) {
-                                                player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "slot"));
-                                            }
-                                        } else {
-                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "slot"));
-                                        }
-                                    }
-                                    default -> {
-                                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
-                                    }
-                                }
-                            } else {
-                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
-                            }
-                        }
-                        case "blockinfo" -> {
-                            if (args.length >= 3) {
-                                switch (args[2].toLowerCase(Locale.ROOT)) {
-                                    case "add", "set" -> {
-                                        if (args.length == 3) {
-                                            player.sendMessage(Theme.ERROR + getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
-                                        }
-
-                                        if (args.length == 4) {
-                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "value"));
-                                        }
-
-                                        if (args.length >= 5) {
-                                            String key = args[3];
-                                            String value = args[4];
-                                            worldeditBlockInfoAdd(player, key, value);
-                                        }
-                                    }
-                                    case "remove" -> {
-                                        if (args.length == 3) {
-                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
-                                        }
-                                        if (args.length >= 4) {
-                                            String key = args[3];
-                                            worldeditBlockInfoRemove(player, key);
-                                        }
-                                    }
-                                }
-                            } else {
-                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
-                            }
-                        }
-                    }
-                }
-            }
-            else if (args[0].equalsIgnoreCase("updateItem")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.updateitem"))) {
-                    updateItem(player);
-                }
-            } else {
-                help(sender, null);
-            }
-        } else {
-            // 仅控制台时执行的操作
-        }
-        // We always return true, even if the command was not executed, so that the help message is not shown.
-        return true;
-    }
-
-    public void fillQuantum(Player player, int amount) {
-        final ItemStack itemStack = player.getInventory().getItemInMainHand();
-        if (itemStack.getType() == Material.AIR) {
-            player.sendMessage(Theme.ERROR + "你必须手持量子存储");
-            return;
-        }
-
-        SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-
-        if (!(slimefunItem instanceof NetworkQuantumStorage)) {
-            player.sendMessage(Theme.ERROR + "你手中的物品必须为量子存储");
-            return;
-        }
-
-        ItemMeta meta = itemStack.getItemMeta();
-        final QuantumCache quantumCache = DataTypeMethods.getCustom(
-                meta,
-                Keys.QUANTUM_STORAGE_INSTANCE,
-                PersistentQuantumStorageType.TYPE
-        );
-
-        if (quantumCache == null || quantumCache.getItemStack() == null) {
-            player.sendMessage(Theme.ERROR + "量子存储未指定物品或已损坏");
-            return;
-        }
-
-        quantumCache.setAmount(amount);
-        DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
-        quantumCache.updateMetaLore(meta);
-        itemStack.setItemMeta(meta);
-        player.sendMessage(Theme.SUCCESS + "已更新物品");
-    }
-
-    public void fixBlueprint(Player player, String before) {
-        ItemStack blueprint = player.getInventory().getItemInMainHand();
-        if (blueprint == null || blueprint.getType() == Material.AIR) {
-            player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
-            return;
-        }
-
-        final SlimefunItem item = SlimefunItem.getByItem(blueprint);
-
-        if (!(item instanceof CraftingBlueprint)) {
-            player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
-            return;
-        }
-
-        ItemMeta blueprintMeta = blueprint.getItemMeta();
-
-        final Optional<BlueprintInstance> optional = DataTypeMethods.getOptionalCustom(
-                blueprintMeta,
-                new NamespacedKey(before, "ntw_blueprint"),
-                PersistentCraftingBlueprintType.TYPE
-        );
-
-        if (optional.isEmpty()) {
-            player.sendMessage(Theme.ERROR + "无法获取 instance");
-            return;
-        }
-
-        BlueprintInstance instance = optional.get();
-
-        ItemStack fix = NetworksSlimefunItemStacks.CRAFTING_BLUEPRINT.clone();
-        CraftingBlueprint.setBlueprint(fix, instance.getRecipeItems(), instance.getItemStack());
-
-        blueprint.setItemMeta(fix.getItemMeta());
-
-        player.sendMessage(Theme.SUCCESS + "已修复蓝图");
-
-        return;
-    }
-
     public static void restore(Player p) {
         Block target = p.getTargetBlockExact(5);
         if (target == null || target.getType().isAir()) {
-            p.sendMessage(ChatColor.RED+"请指向一个失效的网络抽屉单元");
+            p.sendMessage(ChatColor.RED + "请指向一个失效的网络抽屉单元");
         }
         Location l = target.getLocation();
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
         if (blockData != null) {
             String id = blockData.getData("containerId");
-            if(id != null) {
-                p.sendMessage(ChatColor.RED+"该单元的数据正常，无需恢复。");
+            if (id != null) {
+                p.sendMessage(ChatColor.RED + "该单元的数据正常，无需恢复。");
             }
         } else {
             p.sendMessage(ChatColor.GREEN + "正在查询，请稍候...");
@@ -995,7 +665,7 @@ public class NetworksMain implements TabExecutor {
         DataSource dataSource = Networks.getDataSource();
         List<StorageUnitData> storageUnitData = new ArrayList<>();
         int id = 0;
-        for (;;) {
+        for (; ; ) {
             StorageUnitData data = dataSource.getStorageData(id);
             if (data == null) {
                 break;
@@ -1032,7 +702,7 @@ public class NetworksMain implements TabExecutor {
             sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - 查找指定玩家放置的货运存储单元.");
             return;
         }
-        switch (mainCommand.toLowerCase(Locale.ROOT)){
+        switch (mainCommand.toLowerCase(Locale.ROOT)) {
             case "help" -> {
                 sender.sendMessage(ChatColor.GOLD + "/networks help - 显示此帮助信息.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks help");
@@ -1093,6 +763,328 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Override
+    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+        if (args.length == 0) {
+            help(sender, null);
+        }
+        switch (args[0]) {
+            case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "restore", "setcontainerid" -> {
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(getErrorMessage(ERROR_TYPE.MUST_BE_PLAYER));
+                    return false;
+                }
+            }
+            case "help" -> {
+
+            }
+        }
+
+        // 玩家或控制台皆可
+        switch (args[0].toLowerCase(Locale.ROOT)) {
+            case "help" -> {
+                if (sender.isOp()) {
+                    if (args.length >= 2) {
+                        help(sender, args[1]);
+                    } else {
+                        help(sender, null);
+                    }
+                } else {
+                    sender.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            }
+            case "findcachedstorages" -> {
+                if (sender.isOp() || sender.hasPermission("networks.admin") || sender.hasPermission("networks.commands.findcachedstorages")) {
+                    if (args.length >= 2) {
+                        findCachedStorages(sender, args[1]);
+                    } else {
+                        sender.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "playerName"));
+                    }
+                } else {
+                    sender.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            }
+        }
+
+        // 仅玩家
+        if (sender instanceof Player player) {
+            if (args[0].equalsIgnoreCase("fillquantum")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.fillquantum")) && args.length >= 2) {
+                    if (args.length >= 2) {
+                        try {
+                            int number = Integer.parseInt(args[1]);
+                            fillQuantum(player, number);
+                            return true;
+                        } catch (NumberFormatException exception) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                        }
+                    } else {
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                    }
+                } else {
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            } else if (args[0].equalsIgnoreCase("fixblueprint")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.fixblueprint"))) {
+                    if (args.length >= 2) {
+                        String before = args[1];
+                        fixBlueprint(player, before);
+                    } else {
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "keyInMeta"));
+                    }
+                } else {
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            } else if (args[0].equalsIgnoreCase("restore")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.restore"))) {
+                    restore(player);
+                } else {
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            } else if (args[0].equalsIgnoreCase("setQuantum")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.setquantum"))) {
+                    if (args.length >= 2) {
+                        try {
+                            setQuantum(player, Integer.parseInt(args[1]));
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            return true;
+                        }
+                    } else {
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                    }
+                } else {
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            } else if (args[0].equalsIgnoreCase("addstorageitem")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.addstorage"))) {
+                    if (args.length >= 2) {
+                        try {
+                            int amount = Integer.parseInt(args[1]);
+                            addStorageItem(player, amount);
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            return true;
+                        }
+                    } else {
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                    }
+                } else {
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            } else if (args[0].equalsIgnoreCase("reducestorageitem")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.reducestorage"))) {
+                    if (args.length >= 2) {
+                        try {
+                            int amount = Integer.parseInt(args[1]);
+                            reduceStorageItem(player, amount);
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            return true;
+                        }
+                    } else {
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                    }
+                } else {
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+                return true;
+            } else if (args[0].equalsIgnoreCase("setcontainerid")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.setcontainerid"))) {
+                    if (args.length >= 2) {
+                        String containerId = args[1];
+                        try {
+                            setContainerId(player, Integer.parseInt(containerId));
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "containerId"));
+                        }
+                    } else {
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "containerId"));
+                    }
+                } else {
+                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                }
+            } else if (args[0].equalsIgnoreCase("worldedit")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.worldedit.*"))) {
+                    switch (args[1].toLowerCase(Locale.ROOT)) {
+                        case "pos1" -> {
+                            worldeditPos1(player);
+                        }
+                        case "pos2" -> {
+                            worldeditPos2(player);
+                        }
+                        case "clear" -> {
+                            worldeditClear(player);
+                        }
+                        case "paste" -> {
+                            if (args.length >= 4) {
+                                switch (args[3].toLowerCase(Locale.ROOT)) {
+                                    case "override" -> {
+                                        worldeditPaste(player, args[2], true);
+                                    }
+                                    case "keep" -> {
+                                        worldeditPaste(player, args[2], false);
+                                    }
+                                    default -> {
+                                        worldeditPaste(player, args[2]);
+                                    }
+                                }
+                            } else if (args.length == 3) {
+                                worldeditPaste(player, args[2]);
+                            } else {
+                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "sfId"));
+                            }
+
+                        }
+                        case "blockmenu" -> {
+                            if (args.length >= 3) {
+                                switch (args[2].toLowerCase(Locale.ROOT)) {
+                                    case "setslot" -> {
+                                        if (args.length >= 4) {
+                                            try {
+                                                worldeditBlockMenuSetSlot(player, Integer.parseInt(args[3]));
+                                            } catch (NumberFormatException e) {
+                                                player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "slot"));
+                                            }
+                                        } else {
+                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "slot"));
+                                        }
+                                    }
+                                    default -> {
+                                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                                    }
+                                }
+                            } else {
+                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                            }
+                        }
+                        case "blockinfo" -> {
+                            if (args.length >= 3) {
+                                switch (args[2].toLowerCase(Locale.ROOT)) {
+                                    case "add", "set" -> {
+                                        if (args.length == 3) {
+                                            player.sendMessage(Theme.ERROR + getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
+                                        }
+
+                                        if (args.length == 4) {
+                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "value"));
+                                        }
+
+                                        if (args.length >= 5) {
+                                            String key = args[3];
+                                            String value = args[4];
+                                            worldeditBlockInfoAdd(player, key, value);
+                                        }
+                                    }
+                                    case "remove" -> {
+                                        if (args.length == 3) {
+                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
+                                        }
+                                        if (args.length >= 4) {
+                                            String key = args[3];
+                                            worldeditBlockInfoRemove(player, key);
+                                        }
+                                    }
+                                }
+                            } else {
+                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                            }
+                        }
+                    }
+                }
+            } else if (args[0].equalsIgnoreCase("updateItem")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.updateitem"))) {
+                    updateItem(player);
+                }
+            } else {
+                help(sender, null);
+            }
+        } else {
+            // 仅控制台时执行的操作
+        }
+        // We always return true, even if the command was not executed, so that the help message is not shown.
+        return true;
+    }
+
+    public void fillQuantum(Player player, int amount) {
+        final ItemStack itemStack = player.getInventory().getItemInMainHand();
+        if (itemStack.getType() == Material.AIR) {
+            player.sendMessage(Theme.ERROR + "你必须手持量子存储");
+            return;
+        }
+
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+
+        if (!(slimefunItem instanceof NetworkQuantumStorage)) {
+            player.sendMessage(Theme.ERROR + "你手中的物品必须为量子存储");
+            return;
+        }
+
+        ItemMeta meta = itemStack.getItemMeta();
+        final QuantumCache quantumCache = DataTypeMethods.getCustom(
+                meta,
+                Keys.QUANTUM_STORAGE_INSTANCE,
+                PersistentQuantumStorageType.TYPE
+        );
+
+        if (quantumCache == null || quantumCache.getItemStack() == null) {
+            player.sendMessage(Theme.ERROR + "量子存储未指定物品或已损坏");
+            return;
+        }
+
+        quantumCache.setAmount(amount);
+        DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+        quantumCache.updateMetaLore(meta);
+        itemStack.setItemMeta(meta);
+        player.sendMessage(Theme.SUCCESS + "已更新物品");
+    }
+
+    public void fixBlueprint(Player player, String before) {
+        ItemStack blueprint = player.getInventory().getItemInMainHand();
+        if (blueprint == null || blueprint.getType() == Material.AIR) {
+            player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
+            return;
+        }
+
+        final SlimefunItem item = SlimefunItem.getByItem(blueprint);
+
+        if (!(item instanceof CraftingBlueprint)) {
+            player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
+            return;
+        }
+
+        ItemMeta blueprintMeta = blueprint.getItemMeta();
+
+        final Optional<BlueprintInstance> optional = DataTypeMethods.getOptionalCustom(
+                blueprintMeta,
+                new NamespacedKey(before, "ntw_blueprint"),
+                PersistentCraftingBlueprintType.TYPE
+        );
+
+        if (optional.isEmpty()) {
+            player.sendMessage(Theme.ERROR + "无法获取 instance");
+            return;
+        }
+
+        BlueprintInstance instance = optional.get();
+
+        ItemStack fix = NetworksSlimefunItemStacks.CRAFTING_BLUEPRINT.clone();
+        CraftingBlueprint.setBlueprint(fix, instance.getRecipeItems(), instance.getItemStack());
+
+        blueprint.setItemMeta(fix.getItemMeta());
+
+        player.sendMessage(Theme.SUCCESS + "已修复蓝图");
+
+        return;
+    }
+
+    @Override
     public @Nullable List<String> onTabComplete(
             @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> raw = onTabCompleteRaw(sender, args);
@@ -1119,8 +1111,8 @@ public class NetworksMain implements TabExecutor {
                 case "help", "restore", "updateItem" -> List.of();
                 case "fillquantum" -> List.of("<amount>");
                 case "fixblueprint" -> List.of("<keyInMeta>");
-                case "addstorageitem"  -> List.of("<amount>");
-                case "reducestorageitem"  -> List.of("<amount>");
+                case "addstorageitem" -> List.of("<amount>");
+                case "reducestorageitem" -> List.of("<amount>");
                 case "setquantum" -> List.of("<amount>");
                 case "setcontainerid" -> List.of("<containerId>");
                 case "findcachedstorages" -> List.of("<playerName>");
@@ -1147,25 +1139,16 @@ public class NetworksMain implements TabExecutor {
             if (args[0].equalsIgnoreCase("worldedit")) {
                 return switch (args[1].toLowerCase(Locale.ROOT)) {
                     case "paste" -> List.of("override", "keep");
-                    case "blockmenu" ->
-                        switch (args[2].toLowerCase(Locale.ROOT)) {
-                            case "setslot" -> List.of("0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53");
-                            default -> List.of();
-                        };
+                    case "blockmenu" -> switch (args[2].toLowerCase(Locale.ROOT)) {
+                        case "setslot" ->
+                                List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53");
+                        default -> List.of();
+                    };
                     default -> List.of();
                 };
             }
         }
         return new ArrayList<>();
-    }
-
-    public enum ERROR_TYPE {
-        NO_PERMISSION,
-        NO_ITEM_IN_HAND,
-        MISSING_REQUIRED_ARGUMENT,
-        INVALID_REQUIRED_ARGUMENT,
-        MUST_BE_PLAYER,
-        UNKNOWN_ERROR
     }
 
     public String getErrorMessage(ERROR_TYPE errorType) {
@@ -1181,5 +1164,14 @@ public class NetworksMain implements TabExecutor {
             case MUST_BE_PLAYER -> "此命令只能由玩家执行! ";
             default -> "未知错误! ";
         };
+    }
+
+    public enum ERROR_TYPE {
+        NO_PERMISSION,
+        NO_ITEM_IN_HAND,
+        MISSING_REQUIRED_ARGUMENT,
+        INVALID_REQUIRED_ARGUMENT,
+        MUST_BE_PLAYER,
+        UNKNOWN_ERROR
     }
 }

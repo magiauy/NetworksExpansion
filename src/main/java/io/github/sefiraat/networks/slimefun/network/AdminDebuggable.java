@@ -35,9 +35,9 @@ public interface AdminDebuggable {
     default void sendDebugMessage(@Nonnull Location location, @Nonnull String string) {
         if (isDebug(location)) {
             final String locationString = "W[" + location.getWorld().getName() + "] " +
-                "X[" + location.getBlockX() + "] " +
-                "Y[" + location.getBlockY() + "] " +
-                "Z[" + location.getBlockZ() + "] ";
+                    "X[" + location.getBlockX() + "] " +
+                    "Y[" + location.getBlockY() + "] " +
+                    "Z[" + location.getBlockZ() + "] ";
             Networks.getInstance().getJavaPlugin().getLogger().log(Level.INFO, locationString + " - " + string);
         }
     }

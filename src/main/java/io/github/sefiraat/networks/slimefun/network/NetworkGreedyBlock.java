@@ -23,23 +23,23 @@ public class NetworkGreedyBlock extends NetworkObject {
     public static final int TEMPLATE_SLOT = 10;
     public static final int INPUT_SLOT = 16;
     private static final int[] BACKGROUND_SLOTS = new int[]{
-        3, 4, 5, 12, 13, 14, 21, 22, 23
+            3, 4, 5, 12, 13, 14, 21, 22, 23
     };
     private static final int[] BACKGROUND_SLOTS_TEMPLATE = new int[]{
-        0,1,2,9,11,18,19,20
+            0, 1, 2, 9, 11, 18, 19, 20
     };
     private static final int[] BACKGROUND_SLOTS_INPUT = new int[]{
-        6,7,8,15,17,24,25,26
+            6, 7, 8, 15, 17, 24, 25, 26
     };
 
     private static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-        Material.GREEN_STAINED_GLASS_PANE,
-        Theme.SUCCESS + "需要阻断的物品"
+            Material.GREEN_STAINED_GLASS_PANE,
+            Theme.SUCCESS + "需要阻断的物品"
     );
 
     private static final CustomItemStack STORAGE_BACKGROUND_STACK = new CustomItemStack(
-        Material.ORANGE_STAINED_GLASS_PANE,
-        Theme.SUCCESS + "物品存储"
+            Material.ORANGE_STAINED_GLASS_PANE,
+            Theme.SUCCESS + "物品存储"
     );
 
     public NetworkGreedyBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -61,9 +61,9 @@ public class NetworkGreedyBlock extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return NetworkSlimefunItems.NETWORK_GREEDY_BLOCK.canUse(player, false)
-                    && Slimefun.getProtectionManager()
-                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK);
+                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_GREEDY_BLOCK.canUse(player, false)
+                        && Slimefun.getProtectionManager()
+                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

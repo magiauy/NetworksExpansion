@@ -23,7 +23,7 @@ public class SetupUtil {
         /* 货运与存储 */
         ExpansionItems.ADVANCED_QUANTUM_STORAGE.setSupportsCustomMaxAmount(true);
         ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(
-        ExpansionItems.ADVANCED_QUANTUM_STORAGE.registerThis()
+                ExpansionItems.ADVANCED_QUANTUM_STORAGE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_NETWORKS_DRAWERS.addTo(
                 ExpansionItems.CARGO_STORAGE_UNIT_1.registerThis(),
@@ -158,6 +158,7 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING.registerThis()
         );
     }
+
     private static void setupMenu() {
         Networks networks = Networks.getInstance();
 
@@ -201,10 +202,11 @@ public class SetupUtil {
         ExpansionItemsMenus.MAIN_ITEM_GROUP.setTier(0);
         ExpansionItemsMenus.MAIN_ITEM_GROUP.register(networks);
     }
+
     public static void init() {
 
-            setupItem();
-            setupMenu();
+        setupItem();
+        setupMenu();
 
     }
 

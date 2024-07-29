@@ -1,27 +1,46 @@
 package com.ytdd9527.networks.expansion.setup.depreacte;
 
-import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced.*;
-import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.basic.*;
-import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.systems.blueprint.*;
-import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.systems.encoder.*;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferPusher;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransfer;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferPusher;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.CoordinateTransmitter;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.CoordinateReceiver;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkCraftingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkEncodingGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.grid.NetworkGridNewStyle;
-import com.ytdd9527.networks.expansion.core.item.machine.manual.ExpansionWorkbench;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedExport;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedGreedyBlock;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedPurger;
-import com.ytdd9527.networks.expansion.core.item.tools.CoordinateConfigurator;
-
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoAncientAltarCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoArmorForgeCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoExpansionWorkbenchCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoMagicWorkbenchCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoQuantumWorkbenchCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoSmelteryCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AutoAncientAltarCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AutoArmorForgeCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AutoExpansionWorkbenchCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AutoMagicWorkbenchCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AutoQuantumWorkbenchCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AutoSmelteryCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.blueprints.AncientAltarBlueprint;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.blueprints.ArmorForgeBlueprint;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.blueprints.ExpansionWorkbenchBlueprint;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.blueprints.MagicWorkbenchBlueprint;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.blueprints.QuantumWorkbenchBlueprint;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.blueprints.SmelteryBlueprint;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.encoders.AncientAltarEncoder;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.encoders.ArmorForgeEncoder;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.encoders.ExpansionWorkbenchEncoder;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.encoders.MagicWorkbenchEncoder;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.encoders.QuantumWorkbenchEncoder;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.system.encoders.SmelteryEncoder;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransfer;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransferPusher;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransfer;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferPusher;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.deprecated.CoordinateReceiver;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.deprecated.CoordinateTransmitter;
+import com.ytdd9527.networks.expansion.core.items.machines.manual.ExpansionWorkbench;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedExport;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedGreedyBlock;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedImport;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedPurger;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.grid.NetworkCraftingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.grid.NetworkEncodingGridNewStyle;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.grid.NetworkGridNewStyle;
+import com.ytdd9527.networks.expansion.core.items.tools.CoordinateConfigurator;
 import com.ytdd9527.networks.expansion.setup.ExpansionRecipes;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.NetworksItemGroups;
@@ -37,510 +56,510 @@ import org.bukkit.inventory.ItemStack;
 public class DepreacteExpansionItems {
 
     public static final ExpansionWorkbench NE_EXPANSION_WORKBENCH = new ExpansionWorkbench(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.NE_EXPANSION_WORKBENCH,
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.NE_EXPANSION_WORKBENCH,
             RecipeType.NULL,
-        new ItemStack[]{}
+            new ItemStack[]{}
     );
 
     public static final CoordinateConfigurator NE_COORDINATE_CONFIGURATOR = new CoordinateConfigurator(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.NE_COORDINATE_CONFIGURATOR,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.NE_COORDINATE_CONFIGURATOR,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final AdvancedImport ADVANCED_IMPORT = new AdvancedImport(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_IMPORT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_IMPORT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final AdvancedExport ADVANCED_EXPORT = new AdvancedExport(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_EXPORT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_EXPORT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final AdvancedPurger ADVANCED_PURGER = new AdvancedPurger(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_PURGER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_PURGER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final AdvancedGreedyBlock ADVANCED_GREEDY_BLOCK = new AdvancedGreedyBlock(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_GREEDY_BLOCK,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_GREEDY_BLOCK,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final AdvancedImport NETWORK_CAPACITOR_5 = new AdvancedImport(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.NETWORK_CAPACITOR_5,
-        RecipeType.NULL,
-        ExpansionRecipes.NETWORK_CAPACITOR_5
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.NETWORK_CAPACITOR_5,
+            RecipeType.NULL,
+            ExpansionRecipes.NETWORK_CAPACITOR_5
     );
 
     public static final NetworkQuantumStorage ADVANCED_QUANTUM_STORAGE = new NetworkQuantumStorage(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_QUANTUM_STORAGE,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_QUANTUM_STORAGE,NetworkQuantumStorage.getSizes(
-        )[10]
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_QUANTUM_STORAGE,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_QUANTUM_STORAGE, NetworkQuantumStorage.getSizes(
+    )[10]
     );
 
     public static final NetworkGridNewStyle NETWORK_GRID_NEW_STYLE = new NetworkGridNewStyle(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.NETWORK_GRID_NEW_STYLE,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.NETWORK_GRID_NEW_STYLE,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final NetworkCraftingGridNewStyle NETWORK_CRAFTING_GRID_NEW_STYLE = new NetworkCraftingGridNewStyle(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.NETWORK_CRAFTING_GRID_NEW_STYLE,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.NETWORK_CRAFTING_GRID_NEW_STYLE,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final NetworkEncodingGridNewStyle NETWORK_ENCODING_GRID_NEW_STYLE = new NetworkEncodingGridNewStyle(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.NETWORK_ENCODING_GRID_NEW_STYLE,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.NETWORK_ENCODING_GRID_NEW_STYLE,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final LineTransferPusher CHAIN_PUSHER = new LineTransferPusher(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.CHAING_PUSHER,
-        RecipeType.NULL,
-        ExpansionRecipes.LINE_TRANSFER_PUSHER,
-        "NE_CHAIN_PUSHER"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.CHAING_PUSHER,
+            RecipeType.NULL,
+            ExpansionRecipes.LINE_TRANSFER_PUSHER,
+            "NE_CHAIN_PUSHER"
     );
 
     public static final LineTransferPusher CHAIN_PUSHER_PLUS = new LineTransferPusher(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.CHAIN_PUSHER_PLUS,
-        RecipeType.NULL,
-        ExpansionRecipes.LINE_TRANSFER_PLUS_PUSHER,
-        "NE_CHAIN_PUSHER_PLUS"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.CHAIN_PUSHER_PLUS,
+            RecipeType.NULL,
+            ExpansionRecipes.LINE_TRANSFER_PLUS_PUSHER,
+            "NE_CHAIN_PUSHER_PLUS"
     );
 
     public static final LineTransferGrabber CHAIN_GRABBER = new LineTransferGrabber(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.CHAIN_GRABBER,
-        RecipeType.NULL,
-        ExpansionRecipes.LINE_TRANSFER_GRABBER,
-        "NE_CHAIN_GRABBER"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.CHAIN_GRABBER,
+            RecipeType.NULL,
+            ExpansionRecipes.LINE_TRANSFER_GRABBER,
+            "NE_CHAIN_GRABBER"
     );
 
     public static final LineTransferGrabber CHAIN_GRABBER_PLUS = new LineTransferGrabber(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.CHAIN_GRABBER_PLUS,
-        RecipeType.NULL,
-        ExpansionRecipes.LINE_TRANSFER_PLUS_GRABBER,
-        "NE_CHAIN_GRABBER_PLUS"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.CHAIN_GRABBER_PLUS,
+            RecipeType.NULL,
+            ExpansionRecipes.LINE_TRANSFER_PLUS_GRABBER,
+            "NE_CHAIN_GRABBER_PLUS"
     );
 
     public static final LineTransfer CHAIN_DISPATCHER = new LineTransfer(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.CHAIN_DISPATCHER,
-        RecipeType.NULL,
-        ExpansionRecipes.LINE_TRANSFER,
-        "CHAIN_DISPATCHER"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.CHAIN_DISPATCHER,
+            RecipeType.NULL,
+            ExpansionRecipes.LINE_TRANSFER,
+            "CHAIN_DISPATCHER"
     );
 
     public static final LineTransfer CHAIN_DISPATCHER_PLUS = new LineTransfer(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.CHAIN_DISPATCHER_PLUS,
-        RecipeType.NULL,
-        ExpansionRecipes.LINE_TRANSFER_PLUS,
-        "CHAIN_DISPATCHER_PLUS"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.CHAIN_DISPATCHER_PLUS,
+            RecipeType.NULL,
+            ExpansionRecipes.LINE_TRANSFER_PLUS,
+            "CHAIN_DISPATCHER_PLUS"
     );
 
     public static final AdvancedLineTransferPusher ADVANCED_CHAIN_PUSHER = new AdvancedLineTransferPusher(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_CHAIN_PUSHER,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL,
-        "NE_ADVANCED_CHAING_PUSHER"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_CHAIN_PUSHER,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
+            "NE_ADVANCED_CHAING_PUSHER"
     );
 
     public static final AdvancedLineTransferPusher ADVANCED_CHAIN_PUSHER_PLUS = new AdvancedLineTransferPusher(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_CHAIN_PUSHER_PLUS,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL,
-        "NE_ADVANCED_CHAING_PUSHER_PLUS"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_CHAIN_PUSHER_PLUS,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
+            "NE_ADVANCED_CHAING_PUSHER_PLUS"
     );
 
     public static final AdvancedLineTransferGrabber ADVANCED_CHAIN_GRABBER = new AdvancedLineTransferGrabber(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_CHAIN_GRABBER,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL,
-        "NE_ADVANCED_CHAING_GRABBER"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_CHAIN_GRABBER,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
+            "NE_ADVANCED_CHAING_GRABBER"
     );
 
     public static final AdvancedLineTransferGrabber ADVANCED_CHAIN_GRABBER_PLUS = new AdvancedLineTransferGrabber(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_CHAIN_GRABBER_PLUS,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL,
-        "NE_ADVANCED_CHAING_GRABBER_PLUS"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_CHAIN_GRABBER_PLUS,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
+            "NE_ADVANCED_CHAING_GRABBER_PLUS"
     );
 
     public static final AdvancedLineTransfer ADVANCED_CHAIN_DISPATCHER = new AdvancedLineTransfer(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_CHAIN_DISPATCHER,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL,
-        "NE_ADVANCED_CHAIN_DISPATCHER"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_CHAIN_DISPATCHER,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
+            "NE_ADVANCED_CHAIN_DISPATCHER"
     );
 
     public static final AdvancedLineTransfer ADVANCED_CHAIN_DISPATCHER_PLUS = new AdvancedLineTransfer(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_CHAIN_DISPATCHER_PLUS,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL,
-        "NE_ADVANCED_CHAING_DISPATCHER_PLUS"
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_CHAIN_DISPATCHER_PLUS,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
+            "NE_ADVANCED_CHAING_DISPATCHER_PLUS"
     );
 
     public static final CoordinateTransmitter COORDINATE_TRANSMITTER = new CoordinateTransmitter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.COORDINATE_TRANSMITTER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.COORDINATE_TRANSMITTER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final CoordinateReceiver COORDINATE_RECEIVER = new CoordinateReceiver(
             NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.COORDINATE_RECEIVER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            DeprecateExpansionItemStacks.COORDINATE_RECEIVER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     //蓝图
     public static final MagicWorkbenchBlueprint MAGIC_WORKBENCH_BLUEPRINT = new MagicWorkbenchBlueprint(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final ArmorForgeBlueprint ARMOR_FORGE_BLUEPRINT = new ArmorForgeBlueprint(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final SmelteryBlueprint SMELTERY_BLUEPRINT = new SmelteryBlueprint(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.SMELTERY_BLUEPRINT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.SMELTERY_BLUEPRINT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final QuantumWorkbenchBlueprint QUANTUM_WORKBENCH_BLUEPRINT = new QuantumWorkbenchBlueprint(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final AncientAltarBlueprint ANCIENT_ALTAR_BLUEPRINT = new AncientAltarBlueprint(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final ExpansionWorkbenchBlueprint EXPANSION_WORKBENCH_BLUEPRINT = new ExpansionWorkbenchBlueprint(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     //编码器
     public static final MagicWorkbenchEncoder MAGIC_WORKBENCH_RECIPE_ENCODER = new MagicWorkbenchEncoder(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.MAGIC_WORKBENCH_RECIPE_ENCODER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.MAGIC_WORKBENCH_RECIPE_ENCODER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final ArmorForgeEncoder ARMOR_FORGE_RECIPE_ENCODER = new ArmorForgeEncoder(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ARMOR_FORGE_RECIPE_ENCODER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ARMOR_FORGE_RECIPE_ENCODER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final SmelteryEncoder SMELTERY_RECIPE_ENCODER = new SmelteryEncoder(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.SMELTERY_RECIPE_ENCODER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.SMELTERY_RECIPE_ENCODER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final QuantumWorkbenchEncoder QUANTUM_WORKBENCH_RECIPE_ENCODER = new QuantumWorkbenchEncoder(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.QUANTUM_WORKBENCH_RECIPE_ENCODER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.QUANTUM_WORKBENCH_RECIPE_ENCODER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final AncientAltarEncoder ANCIENT_ALTAR_RECIPE_ENCODER = new AncientAltarEncoder(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ANCIENT_ALTAR_RECIPE_ENCODER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ANCIENT_ALTAR_RECIPE_ENCODER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     public static final ExpansionWorkbenchEncoder EXPANSION_WORKBENCH_RECIPE_ENCODER = new ExpansionWorkbenchEncoder(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.EXPANSION_WORKBENCH_RECIPE_ENCODER,
-        RecipeType.NULL,
-        new ItemStack[]{}
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.EXPANSION_WORKBENCH_RECIPE_ENCODER,
+            RecipeType.NULL,
+            new ItemStack[]{}
     );
 
     //合成机
     public static final AutoMagicWorkbenchCrafter AUTO_MAGIC_WORKBENCH = new AutoMagicWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_MAGIC_WORKBENCH,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_MAGIC_WORKBENCH,
-        640,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_MAGIC_WORKBENCH,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_MAGIC_WORKBENCH,
+            640,
+            false
     );
 
     public static final AutoMagicWorkbenchCrafter AUTO_MAGIC_WORKBENCH_WITHHOLDING = new AutoMagicWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_MAGIC_WORKBENCH_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_MAGIC_WORKBENCH_WITHHOLDING,
-        1280,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_MAGIC_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_MAGIC_WORKBENCH_WITHHOLDING,
+            1280,
+            true
     );
 
     public static final AutoArmorForgeCrafter AUTO_ARMOR_FORGE = new AutoArmorForgeCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_ARMOR_FORGE,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_ARMOR_FORGE,
-        640,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_ARMOR_FORGE,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_ARMOR_FORGE,
+            640,
+            false
     );
 
     public static final AutoArmorForgeCrafter AUTO_ARMOR_FORGE_WITHHOLDING = new AutoArmorForgeCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_ARMOR_FORGE_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_ARMOR_FORGE_WITHHOLDING,
-        1280,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_ARMOR_FORGE_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_ARMOR_FORGE_WITHHOLDING,
+            1280,
+            true
     );
 
     public static final AutoSmelteryCrafter AUTO_SMELTERY = new AutoSmelteryCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_SMELTERY,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_SMELTERY,
-        640,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_SMELTERY,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_SMELTERY,
+            640,
+            false
     );
 
     public static final AutoSmelteryCrafter AUTO_SMELTERY_WITHHOLDING = new AutoSmelteryCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_SMELTERY_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_SMELTERY_WITHHOLDING,
-        1280,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_SMELTERY_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_SMELTERY_WITHHOLDING,
+            1280,
+            true
     );
 
     public static final AutoQuantumWorkbenchCrafter AUTO_QUANTUM_WORKBENCH = new AutoQuantumWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_QUANTUM_WORKBENCH,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_QUANTUM_WORKBENCH,
-        640,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_QUANTUM_WORKBENCH,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_QUANTUM_WORKBENCH,
+            640,
+            false
     );
 
     public static final AutoQuantumWorkbenchCrafter AUTO_QUANTUM_WORKBENCH_WITHHOLDING = new AutoQuantumWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
-        1280,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
+            1280,
+            true
     );
 
     public static final AutoAncientAltarCrafter AUTO_ANCIENT_ALTAR = new AutoAncientAltarCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_ANCIENT_ALTAR,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_ANCIENT_ALTAR,
-        640,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_ANCIENT_ALTAR,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_ANCIENT_ALTAR,
+            640,
+            false
     );
 
     public static final AutoAncientAltarCrafter AUTO_ANCIENT_ALTAR_WITHHOLDING = new AutoAncientAltarCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_ANCIENT_ALTAR_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_ANCIENT_ALTAR_WITHHOLDING,
-        1280,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_ANCIENT_ALTAR_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_ANCIENT_ALTAR_WITHHOLDING,
+            1280,
+            true
     );
 
     public static final AutoExpansionWorkbenchCrafter AUTO_EXPANSION_WORKBENCH = new AutoExpansionWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_EXPANSION_WORKBENCH,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_EXPANSION_WORKBENCH,
-        640,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_EXPANSION_WORKBENCH,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_EXPANSION_WORKBENCH,
+            640,
+            false
     );
 
     public static final AutoExpansionWorkbenchCrafter AUTO_EXPANSION_WORKBENCH_WITHHOLDING = new AutoExpansionWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
-        1280,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
+            1280,
+            true
     );
 
     //高级合成机
     public static final AdvancedAutoMagicWorkbenchCrafter ADVANCED_AUTO_MAGIC_WORKBENCH = new AdvancedAutoMagicWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_MAGIC_WORKBENCH,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_MAGIC_WORKBENCH,
-        6400,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_MAGIC_WORKBENCH,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_MAGIC_WORKBENCH,
+            6400,
+            false
     );
 
     public static final AdvancedAutoMagicWorkbenchCrafter ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING = new AdvancedAutoMagicWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING,
-        12800,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING,
+            12800,
+            true
     );
 
     public static final AdvancedAutoArmorForgeCrafter ADVANCED_AUTO_ARMOR_FORGE = new AdvancedAutoArmorForgeCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_ARMOR_FORGE,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_ARMOR_FORGE,
-        6400,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_ARMOR_FORGE,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_ARMOR_FORGE,
+            6400,
+            false
     );
 
     public static final AdvancedAutoArmorForgeCrafter ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = new AdvancedAutoArmorForgeCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING,
-        12800,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING,
+            12800,
+            true
     );
 
     public static final AdvancedAutoSmelteryCrafter ADVANCED_AUTO_SMELTERY = new AdvancedAutoSmelteryCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_SMELTERY,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_SMELTERY,
-        6400,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_SMELTERY,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_SMELTERY,
+            6400,
+            false
     );
 
     public static final AdvancedAutoSmelteryCrafter ADVANCED_AUTO_SMELTERY_WITHHOLDING = new AdvancedAutoSmelteryCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_SMELTERY_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_SMELTERY_WITHHOLDING,
-        12800,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_SMELTERY_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_SMELTERY_WITHHOLDING,
+            12800,
+            true
     );
 
     public static final AdvancedAutoQuantumWorkbenchCrafter ADVANCED_AUTO_QUANTUM_WORKBENCH = new AdvancedAutoQuantumWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_QUANTUM_WORKBENCH,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_QUANTUM_WORKBENCH,
-        6400,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_QUANTUM_WORKBENCH,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_QUANTUM_WORKBENCH,
+            6400,
+            false
     );
 
     public static final AdvancedAutoQuantumWorkbenchCrafter ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING = new AdvancedAutoQuantumWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
-        12800,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
+            12800,
+            true
     );
 
     public static final AdvancedAutoAncientAltarCrafter ADVANCED_AUTO_ANCIENT_ALTAR = new AdvancedAutoAncientAltarCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_ANCIENT_ALTAR,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_ANCIENT_ALTAR,
-        6400,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_ANCIENT_ALTAR,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_ANCIENT_ALTAR,
+            6400,
+            false
     );
 
     public static final AdvancedAutoAncientAltarCrafter ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = new AdvancedAutoAncientAltarCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING,
-        12800,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING,
+            12800,
+            true
     );
 
     public static final AdvancedAutoExpansionWorkbenchCrafter ADVANCED_AUTO_EXPANSION_WORKBENCH = new AdvancedAutoExpansionWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_EXPANSION_WORKBENCH,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_EXPANSION_WORKBENCH,
-        6400,
-        false
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_EXPANSION_WORKBENCH,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_EXPANSION_WORKBENCH,
+            6400,
+            false
     );
 
     public static final AdvancedAutoExpansionWorkbenchCrafter ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING = new AdvancedAutoExpansionWorkbenchCrafter(
-        NetworksItemGroups.DISABLED_ITEMS,
-        DeprecateExpansionItemStacks.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
-        RecipeType.NULL,
-        ExpansionRecipes.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
-        12800,
-        true
+            NetworksItemGroups.DISABLED_ITEMS,
+            DeprecateExpansionItemStacks.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
+            12800,
+            true
     );
 
-    public static final NetworkBridge NE_BRIDGE_WHITE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, 8),"NE_BRIDGE_WHITE");
-    public static final NetworkBridge NE_BRIDGE_LIGHT_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY, 8));
-    public static final NetworkBridge NE_BRIDGE_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GRAY,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GRAY, 8));
+    public static final NetworkBridge NE_BRIDGE_WHITE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_WHITE, 8), "NE_BRIDGE_WHITE");
+    public static final NetworkBridge NE_BRIDGE_LIGHT_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_GRAY, 8));
+    public static final NetworkBridge NE_BRIDGE_GRAY = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GRAY, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GRAY, 8));
     public static final NetworkBridge NE_BRIDGE_BLACK = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BLACK, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BLACK, 8));
-    public static final NetworkBridge NE_BRIDGE_BROWN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BROWN,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BROWN, 8));
+    public static final NetworkBridge NE_BRIDGE_BROWN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BROWN, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BROWN, 8));
     public static final NetworkBridge NE_BRIDGE_RED = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_RED, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_RED, 8));
-    public static final NetworkBridge NE_BRIDGE_ORANGE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE, 8));
+    public static final NetworkBridge NE_BRIDGE_ORANGE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_ORANGE, 8));
     public static final NetworkBridge NE_BRIDGE_YELLOW = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_YELLOW, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_YELLOW, 8));
-    public static final NetworkBridge NE_BRIDGE_LIME = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIME,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIME, 8));
-    public static final NetworkBridge NE_BRIDGE_GREEN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GREEN,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GREEN, 8));
+    public static final NetworkBridge NE_BRIDGE_LIME = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIME, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIME, 8));
+    public static final NetworkBridge NE_BRIDGE_GREEN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_GREEN, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_GREEN, 8));
     public static final NetworkBridge NE_BRIDGE_CYAN = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_CYAN, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_CYAN, 8));
-    public static final NetworkBridge NE_BRIDGE_LIGHT_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE, 8));
-    public static final NetworkBridge NE_BRIDGE_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BLUE,RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BLUE, 8));
+    public static final NetworkBridge NE_BRIDGE_LIGHT_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_LIGHT_BLUE, 8));
+    public static final NetworkBridge NE_BRIDGE_BLUE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_BLUE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_BLUE, 8));
     public static final NetworkBridge NE_BRIDGE_PURPLE = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_PURPLE, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_PURPLE, 8));
     public static final NetworkBridge NE_BRIDGE_MAGENTA = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_MAGENTA, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_MAGENTA, 8));
     public static final NetworkBridge NE_BRIDGE_PINK = new NetworkBridge(NetworksItemGroups.DISABLED_ITEMS, DeprecateExpansionItemStacks.NE_BRIDGE_PINK, RecipeType.NULL, new ItemStack[]{}, StackUtils.getAsQuantity(DeprecateExpansionItemStacks.NE_BRIDGE_PINK, 8));

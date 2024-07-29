@@ -1,20 +1,24 @@
 package io.github.sefiraat.networks;
 
-import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.advanced.AdvancedAutoCraftingCrafter;
-import com.ytdd9527.networks.expansion.core.item.machine.autocrafter.basic.AbstractAutoCrafter;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransfer;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.LineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransfer;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.advanced.AdvancedLineTransferGrabber;
-import com.ytdd9527.networks.expansion.util.databases.DataSource;
-import com.ytdd9527.networks.expansion.util.databases.DataStorage;
-import com.ytdd9527.networks.expansion.util.databases.QueryQueue;
-import com.ytdd9527.networks.expansion.core.item.machine.network.advanced.AdvancedImport;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AbstractAdvancedAutoCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoCraftingCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AbstractAutoCrafter;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransfer;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransfer;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferGrabber;
+import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedImport;
+import com.ytdd9527.networks.expansion.core.managers.ConfigManager;
 import com.ytdd9527.networks.expansion.setup.SetupUtil;
 import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
+<<<<<<< HEAD
+import com.ytdd9527.networks.expansion.utils.databases.DataSource;
+import com.ytdd9527.networks.expansion.utils.databases.DataStorage;
+import com.ytdd9527.networks.expansion.utils.databases.QueryQueue;
+=======
 import com.ytdd9527.networks.expansion.util.ConfigManager;
 import io.github.sefiraat.networks.integrations.HudCallbacks;
+>>>>>>> master
 import io.github.sefiraat.networks.commands.NetworksMain;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
@@ -44,16 +48,15 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
 
     private static Networks instance;
-
+    private static DataSource dataSource;
+    private static QueryQueue queryQueue;
+    private static BukkitRunnable autoSaveThread;
     private final String username;
     private final String repo;
     private final String branch;
     private ConfigManager configManager;
     private ListenerManager listenerManager;
     private SupportedPluginManager supportedPluginManager;
-    private static DataSource dataSource;
-    private static QueryQueue queryQueue;
-    private static BukkitRunnable autoSaveThread;
     private int slimefunTickCount;
 
 
@@ -61,6 +64,43 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         this.username = "ytdd9527";
         this.repo = "NetworkExpansion";
         this.branch = "master";
+    }
+
+    public static ConfigManager getConfigManager() {
+        return Networks.getInstance().configManager;
+    }
+
+    public static QueryQueue getQueryQueue() {
+        return queryQueue;
+    }
+
+    public static DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public static BukkitRunnable getAutoSaveThread() {
+        return autoSaveThread;
+    }
+
+    public static Networks getInstance() {
+        return Networks.instance;
+    }
+
+    @Nonnull
+    public static PluginManager getPluginManager() {
+        return Networks.getInstance().getServer().getPluginManager();
+    }
+
+    public static SupportedPluginManager getSupportedPluginManager() {
+        return Networks.getInstance().supportedPluginManager;
+    }
+
+    public static ListenerManager getListenerManager() {
+        return Networks.getInstance().listenerManager;
+    }
+
+    public static int getSlimefunTickCount() {
+        return getInstance().slimefunTickCount;
     }
 
     @Override
@@ -129,7 +169,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         };
         // 5m * 60s * 20 ticks
         long period = 5 * 60 * 20;
-        autoSaveThread.runTaskTimerAsynchronously(this, 2*period, period);
+        autoSaveThread.runTaskTimerAsynchronously(this, 2 * period, period);
 
         getLogger().info("正在注册物品...");
         setupSlimefun();
@@ -162,6 +202,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
         getLogger().info("已启用附属！");
     }
+
     @Override
     public void onDisable() {
         getLogger().info("正在保存配置信息...");
@@ -202,28 +243,12 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         }
     }
 
-    public static ConfigManager getConfigManager() {
-        return Networks.getInstance().configManager;
-    }
-
-    public static QueryQueue getQueryQueue() {
-        return queryQueue;
-    }
-
-    public static DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public static BukkitRunnable getAutoSaveThread() {
-        return autoSaveThread;
-    }
-
     public void setupSlimefun() {
         NetworkSlimefunItems.setup();
         DepreacteExpansionItems.setup();
         SetupUtil.init();
         WikiUtils.setupJson(this);
-        if (supportedPluginManager.isNetheopoiesis()){
+        if (supportedPluginManager.isNetheopoiesis()) {
             try {
                 NetheoPlants.setup();
                 getLogger().info("检测到安装了下界乌托邦，注册相关物品！");
@@ -251,29 +276,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
         metrics.addCustomChart(networksChart);
     }
-
-
-    public static Networks getInstance() {
-        return Networks.instance;
-    }
-    @Nonnull
-    public static PluginManager getPluginManager() {
-        return Networks.getInstance().getServer().getPluginManager();
-    }
-
-
-    public static SupportedPluginManager getSupportedPluginManager() {
-        return Networks.getInstance().supportedPluginManager;
-    }
-
-    public static ListenerManager getListenerManager() {
-        return Networks.getInstance().listenerManager;
-    }
-
-    public static int getSlimefunTickCount() {
-        return getInstance().slimefunTickCount;
-    }
-
 
     @Nonnull
     @Override

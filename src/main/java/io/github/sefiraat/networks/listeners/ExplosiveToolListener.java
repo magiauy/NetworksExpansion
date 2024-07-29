@@ -1,7 +1,7 @@
 package io.github.sefiraat.networks.listeners;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.unit.CargoStorageUnit;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
@@ -36,8 +36,8 @@ public class ExplosiveToolListener implements Listener {
     private boolean isAntiExplosiveBlock(SlimefunItem item) {
         return
                 item instanceof CargoStorageUnit ||
-                item instanceof NetworkQuantumStorage ||
-                item instanceof NetworkCell;
+                        item instanceof NetworkQuantumStorage ||
+                        item instanceof NetworkCell;
     }
 
 }

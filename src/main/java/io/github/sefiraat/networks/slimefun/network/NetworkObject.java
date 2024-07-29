@@ -2,7 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.item.AbstractMySlimefunItem;
+import com.ytdd9527.networks.expansion.core.items.SpecialSlimefunItem;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -27,9 +27,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NetworkObject extends AbstractMySlimefunItem implements AdminDebuggable {
+@Getter
+public abstract class NetworkObject extends SpecialSlimefunItem implements AdminDebuggable {
 
-    @Getter
     private final NodeType nodeType;
 
     private final List<Integer> slotsToDrop = new ArrayList<>();
@@ -42,36 +42,36 @@ public abstract class NetworkObject extends AbstractMySlimefunItem implements Ad
         super(itemGroup, item, recipeType, recipe, recipeOutput);
         this.nodeType = type;
         addItemHandler(
-            new BlockTicker() {
+                new BlockTicker() {
 
-                @Override
-                public boolean isSynchronized() {
-                    return runSync();
-                }
+                    @Override
+                    public boolean isSynchronized() {
+                        return runSync();
+                    }
 
-                @Override
-                public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
-                    addToRegistry(b);
+                    @Override
+                    public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
+                        addToRegistry(b);
+                    }
+                },
+                new BlockBreakHandler(false, false) {
+                    @Override
+                    @ParametersAreNonnullByDefault
+                    public void onPlayerBreak(BlockBreakEvent event, ItemStack item, List<ItemStack> drops) {
+                        preBreak(event);
+                        onBreak(event);
+                        postBreak(event);
+                    }
+                },
+                new BlockPlaceHandler(false) {
+                    @Override
+                    @ParametersAreNonnullByDefault
+                    public void onPlayerPlace(BlockPlaceEvent event) {
+                        prePlace(event);
+                        onPlace(event);
+                        postPlace(event);
+                    }
                 }
-            },
-            new BlockBreakHandler(false, false) {
-                @Override
-                @ParametersAreNonnullByDefault
-                public void onPlayerBreak(BlockBreakEvent event, ItemStack item, List<ItemStack> drops) {
-                    preBreak(event);
-                    onBreak(event);
-                    postBreak(event);
-                }
-            },
-            new BlockPlaceHandler(false) {
-                @Override
-                @ParametersAreNonnullByDefault
-                public void onPlayerPlace(BlockPlaceEvent event) {
-                    prePlace(event);
-                    onPlace(event);
-                    postPlace(event);
-                }
-            }
         );
     }
 
@@ -100,7 +100,7 @@ public abstract class NetworkObject extends AbstractMySlimefunItem implements Ad
     }
 
     protected void postBreak(@Nonnull BlockBreakEvent event) {
-        
+
     }
 
     protected void prePlace(@Nonnull BlockPlaceEvent event) {
@@ -123,7 +123,4 @@ public abstract class NetworkObject extends AbstractMySlimefunItem implements Ad
         return false;
     }
 
-    public List<Integer> getSlotsToDrop() {
-        return slotsToDrop;
-    }
 }

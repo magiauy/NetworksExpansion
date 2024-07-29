@@ -44,44 +44,38 @@ import java.util.Map;
 @SuppressWarnings("deprecation")
 public abstract class AbstractGrid extends NetworkObject {
 
-    private static final CustomItemStack BLANK_SLOT_STACK = new CustomItemStack(
-        Material.LIGHT_GRAY_STAINED_GLASS_PANE,
-        " "
-    );
-
-    private static final CustomItemStack PAGE_PREVIOUS_STACK = new CustomItemStack(
-        Material.RED_STAINED_GLASS_PANE,
-        Theme.CLICK_INFO.getColor() + "上一页"
-    );
-
-    private static final CustomItemStack PAGE_NEXT_STACK = new CustomItemStack(
-        Material.RED_STAINED_GLASS_PANE,
-        Theme.CLICK_INFO.getColor() + "下一页"
-    );
-
-    private static final CustomItemStack CHANGE_SORT_STACK = new CustomItemStack(
-        Material.BLUE_STAINED_GLASS_PANE,
-        Theme.CLICK_INFO.getColor() + "更改排序方式"
-    );
-
-    private static final CustomItemStack FILTER_STACK = new CustomItemStack(
-        Material.NAME_TAG,
-        Theme.CLICK_INFO.getColor() + "设置过滤器 (右键点击以清除)"
-    );
-
     public static final Comparator<Map.Entry<ItemStack, Long>> ALPHABETICAL_SORT = Comparator.comparing(
-        itemStackIntegerEntry -> {
-            ItemStack itemStack = itemStackIntegerEntry.getKey();
-            SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-            if (slimefunItem != null) {
-                return ChatColor.stripColor(slimefunItem.getItemName());
-            } else {
-                return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
-            }
-        },
-        Collator.getInstance(Locale.CHINA)::compare
+            itemStackIntegerEntry -> {
+                ItemStack itemStack = itemStackIntegerEntry.getKey();
+                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+                if (slimefunItem != null) {
+                    return ChatColor.stripColor(slimefunItem.getItemName());
+                } else {
+                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
+                }
+            },
+            Collator.getInstance(Locale.CHINA)::compare
     );
-
+    private static final CustomItemStack BLANK_SLOT_STACK = new CustomItemStack(
+            Material.LIGHT_GRAY_STAINED_GLASS_PANE,
+            " "
+    );
+    private static final CustomItemStack PAGE_PREVIOUS_STACK = new CustomItemStack(
+            Material.RED_STAINED_GLASS_PANE,
+            Theme.CLICK_INFO.getColor() + "上一页"
+    );
+    private static final CustomItemStack PAGE_NEXT_STACK = new CustomItemStack(
+            Material.RED_STAINED_GLASS_PANE,
+            Theme.CLICK_INFO.getColor() + "下一页"
+    );
+    private static final CustomItemStack CHANGE_SORT_STACK = new CustomItemStack(
+            Material.BLUE_STAINED_GLASS_PANE,
+            Theme.CLICK_INFO.getColor() + "更改排序方式"
+    );
+    private static final CustomItemStack FILTER_STACK = new CustomItemStack(
+            Material.NAME_TAG,
+            Theme.CLICK_INFO.getColor() + "设置过滤器 (右键点击以清除)"
+    );
     private static final Comparator<Map.Entry<ItemStack, Long>> NUMERICAL_SORT = Map.Entry.comparingByValue();
 
     private final ItemSetting<Integer> tickRate;
@@ -95,30 +89,39 @@ public abstract class AbstractGrid extends NetworkObject {
         addItemSetting(this.tickRate);
 
         addItemHandler(
-            new BlockTicker() {
+                new BlockTicker() {
 
-                private int tick = 1;
+                    private int tick = 1;
 
-                @Override
-                public boolean isSynchronized() {
-                    return false;
-                }
+                    @Override
+                    public boolean isSynchronized() {
+                        return false;
+                    }
 
-                @Override
-                public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
-                    if (tick <= 1) {
-                        final BlockMenu blockMenu = data.getBlockMenu();
-                        addToRegistry(block);
-                        tryAddItem(blockMenu);
-                        updateDisplay(blockMenu);
+                    @Override
+                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+                        if (tick <= 1) {
+                            final BlockMenu blockMenu = data.getBlockMenu();
+                            addToRegistry(block);
+                            tryAddItem(blockMenu);
+                            updateDisplay(blockMenu);
+                        }
+                    }
+
+                    @Override
+                    public void uniqueTick() {
+                        tick = tick <= 1 ? tickRate.getValue() : tick - 1;
                     }
                 }
+        );
+    }
 
-                @Override
-                public void uniqueTick() {
-                    tick = tick <= 1 ? tickRate.getValue() : tick - 1;
-                }
-            }
+    @Nonnull
+    private static List<String> getLoreAddition(long amount) {
+        final MessageFormat format = new MessageFormat("{0}数量: {1}{2}", Locale.ROOT);
+        return List.of(
+                "",
+                format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount}, new StringBuffer(), null).toString()
         );
     }
 
@@ -213,17 +216,17 @@ public abstract class AbstractGrid extends NetworkObject {
     @Nonnull
     protected List<Map.Entry<ItemStack, Long>> getEntries(@Nonnull NetworkRoot networkRoot, @Nonnull GridCache cache) {
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
-            .filter(entry -> {
-                if (cache.getFilter() == null) {
-                    return true;
-                }
+                .filter(entry -> {
+                    if (cache.getFilter() == null) {
+                        return true;
+                    }
 
-                final ItemStack itemStack = entry.getKey();
-                String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                return name.contains(cache.getFilter());
-            })
-            .sorted(cache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL ? ALPHABETICAL_SORT : NUMERICAL_SORT.reversed())
-            .toList();
+                    final ItemStack itemStack = entry.getKey();
+                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                    return name.contains(cache.getFilter());
+                })
+                .sorted(cache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL ? ALPHABETICAL_SORT : NUMERICAL_SORT.reversed())
+                .toList();
     }
 
     protected boolean setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
@@ -314,9 +317,9 @@ public abstract class AbstractGrid extends NetworkObject {
 
     private boolean canAddMore(@Nonnull ClickAction action, @Nonnull ItemStack cursor, @Nonnull GridItemRequest request) {
         return !action.isRightClicked()
-            && request.getAmount() == 1
-            && cursor.getAmount() < cursor.getMaxStackSize()
-            && StackUtils.itemsMatch(request, cursor, true);
+                && request.getAmount() == 1
+                && cursor.getAmount() < cursor.getMaxStackSize()
+                && StackUtils.itemsMatch(request, cursor, true);
     }
 
     @Override
@@ -362,15 +365,5 @@ public abstract class AbstractGrid extends NetworkObject {
 
     protected CustomItemStack getFilterStack() {
         return FILTER_STACK;
-    }
-
-
-    @Nonnull
-    private static List<String> getLoreAddition(long amount) {
-        final MessageFormat format = new MessageFormat("{0}数量: {1}{2}", Locale.ROOT);
-        return List.of(
-            "",
-            format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount}, new StringBuffer(), null).toString()
-        );
     }
 }

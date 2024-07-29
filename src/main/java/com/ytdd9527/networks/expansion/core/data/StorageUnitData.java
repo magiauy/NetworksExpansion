@@ -1,9 +1,8 @@
 package com.ytdd9527.networks.expansion.core.data;
 
 import com.ytdd9527.networks.expansion.core.enums.StorageUnitType;
-import com.ytdd9527.networks.expansion.core.item.machine.cargo.CargoStorageUnit;
-import com.ytdd9527.networks.expansion.util.databases.DataStorage;
-import com.ytdd9527.networks.expansion.core.data.ItemContainer;
+import com.ytdd9527.networks.expansion.core.items.machines.cargo.unit.CargoStorageUnit;
+import com.ytdd9527.networks.expansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -36,7 +35,7 @@ public class StorageUnitData {
     }
 
     public StorageUnitData(int id, String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation, Map<Integer, ItemContainer> storedItems) {
-        this(id,Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, storedItems);
+        this(id, Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, storedItems);
     }
 
     public StorageUnitData(int id, OfflinePlayer owner, StorageUnitType sizeType, boolean isPlaced, Location lastLocation, Map<Integer, ItemContainer> storedItems) {
@@ -48,8 +47,30 @@ public class StorageUnitData {
         this.storedItems = storedItems;
     }
 
+    public static boolean isBlacklisted(@Nonnull ItemStack itemStack) {
+        // if item is air, it's blacklisted
+        if (itemStack.getType() == Material.AIR) {
+            return true;
+        }
+        // if item has invalid durability, it's blacklisted
+        if (itemStack.getType().getMaxDurability() < 0) {
+            return true;
+        }
+        // if item is a shulker box, it's blacklisted
+        if (Tag.SHULKER_BOXES.isTagged(itemStack.getType())) {
+            return true;
+        }
+        // if item is a bundle, it's blacklisted
+        if (itemStack.getType() == Material.BUNDLE) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Add item to unit, the amount will be the item stack amount
+     *
      * @param item: item will be added
      * @return the amount actual added
      */
@@ -67,7 +88,8 @@ public class StorageUnitData {
 
     /**
      * Add item to unit
-     * @param item: item will be added
+     *
+     * @param item:   item will be added
      * @param amount: amount will be added
      * @return the amount actual added
      */
@@ -76,7 +98,7 @@ public class StorageUnitData {
         int add = 0;
         boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
         for (ItemContainer each : storedItems.values()) {
-            if(each.isSimilar(wrapper)) {
+            if (each.isSimilar(wrapper)) {
                 // Found existing one, add amount
                 add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                 if (isVoidExcess) {
@@ -102,7 +124,7 @@ public class StorageUnitData {
         }
         // Not found, new one
         if (storedItems.size() < sizeType.getMaxItemCount()) {
-            add = Math.min(amount,sizeType.getEachMaxSize());
+            add = Math.min(amount, sizeType.getEachMaxSize());
             int itemId = DataStorage.getItemId(item);
             storedItems.put(itemId, new ItemContainer(itemId, item, add));
             DataStorage.addStoredItem(id, itemId, add);
@@ -111,19 +133,19 @@ public class StorageUnitData {
         return add;
     }
 
-    public synchronized void setPlaced(boolean isPlaced) {
-        if (this.isPlaced != isPlaced) {
-            this.isPlaced = isPlaced;
-            DataStorage.setContainerStatus(id, isPlaced);
-        }
-    }
-
     public int getId() {
         return id;
     }
 
     public boolean isPlaced() {
         return isPlaced;
+    }
+
+    public synchronized void setPlaced(boolean isPlaced) {
+        if (this.isPlaced != isPlaced) {
+            this.isPlaced = isPlaced;
+            DataStorage.setContainerStatus(id, isPlaced);
+        }
     }
 
     public StorageUnitType getSizeType() {
@@ -139,6 +161,13 @@ public class StorageUnitData {
 
     public Location getLastLocation() {
         return lastLocation;
+    }
+
+    public synchronized void setLastLocation(Location lastLocation) {
+        if (this.lastLocation != lastLocation) {
+            this.lastLocation = lastLocation;
+            DataStorage.setContainerLocation(id, lastLocation);
+        }
     }
 
     public void removeItem(int itemId) {
@@ -176,16 +205,9 @@ public class StorageUnitData {
         return storedItems.size();
     }
 
-    public synchronized void setLastLocation(Location lastLocation) {
-        if (this.lastLocation != lastLocation) {
-            this.lastLocation = lastLocation;
-            DataStorage.setContainerLocation(id, lastLocation);
-        }
-    }
-
     public int getTotalAmount() {
         int re = 0;
-        for ( ItemContainer each : storedItems.values()) {
+        for (ItemContainer each : storedItems.values()) {
             re += each.getAmount();
         }
         return re;
@@ -207,7 +229,7 @@ public class StorageUnitData {
         }
 
         int amount = itemRequest.getAmount();
-        for (ItemContainer itemContainer: getStoredItems()) {
+        for (ItemContainer itemContainer : getStoredItems()) {
             int containerAmount = itemContainer.getAmount();
             if (StackUtils.itemsMatch(itemContainer.getSample(), item)) {
                 int take = Math.min(amount, containerAmount);
@@ -228,27 +250,6 @@ public class StorageUnitData {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack(item, contentLocked);
         }
-    }
-
-    public static boolean isBlacklisted(@Nonnull ItemStack itemStack) {
-        // if item is air, it's blacklisted
-        if (itemStack.getType() == Material.AIR) {
-            return true;
-        }
-        // if item has invalid durability, it's blacklisted
-        if (itemStack.getType().getMaxDurability() < 0) {
-            return true;
-        }
-        // if item is a shulker box, it's blacklisted
-        if (Tag.SHULKER_BOXES.isTagged(itemStack.getType())) {
-            return true;
-        }
-        // if item is a bundle, it's blacklisted
-        if (itemStack.getType() == Material.BUNDLE) {
-            return true;
-        }
-
-        return false;
     }
 
     public void depositItemStack(ItemStack itemsToDeposit, boolean contentLocked, boolean force) {

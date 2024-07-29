@@ -1,10 +1,8 @@
 package io.github.sefiraat.networks.utils;
 
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
@@ -124,7 +122,7 @@ public class StackUtils {
         }
 
         // PDCs don't match
-        if(!isPDCMatch(itemMeta, cachedMeta)) {
+        if (!isPDCMatch(itemMeta, cachedMeta)) {
             return false;
         }
 
@@ -151,12 +149,9 @@ public class StackUtils {
         }
 
         // Finally, check the display name
-        if (itemMeta.hasDisplayName() && (!itemMeta.getDisplayName().equals(cachedMeta.getDisplayName()))) {
-            return false;
-        }
+        return !itemMeta.hasDisplayName() || (itemMeta.getDisplayName().equals(cachedMeta.getDisplayName()));
 
         // Everything should match if we've managed to get here
-        return true;
     }
 
     public static boolean isPDCMatch(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta cachedMeta) {
@@ -213,7 +208,7 @@ public class StackUtils {
                 return true;
             }
 
-            if(!instanceOne.hasVariant() || !instanceTwo.hasVariant())
+            if (!instanceOne.hasVariant() || !instanceTwo.hasVariant())
                 return true;
 
             if (instanceOne.getVariant() != instanceTwo.getVariant()) {

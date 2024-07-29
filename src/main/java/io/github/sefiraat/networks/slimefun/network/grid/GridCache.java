@@ -1,12 +1,10 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class GridCache {
 
@@ -57,6 +55,10 @@ public class GridCache {
         return this.filter;
     }
 
+    public void setFilter(@Nullable String filter) {
+        this.filter = filter;
+    }
+
     @Nullable
     public List<ItemStack> getPullItemHistory() {
         return this.pullItemHistory;
@@ -72,16 +74,12 @@ public class GridCache {
         }
     }
 
-    public void setFilter(@Nullable String filter) {
-        this.filter = filter;
-    }
-
-    public DisplayMode getDisplayMode(){
+    public DisplayMode getDisplayMode() {
         return this.displayMode;
     }
 
-    public void toggleDisplayMode(){
-        if(this.displayMode == DisplayMode.DISPLAY){
+    public void toggleDisplayMode() {
+        if (this.displayMode == DisplayMode.DISPLAY) {
             this.displayMode = DisplayMode.HISTORY;
         } else {
             this.displayMode = DisplayMode.DISPLAY;
