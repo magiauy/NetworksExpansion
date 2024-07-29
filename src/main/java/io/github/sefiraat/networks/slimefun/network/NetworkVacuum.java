@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import dev.sefiraat.sefilib.misc.ParticleUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
@@ -95,7 +96,15 @@ public class NetworkVacuum extends NetworkObject {
                     return;
                 }
                 if (item.getPickupDelay() <= 0 && !SlimefunUtils.hasNoPickupFlag(item)) {
-                    final ItemStack itemStack = item.getItemStack();
+                    final ItemStack itemStack = item.getItemStack().clone();
+                    final int amount = SupportedPluginManager.getStackAmount(item);
+                    if (amount > itemStack.getMaxStackSize()) {
+                        SupportedPluginManager.setStackAmount(item, amount - itemStack.getMaxStackSize());
+                        itemStack.setAmount(itemStack.getMaxStackSize());
+                    } else {
+                        itemStack.setAmount(amount);
+                        item.remove();
+                    }
                     blockMenu.replaceExistingItem(inputSlot, itemStack);
                     ParticleUtils.displayParticleRandomly(item, 1, 5, new Particle.DustOptions(Color.BLUE, 1));
                     item.remove();

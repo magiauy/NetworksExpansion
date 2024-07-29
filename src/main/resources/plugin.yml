@@ -11,7 +11,10 @@ softdepend:
   - GuizhanLibPlugin
   - InfinityExpansion
   - Netheopoiesis
+  - SlimeHUD
   - WildChests
+  - RoseStacker
+  - WildStacker
 commands:
   networks:
     description: /networks
