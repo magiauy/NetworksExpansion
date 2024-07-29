@@ -1,5 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
+import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
+import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.GridItemRequest;
@@ -219,7 +221,9 @@ public abstract class AbstractGrid extends NetworkObject {
 
                 final ItemStack itemStack = entry.getKey();
                 String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                return name.contains(cache.getFilter());
+                final String pyName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                final String pyFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                return name.contains(cache.getFilter()) || pyName.contains(cache.getFilter()) || pyFirstLetter.contains(cache.getFilter());
             })
             .sorted(cache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL ? ALPHABETICAL_SORT : NUMERICAL_SORT.reversed())
             .toList();
@@ -369,7 +373,7 @@ public abstract class AbstractGrid extends NetworkObject {
         final MessageFormat format = new MessageFormat("{0}数量: {1}{2}", Locale.ROOT);
         return List.of(
             "",
-            format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount}, new StringBuffer(), null).toString()
+            format.format(new Object[] {Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount}, new StringBuffer(), null).toString()
         );
     }
 }

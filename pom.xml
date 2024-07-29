@@ -180,6 +180,12 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>pinyin</artifactId>
+            <version>0.4.0</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- Supported Plugins -->
         <dependency>
