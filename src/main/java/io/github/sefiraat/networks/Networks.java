@@ -11,14 +11,10 @@ import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.Adv
 import com.ytdd9527.networks.expansion.core.managers.ConfigManager;
 import com.ytdd9527.networks.expansion.setup.SetupUtil;
 import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
-<<<<<<< HEAD
 import com.ytdd9527.networks.expansion.utils.databases.DataSource;
 import com.ytdd9527.networks.expansion.utils.databases.DataStorage;
 import com.ytdd9527.networks.expansion.utils.databases.QueryQueue;
-=======
-import com.ytdd9527.networks.expansion.util.ConfigManager;
 import io.github.sefiraat.networks.integrations.HudCallbacks;
->>>>>>> master
 import io.github.sefiraat.networks.commands.NetworksMain;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
