@@ -209,7 +209,13 @@ public class TypeItemGroup extends FlexItemGroup {
                 if (this.pageMap.containsKey(page)) {
                     return this.pageMap.get(page);
                 }
-                TypeItemGroup typeItemGroup = new TypeItemGroup(Keys.newKey(this.getKey().getKey() + "_" + page), this.recipeType, page);
+                String tkey = this.getKey().getKey();
+                if (tkey.endsWith("_finaltech" + (page - 1))) {
+                    tkey = tkey.replace("_finaltech" + (page - 1), "_finaltech" + page);
+                } else {
+                    tkey = tkey + "_finaltech" + page;
+                }
+                TypeItemGroup typeItemGroup = new TypeItemGroup(Keys.newKey(tkey), this.recipeType, page);
                 typeItemGroup.pageMap = this.pageMap;
                 this.pageMap.put(page, typeItemGroup);
                 return typeItemGroup;

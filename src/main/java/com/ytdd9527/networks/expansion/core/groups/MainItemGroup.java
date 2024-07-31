@@ -2,7 +2,6 @@ package com.ytdd9527.networks.expansion.core.groups;
 
 import com.ytdd9527.networks.expansion.utils.GuideUtil;
 import com.ytdd9527.networks.expansion.utils.TextUtil;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;

@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.sefiraat</groupId>
     <artifactId>Networks</artifactId>
-    <version>Expansion-2.0.6-preview</version>
+    <version>Expansion-2.0.6</version>
 
     <distributionManagement>
         <repository>
@@ -186,7 +186,12 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>pinyin</artifactId>
+            <version>0.4.0</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- Supported Plugins -->
         <dependency>

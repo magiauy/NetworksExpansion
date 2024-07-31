@@ -28,12 +28,12 @@ public class Keys {
 
 
     @Nonnull
-    public static NamespacedKey newKey(@Nonnull String value) {
-        return new NamespacedKey(Networks.getInstance(), value);
+    public static NamespacedKey newKey(@Nonnull String key) {
+        return new NamespacedKey(Networks.getInstance(), key);
     }
 
     @Nonnull
-    public static NamespacedKey customNewKey(@Nonnull String namespace, @Nonnull String value) {
-        return new NamespacedKey(namespace, value);
+    public static NamespacedKey customNewKey(@Nonnull String namespace, @Nonnull String key) {
+        return new NamespacedKey(namespace, key);
     }
 }

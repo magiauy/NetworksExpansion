@@ -7,7 +7,6 @@ public enum TransportMode {
     NULL_ONLY,
     NONNULL_ONLY,
     FIRST_ONLY,
-
     LAST_ONLY,
     FIRST_STOP;
 
@@ -17,7 +16,7 @@ public enum TransportMode {
 
     public String getRawName() {
         return switch (this) {
-            case NONE -> "无";
+            case NONE -> "无限制";
             case NULL_ONLY -> "仅空";
             case NONNULL_ONLY -> "仅非空";
             case FIRST_ONLY -> "仅首位";

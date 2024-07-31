@@ -391,7 +391,8 @@ public class NetworksSlimefunItemStacks {
                 Theme.MACHINE,
                 "网格",
                 "网格允许你查看网络中所有的物品",
-                "你也可以直接放入或取出物品"
+                "你也可以直接放入或取出物品",
+                "支持拼音搜索"
         );
 
         NETWORK_CRAFTING_GRID = Theme.themedSlimefunItemStack(
@@ -402,7 +403,8 @@ public class NetworksSlimefunItemStacks {
                 "这种网格与普通网格类似",
                 "但会显示更少的物品",
                 "不过你可以直接使用网络中的物品",
-                "进行合成"
+                "进行合成",
+                "支持拼音搜索"
         );
 
         NETWORK_CELL = Theme.themedSlimefunItemStack(
@@ -636,7 +638,7 @@ public class NetworksSlimefunItemStacks {
                 "网络配方编码器",
                 "可以根据输入的物品来制作合成蓝图",
                 "",
-                MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 20000)
+                MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
         );
 
         NETWORK_AUTO_CRAFTER = Theme.themedSlimefunItemStack(

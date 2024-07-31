@@ -148,7 +148,8 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
                 menu.replaceExistingItem(getFilterSlot(), getFilterStack());
                 menu.addMenuClickHandler(getFilterSlot(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    return setFilter(p, menu, gridCache, action);
+                    setFilter(p, menu, gridCache, action);
+                    return false;
                 });
 
                 menu.replaceExistingItem(getOrangeBackgroud(), getAutoFilterStack());

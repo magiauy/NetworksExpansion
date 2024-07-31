@@ -178,6 +178,12 @@ public class ExpansionRecipes {
             NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem()
     };
 
+    public static final ItemStack[] NETWORK_CAPACITOR_6 = new ItemStack[]{
+            ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5,
+            ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5,
+            ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5
+    };
+
     public static final ItemStack[] MAGIC_WORKBENCH_BLUEPRINT = new ItemStack[]{
             OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(),
             OPTIC_CABLE.getItem(), CRAFTING_BLUEPRINT.getItem(), OPTIC_CABLE.getItem(),

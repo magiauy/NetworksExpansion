@@ -25,6 +25,10 @@ public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
         addItemHandler(
                 (ItemUseHandler) e -> {
                     final Player player = e.getPlayer();
+                    if (!player.isOp()) {
+                        player.sendMessage(ChatColor.RED + "你没有权限使用此物品！");
+                        return;
+                    }
                     final Optional<Block> optional = e.getClickedBlock();
                     if (optional.isPresent()) {
                         final Location location = optional.get().getLocation();

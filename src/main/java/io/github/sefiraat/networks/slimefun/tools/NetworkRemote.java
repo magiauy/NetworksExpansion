@@ -114,7 +114,7 @@ public class NetworkRemote extends SlimefunItem {
         StorageCacheUtils.executeAfterLoad(blockData, () -> {
             if (
                     (item instanceof NetworkGrid || item instanceof NetworkCraftingGrid || item instanceof NetworkEncodingGridNewStyle || item instanceof NetworkGridNewStyle || item instanceof NetworkCraftingGridNewStyle)
-                    && (player.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK))) {
+                            && (player.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK))) {
                 blockData.getBlockMenu().open(player);
             } else {
                 player.sendMessage(Theme.ERROR + "无法找到绑定的网格");
