@@ -1,5 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
+import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
+import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.GridItemRequest;
@@ -102,6 +104,9 @@ public abstract class AbstractGrid extends NetworkObject {
                     public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
                         if (tick <= 1) {
                             final BlockMenu blockMenu = data.getBlockMenu();
+                            if (blockMenu == null) {
+                                return;
+                            }
                             addToRegistry(block);
                             tryAddItem(blockMenu);
                             updateDisplay(blockMenu);
@@ -184,6 +189,9 @@ public abstract class AbstractGrid extends NetworkObject {
                 final Map.Entry<ItemStack, Long> entry = validEntries.get(i);
                 final ItemStack displayStack = entry.getKey().clone();
                 final ItemMeta itemMeta = displayStack.getItemMeta();
+                if (itemMeta == null) {
+                    continue;
+                }
                 List<String> lore = itemMeta.getLore();
 
                 if (lore == null) {
@@ -223,13 +231,15 @@ public abstract class AbstractGrid extends NetworkObject {
 
                     final ItemStack itemStack = entry.getKey();
                     String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                    return name.contains(cache.getFilter());
+                    final String pyName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                    final String pyFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                    return name.contains(cache.getFilter()) || pyName.contains(cache.getFilter()) || pyFirstLetter.contains(cache.getFilter());
                 })
                 .sorted(cache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL ? ALPHABETICAL_SORT : NUMERICAL_SORT.reversed())
                 .toList();
     }
 
-    protected boolean setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
+    protected void setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {
@@ -241,21 +251,30 @@ public abstract class AbstractGrid extends NetworkObject {
                 }
                 gridCache.setFilter(s.toLowerCase(Locale.ROOT));
                 player.sendMessage(Theme.SUCCESS + "已启用过滤器");
+                if (!blockMenu.getBlock().getType().isAir()) {
+                    blockMenu.open(player);
+                }
             });
         }
-        return false;
     }
 
     @ParametersAreNonnullByDefault
     protected void retrieveItem(Player player, NodeDefinition definition, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
         // Todo Item can be null here. No idea how - investigate later
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
+        if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }
 
         final ItemStack clone = itemStack.clone();
         final ItemMeta cloneMeta = clone.getItemMeta();
+        if (cloneMeta == null) {
+            return;
+        }
+
         final List<String> cloneLore = cloneMeta.getLore();
+        if (cloneLore == null || cloneLore.size() < 2) {
+            return;
+        }
 
         cloneLore.remove(cloneLore.size() - 1);
         cloneLore.remove(cloneLore.size() - 1);

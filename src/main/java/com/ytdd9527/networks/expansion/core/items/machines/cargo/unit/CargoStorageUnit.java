@@ -26,8 +26,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -51,7 +49,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -105,7 +102,7 @@ public class CargoStorageUnit extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
+            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 Location l = b.getLocation();
                 requestData(l, getContainerId(l));
                 // Restore mode
@@ -163,7 +160,7 @@ public class CargoStorageUnit extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@NotNull Block b, @NotNull Player p) {
+            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
                 return p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
             }
 
@@ -195,7 +192,7 @@ public class CargoStorageUnit extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
+            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 Location l = b.getLocation();
                 requestData(l, getContainerId(l));
                 // Restore mode
@@ -253,7 +250,7 @@ public class CargoStorageUnit extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@NotNull Block b, @NotNull Player p) {
+            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
                 return p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
             }
 
@@ -312,7 +309,7 @@ public class CargoStorageUnit extends NetworkObject {
         return false;
     }
 
-    public static int getBoundId(@NotNull ItemStack item) {
+    public static int getBoundId(@Nonnull ItemStack item) {
         // Get meta
         ItemMeta meta = item.getItemMeta();
         int id = -1;
@@ -323,7 +320,7 @@ public class CargoStorageUnit extends NetworkObject {
         return id;
     }
 
-    public static ItemStack bindId(@NotNull ItemStack itemSample, int id) {
+    public static ItemStack bindId(@Nonnull ItemStack itemSample, int id) {
         ItemStack item = itemSample.clone();
         ItemMeta meta = item.getItemMeta();
         List<String> lore;
@@ -684,115 +681,104 @@ public class CargoStorageUnit extends NetworkObject {
 
     }
 
+
     @Override
-    public void preRegister() {
-        addItemHandler(new BlockPlaceHandler(false) {
-            @Override
-            public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
-                Location l = e.getBlock().getLocation();
-                ItemStack itemInHand = e.getItemInHand();
-                Player p = e.getPlayer();
-                if (!(p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, e.getBlock(), Interaction.INTERACT_BLOCK)))) {
-                    e.setCancelled(true);
-                    return;
-                }
-                boolean a = false;
-                boolean b = false;
-                int id = getBoundId(itemInHand);
-                if (id != -1) {
-                    StorageUnitData data = DataStorage.getCachedStorageData(id).orElse(null);
-                    if (data != null && data.isPlaced() && !l.equals(data.getLastLocation())) {
-                        // This container already exists and placed in another location
-                        p.sendMessage(ChatColor.RED + "该容器已在其它位置存在！");
-                        Location currLoc = data.getLastLocation();
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e" + (currLoc.getWorld() == null ? "Unknown" : currLoc.getWorld().getName()) + " &7| &e" + currLoc.getBlockX() + "&7/&e" + currLoc.getBlockY() + "&7/&e" + currLoc.getBlockZ() + "&7;"));
-                        e.setCancelled(true);
-                        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
-                        if (useSpecialModel) {
-                            removeDisplay(l);
-                        }
-                        return;
-                    }
-                    // Request data
-                    Location lastLoc;
-                    if (data != null) {
-                        lastLoc = data.getLastLocation();
-                        a = locked.contains(lastLoc);
-                        b = voidExcesses.contains(lastLoc);
-                        if (a) {
-                            locked.remove(lastLoc);
-                        }
-                        if (b) {
-                            voidExcesses.remove(lastLoc);
-                        }
-                    }
-                    requestData(l, id);
-                    // This prevents creative player from getting too many same id item
-                    if (p.getGameMode() == GameMode.CREATIVE) {
-                        itemInHand.setAmount(itemInHand.getAmount() - 1);
-                        p.getEquipment().setItem(e.getHand(), itemInHand);
-                    }
-                } else {
-                    StorageUnitData data = DataStorage.createStorageUnitData(p, sizeType, l);
-                    id = data.getId();
-                    storages.put(l, data);
-                }
-
-                BlockMenu menu = StorageCacheUtils.getMenu(l);
-                if (menu != null) {
-                    update(l, true);
-                    // 如果存在菜单，添加点击事件
-                    addClickHandler(l);
-                }
-                if (useSpecialModel) {
-                    // 如果为 true，执行特殊逻辑
-                    e.getBlock().setType(Material.BARRIER);
-                    setupDisplay(e.getBlock().getLocation());
-                }
-                // Save to block storage
-                addBlockInfo(l, id, a, b);
-            }
-        });
-
-
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
+        Location l = e.getBlock().getLocation();
+        ItemStack itemInHand = e.getItemInHand();
+        Player p = e.getPlayer();
+        if (!(p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, e.getBlock(), Interaction.INTERACT_BLOCK)))) {
+            e.setCancelled(true);
+            return;
+        }
+        boolean a = false;
+        boolean b = false;
+        int id = getBoundId(itemInHand);
+        if (id != -1) {
+            StorageUnitData data = DataStorage.getCachedStorageData(id).orElse(null);
+            if (data != null && data.isPlaced() && !l.equals(data.getLastLocation())) {
+                // This container already exists and placed in another location
+                p.sendMessage(ChatColor.RED + "该容器已在其它位置存在！");
+                Location currLoc = data.getLastLocation();
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e" + (currLoc.getWorld() == null ? "Unknown" : currLoc.getWorld().getName()) + " &7| &e" + currLoc.getBlockX() + "&7/&e" + currLoc.getBlockY() + "&7/&e" + currLoc.getBlockZ() + "&7;"));
                 e.setCancelled(true);
-                Block b = e.getBlock();
-                Location l = b.getLocation();
-
-                // 如果启用了特殊模型，移除展示组
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
                 if (useSpecialModel) {
                     removeDisplay(l);
                 }
-
-                // Remove data cache
-                StorageUnitData data = storages.remove(l);
-
-                // Remove block
-                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
-                b.setType(Material.AIR);
-                BlockMenu menu = StorageCacheUtils.getMenu(l);
-                if (menu != null) {
-                    menu.dropItems(l, QUANTUM_SLOT, ITEM_CHOOSE_SLOT);
+                return;
+            }
+            // Request data
+            Location lastLoc;
+            if (data != null) {
+                lastLoc = data.getLastLocation();
+                a = locked.contains(lastLoc);
+                b = voidExcesses.contains(lastLoc);
+                if (a) {
+                    locked.remove(lastLoc);
                 }
-
-                // Drop custom item if data exists
-                if (data != null) {
-                    data.setPlaced(false);
-                    b.getWorld().dropItemNaturally(l, bindId(getItem(), data.getId()));
-                } else {
-                    // Data not loaded, just drop with the stored one.
-                    int id = getContainerId(l);
-                    if (id != -1) {
-                        DataStorage.setContainerStatus(id, false);
-                        b.getWorld().dropItemNaturally(l, bindId(getItem(), id));
-                    }
+                if (b) {
+                    voidExcesses.remove(lastLoc);
                 }
             }
-        });
+            requestData(l, id);
+            // This prevents creative player from getting too many same id item
+            if (p.getGameMode() == GameMode.CREATIVE) {
+                itemInHand.setAmount(itemInHand.getAmount() - 1);
+                p.getEquipment().setItem(e.getHand(), itemInHand);
+            }
+        } else {
+            StorageUnitData data = DataStorage.createStorageUnitData(p, sizeType, l);
+            id = data.getId();
+            storages.put(l, data);
+        }
 
+        BlockMenu menu = StorageCacheUtils.getMenu(l);
+        if (menu != null) {
+            update(l, true);
+            // 如果存在菜单，添加点击事件
+            addClickHandler(l);
+        }
+        if (useSpecialModel) {
+            // 如果为 true，执行特殊逻辑
+            e.getBlock().setType(Material.BARRIER);
+            setupDisplay(e.getBlock().getLocation());
+        }
+        // Save to block storage
+        addBlockInfo(l, id, a, b);
+    }
+
+    @Override
+    public void onBreak(@Nonnull BlockBreakEvent e) {
+        e.setCancelled(true);
+        super.onBreak(e);
+        Block b = e.getBlock();
+        Location l = b.getLocation();
+
+        // 如果启用了特殊模型，移除展示组
+        if (useSpecialModel) {
+            removeDisplay(l);
+        }
+
+        // Remove data cache
+        StorageUnitData data = storages.remove(l);
+        b.setType(Material.AIR);
+        // Drop custom item if data exists
+        if (data != null) {
+            data.setPlaced(false);
+            b.getWorld().dropItemNaturally(l, bindId(getItem(), data.getId()));
+        } else {
+            // Data not loaded, just drop with the stored one.
+            int id = getContainerId(l);
+            if (id != -1) {
+                DataStorage.setContainerStatus(id, false);
+                b.getWorld().dropItemNaturally(l, bindId(getItem(), id));
+            }
+        }
+    }
+
+    @Override
+    public void preRegister() {
         addItemHandler(new BlockTicker() {
             @Override
             public boolean isSynchronized() {
@@ -846,6 +832,18 @@ public class CargoStorageUnit extends NetworkObject {
     }
 
     private ItemStack getLocationErrorItem(int id, Location lastLoc) {
+        if (lastLoc == null) {
+            return new CustomItemStack(Material.REDSTONE_TORCH, "&c位置错误", "",
+                    "&e这个容器已在其它位置存在",
+                    "&e请不要将同ID的容器放在多个不同的位置",
+                    "&e如果您认为这是个意外，请联系管理员处理",
+                    " ",
+                    "&6容器信息:",
+                    "&b容器ID: &a" + id,
+                    "&b所在世界: &e Unknown",
+                    "&b所在坐标: &e Unknown"
+            );
+        }
         return new CustomItemStack(Material.REDSTONE_TORCH, "&c位置错误", "",
                 "&e这个容器已在其它位置存在",
                 "&e请不要将同ID的容器放在多个不同的位置",

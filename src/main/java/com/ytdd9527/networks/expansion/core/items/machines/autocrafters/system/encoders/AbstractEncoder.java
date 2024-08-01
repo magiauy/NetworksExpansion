@@ -45,7 +45,7 @@ public abstract class AbstractEncoder extends NetworkObject {
     private static final int BLANK_BLUEPRINT_SLOT = 19;
     private static final int ENCODE_SLOT = 16;
     private static final int OUTPUT_SLOT = 34;
-    private static final int CHARGE_COST = 20000;
+    private static final int CHARGE_COST = 2000;
 
     public AbstractEncoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ENCODER);

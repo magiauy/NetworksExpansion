@@ -342,6 +342,13 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                         ItemStack itemStack = targetMenu.getItemInSlot(slot);
                         if (itemStack == null || itemStack.getType().isAir()) {
                             itemRequest.setAmount(clone.getMaxStackSize());
+                        } else if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
+                            if (space > 0) {
+                                itemRequest.setAmount(space);
+                            } else {
+                                continue;
+                            }
                         } else {
                             continue;
                         }
@@ -365,6 +372,13 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                         ItemStack itemStack = targetMenu.getItemInSlot(slot);
                         if (itemStack == null || itemStack.getType().isAir()) {
                             itemRequest.setAmount(clone.getMaxStackSize());
+                        } else if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
+                            if (space > 0) {
+                                itemRequest.setAmount(space);
+                            } else {
+                                continue;
+                            }
                         } else {
                             continue;
                         }

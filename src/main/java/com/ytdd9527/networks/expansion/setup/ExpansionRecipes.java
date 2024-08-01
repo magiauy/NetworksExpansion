@@ -153,17 +153,10 @@ public class ExpansionRecipes {
             NETWORK_EXPORT.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_EXPORT.getItem()
     };
 
-<<<<<<< HEAD
-    public static final ItemStack[] ADVANCED_PURGER = new ItemStack[]{
-            RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
-            RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_TRASH.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
-            RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem()
-=======
     public static final ItemStack[] ADVANCED_PURGER = new ItemStack[] {
         RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), 
         RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_PURGER.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
         RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem()
->>>>>>> master
     };
 
     public static final ItemStack[] ADVANCED_GREEDY_BLOCK = new ItemStack[]{
@@ -176,6 +169,12 @@ public class ExpansionRecipes {
             NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(),
             NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(),
             NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem()
+    };
+
+    public static final ItemStack[] NETWORK_CAPACITOR_6 = new ItemStack[]{
+            ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5,
+            ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5,
+            ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5, ExpansionItemStacks.NETWORK_CAPACITOR_5
     };
 
     public static final ItemStack[] MAGIC_WORKBENCH_BLUEPRINT = new ItemStack[]{

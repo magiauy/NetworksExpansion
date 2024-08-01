@@ -43,13 +43,6 @@ public class SupportedPluginManager {
                 .getServer()
                 .getScheduler()
                 .runTaskLater(Networks.getInstance(), this::firstTickRegistrations, 1);
-<<<<<<< HEAD
-    }
-
-    public static SupportedPluginManager getInstance() {
-        return instance;
-=======
->>>>>>> master
     }
 
     private void firstTickRegistrations() {
@@ -76,8 +69,6 @@ public class SupportedPluginManager {
     public boolean isWildChests() {
         return wildChests;
     }
-<<<<<<< HEAD
-=======
 
     public boolean isRoseStacker() {
         return roseStacker;
@@ -119,5 +110,4 @@ public class SupportedPluginManager {
             item.getItemStack().setAmount(amount);
         }
     }
->>>>>>> master
 }

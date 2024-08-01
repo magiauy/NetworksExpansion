@@ -4,7 +4,7 @@ import com.ytdd9527.networks.expansion.core.groups.MainItemGroup;
 import com.ytdd9527.networks.expansion.core.groups.SubFlexItemGroup;
 import com.ytdd9527.networks.expansion.utils.GroupConfigUtil;
 import com.ytdd9527.networks.expansion.utils.TextUtil;
-import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.NestedItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -33,6 +33,7 @@ public final class ExpansionItemsMenus {
     public static final SubItemGroup MENU_ITEMS = new SubItemGroup(getKey("NET_EXPANSION_ITEMS"), MAIN_MENU, new CustomItemStack(Material.AMETHYST_SHARD, TextUtil.colorRandomString(("网络拓展 - 物品"))));
     public static final SubItemGroup MENU_CARGO_SYSTEM = new SubItemGroup(getKey("NET_EXPANSION_SYSTEM"), MAIN_MENU, new CustomItemStack(Material.FURNACE_MINECART, TextUtil.colorRandomString(("网络拓展 - 货运与存储"))));
     public static final SubItemGroup MENU_FUNCTIONAL_MACHINE = new SubItemGroup(getKey("NET_EXPANSION_FUNCTIONAL_MACHINE"), MAIN_MENU, new CustomItemStack(Material.LECTERN, TextUtil.colorRandomString(("网络拓展 - 功能机器"))));
+    public static final SubItemGroup MENU_TROPHY = new SubItemGroup(getKey("NET_EXPANSION_TROPHY"), MAIN_MENU, new CustomItemStack(Material.RAW_GOLD_BLOCK, TextUtil.colorRandomString(("网络拓展 - 贡献"))));
 
     /* My item group */
     public static final MainItemGroup MAIN_ITEM_GROUP = GroupConfigUtil.getMainItemGroup("NET_EXPANSION_ITEM_GROUP", Material.CHEST_MINECART, TextUtil.colorRandomString("Networks - Expansion"));
@@ -56,7 +57,11 @@ public final class ExpansionItemsMenus {
     public static final SubFlexItemGroup SUB_MENU_ENCODER = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_ENCODER", Material.TARGET, TextUtil.colorRandomString("功能机器 - 编码器"));
     public static final SubFlexItemGroup SUB_MENU_CRAFTER_MACHINE = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_CRAFTER_MACHINE", Material.CRAFTING_TABLE, TextUtil.colorRandomString("功能机器 - 自动合成机器"));
 
+    // trophy
+    public static final SubFlexItemGroup MAIN_MENU_TROPHY = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_MAIN_MENU_TROPHY", Material.RAW_GOLD_BLOCK, TextUtil.colorRandomString("贡献"));
+    public static final SubFlexItemGroup SUB_MENU_AUTHOR = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_AUTHOR", Material.PLAYER_HEAD, TextUtil.colorRandomString("作者"));
+
     private static NamespacedKey getKey(String key) {
-        return new NamespacedKey(Networks.getInstance(), key);
+        return Keys.newKey(key);
     }
 }

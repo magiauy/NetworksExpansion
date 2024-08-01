@@ -124,6 +124,31 @@ public enum Theme {
 
     @Nonnull
     @ParametersAreNonnullByDefault
+    public static SlimefunItemStack Random(
+            String id,
+            String texture,
+            Theme themeType,
+            String name,
+            String... lore
+    ) {
+        String coloredName = TextUtil.colorPseudorandomString(name);
+        ChatColor passiveColor = Theme.PASSIVE.getColor();
+        List<String> finalLore = new ArrayList<>();
+        finalLore.add("");
+        for (String s : lore) {
+            finalLore.add(passiveColor + s);
+        }
+        finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
+        return new SlimefunItemStack(
+                id,
+                texture,
+                coloredName,
+                finalLore.toArray(new String[0])
+        );
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
     public static SlimefunItemStack model(
             String id,
             ItemStack itemStack,
