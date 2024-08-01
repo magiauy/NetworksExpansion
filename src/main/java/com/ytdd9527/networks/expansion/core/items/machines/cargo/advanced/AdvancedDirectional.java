@@ -75,8 +75,8 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     private static final CustomItemStack SHOW_ICON = new CustomItemStack(
             Material.GOLD_BLOCK,
-            Theme.NOTICE + "数量",
-            Theme.NOTICE + "当前数量: 64"
+            TextUtil.colorRandomString( "数量"),
+            TextUtil.colorRandomString( "当前数量: 64")
     );
 
     private static final CustomItemStack ADD_ICON = new CustomItemStack(
@@ -84,7 +84,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     );
 
     private static final CustomItemStack TRANSPORT_MODE_ICON = new CustomItemStack(
-            Material.GREEN_CONCRETE,
+            Material.FURNACE_MINECART,
             TextUtil.colorRandomString("运输模式"),
             TextUtil.colorRandomString("当前模式：") + TextUtil.colorRandomString("无")
     );
@@ -559,7 +559,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateTransportModeIcon(Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, Theme.NOTICE + "当前模式: " + Theme.MECHANISM + getCurrentTransportMode(location).getName());
+        lore.set(0, TextUtil.colorRandomString("当前模式: ") + Theme.MECHANISM + getCurrentTransportMode(location).getName());
         itemMeta.setLore(lore);
         this.transportModeIconClone.setItemMeta(itemMeta);
 
