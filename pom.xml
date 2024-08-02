@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.sefiraat</groupId>
     <artifactId>Networks</artifactId>
-    <version>Expansion-2.0.6</version>
+    <version>Expansion-2.0.6-Beta</version>
 
     <distributionManagement>
         <repository>

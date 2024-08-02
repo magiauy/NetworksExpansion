@@ -41,8 +41,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class Networks extends JavaPlugin implements SlimefunAddon {
-
-
     private static Networks instance;
     private static DataSource dataSource;
     private static QueryQueue queryQueue;

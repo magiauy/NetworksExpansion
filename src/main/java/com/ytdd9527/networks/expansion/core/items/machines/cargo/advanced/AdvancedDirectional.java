@@ -333,7 +333,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
                 if (getTransportModeSlot() != -1) {
                     blockMenu.addMenuClickHandler(getTransportModeSlot(), (p, slot, item, action) ->
-                            toggleTransportMode(location));
+                            toggleTransportMode(location, action));
                 }
 
                 updateShowIcon(location);
@@ -511,9 +511,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, String.valueOf(mode));
     }
 
-    public boolean toggleTransportMode(Location location) {
+    public boolean toggleTransportMode(Location location, ClickAction action) {
         TransportMode mode = getCurrentTransportMode(location);
-        setTransportMode(location, mode.next());
+        if (action.isRightClicked()) {
+            setTransportMode(location, mode.previous());
+        } else {
+            setTransportMode(location, mode.next());
+        }
         updateTransportModeIcon(location);
         return false;
     }

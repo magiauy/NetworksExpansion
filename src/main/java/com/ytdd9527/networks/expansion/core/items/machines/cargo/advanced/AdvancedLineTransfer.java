@@ -456,7 +456,10 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 break;
             }
             // 获取输出槽
-            int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+            final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+            if (slots.length == 0) {
+                return;
+            }
             int free = getCurrentNumber(blockMenu.getLocation());
 
             switch (mode) {
@@ -524,6 +527,30 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             itemStack.setAmount(itemStack.getAmount() - consumed);
                             free -= consumed;
                             break;
+                        }
+                    }
+                }
+                case LAZY -> {
+                    if (slots.length == 0) {
+                        break;
+                    }
+                    int deltaSlot = slots[0];
+                    ItemStack delta = targetMenu.getItemInSlot(deltaSlot);
+                    if (delta != null && !delta.getType().isAir()) {
+                        for (int slot : slots) {
+                            ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                            if (itemStack != null && !itemStack.getType().isAir()) {
+                                int canConsume = Math.min(itemStack.getAmount(), free);
+                                ItemStack clone = itemStack.clone();
+                                clone.setAmount(canConsume);
+                                root.addItemStack(clone);
+                                int consumed = canConsume - clone.getAmount();
+                                itemStack.setAmount(itemStack.getAmount() - consumed);
+                                free -= consumed;
+                                if (free <= 0) {
+                                    break;
+                                }
+                            }
                         }
                     }
                 }

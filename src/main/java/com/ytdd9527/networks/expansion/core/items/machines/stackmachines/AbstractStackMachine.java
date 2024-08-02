@@ -1,13 +1,23 @@
 package com.ytdd9527.networks.expansion.core.items.machines.stackmachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.core.data.attributes.WorkingStatus;
 import com.ytdd9527.networks.expansion.core.data.attributes.WorkingRecipe;
+import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
+import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
+import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
+import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
+import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -29,6 +39,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -36,35 +47,58 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class AbstractStackMachine extends NetworkObject {
-    static Path SAVEDITEM_FOLDER = (new File(Networks.getInstance().getDataFolder().toPath().toString(), "saveditems")).toPath();
-    int[] BACKGROUND_SLOTS = {
+    static final Path SAVEDITEM_FOLDER = (new File(Networks.getInstance().getDataFolder().toPath().toString(), "saveditems")).toPath();
+    final int[] BACKGROUND_SLOTS = {
             0, 1, 2, 3, 4, 5, 6, 7, 8,
-            9, 11, 17,
-            18, 20, 26,
-            27, 29, 35,
-            36, 38, 44,
+            9, 11, 14, 17,
+            18, 20, 23, 26,
+            27, 29, 32, 35,
+            36, 38, 41, 44,
             45, 46, 47, 48, 49, 50, 51, 52
     };
-    int[] INPUT_SLOTS = {
-            12, 13, 14, 15, 16,
-            21, 22, 23, 24, 25,
-            30, 31, 32, 33, 34,
-            39, 40, 41, 42, 43
+    final int[] INPUT_SLOTS = {
+            12, 13,
+            21, 22,
+            30, 31,
+            39, 40
     };
-    int WORKING_STATUS_SLOT = 10;
-    int MACHINE_INPUT_SLOT = 19;
-    int TIPS_BACKGROUND_SLOT = 28;
-    int MACHINE_OUTPUT_SLOT = 37;
-    int RECIPE_DISPLAY_SLOT = 53;
-    Map<Location, Integer> workingAmount = new HashMap<>();
-    Map<Location, String> workingMachineId = new HashMap<>();
-    Map<Location, WorkingRecipe> workingRecipe = new HashMap<>();
-    Map<Location, Integer> workingProgress = new HashMap<>();
-    Map<Location, Integer> maxWorkingProgress = new HashMap<>();
-    Map<Location, NetworkRoot> networkRoots = new HashMap<>();
-    Map<Location, Integer> workingLevels = new HashMap<>();
+    static final int[] STORAGE_SLOTS = {
+            15, 16,
+            24, 25,
+            33, 34,
+            42, 43
+    };
+    final int WORKING_STATUS_SLOT = 10;
+    final int MACHINE_INPUT_SLOT = 19;
+    final int TIPS_BACKGROUND_SLOT = 28;
+    final int MACHINE_OUTPUT_SLOT = 37;
+    final int RECIPE_DISPLAY_SLOT = 53;
+    static final Map<SlimefunItemStack, Integer> quantumMap = new HashMap<>();
+    static {
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_0, 64);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_1, 4096);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_2, 32768);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_3, 262144);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_4, 2097152);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_5, 16777216);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_6, 134217728);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_7, 1073741824);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_8, Integer.MAX_VALUE);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_9, 256);
+        quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_10, 1024);
+        quantumMap.put(ExpansionItemStacks.ADVANCED_QUANTUM_STORAGE, Integer.MAX_VALUE);
+    }
+    final Map<Location, Integer> workingAmount = new HashMap<>();
+    final Map<Location, String> workingMachineId = new HashMap<>();
+    final Map<Location, WorkingRecipe> workingRecipe = new HashMap<>();
+    final Map<Location, Integer> workingProgress = new HashMap<>();
+    final Map<Location, Integer> maxWorkingProgress = new HashMap<>();
+    final Map<Location, NetworkRoot> networkRoots = new HashMap<>();
+    final Map<Location, Integer> workingLevels = new HashMap<>();
+    final Map<Location, Set<ItemStack>> leftovers = new HashMap<>();
 
     public AbstractStackMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
@@ -152,17 +186,23 @@ public abstract class AbstractStackMachine extends NetworkObject {
                     "&a工作状态",
                     "&c无效的机器！"
             );
-            case FULL_OUTPUT -> new CustomItemStack(
+            case NO_MATCH -> new CustomItemStack(
                     Material.RED_STAINED_GLASS_PANE,
                     "&a工作状态",
-                    "&c部分物品无法输出！"
+                    "&c无匹配的配方！"
             );
+            case WRONG_ENVIRONMENT -> new CustomItemStack(
+                    Material.RED_STAINED_GLASS_PANE,
+                    "&a工作状态",
+                    "&c当前环境不符合条件！"
+            );
+            case FULL_OUTPUT -> getLeftoverItemStack(location);
             case WORKING -> getWorkingItemStack(location);
         };
     }
 
     public long getWorkingPower(Location location) {
-        return getWorkingRecipe(location).getEnergy() * getWorkingAmount(location);
+        return (long) getWorkingRecipe(location).getEnergy() * getWorkingAmount(location);
     }
 
     public int getWorkingAmount(Location location) {
@@ -191,6 +231,10 @@ public abstract class AbstractStackMachine extends NetworkObject {
 
     public int getWorkingLevel(Location location) {
         return this.workingLevels.getOrDefault(location, 0);
+    }
+
+    public Set<ItemStack> getLeftovers(Location location) {
+        return this.leftovers.getOrDefault(location, null);
     }
 
     public void setWorkingAmount(Location location, int amount) {
@@ -223,6 +267,10 @@ public abstract class AbstractStackMachine extends NetworkObject {
         this.workingLevels.put(location, level);
     }
 
+    public void setLeftovers(Location location, Set<ItemStack> leftovers) {
+        this.leftovers.put(location, leftovers);
+    }
+
     public Map<Location, Integer> getWorkingAmounts() {
         return this.workingAmount;
     }
@@ -251,6 +299,10 @@ public abstract class AbstractStackMachine extends NetworkObject {
         return this.workingLevels;
     }
 
+    public Map<Location, Set<ItemStack>> getLeftoversMap() {
+        return this.leftovers;
+    }
+
     public String getShowingName(Map<ItemStack, Integer> items) {
         StringBuilder stringBuilder = new StringBuilder();
         for (ItemStack item : items.keySet()) {
@@ -266,11 +318,31 @@ public abstract class AbstractStackMachine extends NetworkObject {
         return stringBuilder.toString();
     }
 
+    public String getShowingName(Set<ItemStack> items) {
+        Map<ItemStack, Integer> map = new HashMap<>();
+        for (ItemStack item : items) {
+            map.put(StackUtils.getAsQuantity(item, 1), item.getAmount());
+        }
+        return getShowingName(map);
+    }
+
+    public ItemStack getLeftoverItemStack(Location location) {
+        return new CustomItemStack(
+                Material.RED_STAINED_GLASS_PANE,
+                "&a工作状态",
+                "&c阻塞中! ",
+                "&a当前工作机器: " + ItemStackHelper.getDisplayName(SlimefunItem.getById(getWorkingMachineId(location)).getItem()),
+                "&a当前已有机器数量: " + getWorkingAmount(location),
+                "&a当前工作机器数量: " + getWorkingLevel(location),
+                "&c当前阻塞物品: " + getShowingName(getLeftovers(location))
+        );
+    }
+
     public ItemStack getWorkingItemStack(Location location) {
         return new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
                 "&a工作状态",
-                "&a工作中！",
+                "&a工作中! ",
                 "&a当前工作所需电力: " + getWorkingPower(location) + " J/tick",
                 "&a当前工作机器: " + ItemStackHelper.getDisplayName(SlimefunItem.getById(getWorkingMachineId(location)).getItem()),
                 "&a当前已有机器数量: " + getWorkingAmount(location),
@@ -311,12 +383,12 @@ public abstract class AbstractStackMachine extends NetworkObject {
         }
         setWorkingMachineId(location, sfItem.getId());
 
-        String s_workingAmount = StorageCacheUtils.getData(location, "working_amount");
-        if (s_workingAmount == null) {
+        String bs_workingAmount = StorageCacheUtils.getData(location, "working_amount");
+        if (bs_workingAmount == null) {
             setWorkingStatus(blockMenu, WorkingStatus.NO_MACHINE);
             return;
         }
-        int amount = Integer.parseInt(s_workingAmount);
+        int amount = Integer.parseInt(bs_workingAmount);
         setWorkingAmount(location, amount);
     }
 
@@ -348,12 +420,84 @@ public abstract class AbstractStackMachine extends NetworkObject {
         }
     }
 
-    public enum WorkingStatus {
-        NO_NETWORK,
-        NO_ENOUGH_ENERGY,
-        NO_MACHINE,
-        WRONG_MACHINE,
-        FULL_OUTPUT,
-        WORKING
+    /**
+     *
+     * 寻找第一个存在需求物品的存储，并尝试从中获取物品
+     */
+    public static ItemStack getItemStack(@Nonnull BlockMenu blockMenu, @Nonnull NetworkRoot root, @Nonnull ItemRequest ir) {
+        ItemStack stackToReturn = null;
+        for (int slot : STORAGE_SLOTS) {
+            ItemStack item = blockMenu.getItemInSlot(slot);
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            if (!(sfItem instanceof NetworkQuantumStorage)) {
+                continue;
+            }
+            ItemMeta meta = item.getItemMeta();
+            QuantumCache cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
+            if (cache == null || cache.getItemStack() == null) {
+                continue;
+                // goto 补充物品
+            }
+            if (StackUtils.itemsMatch(cache.getItemStack(), ir.getItemStack())) {
+                int canReceive = (int) Math.min(cache.getAmount(), ir.getAmount());
+                if (stackToReturn == null) {
+                    stackToReturn = StackUtils.getAsQuantity(cache.getItemStack(), 0);
+                }
+                cache.setAmount((int) (cache.getAmount() - canReceive));
+                DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, cache);
+                ir.receiveAmount(canReceive);
+                stackToReturn.setAmount(stackToReturn.getAmount() + canReceive);
+                if (ir.getAmount() <= 0) {
+                    return stackToReturn;
+                }
+            }
+        }
+
+        if (stackToReturn != null && stackToReturn.getAmount() > 0) {
+            return stackToReturn;
+        }
+
+        // 补充物品，这里之后总是返回null
+        for (int slot : STORAGE_SLOTS) {
+            ItemStack item = blockMenu.getItemInSlot(slot);
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            if (!(sfItem instanceof NetworkQuantumStorage)) {
+                continue;
+            }
+            ItemMeta meta = item.getItemMeta();
+            QuantumCache cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
+            ItemRequest tir = new ItemRequest(ir.getItemStack(), ir.getAmount());
+            int limit = 0;
+            int max = 0;
+            if (cache == null) {
+                max = limit = quantumMap.getOrDefault(item, 0);
+            } else if (cache.getItemStack() == null) {
+                max = limit = cache.getLimit();
+            } else if (StackUtils.itemsMatch(cache.getItemStack(), ir.getItemStack())) {
+                limit = (int) (cache.getLimit() - cache.getAmount());
+                max = cache.getLimit();
+            }
+            tir.setAmount(Math.min(limit, ir.getAmount()));
+            ItemStack received = root.getItemStack(tir);
+            if (received == null) {
+                return null;
+            }
+            tir.receiveAmount(received.getAmount());
+            DataTypeMethods.setCustom(
+                    meta,
+                    Keys.QUANTUM_STORAGE_INSTANCE,
+                    PersistentQuantumStorageType.TYPE,
+                    new QuantumCache(
+                            StackUtils.getAsQuantity(received, 1),
+                            received.getAmount(),
+                            max,
+                            false,
+                            false
+                    )
+            );
+            item.setItemMeta(meta);
+            return null;
+        }
+        return null;
     }
 }

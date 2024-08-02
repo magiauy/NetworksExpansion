@@ -1,6 +1,7 @@
 package com.ytdd9527.networks.expansion.core.items.machines.stackmachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.core.data.attributes.WorkingStatus;
 import com.ytdd9527.networks.expansion.core.data.attributes.WorkingRecipe;
 import com.ytdd9527.networks.expansion.core.data.attributes.WorkingRecipes;
 import com.ytdd9527.networks.expansion.core.managers.ConfigManager;
@@ -37,9 +38,10 @@ import java.util.logging.Logger;
 
 public class StackMachine extends AbstractStackMachine {
     static Map<String, Path> files = new HashMap<>();
-    Map<String, WorkingRecipes> recipes = new HashMap<>();
+    static Map<String, WorkingRecipes> recipes = new HashMap<>();
     Map<Location, Set<ItemStack>> leftovers = new HashMap<>();
     Map<Location, Map<ItemStack, Integer>> cachedInputs = new HashMap<>();
+    Map<Location, WorkingRecipe> lastMatch = new HashMap<>();
 
     protected StackMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
@@ -67,6 +69,10 @@ public class StackMachine extends AbstractStackMachine {
             String filePath = path + "/" + fileName;
             YamlConfiguration configuration = ConfigManager.getYamlConfiguration(path, fileName);
             String id = configuration.getString("machine");
+            if (id == null) {
+                logger.severe("无效的配置文件: " + filePath);
+                continue;
+            }
             SlimefunItem machine = SlimefunItem.getById(id);
             if (machine == null) {
                 logger.severe("@" + filePath + "无效的参数[machine]: " + id);
@@ -126,6 +132,7 @@ public class StackMachine extends AbstractStackMachine {
                     workingRecipes.add(new WorkingRecipe(name, duration, energy, inputItems, outputItems, weights));
                 }
             }
+            recipes.put(id, new WorkingRecipes(workingRecipes.toArray(new WorkingRecipe[0])));
         }
     }
 
@@ -180,6 +187,7 @@ public class StackMachine extends AbstractStackMachine {
             } else {
                 setWorkingStatus(blockMenu, WorkingStatus.FULL_OUTPUT);
             }
+            return;
         }
 
         setWorkingStatus(blockMenu, WorkingStatus.WORKING);
@@ -193,8 +201,17 @@ public class StackMachine extends AbstractStackMachine {
         }
 
         Map<ItemStack, Integer> inputItems = getInputs(blockMenu);
-        WorkingRecipe workingRecipe = workingRecipes.findNextRecipe(inputItems);
+
+        WorkingRecipe workingRecipe = lastMatch.get(location);
+        if (workingRecipe == null || !workingRecipe.isMatch(inputItems)) {
+            workingRecipe = workingRecipes.findNextRecipe(inputItems);
+        }
         setWorkingRecipe(location, workingRecipe);
+        if (workingRecipe == null) {
+            setWorkingStatus(blockMenu, WorkingStatus.NO_MATCH);
+            return;
+        }
+
         Map<ItemStack, Long> allItems = root.getAmount(inputItems.keySet());
         Map<ItemStack, Long> clone = new HashMap<>(allItems);
         int level = RecipeUtil.getCraftLevel(clone, workingRecipe, getWorkingAmount(location));

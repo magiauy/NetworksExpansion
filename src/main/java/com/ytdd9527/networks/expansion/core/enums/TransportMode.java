@@ -8,7 +8,8 @@ public enum TransportMode {
     NONNULL_ONLY,
     FIRST_ONLY,
     LAST_ONLY,
-    FIRST_STOP;
+    FIRST_STOP,
+    LAZY;
 
     public String getName() {
         return TextUtil.colorRandomString(getRawName());
@@ -22,6 +23,7 @@ public enum TransportMode {
             case FIRST_ONLY -> "仅首位";
             case LAST_ONLY -> "仅末位";
             case FIRST_STOP -> "首位阻断";
+            case LAZY -> "懒惰模式";
         };
     }
 
