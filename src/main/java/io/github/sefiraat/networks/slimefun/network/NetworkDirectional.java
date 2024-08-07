@@ -16,6 +16,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -29,7 +31,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -321,7 +322,7 @@ public abstract class NetworkDirectional extends NetworkObject {
         );
         final ItemMeta itemMeta = displayStack.getItemMeta();
         if (active) {
-            itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+            itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         itemMeta.setLore(List.of(
@@ -341,7 +342,7 @@ public abstract class NetworkDirectional extends NetworkObject {
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
             if (active) {
-                itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+                itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             }
             itemMeta.setLore(List.of(
@@ -372,6 +373,6 @@ public abstract class NetworkDirectional extends NetworkObject {
         final Vector faceVector = blockFace.getDirection().clone().multiply(-1);
         final Vector pushVector = faceVector.clone().multiply(2);
         final Location displayLocation = location.clone().add(0.5, 0.5, 0.5).add(faceVector);
-        location.getWorld().spawnParticle(Particle.REDSTONE, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
+        location.getWorld().spawnParticle(VersionedParticle.DUST, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
     }
 }
