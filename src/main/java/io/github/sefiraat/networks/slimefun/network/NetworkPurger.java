@@ -3,11 +3,11 @@ package io.github.sefiraat.networks.slimefun.network;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -23,10 +23,8 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -39,7 +37,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("deprecation")
 public class NetworkPurger extends NetworkObject {
 
-    private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25};
+    private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
     private static final int TEST_ITEM_SLOT = 13;
     private static final int[] TEST_ITEM_BACKDROP = {3, 4, 5, 12, 14, 21, 22, 23};
 
@@ -102,54 +100,13 @@ public class NetworkPurger extends NetworkObject {
         if (testItem == null || testItem.getType().isAir()) {
             return;
         }
+        ItemStack clone = StackUtils.getAsQuantity(testItem, 1);
 
-        ItemStack slot2 = blockMenu.getItemInSlot(26);
-
-        if (slot2 == null || slot2.getType().isAir()) {
-            return;
-        }
-
-        Logger logger = Networks.getInstance().getLogger();
-
-        logger.info("Tick info: ");
-        logger.info("  Slot 1 before new itemstack: ");
-        logger.info("    Name: " + ItemStackHelper.getDisplayName(testItem));
-        logger.info("    ClassLoader: " + testItem.getClass());
-        logger.info("    Type: " + testItem.getType());
-        testItem = new ItemStack(testItem);
-        logger.info("  Slot 1 after new itemstack: ");
-        logger.info("    Name: " + ItemStackHelper.getDisplayName(testItem));
-        logger.info("    ClassLoader: " + testItem.getClass());
-        logger.info("    Type: " + testItem.getType());
-        logger.info("  Slot 2 before new itemstack: ");
-        logger.info("    Name: " + ItemStackHelper.getDisplayName(slot2));
-        logger.info("    ClassLoader: " + slot2.getClass());
-        logger.info("    Type: " + slot2.getType());
-        slot2 = new ItemStack(slot2);
-        logger.info("  Slot 2 after new itemstack: ");
-        logger.info("    Name: " + ItemStackHelper.getDisplayName(slot2));
-        logger.info("    ClassLoader: " + slot2.getClass());
-        logger.info("    Type: " + slot2.getType());
-        logger.info("  Compare Slot 1 and Slot 2: ");
-        long a = System.nanoTime();
-        boolean equal = testItem.equals(slot2);
-        long b = System.nanoTime();
-        logger.info("    Result: " + equal);
-        logger.info("    Time: " + (b - a) / 1000000.0 + " ms");
-        ItemStack clone = testItem.clone();
-        clone.setAmount(1);
-
-        /*
         ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
         ItemStack retrieved = definition.getNode().getRoot().getItemStack(itemRequest);
         if (retrieved != null) {
             retrieved.setAmount(0);
-            Location location = blockMenu.getLocation().clone().add(0.5, 1.2, 0.5);
-            if (definition.getNode().getRoot().isDisplayParticles()) {
-                location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 0, 0, 0.05, 0);
-            }
         }
-        */
     }
 
     @Override

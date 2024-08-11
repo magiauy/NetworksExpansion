@@ -1,8 +1,8 @@
 package com.ytdd9527.networksexpansion.core.items.machines.stackmachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.api.data.attributes.WorkingStatus;
 import com.ytdd9527.networksexpansion.api.data.attributes.WorkingRecipe;
+import com.ytdd9527.networksexpansion.api.data.attributes.WorkingStatus;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -51,32 +51,14 @@ import java.util.Set;
 
 public abstract class AbstractStackMachine extends NetworkObject {
     static final Path SAVEDITEM_FOLDER = (new File(Networks.getInstance().getDataFolder().toPath().toString(), "saveditems")).toPath();
-    final int[] BACKGROUND_SLOTS = {
-            0, 1, 2, 3, 4, 5, 6, 7, 8,
-            9, 11, 14, 17,
-            18, 20, 23, 26,
-            27, 29, 32, 35,
-            36, 38, 41, 44,
-            45, 46, 47, 48, 49, 50, 51, 52
-    };
-    final int[] INPUT_SLOTS = {
-            12, 13,
-            21, 22,
-            30, 31,
-            39, 40
-    };
     static final int[] STORAGE_SLOTS = {
             15, 16,
             24, 25,
             33, 34,
             42, 43
     };
-    final int WORKING_STATUS_SLOT = 10;
-    final int MACHINE_INPUT_SLOT = 19;
-    final int TIPS_BACKGROUND_SLOT = 28;
-    final int MACHINE_OUTPUT_SLOT = 37;
-    final int RECIPE_DISPLAY_SLOT = 53;
     static final Map<SlimefunItemStack, Integer> quantumMap = new HashMap<>();
+
     static {
         quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_0, 64);
         quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_1, 4096);
@@ -91,6 +73,26 @@ public abstract class AbstractStackMachine extends NetworkObject {
         quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_10, 1024);
         quantumMap.put(ExpansionItemStacks.ADVANCED_QUANTUM_STORAGE, Integer.MAX_VALUE);
     }
+
+    final int[] BACKGROUND_SLOTS = {
+            0, 1, 2, 3, 4, 5, 6, 7, 8,
+            9, 11, 14, 17,
+            18, 20, 23, 26,
+            27, 29, 32, 35,
+            36, 38, 41, 44,
+            45, 46, 47, 48, 49, 50, 51, 52
+    };
+    final int[] INPUT_SLOTS = {
+            12, 13,
+            21, 22,
+            30, 31,
+            39, 40
+    };
+    final int WORKING_STATUS_SLOT = 10;
+    final int MACHINE_INPUT_SLOT = 19;
+    final int TIPS_BACKGROUND_SLOT = 28;
+    final int MACHINE_OUTPUT_SLOT = 37;
+    final int RECIPE_DISPLAY_SLOT = 53;
     final Map<Location, Integer> workingAmount = new HashMap<>();
     final Map<Location, String> workingMachineId = new HashMap<>();
     final Map<Location, WorkingRecipe> workingRecipe = new HashMap<>();
@@ -132,6 +134,86 @@ public abstract class AbstractStackMachine extends NetworkObject {
 
     public static Path getSavedItemsFolder() {
         return SAVEDITEM_FOLDER;
+    }
+
+    /**
+     * 寻找第一个存在需求物品的存储，并尝试从中获取物品
+     */
+    public static ItemStack getItemStack(@Nonnull BlockMenu blockMenu, @Nonnull NetworkRoot root, @Nonnull ItemRequest ir) {
+        ItemStack stackToReturn = null;
+        for (int slot : STORAGE_SLOTS) {
+            ItemStack item = blockMenu.getItemInSlot(slot);
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            if (!(sfItem instanceof NetworkQuantumStorage)) {
+                continue;
+            }
+            ItemMeta meta = item.getItemMeta();
+            QuantumCache cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
+            if (cache == null || cache.getItemStack() == null) {
+                continue;
+                // goto 补充物品
+            }
+            if (StackUtils.itemsMatch(cache.getItemStack(), ir.getItemStack())) {
+                int canReceive = (int) Math.min(cache.getAmount(), ir.getAmount());
+                if (stackToReturn == null) {
+                    stackToReturn = StackUtils.getAsQuantity(cache.getItemStack(), 0);
+                }
+                cache.setAmount((int) (cache.getAmount() - canReceive));
+                DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, cache);
+                ir.receiveAmount(canReceive);
+                stackToReturn.setAmount(stackToReturn.getAmount() + canReceive);
+                if (ir.getAmount() <= 0) {
+                    return stackToReturn;
+                }
+            }
+        }
+
+        if (stackToReturn != null && stackToReturn.getAmount() > 0) {
+            return stackToReturn;
+        }
+
+        // 补充物品，这里之后总是返回null
+        for (int slot : STORAGE_SLOTS) {
+            ItemStack item = blockMenu.getItemInSlot(slot);
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            if (!(sfItem instanceof NetworkQuantumStorage)) {
+                continue;
+            }
+            ItemMeta meta = item.getItemMeta();
+            QuantumCache cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
+            ItemRequest tir = new ItemRequest(ir.getItemStack(), ir.getAmount());
+            int limit = 0;
+            int max = 0;
+            if (cache == null) {
+                max = limit = quantumMap.getOrDefault(item, 0);
+            } else if (cache.getItemStack() == null) {
+                max = limit = cache.getLimit();
+            } else if (StackUtils.itemsMatch(cache.getItemStack(), ir.getItemStack())) {
+                limit = (int) (cache.getLimit() - cache.getAmount());
+                max = cache.getLimit();
+            }
+            tir.setAmount(Math.min(limit, ir.getAmount()));
+            ItemStack received = root.getItemStack(tir);
+            if (received == null) {
+                return null;
+            }
+            tir.receiveAmount(received.getAmount());
+            DataTypeMethods.setCustom(
+                    meta,
+                    Keys.QUANTUM_STORAGE_INSTANCE,
+                    PersistentQuantumStorageType.TYPE,
+                    new QuantumCache(
+                            StackUtils.getAsQuantity(received, 1),
+                            received.getAmount(),
+                            max,
+                            false,
+                            false
+                    )
+            );
+            item.setItemMeta(meta);
+            return null;
+        }
+        return null;
     }
 
     @Override
@@ -418,86 +500,5 @@ public abstract class AbstractStackMachine extends NetworkObject {
         if (blockMenu != null && blockMenu.hasViewer()) {
             viewingDo(blockMenu, block);
         }
-    }
-
-    /**
-     *
-     * 寻找第一个存在需求物品的存储，并尝试从中获取物品
-     */
-    public static ItemStack getItemStack(@Nonnull BlockMenu blockMenu, @Nonnull NetworkRoot root, @Nonnull ItemRequest ir) {
-        ItemStack stackToReturn = null;
-        for (int slot : STORAGE_SLOTS) {
-            ItemStack item = blockMenu.getItemInSlot(slot);
-            SlimefunItem sfItem = SlimefunItem.getByItem(item);
-            if (!(sfItem instanceof NetworkQuantumStorage)) {
-                continue;
-            }
-            ItemMeta meta = item.getItemMeta();
-            QuantumCache cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
-            if (cache == null || cache.getItemStack() == null) {
-                continue;
-                // goto 补充物品
-            }
-            if (StackUtils.itemsMatch(cache.getItemStack(), ir.getItemStack())) {
-                int canReceive = (int) Math.min(cache.getAmount(), ir.getAmount());
-                if (stackToReturn == null) {
-                    stackToReturn = StackUtils.getAsQuantity(cache.getItemStack(), 0);
-                }
-                cache.setAmount((int) (cache.getAmount() - canReceive));
-                DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, cache);
-                ir.receiveAmount(canReceive);
-                stackToReturn.setAmount(stackToReturn.getAmount() + canReceive);
-                if (ir.getAmount() <= 0) {
-                    return stackToReturn;
-                }
-            }
-        }
-
-        if (stackToReturn != null && stackToReturn.getAmount() > 0) {
-            return stackToReturn;
-        }
-
-        // 补充物品，这里之后总是返回null
-        for (int slot : STORAGE_SLOTS) {
-            ItemStack item = blockMenu.getItemInSlot(slot);
-            SlimefunItem sfItem = SlimefunItem.getByItem(item);
-            if (!(sfItem instanceof NetworkQuantumStorage)) {
-                continue;
-            }
-            ItemMeta meta = item.getItemMeta();
-            QuantumCache cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
-            ItemRequest tir = new ItemRequest(ir.getItemStack(), ir.getAmount());
-            int limit = 0;
-            int max = 0;
-            if (cache == null) {
-                max = limit = quantumMap.getOrDefault(item, 0);
-            } else if (cache.getItemStack() == null) {
-                max = limit = cache.getLimit();
-            } else if (StackUtils.itemsMatch(cache.getItemStack(), ir.getItemStack())) {
-                limit = (int) (cache.getLimit() - cache.getAmount());
-                max = cache.getLimit();
-            }
-            tir.setAmount(Math.min(limit, ir.getAmount()));
-            ItemStack received = root.getItemStack(tir);
-            if (received == null) {
-                return null;
-            }
-            tir.receiveAmount(received.getAmount());
-            DataTypeMethods.setCustom(
-                    meta,
-                    Keys.QUANTUM_STORAGE_INSTANCE,
-                    PersistentQuantumStorageType.TYPE,
-                    new QuantumCache(
-                            StackUtils.getAsQuantity(received, 1),
-                            received.getAmount(),
-                            max,
-                            false,
-                            false
-                    )
-            );
-            item.setItemMeta(meta);
-            return null;
-        }
-        return null;
     }
 }

@@ -1,5 +1,11 @@
 package com.ytdd9527.networksexpansion.implementation.depreacte;
 
+import com.ytdd9527.networksexpansion.core.items.blueprints.AncientAltarBlueprint;
+import com.ytdd9527.networksexpansion.core.items.blueprints.ArmorForgeBlueprint;
+import com.ytdd9527.networksexpansion.core.items.blueprints.ExpansionWorkbenchBlueprint;
+import com.ytdd9527.networksexpansion.core.items.blueprints.MagicWorkbenchBlueprint;
+import com.ytdd9527.networksexpansion.core.items.blueprints.QuantumWorkbenchBlueprint;
+import com.ytdd9527.networksexpansion.core.items.blueprints.SmelteryBlueprint;
 import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.advanced.AdvancedAutoAncientAltarCrafter;
 import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.advanced.AdvancedAutoArmorForgeCrafter;
 import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.advanced.AdvancedAutoExpansionWorkbenchCrafter;
@@ -12,18 +18,6 @@ import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.basic.Aut
 import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.basic.AutoMagicWorkbenchCrafter;
 import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.basic.AutoQuantumWorkbenchCrafter;
 import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.basic.AutoSmelteryCrafter;
-import com.ytdd9527.networksexpansion.core.items.blueprints.AncientAltarBlueprint;
-import com.ytdd9527.networksexpansion.core.items.blueprints.ArmorForgeBlueprint;
-import com.ytdd9527.networksexpansion.core.items.blueprints.ExpansionWorkbenchBlueprint;
-import com.ytdd9527.networksexpansion.core.items.blueprints.MagicWorkbenchBlueprint;
-import com.ytdd9527.networksexpansion.core.items.blueprints.QuantumWorkbenchBlueprint;
-import com.ytdd9527.networksexpansion.core.items.blueprints.SmelteryBlueprint;
-import com.ytdd9527.networksexpansion.core.items.machines.encoders.AncientAltarEncoder;
-import com.ytdd9527.networksexpansion.core.items.machines.encoders.ArmorForgeEncoder;
-import com.ytdd9527.networksexpansion.core.items.machines.encoders.ExpansionWorkbenchEncoder;
-import com.ytdd9527.networksexpansion.core.items.machines.encoders.MagicWorkbenchEncoder;
-import com.ytdd9527.networksexpansion.core.items.machines.encoders.QuantumWorkbenchEncoder;
-import com.ytdd9527.networksexpansion.core.items.machines.encoders.SmelteryEncoder;
 import com.ytdd9527.networksexpansion.core.items.machines.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networksexpansion.core.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
 import com.ytdd9527.networksexpansion.core.items.machines.cargo.advanced.AdvancedLineTransferPusher;
@@ -32,6 +26,12 @@ import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransf
 import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransferPusher;
 import com.ytdd9527.networksexpansion.core.items.machines.cargo.deprecated.CoordinateReceiver;
 import com.ytdd9527.networksexpansion.core.items.machines.cargo.deprecated.CoordinateTransmitter;
+import com.ytdd9527.networksexpansion.core.items.machines.encoders.AncientAltarEncoder;
+import com.ytdd9527.networksexpansion.core.items.machines.encoders.ArmorForgeEncoder;
+import com.ytdd9527.networksexpansion.core.items.machines.encoders.ExpansionWorkbenchEncoder;
+import com.ytdd9527.networksexpansion.core.items.machines.encoders.MagicWorkbenchEncoder;
+import com.ytdd9527.networksexpansion.core.items.machines.encoders.QuantumWorkbenchEncoder;
+import com.ytdd9527.networksexpansion.core.items.machines.encoders.SmelteryEncoder;
 import com.ytdd9527.networksexpansion.core.items.machines.manual.ExpansionWorkbench;
 import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.AdvancedExport;
 import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.AdvancedGreedyBlock;

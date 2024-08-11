@@ -153,10 +153,10 @@ public class ExpansionRecipes {
             NETWORK_EXPORT.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_EXPORT.getItem()
     };
 
-    public static final ItemStack[] ADVANCED_PURGER = new ItemStack[] {
-        RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), 
-        RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_PURGER.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
-        RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem()
+    public static final ItemStack[] ADVANCED_PURGER = new ItemStack[]{
+            RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
+            RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_PURGER.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(),
+            RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), RADIOACTIVE_OPTIC_STAR.getItem()
     };
 
     public static final ItemStack[] ADVANCED_GREEDY_BLOCK = new ItemStack[]{

@@ -1,9 +1,9 @@
 package com.ytdd9527.networksexpansion.core.items.machines.stackmachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.api.data.attributes.WorkingStatus;
 import com.ytdd9527.networksexpansion.api.data.attributes.WorkingRecipe;
 import com.ytdd9527.networksexpansion.api.data.attributes.WorkingRecipes;
+import com.ytdd9527.networksexpansion.api.data.attributes.WorkingStatus;
 import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.utils.itemstacks.RecipeUtil;
 import io.github.sefiraat.networks.Networks;

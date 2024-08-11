@@ -3,7 +3,6 @@ package com.ytdd9527.networksexpansion.api.data;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import lombok.Getter;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
@@ -65,6 +64,4 @@ public class ItemContainer {
                 ", amount=" + amount +
                 '}';
     }
-
-    ItemStackHelper
 }

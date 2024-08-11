@@ -39,8 +39,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NetworkRoot extends NetworkNode {
-    private Map<ItemStack, StorageUnitData> cachedStorageUnitDatas = null;
-    private Map<ItemStack, BarrelIdentity> cachedBarrels = null;
     @Getter
     private final Set<Location> nodeLocations = new HashSet<>();
     private final int[] CELL_AVAILABLE_SLOTS = NetworkCell.SLOTS.stream().mapToInt(i -> i).toArray();
@@ -108,6 +106,8 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
+    private Map<ItemStack, StorageUnitData> cachedStorageUnitDatas = null;
+    private Map<ItemStack, BarrelIdentity> cachedBarrels = null;
     private boolean progressing = false;
     @Getter
     private int maxNodes;
