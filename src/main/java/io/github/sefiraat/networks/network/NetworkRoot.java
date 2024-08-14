@@ -106,8 +106,6 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
-    private Map<ItemStack, StorageUnitData> cachedStorageUnitDatas = null;
-    private Map<ItemStack, BarrelIdentity> cachedBarrels = null;
     private boolean progressing = false;
     @Getter
     private int maxNodes;
@@ -754,7 +752,7 @@ public class NetworkRoot extends NetworkNode {
 
         progressing = true;
 
-        ItemStack stackToReturn;
+        ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
             stackToReturn = request.getItemStack().clone();
@@ -763,14 +761,6 @@ public class NetworkRoot extends NetworkNode {
             notifyAll();
             return stackToReturn;
         }
-
-        // Find last match
-        ItemStack quickFetch = quickGetItemStack(request);
-        if (request.getAmount() <= 0) {
-            return quickFetch;
-        }
-
-        stackToReturn = quickFetch;
 
         // Barrels first
         for (BarrelIdentity barrelIdentity : getBarrels()) {
@@ -975,18 +965,11 @@ public class NetworkRoot extends NetworkNode {
 
     @Nullable
     public ItemStack getItemStack(@Nonnull ItemRequest request) {
-        ItemStack stackToReturn;
+        ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
             return null;
         }
-
-        ItemStack quickFetch = quickGetItemStack(request);
-        if (request.getAmount() <= 0) {
-            return quickFetch;
-        }
-
-        stackToReturn = quickFetch;
 
         // Barrels first
         for (BarrelIdentity barrelIdentity : getBarrels()) {
@@ -1506,15 +1489,11 @@ public class NetworkRoot extends NetworkNode {
             return;
         }
 
-        long b = System.nanoTime();
-
         // Find last match for barrels and storage units
-        quickAddItemStack(incoming);
         if (incoming.getType().isAir() || incoming.getAmount() <= 0) {
             return;
         }
 
-        long c = System.nanoTime();
 
         // Run for matching barrels
         for (BarrelIdentity barrelIdentity : getBarrels()) {
@@ -1528,8 +1507,6 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        long d = System.nanoTime();
-
         for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
             cache.depositItemStack(incoming, true);
 
@@ -1538,8 +1515,6 @@ public class NetworkRoot extends NetworkNode {
                 return;
             }
         }
-
-        long e = System.nanoTime();
 
         // Then run for matching items in cells
         BlockMenu fallbackBlockMenu2 = null;
@@ -1585,7 +1560,6 @@ public class NetworkRoot extends NetworkNode {
             incoming.setAmount(0);
         }
 
-        long f = System.nanoTime();
     }
 
     @Override
@@ -1636,135 +1610,5 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         return retrievedItems;
-    }
-
-    private void quickAddItemStack(@Nonnull ItemStack incoming) {
-        final ItemStack key = StackUtils.getAsQuantity(incoming, 1);
-        if (getCachedBarrels().containsKey(key)) {
-            getCachedBarrels().get(key).depositItemStack(incoming);
-        } else if (getCachedStorageUnits().containsKey(key)) {
-            getCachedStorageUnits().get(key).depositItemStack(incoming, true);
-        }
-    }
-
-    private ItemStack quickGetItemStack(@Nonnull ItemRequest request) {
-        final ItemStack key = StackUtils.getAsQuantity(request.getItemStack(), 1);
-        if (getCachedBarrels().containsKey(key)) {
-            final BarrelIdentity barrel = getCachedBarrels().get(key);
-            final ItemStack fetched = barrel.requestItem(request);
-            if (fetched == null) {
-                return null;
-            }
-            if (barrel instanceof InfinityBarrel && fetched.getAmount() == 1) {
-                return null;
-            }
-            if (fetched.getAmount() <= 0) {
-                return null;
-            }
-            request.receiveAmount(fetched.getAmount());
-            return fetched;
-        } else if (getCachedStorageUnits().containsKey(key)) {
-            final StorageUnitData cache = getCachedStorageUnits().get(key);
-            final ItemStack fetched = cache.requestItem(request);
-            if (fetched == null || fetched.getAmount() <= 0) {
-                return null;
-            }
-            request.receiveAmount(fetched.getAmount());
-            return fetched;
-        }
-        return null;
-    }
-
-    public Map<ItemStack, BarrelIdentity> getCachedBarrels() {
-        if (this.cachedBarrels != null) {
-            return this.cachedBarrels;
-        }
-
-        Map<ItemStack, BarrelIdentity> barrels = new HashMap<>();
-        Set<Location> addedLocations = new HashSet<>();
-        for (Location cellLocation : this.monitors) {
-            final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
-
-            if (face == null) {
-                continue;
-            }
-
-            final Location testLocation = cellLocation.clone().add(face.getDirection());
-
-            if (addedLocations.contains(testLocation)) {
-                continue;
-            } else {
-                addedLocations.add(testLocation);
-            }
-
-            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
-
-            if (Networks.getSupportedPluginManager()
-                    .isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
-                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
-                if (menu == null) {
-                    continue;
-                }
-                final InfinityBarrel infinityBarrel = getInfinityBarrel(menu, unit);
-                if (infinityBarrel != null) {
-                    barrels.put(StackUtils.getAsQuantity(infinityBarrel.getItemStack(), 1), infinityBarrel);
-                }
-                continue;
-            }
-
-            if (slimefunItem instanceof NetworkQuantumStorage) {
-                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
-                if (menu == null) {
-                    continue;
-                }
-                final NetworkStorage storage = getNetworkStorage(menu);
-                if (storage != null) {
-                    barrels.put(StackUtils.getAsQuantity(storage.getItemStack(), 1), storage);
-                }
-            }
-        }
-
-        this.cachedBarrels = barrels;
-        return this.cachedBarrels;
-    }
-
-    public Map<ItemStack, StorageUnitData> getCachedStorageUnits() {
-        if (this.cachedStorageUnitDatas != null) {
-            return this.cachedStorageUnitDatas;
-        }
-
-        Map<ItemStack, StorageUnitData> datas = new HashMap<>();
-        Set<Location> addedLocations = new HashSet<>();
-        for (Location cellLocation : this.monitors) {
-            final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
-
-            if (face == null) {
-                continue;
-            }
-
-            final Location testLocation = cellLocation.clone().add(face.getDirection());
-
-            if (addedLocations.contains(testLocation)) {
-                continue;
-            } else {
-                addedLocations.add(testLocation);
-            }
-
-            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
-
-            if (slimefunItem instanceof CargoStorageUnit) {
-                final StorageUnitData data = getCargoStorageUnitData(testLocation);
-                if (data != null) {
-                    for (ItemContainer itemContainer : data.getStoredItems()) {
-                        if (itemContainer.getSample() != null) {
-                            datas.put(StackUtils.getAsQuantity(itemContainer.getSample(), 1), data);
-                        }
-                    }
-                }
-            }
-        }
-
-        this.cachedStorageUnitDatas = datas;
-        return datas;
     }
 }
