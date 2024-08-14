@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
@@ -328,7 +329,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         // Output items
         final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
         ItemStack fetched = null;
-        if (output == null || !output.getType().isAir()) {
+        if (output == null || output.getType().isAir()) {
             // No item in output, try output
             fetched = cache.withdrawItem();
         } else if (StackUtils.itemsMatch(cache, output, true) && output.getAmount() < output.getMaxStackSize()) {

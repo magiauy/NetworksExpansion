@@ -1489,11 +1489,6 @@ public class NetworkRoot extends NetworkNode {
             return;
         }
 
-        // Find last match for barrels and storage units
-        if (incoming.getType().isAir() || incoming.getAmount() <= 0) {
-            return;
-        }
-
 
         // Run for matching barrels
         for (BarrelIdentity barrelIdentity : getBarrels()) {
