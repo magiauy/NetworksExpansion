@@ -255,7 +255,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                                     final int exceptedReceive = Math.min(item.getAmount(), limit);
                                     final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                                     root.addItemStack(clone);
-                                    item.setAmount(clone.getAmount());
+                                    item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                                     limit -= exceptedReceive - clone.getAmount();
                                     if (limit <= 0) {
                                         break;

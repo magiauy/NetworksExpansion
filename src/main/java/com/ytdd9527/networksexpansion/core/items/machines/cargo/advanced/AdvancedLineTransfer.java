@@ -593,7 +593,8 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                                     final int exceptedReceive = Math.min(item.getAmount(), limit);
                                     final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                                     root.addItemStack(clone);
-                                    item.setAmount(clone.getAmount());
+                                    root.addItemStack(clone);
+                                    item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                                     limit -= exceptedReceive - clone.getAmount();
                                     if (limit <= 0) {
                                         break;
