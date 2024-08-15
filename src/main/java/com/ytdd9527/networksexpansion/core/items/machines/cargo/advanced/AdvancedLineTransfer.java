@@ -164,19 +164,27 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         super.onTick(blockMenu, block);
         final Location location = block.getLocation();
 
-        int currentPushTick = getPushTickCounter(location);
-        if (currentPushTick == 0) {
+        if (pushItemTick != 1) {
+            int currentPushTick = getPushTickCounter(location);
+            if (currentPushTick == 0) {
+                performPushItemOperation(blockMenu);
+            }
+            currentPushTick = (currentPushTick + 1) % pushItemTick;
+            updatePushTickCounter(location, currentPushTick);
+        } else {
             performPushItemOperation(blockMenu);
         }
-        currentPushTick = (currentPushTick + 1) % pushItemTick;
-        updatePushTickCounter(location, currentPushTick);
 
-        int currentGrabTick = getGrabTickCounter(location);
-        if (currentGrabTick == 0) {
+        if (grabItemTick != 1) {
+            int currentGrabTick = getGrabTickCounter(location);
+            if (currentGrabTick == 0) {
+                performGrabItemOperation(blockMenu);
+            }
+            currentGrabTick = (currentGrabTick + 1) % grabItemTick;
+            updateGrabTickCounter(location, currentGrabTick);
+        } else {
             performGrabItemOperation(blockMenu);
         }
-        currentGrabTick = (currentGrabTick + 1) % grabItemTick;
-        updateGrabTickCounter(location, currentGrabTick);
     }
 
     private int getPushTickCounter(Location location) {
@@ -219,32 +227,29 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             return;
         }
 
-        Block targetBlock = blockMenu.getBlock().getRelative(direction);
         final TransportMode currentTransportMode = getCurrentTransportMode(blockMenu.getLocation());
         final int currentLimit = getCurrentNumber(blockMenu.getLocation());
 
-        for (int i = 0; i <= maxDistance; i++) {
-            final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
+        List<ItemStack> templates = new ArrayList<>();
+        for (int slot : this.getItemSlots()) {
+            final ItemStack template = blockMenu.getItemInSlot(slot);
+            if (template != null && !template.getType().isAir()) {
+                templates.add(StackUtils.getAsQuantity(template, 1));
+            }
+        }
 
+        Block targetBlock = blockMenu.getBlock().getRelative(direction);
+        BlockMenu targetMenu;
+        for (int i = 0; i <= maxDistance; i++) {
+            targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
             if (targetMenu == null) {
                 break;
             }
 
-            for (int itemSlot : this.getItemSlots()) {
-
-                final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
-
-                if (testItem == null || testItem.getType().isAir()) {
-                    continue;
-                }
-
-                final ItemStack clone = testItem.clone();
-                clone.setAmount(1);
+            for (ItemStack clone : templates) {
                 final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
 
                 final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
-                final Map<ItemStack, Boolean> cacheCompareResults = new HashMap<>();
-
                 switch (currentTransportMode) {
                     case NONE -> {
                         int freeSpace = 0;
@@ -253,12 +258,10 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             if (itemStack == null || itemStack.getType().isAir()) {
                                 freeSpace += clone.getMaxStackSize();
                             } else {
-                                Boolean isMatch = cacheCompareResults.get(itemStack);
-                                if (isMatch == null) {
-                                    isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
-                                    cacheCompareResults.put(itemStack, isMatch);
+                                if (itemStack.getAmount() >= clone.getMaxStackSize()) {
+                                    continue;
                                 }
-                                if (isMatch) {
+                                if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
                                     final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                     if (availableSpace > 0) {
                                         freeSpace += availableSpace;
@@ -271,7 +274,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                         }
                         itemRequest.setAmount(Math.min(freeSpace, currentLimit));
 
-                        ItemStack retrieved = root.getItemStack(itemRequest);
+                        final ItemStack retrieved = root.getItemStack(itemRequest);
                         if (retrieved != null && !retrieved.getType().isAir()) {
                             BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
                         }
@@ -280,7 +283,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                     case NULL_ONLY -> {
                         int free = currentLimit;
                         for (int slot : slots) {
-                            ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                            final ItemStack itemStack = targetMenu.getItemInSlot(slot);
                             if (itemStack == null || itemStack.getType().isAir()) {
                                 itemRequest.setAmount(clone.getMaxStackSize());
                             } else {
@@ -288,7 +291,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             }
                             itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                            ItemStack retrieved = root.getItemStack(itemRequest);
+                            final ItemStack retrieved = root.getItemStack(itemRequest);
                             if (retrieved != null && !retrieved.getType().isAir()) {
                                 free -= retrieved.getAmount();
                                 targetMenu.pushItem(retrieved, slot);
@@ -302,16 +305,14 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                     case NONNULL_ONLY -> {
                         int free = currentLimit;
                         for (int slot : slots) {
-                            ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                            final ItemStack itemStack = targetMenu.getItemInSlot(slot);
                             if (itemStack == null || itemStack.getType().isAir()) {
                                 continue;
                             }
-                            Boolean isMatch = cacheCompareResults.get(itemStack);
-                            if (isMatch == null) {
-                                isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
-                                cacheCompareResults.put(itemStack, isMatch);
+                            if (itemStack.getAmount() >= clone.getMaxStackSize()) {
+                                continue;
                             }
-                            if (isMatch) {
+                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
                                 final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                                 if (space > 0) {
                                     itemRequest.setAmount(space);
@@ -323,7 +324,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             }
                             itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                            ItemStack retrieved = root.getItemStack(itemRequest);
+                            final ItemStack retrieved = root.getItemStack(itemRequest);
                             if (retrieved != null && !retrieved.getType().isAir()) {
                                 free -= retrieved.getAmount();
                                 targetMenu.pushItem(retrieved, slot);
@@ -338,23 +339,28 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                         if (slots.length == 0) {
                             break;
                         }
-                        int slot = slots[0];
-                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                        final int slot = slots[0];
+                        final ItemStack itemStack = targetMenu.getItemInSlot(slot);
                         if (itemStack == null || itemStack.getType().isAir()) {
                             itemRequest.setAmount(clone.getMaxStackSize());
-                        } else if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
-                            final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
-                            if (space > 0) {
-                                itemRequest.setAmount(space);
+                        } else {
+                            if (itemStack.getAmount() >= clone.getMaxStackSize()) {
+                                continue;
+                            }
+                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
+                                if (space > 0) {
+                                    itemRequest.setAmount(space);
+                                } else {
+                                    continue;
+                                }
                             } else {
                                 continue;
                             }
-                        } else {
-                            continue;
                         }
                         itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                        ItemStack retrieved = root.getItemStack(itemRequest);
+                        final ItemStack retrieved = root.getItemStack(itemRequest);
                         if (retrieved != null && !retrieved.getType().isAir()) {
                             free -= retrieved.getAmount();
                             targetMenu.pushItem(retrieved, slot);
@@ -368,23 +374,28 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                         if (slots.length == 0) {
                             break;
                         }
-                        int slot = slots[slots.length - 1];
-                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                        final int slot = slots[slots.length - 1];
+                        final ItemStack itemStack = targetMenu.getItemInSlot(slot);
                         if (itemStack == null || itemStack.getType().isAir()) {
                             itemRequest.setAmount(clone.getMaxStackSize());
-                        } else if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
-                            final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
-                            if (space > 0) {
-                                itemRequest.setAmount(space);
+                        } else {
+                            if (itemStack.getAmount() >= clone.getMaxStackSize()) {
+                                continue;
+                            }
+                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
+                                if (space > 0) {
+                                    itemRequest.setAmount(space);
+                                } else {
+                                    continue;
+                                }
                             } else {
                                 continue;
                             }
-                        } else {
-                            continue;
                         }
                         itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                        ItemStack retrieved = root.getItemStack(itemRequest);
+                        final ItemStack retrieved = root.getItemStack(itemRequest);
                         if (retrieved != null && !retrieved.getType().isAir()) {
                             free -= retrieved.getAmount();
                             targetMenu.pushItem(retrieved, slot);
@@ -399,20 +410,17 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             final ItemStack itemStack = targetMenu.getItemInSlot(slot);
                             if (itemStack == null || itemStack.getType().isAir()) {
                                 freeSpace += clone.getMaxStackSize();
+                                break;
                             } else {
-                                Boolean isMatch = cacheCompareResults.get(itemStack);
-                                if (isMatch == null) {
-                                    isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
-                                    cacheCompareResults.put(itemStack, isMatch);
+                                if (itemStack.getAmount() >= clone.getMaxStackSize()) {
+                                    continue;
                                 }
-                                if (isMatch) {
+                                if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
                                     final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                     if (availableSpace > 0) {
                                         freeSpace += availableSpace;
                                     }
                                 }
-                            }
-                            if (freeSpace > 0) {
                                 break;
                             }
                         }
@@ -421,9 +429,42 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                         }
                         itemRequest.setAmount(Math.min(freeSpace, currentLimit));
 
-                        ItemStack retrieved = root.getItemStack(itemRequest);
+                        final ItemStack retrieved = root.getItemStack(itemRequest);
                         if (retrieved != null && !retrieved.getType().isAir()) {
                             BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
+                        }
+                    }
+                    case LAZY -> {
+                        if (slots.length > 0) {
+                            final ItemStack delta = targetMenu.getItemInSlot(slots[0]);
+                            if (delta == null || delta.getType().isAir()) {
+                                int freeSpace = 0;
+                                for (int slot : slots) {
+                                    final ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                                    if (itemStack == null || itemStack.getType().isAir()) {
+                                        freeSpace += clone.getMaxStackSize();
+                                    } else {
+                                        if (itemStack.getAmount() >= clone.getMaxStackSize()) {
+                                            continue;
+                                        }
+                                        if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                            final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                                            if (availableSpace > 0) {
+                                                freeSpace += availableSpace;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (freeSpace <= 0) {
+                                    continue;
+                                }
+                                itemRequest.setAmount(Math.min(freeSpace, currentLimit));
+
+                                final ItemStack retrieved = root.getItemStack(itemRequest);
+                                if (retrieved != null && !retrieved.getType().isAir()) {
+                                    BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
+                                }
+                            }
                         }
                     }
                 }
@@ -438,117 +479,125 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         if (definition == null || definition.getNode() == null) {
             return;
         }
+
+        final BlockFace direction = getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
         final NetworkRoot root = definition.getNode().getRoot();
+        final int maxNumber = getCurrentNumber(blockMenu.getLocation());
+        final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        final BlockFace direction = this.getCurrentDirection(blockMenu);
-        final TransportMode mode = this.getCurrentTransportMode(blockMenu.getLocation());
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
+        BlockMenu currentMenu;
+        for (int i = 0; i <= maxDistance; i++) {
+            currentMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
 
-        for (int i = 0; i < maxDistance; i++) {
-            // 如果方块是空气，退出
-            if (currentBlock.getType().isAir()) {
-                break;
+            if (currentMenu == null) {
+                /*
+                 * It means we found a slimefun block that has no menu, so we just continue.
+                 */
+                continue;
             }
 
-            BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
-            // 如果没有blockMenu，退出
-            if (targetMenu == null) {
-                break;
-            }
-            // 获取输出槽
-            final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            if (slots.length == 0) {
-                return;
-            }
-            int free = getCurrentNumber(blockMenu.getLocation());
+            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
 
+            int limit = maxNumber;
             switch (mode) {
-                case NULL_ONLY -> {
-                    // 无操作
-                }
                 case NONE, NONNULL_ONLY -> {
+                    /*
+                     * Grab all the items.
+                     */
                     for (int slot : slots) {
-                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                        if (itemStack != null && !itemStack.getType().isAir()) {
-                            int canConsume = Math.min(itemStack.getAmount(), free);
-                            ItemStack clone = itemStack.clone();
-                            clone.setAmount(canConsume);
+                        final ItemStack item = currentMenu.getItemInSlot(slot);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
                             root.addItemStack(clone);
-                            int consumed = canConsume - clone.getAmount();
-                            itemStack.setAmount(itemStack.getAmount() - consumed);
-                            free -= consumed;
-                            if (free <= 0) {
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
+                            if (limit <= 0) {
                                 break;
                             }
                         }
                     }
                 }
+                case NULL_ONLY -> {
+                    /*
+                     * Nothing to do.
+                     */
+                }
                 case FIRST_ONLY -> {
-                    int slot = slots[0];
-                    ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (itemStack != null && !itemStack.getType().isAir()) {
-                        int canConsume = Math.min(itemStack.getAmount(), free);
-                        ItemStack clone = itemStack.clone();
-                        clone.setAmount(canConsume);
-                        root.addItemStack(clone);
-                        int consumed = canConsume - clone.getAmount();
-                        itemStack.setAmount(itemStack.getAmount() - consumed);
-                        free -= consumed;
-                        if (free <= 0) {
-                            break;
+                    /*
+                     * Grab the first item only.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack item = currentMenu.getItemInSlot(slots[0]);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
+                            if (limit <= 0) {
+                                break;
+                            }
                         }
                     }
                 }
                 case LAST_ONLY -> {
-                    int slot = slots[slots.length - 1];
-                    ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (itemStack != null && !itemStack.getType().isAir()) {
-                        int canConsume = Math.min(itemStack.getAmount(), free);
-                        ItemStack clone = itemStack.clone();
-                        clone.setAmount(canConsume);
-                        root.addItemStack(clone);
-                        int consumed = canConsume - clone.getAmount();
-                        itemStack.setAmount(itemStack.getAmount() - consumed);
-                        free -= consumed;
-                        if (free <= 0) {
-                            break;
+                    /*
+                     * Grab the last item only.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack item = currentMenu.getItemInSlot(slots[slots.length - 1]);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
+                            if (limit <= 0) {
+                                break;
+                            }
                         }
                     }
                 }
                 case FIRST_STOP -> {
+                    /*
+                     * Grab the first non-null item only.
+                     */
                     for (int slot : slots) {
-                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                        if (itemStack != null && !itemStack.getType().isAir()) {
-                            int canConsume = Math.min(itemStack.getAmount(), free);
-                            ItemStack clone = itemStack.clone();
-                            clone.setAmount(canConsume);
+                        final ItemStack item = currentMenu.getItemInSlot(slot);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
                             root.addItemStack(clone);
-                            int consumed = canConsume - clone.getAmount();
-                            itemStack.setAmount(itemStack.getAmount() - consumed);
-                            free -= consumed;
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
                             break;
                         }
                     }
                 }
                 case LAZY -> {
-                    if (slots.length == 0) {
-                        break;
-                    }
-                    int deltaSlot = slots[0];
-                    ItemStack delta = targetMenu.getItemInSlot(deltaSlot);
-                    if (delta != null && !delta.getType().isAir()) {
-                        for (int slot : slots) {
-                            ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                            if (itemStack != null && !itemStack.getType().isAir()) {
-                                int canConsume = Math.min(itemStack.getAmount(), free);
-                                ItemStack clone = itemStack.clone();
-                                clone.setAmount(canConsume);
-                                root.addItemStack(clone);
-                                int consumed = canConsume - clone.getAmount();
-                                itemStack.setAmount(itemStack.getAmount() - consumed);
-                                free -= consumed;
-                                if (free <= 0) {
-                                    break;
+                    /*
+                     * When it's first item is non-null, we will grab all the items.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack delta = currentMenu.getItemInSlot(slots[0]);
+                        if (delta != null && !delta.getType().isAir()) {
+                            for (int slot : slots) {
+                                ItemStack item = currentMenu.getItemInSlot(slot);
+                                if (item != null && !item.getType().isAir()) {
+                                    final int canReceive = Math.min(item.getAmount(), limit);
+                                    final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                                    root.addItemStack(clone);
+                                    item.setAmount(clone.getAmount());
+                                    limit -= canReceive - clone.getAmount();
+                                    if (limit <= 0) {
+                                        break;
+                                    }
                                 }
                             }
                         }

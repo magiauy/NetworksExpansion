@@ -33,19 +33,12 @@ public class MainFlexGroup extends FlexItemGroup {
             "附属 Wiki",
             "点击获取网络的 Wiki 链接"
     );
-    private static final ItemStack EXPANSION_DOCS_ITEM_STACK = Theme.themedItemStack(
-            Material.BOOK,
-            Theme.GUIDE,
-            "网络拓展 Github",
-            "点击获取网络拓展的 Github 链接"
-    );
 
     private static final int GUIDE_BACK = 1;
     private static final int DOCS = 9;
     private static final int MATERIALS = 10;
     private static final int TOOLS = 11;
     private static final int NETWORK_ITEMS = 12;
-    private static final int EXPANSION_DOCS = 18;
     private static final int NETWORK_QUANTUMS = 13;
 
     private static final int[] HEADER = new int[]{
@@ -113,14 +106,6 @@ public class MainFlexGroup extends FlexItemGroup {
             final TextComponent link = new TextComponent("单击此处访问Wiki");
             link.setColor(ChatColor.YELLOW);
             link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://slimefun-addons-wiki.guizhanss.cn/networks/"));
-            player.spigot().sendMessage(link);
-            return false;
-        });
-        menu.replaceExistingItem(EXPANSION_DOCS, EXPANSION_DOCS_ITEM_STACK);
-        menu.addMenuClickHandler(EXPANSION_DOCS, (player1, i1, itemStack1, clickAction) -> {
-            final TextComponent link = new TextComponent("单击此处访问网络拓展 Github");
-            link.setColor(ChatColor.YELLOW);
-            link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ytdd9527/NetworksExpansion"));
             player.spigot().sendMessage(link);
             return false;
         });

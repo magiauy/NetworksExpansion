@@ -51,7 +51,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     private ConfigManager configManager;
     private ListenerManager listenerManager;
     private SupportedPluginManager supportedPluginManager;
-    private int slimefunTickCount;
+    private long slimefunTickCount;
 
 
     public Networks() {
@@ -93,7 +93,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         return Networks.getInstance().listenerManager;
     }
 
-    public static int getSlimefunTickCount() {
+    public static long getSlimefunTickCount() {
         return getInstance().slimefunTickCount;
     }
 

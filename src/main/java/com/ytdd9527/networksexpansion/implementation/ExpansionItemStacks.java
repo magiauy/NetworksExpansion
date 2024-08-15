@@ -302,7 +302,8 @@ public class ExpansionItemStacks {
             "&6仅非空&7: &e仅推送至非空槽位",
             "&6仅首位&7: &e仅推送至第一格",
             "&6仅末位&7: &e仅推送至最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位"
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位",
+            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位"
     );
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
@@ -323,7 +324,8 @@ public class ExpansionItemStacks {
             "&6仅非空&7: &e仅抓取非空槽位",
             "&6仅首位&7: &e仅抓取第一格",
             "&6仅末位&7: &e仅抓取最后一格",
-            "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+            "&6首位阻断&7: &e仅抓取第一个有物品的槽位",
+            "&6懒惰模式&7: &e当第一格存在物品时，抓取所有槽位"
     );
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER",
@@ -344,7 +346,8 @@ public class ExpansionItemStacks {
             "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位",
             "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格",
             "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位",
+            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
     );
 
     //高级链式传输Plus
@@ -367,7 +370,8 @@ public class ExpansionItemStacks {
             "&6仅非空&7: &e仅推送至非空槽位",
             "&6仅首位&7: &e仅推送至第一格",
             "&6仅末位&7: &e仅推送至最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位"
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位",
+            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位"
     );
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER",
@@ -388,7 +392,8 @@ public class ExpansionItemStacks {
             "&6仅非空&7: &e仅抓取非空槽位",
             "&6仅首位&7: &e仅抓取第一格",
             "&6仅末位&7: &e仅抓取最后一格",
-            "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+            "&6首位阻断&7: &e仅抓取第一个有物品的槽位",
+            "&6懒惰模式&7: &e当第一格存在物品时，抓取所有槽位"
     );
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS",
@@ -409,7 +414,8 @@ public class ExpansionItemStacks {
             "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位",
             "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格",
             "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位",
+            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
     );
 
     //网格

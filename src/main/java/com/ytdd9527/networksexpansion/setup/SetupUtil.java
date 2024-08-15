@@ -10,7 +10,6 @@ public class SetupUtil {
 
         /* 物品 */
         ExpansionItemsMenus.SUB_MENU_TOOL.addTo(
-                ExpansionItems.NETWORK_COORDINATE_CONFIGURATOR.registerThis(),
                 ExpansionItems.CARGO_NODE_QUICK_TOOL.registerThis(),
                 ExpansionItems.WORLD_EDIT_AXE.registerThis()
         );

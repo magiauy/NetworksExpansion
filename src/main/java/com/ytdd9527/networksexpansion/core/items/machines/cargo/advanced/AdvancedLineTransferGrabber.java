@@ -9,12 +9,14 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -103,23 +105,20 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
 
     }
-
-    private void performGrabItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryGrabItem(blockMenu);
-        }
-    }
-
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
-        final Location location = block.getLocation();
-        int tickCounter = getTickCounter(location);
-        tickCounter = (tickCounter + 1) % grabItemTick;
-        if (tickCounter == 0) {
-            performGrabItemOperation(blockMenu);
+        if (grabItemTick != 1) {
+            final Location location = block.getLocation();
+            int tickCounter = getTickCounter(location);
+            tickCounter = (tickCounter + 1) % grabItemTick;
+            if (tickCounter == 0) {
+                tryGrabItem(blockMenu);
+            }
+            updateTickCounter(location, tickCounter);
+        } else {
+            tryGrabItem(blockMenu);
         }
-        updateTickCounter(location, tickCounter);
     }
 
     private int getTickCounter(Location location) {
@@ -142,121 +141,125 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         if (definition == null || definition.getNode() == null) {
             return;
         }
+
+        final BlockFace direction = getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
         final NetworkRoot root = definition.getNode().getRoot();
-
-        final BlockFace direction = this.getCurrentDirection(blockMenu);
         final int maxNumber = getCurrentNumber(blockMenu.getLocation());
-        final TransportMode mode = this.getCurrentTransportMode(blockMenu.getLocation());
+        final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
+
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
+        BlockMenu currentMenu;
+        for (int i = 0; i <= maxDistance; i++) {
+            currentMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
 
-        for (int i = 0; i < maxDistance; i++) {
-            // 如果方块是空气，退出
-            if (currentBlock.getType().isAir()) {
-                break;
+            if (currentMenu == null) {
+                /*
+                 * It means we found a slimefun block that has no menu, so we just continue.
+                 */
+                continue;
             }
 
-            long o = System.nanoTime();
-            BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
-            // 如果没有blockMenu，退出
-            if (targetMenu == null) {
-                break;
-            }
-            // 获取输出槽
-            final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            int free = maxNumber;
+            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
+
+            int limit = maxNumber;
             switch (mode) {
-                case NULL_ONLY -> {
-                    // 无操作
-                }
                 case NONE, NONNULL_ONLY -> {
+                    /*
+                     * Grab all the items.
+                     */
                     for (int slot : slots) {
-                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                        if (itemStack != null && !itemStack.getType().isAir()) {
-                            int canConsume = Math.min(itemStack.getAmount(), free);
-                            ItemStack clone = itemStack.clone();
-                            clone.setAmount(canConsume);
+                        final ItemStack item = currentMenu.getItemInSlot(slot);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
                             root.addItemStack(clone);
-                            int consumed = canConsume - clone.getAmount();
-                            itemStack.setAmount(itemStack.getAmount() - consumed);
-                            free -= consumed;
-                            if (free <= 0) {
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
+                            if (limit <= 0) {
                                 break;
                             }
                         }
                     }
                 }
+                case NULL_ONLY -> {
+                    /*
+                     * Nothing to do.
+                     */
+                }
                 case FIRST_ONLY -> {
-                    if (slots.length == 0) {
-                        break;
-                    }
-                    int slot = slots[0];
-                    ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (itemStack != null && !itemStack.getType().isAir()) {
-                        int canConsume = Math.min(itemStack.getAmount(), free);
-                        ItemStack clone = itemStack.clone();
-                        clone.setAmount(canConsume);
-                        root.addItemStack(clone);
-                        int consumed = canConsume - clone.getAmount();
-                        itemStack.setAmount(itemStack.getAmount() - consumed);
-                        free -= consumed;
-                        if (free <= 0) {
-                            break;
+                    /*
+                     * Grab the first item only.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack item = currentMenu.getItemInSlot(slots[0]);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
+                            if (limit <= 0) {
+                                break;
+                            }
                         }
                     }
                 }
                 case LAST_ONLY -> {
-                    if (slots.length == 0) {
-                        break;
-                    }
-                    int slot = slots[slots.length - 1];
-                    ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (itemStack != null && !itemStack.getType().isAir()) {
-                        int canConsume = Math.min(itemStack.getAmount(), free);
-                        ItemStack clone = itemStack.clone();
-                        clone.setAmount(canConsume);
-                        root.addItemStack(clone);
-                        int consumed = canConsume - clone.getAmount();
-                        itemStack.setAmount(itemStack.getAmount() - consumed);
-                        free -= consumed;
-                        if (free <= 0) {
-                            break;
+                    /*
+                     * Grab the last item only.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack item = currentMenu.getItemInSlot(slots[slots.length - 1]);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
+                            if (limit <= 0) {
+                                break;
+                            }
                         }
                     }
                 }
                 case FIRST_STOP -> {
+                    /*
+                     * Grab the first non-null item only.
+                     */
                     for (int slot : slots) {
-                        ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                        if (itemStack != null && !itemStack.getType().isAir()) {
-                            int canConsume = Math.min(itemStack.getAmount(), free);
-                            ItemStack clone = itemStack.clone();
-                            clone.setAmount(canConsume);
+                        final ItemStack item = currentMenu.getItemInSlot(slot);
+                        if (item != null && !item.getType().isAir()) {
+                            final int canReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
                             root.addItemStack(clone);
-                            int consumed = canConsume - clone.getAmount();
-                            itemStack.setAmount(itemStack.getAmount() - consumed);
-                            free -= consumed;
+                            item.setAmount(clone.getAmount());
+                            limit -= canReceive - clone.getAmount();
                             break;
                         }
                     }
                 }
                 case LAZY -> {
-                    if (slots.length == 0) {
-                        break;
-                    }
-                    int deltaSlot = slots[0];
-                    ItemStack delta = targetMenu.getItemInSlot(deltaSlot);
-                    if (delta != null && !delta.getType().isAir()) {
-                        for (int slot : slots) {
-                            ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                            if (itemStack != null && !itemStack.getType().isAir()) {
-                                int canConsume = Math.min(itemStack.getAmount(), free);
-                                ItemStack clone = itemStack.clone();
-                                clone.setAmount(canConsume);
-                                root.addItemStack(clone);
-                                int consumed = canConsume - clone.getAmount();
-                                itemStack.setAmount(itemStack.getAmount() - consumed);
-                                free -= consumed;
-                                if (free <= 0) {
-                                    break;
+                    /*
+                     * When it's first item is non-null, we will grab all the items.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack delta = currentMenu.getItemInSlot(slots[0]);
+                        if (delta != null && !delta.getType().isAir()) {
+                            for (int slot : slots) {
+                                ItemStack item = currentMenu.getItemInSlot(slot);
+                                if (item != null && !item.getType().isAir()) {
+                                    final int canReceive = Math.min(item.getAmount(), limit);
+                                    final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                                    root.addItemStack(clone);
+                                    item.setAmount(clone.getAmount());
+                                    limit -= canReceive - clone.getAmount();
+                                    if (limit <= 0) {
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -266,6 +269,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             currentBlock = currentBlock.getRelative(direction);
         }
     }
+
 
     @Override
     protected Particle.DustOptions getDustOptions() {

@@ -1419,8 +1419,7 @@ public class NetworkRoot extends NetworkNode {
         int fallBackSlot = 0;
         for (BlockMenu menu : getAdvancedGreedyBlockMenus()) {
             if (StackUtils.itemsMatch(menu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT), incoming)) {
-                int[] slots = menu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
-                for (int slot : slots) {
+                for (int slot : ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS) {
                     final ItemStack itemStack = menu.getItemInSlot(slot);
                     // If this is an empty slot - move on, if it's our first, store it for later.
                     if (itemStack == null || itemStack.getType().isAir()) {
@@ -1467,11 +1466,10 @@ public class NetworkRoot extends NetworkNode {
                 continue;
             }
 
-            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
-            final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
+            final ItemStack itemStack = blockMenu.getItemInSlot(GREEDY_BLOCK_AVAILABLE_SLOTS[0]);
 
             if (itemStack == null || itemStack.getType().isAir()) {
-                blockMenu.replaceExistingItem(slots[0], incoming.clone());
+                blockMenu.replaceExistingItem(GREEDY_BLOCK_AVAILABLE_SLOTS[0], incoming.clone());
                 incoming.setAmount(0);
                 return;
             }
@@ -1516,9 +1514,8 @@ public class NetworkRoot extends NetworkNode {
         int fallBackSlot2 = 0;
 
         for (BlockMenu blockMenu : getCellMenus()) {
-            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
-            for (int slot : slots) {
-                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+            for (int slot : CELL_AVAILABLE_SLOTS) {
+                ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 // If this is an empty slot - move on, if it's our first, store it for later.
                 if (itemStack == null || itemStack.getType().isAir()) {
                     if (fallbackBlockMenu2 == null) {

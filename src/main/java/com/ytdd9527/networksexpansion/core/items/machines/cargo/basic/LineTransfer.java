@@ -270,11 +270,6 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
         for (int i = 0; i < maxDistance; i++) {
-            // 如果方块是空气，退出
-            if (currentBlock.getType().isAir()) {
-                break;
-            }
-
             BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
             // 如果没有blockMenu，退出
             if (targetMenu == null) {

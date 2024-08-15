@@ -67,13 +67,6 @@ public class ExpansionItems {
             ExpansionRecipes.NE_EXPANSION_WORKBENCH
     );
 
-    public static final CoordinateConfigurator NETWORK_COORDINATE_CONFIGURATOR = new CoordinateConfigurator(
-            ExpansionItemsMenus.MENU_ITEMS,
-            ExpansionItemStacks.NETWORK_COORDINATE_CONFIGURATOR,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.NE_COORDINATE_CONFIGURATOR
-    );
-
     public static final AdvancedImport ADVANCED_IMPORT = new AdvancedImport(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_IMPORT,
