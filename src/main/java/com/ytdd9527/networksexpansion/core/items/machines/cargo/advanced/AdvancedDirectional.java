@@ -400,9 +400,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (action.isShiftClicked()) {
             n = 64;
         }
-        Networks.getInstance().getLogger().info("@addClick 1 current number: " + getCurrentNumber(location));
         addNumber(location, n);
-        Networks.getInstance().getLogger().info("@addClick 2 current number: " + getCurrentNumber(location));
         return false;
     }
 
