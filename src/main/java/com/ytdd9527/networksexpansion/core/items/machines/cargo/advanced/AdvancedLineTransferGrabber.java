@@ -174,11 +174,11 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                     for (int slot : slots) {
                         final ItemStack item = currentMenu.getItemInSlot(slot);
                         if (item != null && !item.getType().isAir()) {
-                            final int canReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                             root.addItemStack(clone);
-                            item.setAmount(clone.getAmount());
-                            limit -= canReceive - clone.getAmount();
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
                             if (limit <= 0) {
                                 break;
                             }
@@ -197,11 +197,11 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                     if (slots.length > 0) {
                         final ItemStack item = currentMenu.getItemInSlot(slots[0]);
                         if (item != null && !item.getType().isAir()) {
-                            final int canReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                             root.addItemStack(clone);
-                            item.setAmount(clone.getAmount());
-                            limit -= canReceive - clone.getAmount();
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
                             if (limit <= 0) {
                                 break;
                             }
@@ -215,11 +215,11 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                     if (slots.length > 0) {
                         final ItemStack item = currentMenu.getItemInSlot(slots[slots.length - 1]);
                         if (item != null && !item.getType().isAir()) {
-                            final int canReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                             root.addItemStack(clone);
-                            item.setAmount(clone.getAmount());
-                            limit -= canReceive - clone.getAmount();
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
                             if (limit <= 0) {
                                 break;
                             }
@@ -233,11 +233,11 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                     for (int slot : slots) {
                         final ItemStack item = currentMenu.getItemInSlot(slot);
                         if (item != null && !item.getType().isAir()) {
-                            final int canReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                             root.addItemStack(clone);
-                            item.setAmount(clone.getAmount());
-                            limit -= canReceive - clone.getAmount();
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
                             break;
                         }
                     }
@@ -252,11 +252,11 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                             for (int slot : slots) {
                                 ItemStack item = currentMenu.getItemInSlot(slot);
                                 if (item != null && !item.getType().isAir()) {
-                                    final int canReceive = Math.min(item.getAmount(), limit);
-                                    final ItemStack clone = StackUtils.getAsQuantity(item, canReceive);
+                                    final int exceptedReceive = Math.min(item.getAmount(), limit);
+                                    final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                                     root.addItemStack(clone);
                                     item.setAmount(clone.getAmount());
-                                    limit -= canReceive - clone.getAmount();
+                                    limit -= exceptedReceive - clone.getAmount();
                                     if (limit <= 0) {
                                         break;
                                     }
