@@ -204,7 +204,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
                     if (playerProfile.hasUnlocked(research)) {
                         ItemStack itemStack = ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem());
                         ItemStackUtil.addLoreToFirst(itemStack, "§7" + slimefunItem.getId());
-                        chestMenu.addItem(MAIN_CONTENT_L[i][j], (ItemStack) itemStack);
+                        chestMenu.addItem(MAIN_CONTENT_L[i][j], itemStack);
                         chestMenu.addMenuClickHandler(MAIN_CONTENT_L[i][j], (p, slot, item, action) -> {
                             RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(player, playerProfile, slimefunGuideMode, slimefunItem.getItem());
                             if (recipeItemGroup != null) {
