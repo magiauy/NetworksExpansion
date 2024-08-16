@@ -564,7 +564,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateTransportModeIcon(Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, Theme.NOTICE + "当前模式: " + Theme.MECHANISM + getCurrentTransportMode(location).getName());
+        lore.set(0, TextUtil.colorRandomString("当前模式: ") + Theme.MECHANISM + getCurrentTransportMode(location).getName());
         itemMeta.setLore(lore);
         this.transportModeIconClone.setItemMeta(itemMeta);
 
