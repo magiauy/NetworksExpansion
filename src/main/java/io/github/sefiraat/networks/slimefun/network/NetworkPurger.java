@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -24,7 +25,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -32,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.logging.Logger;
 
 @SuppressWarnings("deprecation")
 public class NetworkPurger extends NetworkObject {
@@ -96,21 +97,15 @@ public class NetworkPurger extends NetworkObject {
 
         ItemStack testItem = blockMenu.getItemInSlot(TEST_ITEM_SLOT);
 
-        if (testItem == null) {
+        if (testItem == null || testItem.getType().isAir()) {
             return;
         }
-
-        ItemStack clone = testItem.clone();
-        clone.setAmount(1);
+        ItemStack clone = StackUtils.getAsQuantity(testItem, 1);
 
         ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
         ItemStack retrieved = definition.getNode().getRoot().getItemStack(itemRequest);
         if (retrieved != null) {
             retrieved.setAmount(0);
-            Location location = blockMenu.getLocation().clone().add(0.5, 1.2, 0.5);
-            if (definition.getNode().getRoot().isDisplayParticles()) {
-                location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 0, 0, 0.05, 0);
-            }
         }
     }
 

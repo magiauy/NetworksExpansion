@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.slimefun;
 
-import com.ytdd9527.networks.expansion.utils.TextUtil;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.slimefun.tools.NetworkRemote;
 import io.github.sefiraat.networks.utils.Theme;

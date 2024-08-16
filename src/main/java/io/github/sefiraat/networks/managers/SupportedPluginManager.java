@@ -2,12 +2,11 @@ package io.github.sefiraat.networks.managers;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.google.common.base.Preconditions;
+import dev.rosewood.rosestacker.api.RoseStackerAPI;
+import dev.rosewood.rosestacker.stack.StackedItem;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
-
-import dev.rosewood.rosestacker.api.RoseStackerAPI;
-import dev.rosewood.rosestacker.stack.StackedItem;
 
 public class SupportedPluginManager {
 
@@ -45,6 +44,34 @@ public class SupportedPluginManager {
                 .runTaskLater(Networks.getInstance(), this::firstTickRegistrations, 1);
     }
 
+    public static SupportedPluginManager getInstance() {
+        return instance;
+    }
+
+    public static int getStackAmount(Item item) {
+        if (getInstance().isWildStacker()) {
+            return WildStackerAPI.getItemAmount(item);
+        } else if (getInstance().isRoseStacker()) {
+            StackedItem stackedItem = getInstance().getRoseStackerAPI().getStackedItem(item);
+            return stackedItem == null ? item.getItemStack().getAmount() : stackedItem.getStackSize();
+        } else {
+            return item.getItemStack().getAmount();
+        }
+    }
+
+    public static void setStackAmount(Item item, int amount) {
+        if (getInstance().isWildStacker()) {
+            WildStackerAPI.getStackedItem(item).setStackAmount(amount, true);
+        } else if (getInstance().isRoseStacker()) {
+            StackedItem stackedItem = getInstance().getRoseStackerAPI().getStackedItem(item);
+            if (stackedItem != null) {
+                stackedItem.setStackSize(amount);
+            }
+        } else {
+            item.getItemStack().setAmount(amount);
+        }
+    }
+
     private void firstTickRegistrations() {
         this.wildChests = Bukkit.getPluginManager().isPluginEnabled("WildChests");
         this.mcMMO = Bukkit.getPluginManager().isPluginEnabled("mcMMO");
@@ -80,34 +107,5 @@ public class SupportedPluginManager {
 
     public boolean isWildStacker() {
         return wildStacker;
-    }
-
-    public static SupportedPluginManager getInstance() {
-        return instance;
-    }
-
-
-    public static int getStackAmount(Item item) {
-        if (getInstance().isWildStacker()) {
-            return WildStackerAPI.getItemAmount(item);
-        } else if (getInstance().isRoseStacker()) {
-            StackedItem stackedItem = getInstance().getRoseStackerAPI().getStackedItem(item);
-            return stackedItem == null ? item.getItemStack().getAmount() : stackedItem.getStackSize();
-        } else {
-            return item.getItemStack().getAmount();
-        }
-    }
-
-    public static void setStackAmount(Item item, int amount) {
-        if (getInstance().isWildStacker()) {
-            WildStackerAPI.getStackedItem(item).setStackAmount(amount, true);
-        } else if (getInstance().isRoseStacker()) {
-            StackedItem stackedItem = getInstance().getRoseStackerAPI().getStackedItem(item);
-            if (stackedItem != null) {
-                stackedItem.setStackSize(amount);
-            }
-        } else {
-            item.getItemStack().setAmount(amount);
-        }
     }
 }

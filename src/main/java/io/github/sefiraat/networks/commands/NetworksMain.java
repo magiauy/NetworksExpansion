@@ -2,11 +2,11 @@ package io.github.sefiraat.networks.commands;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.core.data.StorageUnitData;
-import com.ytdd9527.networks.expansion.core.items.machines.cargo.unit.CargoStorageUnit;
-import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
-import com.ytdd9527.networks.expansion.utils.databases.DataSource;
-import com.ytdd9527.networks.expansion.utils.databases.DataStorage;
+import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
+import com.ytdd9527.networksexpansion.core.items.machines.cargo.unit.CargoStorageUnit;
+import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
+import com.ytdd9527.networksexpansion.utils.databases.DataSource;
+import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;

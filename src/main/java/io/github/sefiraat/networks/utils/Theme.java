@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.utils;
 
-import com.ytdd9527.networks.expansion.utils.TextUtil;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;

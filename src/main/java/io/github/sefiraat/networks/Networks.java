@@ -1,24 +1,24 @@
 package io.github.sefiraat.networks;
 
-import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.advanced.AdvancedAutoCraftingCrafter;
-import com.ytdd9527.networks.expansion.core.items.machines.autocrafters.basic.AbstractAutoCrafter;
-import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransfer;
-import com.ytdd9527.networks.expansion.core.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransfer;
-import com.ytdd9527.networks.expansion.core.items.machines.cargo.basic.LineTransferGrabber;
-import com.ytdd9527.networks.expansion.core.items.machines.networks.advanced.AdvancedImport;
-import com.ytdd9527.networks.expansion.core.managers.ConfigManager;
-import com.ytdd9527.networks.expansion.setup.SetupUtil;
-import com.ytdd9527.networks.expansion.setup.depreacte.DepreacteExpansionItems;
-import com.ytdd9527.networks.expansion.utils.databases.DataSource;
-import com.ytdd9527.networks.expansion.utils.databases.DataStorage;
-import com.ytdd9527.networks.expansion.utils.databases.QueryQueue;
-import io.github.sefiraat.networks.integrations.HudCallbacks;
+import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.advanced.AbstractAdvancedAutoCrafter;
+import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.advanced.AdvancedAutoCraftingCrafter;
+import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.basic.AbstractAutoCrafter;
+import com.ytdd9527.networksexpansion.core.items.machines.cargo.advanced.AdvancedLineTransfer;
+import com.ytdd9527.networksexpansion.core.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
+import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransfer;
+import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransferGrabber;
+import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.AdvancedImport;
+import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
+import com.ytdd9527.networksexpansion.implementation.depreacte.DepreacteExpansionItems;
+import com.ytdd9527.networksexpansion.setup.SetupUtil;
+import com.ytdd9527.networksexpansion.utils.databases.DataSource;
+import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
+import com.ytdd9527.networksexpansion.utils.databases.QueryQueue;
 import io.github.sefiraat.networks.commands.NetworksMain;
+import io.github.sefiraat.networks.integrations.HudCallbacks;
+import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
-import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -41,8 +41,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class Networks extends JavaPlugin implements SlimefunAddon {
-
-
     private static Networks instance;
     private static DataSource dataSource;
     private static QueryQueue queryQueue;
@@ -53,7 +51,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     private ConfigManager configManager;
     private ListenerManager listenerManager;
     private SupportedPluginManager supportedPluginManager;
-    private int slimefunTickCount;
+    private long slimefunTickCount;
 
 
     public Networks() {
@@ -95,7 +93,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         return Networks.getInstance().listenerManager;
     }
 
-    public static int getSlimefunTickCount() {
+    public static long getSlimefunTickCount() {
         return getInstance().slimefunTickCount;
     }
 

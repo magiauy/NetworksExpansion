@@ -435,14 +435,14 @@ public class NetworkSlimefunItems {
         );
 
         NETWORK_PURGER = new NetworkPurger(
-            NetworksItemGroups.NETWORK_ITEMS,
-            NetworksSlimefunItemStacks.NETWORK_PURGER,
-            RecipeType.ENHANCED_CRAFTING_TABLE,
-            new ItemStack[]{
-                OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
-                OPTIC_CABLE.getItem(), SlimefunItems.TRASH_CAN, OPTIC_CABLE.getItem(),
-                OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
-            }
+                NetworksItemGroups.NETWORK_ITEMS,
+                NetworksSlimefunItemStacks.NETWORK_PURGER,
+                RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[]{
+                        OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
+                        OPTIC_CABLE.getItem(), SlimefunItems.TRASH_CAN, OPTIC_CABLE.getItem(),
+                        OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
+                }
         );
 
         NETWORK_GRID = new NetworkGrid(

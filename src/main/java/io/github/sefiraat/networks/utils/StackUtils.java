@@ -4,7 +4,6 @@ import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import lombok.experimental.UtilityClass;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
@@ -24,18 +23,15 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 @UtilityClass
+@SuppressWarnings({"deprecation"})
 public class StackUtils {
     @Nonnull
     public static ItemStack getAsQuantity(@Nonnull ItemStack itemStack, int amount) {
@@ -82,6 +78,7 @@ public class StackUtils {
             return false;
         }
 
+        // If amounts do not match, then the items cannot possibly match
         if (checkAmount && itemStack.getAmount() > cache.getItemStack().getAmount()) {
             return false;
         }
@@ -122,7 +119,7 @@ public class StackUtils {
         }
 
         // PDCs don't match
-        if (!isPDCMatch(itemMeta, cachedMeta)) {
+        if (!itemMeta.getPersistentDataContainer().equals(cachedMeta.getPersistentDataContainer())) {
             return false;
         }
 
@@ -135,63 +132,30 @@ public class StackUtils {
         if (!itemMeta.getItemFlags().equals(cachedMeta.getItemFlags())) {
             return false;
         }
+
         // Check the lore
-        if (checkLore) {
-            if (!isLoreMatch(itemMeta, cachedMeta)) {
-                return false;
-            }
+        if (checkLore && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+            return false;
         }
+
         // Slimefun ID check no need to worry about distinction, covered in PDC + lore
         final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(itemMeta);
         final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(cachedMeta);
-        if (optionalStackId1.isPresent() && optionalStackId2.isPresent()) {
+        if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
+            return false;
+        }
+        if (optionalStackId1.isPresent()) {
             return optionalStackId1.get().equals(optionalStackId2.get());
         }
 
         // Finally, check the display name
-        return !itemMeta.hasDisplayName() || (itemMeta.getDisplayName().equals(cachedMeta.getDisplayName()));
-
-        // Everything should match if we've managed to get here
-    }
-
-    public static boolean isPDCMatch(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta cachedMeta) {
-        PersistentDataContainer persistentDataContainer1 = itemMeta.getPersistentDataContainer();
-        PersistentDataContainer persistentDataContainer2 = cachedMeta.getPersistentDataContainer();
-        Set<NamespacedKey> keys1 = persistentDataContainer1.getKeys();
-        Set<NamespacedKey> keys2 = persistentDataContainer2.getKeys();
-        if (keys1.size() != keys2.size()) {
+        if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
             return false;
         }
 
-        for (NamespacedKey namespacedKey : keys1) {
-            if (!persistentDataContainer2.has(namespacedKey, PersistentDataType.STRING)) {
-                return false;
-            }
-            if (!Objects.equals(persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING), persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
-                return false;
-            }
-        }
+        // Everything should match if we've managed to get here
         return true;
     }
-
-    public static boolean isLoreMatch(@Nonnull ItemMeta itemMeta1, @Nonnull ItemMeta itemMeta2) {
-        if (itemMeta1.hasLore() && itemMeta2.hasLore()) {
-            List<String> lore1 = itemMeta1.getLore();
-            List<String> lore2 = itemMeta2.getLore();
-            if (lore1.size() != lore2.size()) {
-                return false;
-            }
-            for (int i = 0; i < lore1.size(); i++) {
-                if (!lore1.get(i).equals(lore2.get(i))) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return !itemMeta1.hasLore() && !itemMeta2.hasLore();
-        }
-    }
-
 
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
 
@@ -327,7 +291,7 @@ public class StackUtils {
 
         // Potion
         if (metaOne instanceof PotionMeta instanceOne && metaTwo instanceof PotionMeta instanceTwo) {
-            if (!instanceOne.getBasePotionData().equals(instanceTwo.getBasePotionData())) {
+            if (!Objects.equals(instanceOne.getBasePotionData(), instanceTwo.getBasePotionData())) {
                 return true;
             }
             if (instanceOne.hasCustomEffects() != instanceTwo.hasCustomEffects()) {
