@@ -135,14 +135,17 @@ public abstract class NetworkDirectional extends NetworkObject {
                     Theme.PASSIVE + "设置朝向 " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
-            if (active) {
-                itemMeta.addEnchant(Enchantment.LUCK, 1, true);
-                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            }
             itemMeta.setLore(List.of(
                     Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
                     Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
             ));
+            if (active) {
+                List<String> lore = itemMeta.getLore();
+                lore.add(Theme.SUCCESS + "已设置朝向此容器！");
+                itemMeta.setLore(lore);
+                itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
             displayStack.setItemMeta(itemMeta);
             return displayStack;
         } else {
