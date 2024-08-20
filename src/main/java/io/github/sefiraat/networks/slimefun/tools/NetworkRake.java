@@ -27,15 +27,16 @@ import io.github.sefiraat.networks.slimefun.network.NetworkGrabber;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
 import io.github.sefiraat.networks.slimefun.network.NetworkImport;
 import io.github.sefiraat.networks.slimefun.network.NetworkMonitor;
+import io.github.sefiraat.networks.slimefun.network.NetworkVanillaGrabber;
+import io.github.sefiraat.networks.slimefun.network.NetworkVanillaPusher;
+import io.github.sefiraat.networks.slimefun.network.NetworkWirelessReceiver;
+import io.github.sefiraat.networks.slimefun.network.NetworkWirelessTransmitter;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerDisplay;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerOutlet;
 import io.github.sefiraat.networks.slimefun.network.NetworkPusher;
 import io.github.sefiraat.networks.slimefun.network.NetworkVacuum;
-import io.github.sefiraat.networks.slimefun.network.NetworkVanillaGrabber;
-import io.github.sefiraat.networks.slimefun.network.NetworkVanillaPusher;
-import io.github.sefiraat.networks.slimefun.network.NetworkWirelessTransmitter;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkBestPusher;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkMorePusher;
 import io.github.sefiraat.networks.utils.Keys;
@@ -81,6 +82,7 @@ public class NetworkRake extends LimitedUseItem {
         viableObjects.add(NetworkVanillaGrabber.class);
         viableObjects.add(NetworkVanillaPusher.class);
         viableObjects.add(NetworkWirelessTransmitter.class);
+        viableObjects.add(NetworkWirelessReceiver.class);
         viableObjects.add(NetworkAutoCrafter.class);
         viableObjects.add(NetworkCell.class);
         viableObjects.add(NetworkControlV.class);
@@ -107,7 +109,6 @@ public class NetworkRake extends LimitedUseItem {
         viableObjects.add(CoordinateTransmitter.class);
         viableObjects.add(StorageUnitUpgradeTableModel.class);
         viableObjects.add(CargoStorageUnit.class);
-
     }
 
     @Override

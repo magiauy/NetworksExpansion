@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -106,6 +107,10 @@ public class NetworkPurger extends NetworkObject {
         ItemStack retrieved = definition.getNode().getRoot().getItemStack(itemRequest);
         if (retrieved != null) {
             retrieved.setAmount(0);
+            Location location = blockMenu.getLocation().clone().add(0.5, 1.2, 0.5);
+            if (definition.getNode().getRoot().isDisplayParticles()) {
+                location.getWorld().spawnParticle(VersionedParticle.SMOKE, location, 0, 0, 0.05, 0);
+            }
         }
     }
 
