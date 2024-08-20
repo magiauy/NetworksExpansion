@@ -1503,7 +1503,6 @@ public class ExpansionItemStacks {
             thanks,
             ""
     );
-
     public static ItemStack SEFIRAAT_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_SEFIRAAT = Theme.Random(
             "NETWORKS_AUTHOR_SEFIRAAT",

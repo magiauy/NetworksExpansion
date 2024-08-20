@@ -98,6 +98,13 @@ public class NetworkControlV extends NetworkDirectional {
             return;
         }
 
+        final UUID uuid = UUID.fromString(StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY));
+        final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+
+        if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.PLACE_BLOCK)) {
+            return;
+        }
+
         final Material material = targetBlock.getType();
 
         if (!material.isAir()) {
@@ -119,13 +126,6 @@ public class NetworkControlV extends NetworkDirectional {
         final SlimefunItem slimefunItem = SlimefunItem.getByItem(templateStack);
 
         if (slimefunItem != null) {
-            return;
-        }
-
-        final UUID uuid = UUID.fromString(StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY));
-        final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
-
-        if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.PLACE_BLOCK)) {
             return;
         }
 
