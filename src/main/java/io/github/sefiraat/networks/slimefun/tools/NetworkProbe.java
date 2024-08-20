@@ -68,14 +68,14 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int wipers = root.getWipers().size();
             final int grabbers = root.getGrabbers().size();
             final int pushers = root.getPushers().size();
+            final int cutters = root.getCutters().size();
+            final int pasters = root.getPasters().size();
+            final int vacuums = root.getVacuums().size();
             final int purgers = root.getPurgers().size();
             final int crafters = root.getCrafters().size();
             final int powerNodes = root.getPowerNodes().size();
             final int powerDisplays = root.getPowerDisplays().size();
             final int encoders = root.getEncoders().size();
-            final int cutters = root.getCutters().size();
-            final int pasters = root.getPasters().size();
-            final int vacuums = root.getVacuums().size();
             final int wirelessTransmitters = root.getWirelessTransmitters().size();
             final int wirelessReceivers = root.getWirelessReceivers().size();
             final int powerOutlets = root.getPowerOutlets().size();

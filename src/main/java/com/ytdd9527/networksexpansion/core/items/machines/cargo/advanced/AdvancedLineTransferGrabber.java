@@ -163,7 +163,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                 continue;
             }
 
-            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(currentMenu, ItemTransportFlow.WITHDRAW,  null);
 
             int limit = maxNumber;
             switch (mode) {

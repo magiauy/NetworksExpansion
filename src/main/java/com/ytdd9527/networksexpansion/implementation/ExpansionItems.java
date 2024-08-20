@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation;
 
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
-import com.ytdd9527.networksexpansion.core.items.AuthorHead;
+import com.ytdd9527.networksexpansion.core.items.unusable.AuthorHead;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.core.items.blueprints.AncientAltarBlueprint;
 import com.ytdd9527.networksexpansion.core.items.blueprints.ArmorForgeBlueprint;
@@ -50,7 +50,6 @@ import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.grid
 import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.grid.NetworkEncodingGridNewStyle;
 import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.grid.NetworkGridNewStyle;
 import com.ytdd9527.networksexpansion.core.items.tools.CargoNodeQuickTool;
-import com.ytdd9527.networksexpansion.core.items.tools.CoordinateConfigurator;
 import com.ytdd9527.networksexpansion.core.items.tools.NetworksExpansionWorldEditAxe;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;

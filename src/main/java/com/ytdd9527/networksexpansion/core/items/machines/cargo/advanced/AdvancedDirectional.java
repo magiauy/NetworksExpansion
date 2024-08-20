@@ -17,6 +17,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -136,7 +138,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             List<String> lore = itemMeta.getLore();
             lore.add(Theme.SUCCESS + "已设置朝向此容器！");
             itemMeta.setLore(lore);
-            itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+            itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         displayStack.setItemMeta(itemMeta);
@@ -151,14 +153,17 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                     Theme.PASSIVE + "设置朝向 " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
-            if (active) {
-                itemMeta.addEnchant(Enchantment.LUCK, 1, true);
-                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            }
             itemMeta.setLore(List.of(
                     Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
                     Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
             ));
+            if (active) {
+                List<String> lore = itemMeta.getLore();
+                lore.add(Theme.SUCCESS + "已设置朝向此容器！");
+                itemMeta.setLore(lore);
+                itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
+                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
             displayStack.setItemMeta(itemMeta);
             return displayStack;
         } else {
@@ -464,7 +469,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         final Vector faceVector = blockFace.getDirection().clone().multiply(-1);
         final Vector pushVector = faceVector.clone().multiply(2);
         final Location displayLocation = location.clone().add(0.5, 0.5, 0.5).add(faceVector);
-        location.getWorld().spawnParticle(Particle.REDSTONE, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
+        location.getWorld().spawnParticle(VersionedParticle.DUST, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
     }
 
     public ItemStack getShowIcon() {

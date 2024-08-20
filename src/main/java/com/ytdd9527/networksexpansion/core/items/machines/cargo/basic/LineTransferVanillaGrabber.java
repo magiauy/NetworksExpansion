@@ -139,16 +139,12 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         // dirty fix
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d < maxDistance; d++) {
-            // 如果方块是空气，退出
-            if (targetBlock.getType() == Material.AIR) {
-                break;
-            }
             try {
                 if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
-                    return;
+                    break;
                 }
             } catch (NullPointerException ex) {
-                return;
+                break;
             }
 
             final BlockState blockState = targetBlock.getState();
@@ -160,15 +156,10 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
             boolean wildChests = Networks.getSupportedPluginManager().isWildChests();
             boolean isChest = wildChests && WildChestsAPI.getChest(targetBlock.getLocation()) != null;
 
-            sendDebugMessage(block.getLocation(), "WildChests 已安装：" + wildChests);
-            sendDebugMessage(block.getLocation(), "该方块是否被 WildChest 判断为方块：" + isChest);
-
             if (wildChests && isChest) {
-                sendDebugMessage(block.getLocation(), "WildChest 测试失败！");
-                return;
+                continue;
             }
 
-            sendDebugMessage(block.getLocation(), "WildChest 测试通过。");
             final Inventory inventory = holder.getInventory();
 
             if (inventory instanceof FurnaceInventory furnaceInventory) {
@@ -187,14 +178,14 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
                         final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
                         if (potionMeta.getBasePotionData().getType() != PotionType.WATER) {
                             grabItem(root, blockMenu, stack);
-                            return;
+                            break;
                         }
                     }
                 }
             } else {
                 for (ItemStack stack : inventory.getContents()) {
                     if (grabItem(root, blockMenu, stack)) {
-                        return;
+                        break;
                     }
                 }
             }
@@ -203,7 +194,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     }
 
     private boolean grabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nullable ItemStack stack) {
-        if (stack != null && stack.getType() != Material.AIR) {
+        if (stack != null && !stack.getType().isAir()) {
             root.addItemStack(stack);
             return true;
         } else {

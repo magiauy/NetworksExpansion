@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -135,7 +136,7 @@ public class NetworksSlimefunItemStacks {
 
         RADIOACTIVE_OPTIC_STAR = Theme.themedSlimefunItemStack(
                 "NTW_RADIOACTIVE_OPTIC_STAR",
-                getPreEnchantedItemStack(Material.NETHER_STAR, true, new Pair<>(Enchantment.ARROW_DAMAGE, 1)),
+                getPreEnchantedItemStack(Material.NETHER_STAR, true, new Pair<>(Enchantment.INFINITY, 1)),
                 Theme.CRAFTING,
                 "放射性光学之星",
                 "能够传输几乎无限信息的星"
@@ -143,7 +144,7 @@ public class NetworksSlimefunItemStacks {
 
         SHRINKING_BASE = Theme.themedSlimefunItemStack(
                 "NTW_SHRINKING_BASE",
-                getPreEnchantedItemStack(Material.PISTON, true, new Pair<>(Enchantment.ARROW_DAMAGE, 1)),
+                getPreEnchantedItemStack(Material.PISTON, true, new Pair<>(Enchantment.INFINITY, 1)),
                 Theme.CRAFTING,
                 "缩小底座",
                 "可以让大型物体变小的装置"
@@ -159,7 +160,7 @@ public class NetworksSlimefunItemStacks {
 
         ADVANCED_NANOBOTS = Theme.themedSlimefunItemStack(
                 "NTW_ADVANCED_NANOBOTS",
-                getPreEnchantedItemStack(Material.MELON_SEEDS, true, new Pair<>(Enchantment.ARROW_DAMAGE, 1)),
+                getPreEnchantedItemStack(Material.MELON_SEEDS, true, new Pair<>(Enchantment.INFINITY, 1)),
                 Theme.CRAFTING,
                 "高级纳米机器人",
                 "可以帮助你完成精密任务的微型机器人",
@@ -184,7 +185,7 @@ public class NetworksSlimefunItemStacks {
 
         PRISTINE_AI_CORE = Theme.themedSlimefunItemStack(
                 "NTW_PRISTINE_AI_CORE",
-                getPreEnchantedItemStack(Material.TUBE_CORAL_BLOCK, true, new Pair<>(Enchantment.ARROW_DAMAGE, 1)),
+                getPreEnchantedItemStack(Material.TUBE_CORAL_BLOCK, true, new Pair<>(Enchantment.INFINITY, 1)),
                 Theme.CRAFTING,
                 "古代人工智能核心",
                 "据说是从上古遗迹中挖掘出来的",
@@ -193,7 +194,7 @@ public class NetworksSlimefunItemStacks {
 
         INTERDIMENSIONAL_PRESENCE = Theme.themedSlimefunItemStack(
                 "NTW_INTERDIMENSIONAL_PRESENCE",
-                getPreEnchantedItemStack(Material.ARMOR_STAND, true, new Pair<>(Enchantment.ARROW_DAMAGE, 1)),
+                getPreEnchantedItemStack(Material.ARMOR_STAND, true, new Pair<>(Enchantment.INFINITY, 1)),
                 Theme.CRAFTING,
                 "跨跃维度的存在",
                 "这种完美级的人工智能",
@@ -731,7 +732,7 @@ public class NetworksSlimefunItemStacks {
 
         NETWORK_REMOTE_ULTIMATE = Theme.themedSlimefunItemStack(
                 "NTW_REMOTE_ULTIMATE",
-                getPreEnchantedItemStack(Material.GLOW_ITEM_FRAME, true, new Pair<>(Enchantment.ARROW_DAMAGE, 1)),
+                getPreEnchantedItemStack(Material.GLOW_ITEM_FRAME, true, new Pair<>(Enchantment.INFINITY, 1)),
                 Theme.TOOL,
                 "终极网络远程访问器",
                 "远程打开绑定的网格",
@@ -798,23 +799,31 @@ public class NetworksSlimefunItemStacks {
         );
 
         NETWORK_RAKE_3 = Theme.themedSlimefunItemStack(
-                "NTW_RAKE_3",
-                getPreEnchantedItemStack(Material.WEEPING_VINES, true, new Pair<>(Enchantment.LUCK, 1)),
-                Theme.TOOL,
-                "网络扳手 (3)",
-                "右键点击一个网络节点",
-                "可以立即破坏",
-                "",
-                LoreBuilder.usesLeft(9999)
+            "NTW_RAKE_3",
+            getPreEnchantedItemStack(Material.WEEPING_VINES, true, new Pair<>(VersionedEnchantment.LUCK_OF_THE_SEA, 1)),
+            Theme.TOOL,
+            "网络扳手 (3)",
+            "右键点击一个网络节点",
+            "可以立即破坏",
+            "",
+            LoreBuilder.usesLeft(9999)
         );
 
         NETWORK_DEBUG_STICK = Theme.themedSlimefunItemStack(
-                "NTW_DEBUG_STICK",
-                getPreEnchantedItemStack(Material.STICK, true, new Pair<>(Enchantment.LUCK, 1)),
-                Theme.TOOL,
-                "网络调试棒",
-                "右键点击一个网络方块开启调试。"
+            "NTW_DEBUG_STICK",
+            getPreEnchantedItemStack(Material.STICK, true, new Pair<>(VersionedEnchantment.LUCK_OF_THE_SEA, 1)),
+            Theme.TOOL,
+            "网络调试棒",
+            "右键点击一个网络方块开启调试。"
         );
+    }
+
+    // TODO: package to a utility class
+    public static ItemStack getPreEnchantedItemStack(Material material) {
+        return getPreEnchantedItemStack(material, true);
+    }
+    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide) {
+        return getPreEnchantedItemStack(material, hide, new Pair<>(Enchantment.INFINITY, 1));
     }
 
     @Nonnull

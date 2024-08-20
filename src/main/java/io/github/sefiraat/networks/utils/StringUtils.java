@@ -1,10 +1,13 @@
 package io.github.sefiraat.networks.utils;
 
+import lombok.experimental.UtilityClass;
+
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+@UtilityClass
 public final class StringUtils {
 
     /**
@@ -41,10 +44,6 @@ public final class StringUtils {
             "FN_FAL",
             "supertechxter"
     );
-
-    private StringUtils() {
-        throw new IllegalStateException("Utility class");
-    }
 
     @Nonnull
     public static String toTitleCase(@Nonnull String string) {

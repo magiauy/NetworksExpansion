@@ -501,7 +501,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 continue;
             }
 
-            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(currentMenu, ItemTransportFlow.WITHDRAW,  null);
 
             int limit = maxNumber;
             switch (mode) {
