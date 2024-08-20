@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation;
 
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.setup.Skins;
+import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -1601,23 +1602,8 @@ public class ExpansionItemStacks {
         return re;
     }
 
-    @Nonnull
-    @SafeVarargs
-    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide, @Nonnull Pair<Enchantment, Integer>... enchantments) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        for (Pair<Enchantment, Integer> pair : enchantments) {
-            itemMeta.addEnchant(pair.getFirstValue(), pair.getSecondValue(), true);
-        }
-        if (hide) {
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
-    }
-
     public static ItemStack Enchanted(Material material) {
-        return getPreEnchantedItemStack(material, true, new Pair<>(Enchantment.INFINITY, 1));
+        return NetworksSlimefunItemStacks.getPreEnchantedItemStack(material);
     }
 
 }

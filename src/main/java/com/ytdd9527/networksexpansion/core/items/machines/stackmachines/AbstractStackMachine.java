@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Deprecated
 public abstract class AbstractStackMachine extends NetworkObject {
     static final Path SAVEDITEM_FOLDER = (new File(Networks.getInstance().getDataFolder().toPath().toString(), "saveditems")).toPath();
     static final int[] STORAGE_SLOTS = {

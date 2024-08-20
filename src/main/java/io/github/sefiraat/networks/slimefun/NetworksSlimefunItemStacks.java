@@ -818,6 +818,7 @@ public class NetworksSlimefunItemStacks {
         );
     }
 
+    // TODO: package to a utility class
     public static ItemStack getPreEnchantedItemStack(Material material) {
         return getPreEnchantedItemStack(material, true);
     }

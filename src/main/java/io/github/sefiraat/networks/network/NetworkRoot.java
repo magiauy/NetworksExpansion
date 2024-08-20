@@ -511,6 +511,7 @@ public class NetworkRoot extends NetworkNode {
         return itemStacks;
     }
 
+    // TODO: support fluffy barrels
     @Nonnull
     public Set<BarrelIdentity> getBarrels() {
 
