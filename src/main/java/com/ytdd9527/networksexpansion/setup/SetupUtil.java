@@ -3,10 +3,13 @@ package com.ytdd9527.networksexpansion.setup;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemsMenus;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
+import net.guizhanss.slimefun4.utils.WikiUtils;
 
 public class SetupUtil {
 
     public static void setupItem() {
+        NetworkSlimefunItems.setup();
 
         /* 物品 */
         ExpansionItemsMenus.SUB_MENU_TOOL.addTo(
@@ -227,11 +230,18 @@ public class SetupUtil {
         ExpansionItemsMenus.MAIN_ITEM_GROUP.register(networks);
     }
 
-    public static void init() {
+    public static void setupWiki() {
+        WikiUtils.setupJson(Networks.getInstance());
+    }
+    public static void setupIntegration() {
+        Networks.getInstance().setupIntegrations();
+    }
+    public static void setupAll() {
 
         setupItem();
         setupMenu();
-
+        setupWiki();
+        setupIntegration();
     }
 
 }

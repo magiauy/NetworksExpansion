@@ -818,6 +818,13 @@ public class NetworksSlimefunItemStacks {
         );
     }
 
+    public static ItemStack getPreEnchantedItemStack(Material material) {
+        return getPreEnchantedItemStack(material, true);
+    }
+    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide) {
+        return getPreEnchantedItemStack(material, hide, new Pair<>(Enchantment.INFINITY, 1));
+    }
+
     @Nonnull
     @SafeVarargs
     public static ItemStack getPreEnchantedItemStack(Material material, boolean hide, @Nonnull Pair<Enchantment, Integer>... enchantments) {

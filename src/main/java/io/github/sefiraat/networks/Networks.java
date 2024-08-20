@@ -9,7 +9,6 @@ import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransf
 import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransferGrabber;
 import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
-import com.ytdd9527.networksexpansion.implementation.depreacte.DepreacteExpansionItems;
 import com.ytdd9527.networksexpansion.setup.SetupUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
@@ -127,10 +126,11 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("                      作者: Sefiraat 汉化: ybw0014                         ");
         getLogger().info("                      NetworksExpansion - 网络拓展                         ");
         getLogger().info("                      作者: yitoudaidai, tinalness                        ");
+        getLogger().info("                    你必须使用汉化版粘液科技才能加载此附属！                     ");
         getLogger().info("                       如遇bug请优先反馈至改版仓库:                           ");
         getLogger().info("         https://github.com/ytdd9527/NetworksExpansion/issues            ");
-        getLogger().info("                      使用本附属时，请不要直接叉掉进程                          ");
-        getLogger().info("                      而是应该正常/stop以避免数据丢失                          ");
+        getLogger().info("                      使用本附属时，请不要直接叉掉进程                         ");
+        getLogger().info("                      而是应该正常/stop以避免数据丢失                         ");
         getLogger().info("#########################################################################");
 
         getLogger().info("正在获取配置信息...");
@@ -168,21 +168,8 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         autoSaveThread.runTaskTimerAsynchronously(this, 2 * period, period);
 
         getLogger().info("正在注册物品...");
-        setupSlimefun();
+        SetupUtil.setupAll();
 
-        /*
-        getLogger().info("正在注册堆叠机器...");
-        try {
-            StackMachine.initialize();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            StackGenerator.initialize();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        */
         getLogger().info("正在注册指令...");
         this.listenerManager = new ListenerManager();
         this.getCommand("networks").setExecutor(new NetworksMain());
@@ -239,24 +226,21 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         }
     }
 
-    public void setupSlimefun() {
-        NetworkSlimefunItems.setup();
-        DepreacteExpansionItems.setup();
-        SetupUtil.init();
-        WikiUtils.setupJson(this);
-        if (supportedPluginManager.isNetheopoiesis()) {
-            try {
-                NetheoPlants.setup();
-                getLogger().info("检测到安装了下界乌托邦，注册相关物品！");
-            } catch (NoClassDefFoundError e) {
-                getLogger().warning("未安装下界乌托邦！相关物品将不会注册.");
-            }
-        }
+    public void setupIntegrations() {
         if (supportedPluginManager.isSlimeHud()) {
+            getLogger().info("检测到安装了 SlimeHUD，注册相关功能！");
             try {
                 HudCallbacks.setup();
             } catch (NoClassDefFoundError e) {
                 getLogger().severe("你必须更新 SlimeHUD 才能让网络添加相关功能。");
+            }
+        }
+        if (supportedPluginManager.isNetheopoiesis()) {
+            getLogger().info("检测到安装了下界乌托邦，注册相关物品！");
+            try {
+                NetheoPlants.setup();
+            } catch (NoClassDefFoundError e) {
+                getLogger().warning("你必须安装下界乌托邦才能让相关物品注册。");
             }
         }
     }

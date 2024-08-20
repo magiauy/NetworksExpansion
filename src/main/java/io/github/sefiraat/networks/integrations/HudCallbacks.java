@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.integrations;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import io.github.schntgaispock.slimehud.util.HudBuilder;
 import io.github.schntgaispock.slimehud.waila.HudController;
@@ -7,7 +8,6 @@ import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +30,7 @@ public class HudCallbacks {
 
         controller.registerCustomHandler(NetworkGreedyBlock.class, request -> {
             Location location = request.getLocation();
-            BlockMenu menu = BlockStorage.getInventory(location);
+            BlockMenu menu = StorageCacheUtils.getMenu(location);
             if (menu == null) {
                 return EMPTY;
             }

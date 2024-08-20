@@ -1617,7 +1617,7 @@ public class ExpansionItemStacks {
     }
 
     public static ItemStack Enchanted(Material material) {
-        return getPreEnchantedItemStack(material, true, new Pair<>(Enchantment.ARROW_DAMAGE, 1));
+        return getPreEnchantedItemStack(material, true, new Pair<>(Enchantment.INFINITY, 1));
     }
 
 }

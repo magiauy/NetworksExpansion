@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -141,7 +142,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
                 retrieved.setAmount(0);
                 Location location = blockMenu.getLocation().clone().add(0.5, 1.2, 0.5);
                 if (definition.getNode().getRoot().isDisplayParticles()) {
-                    location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 0, 0, 0.05, 0);
+                    location.getWorld().spawnParticle(VersionedParticle.SMOKE, location, 0, 0, 0.05, 0);
                 }
             }
         }
