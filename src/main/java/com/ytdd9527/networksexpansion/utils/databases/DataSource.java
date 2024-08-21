@@ -3,7 +3,7 @@ package com.ytdd9527.networksexpansion.utils.databases;
 import com.ytdd9527.networksexpansion.api.data.ItemContainer;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
-import com.ytdd9527.networksexpansion.core.items.machines.cargo.unit.CargoStorageUnit;
+import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;

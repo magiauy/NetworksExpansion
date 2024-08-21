@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.utils;
 
 import io.github.sefiraat.networks.Networks;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Color;
 
 import javax.annotation.Nonnull;
@@ -12,6 +13,7 @@ import java.util.Random;
  * @author Final_ROOT
  * @since 2.0
  */
+@UtilityClass
 public class TextUtil {
     public static final String COLOR_NORMAL = "§x§8§8§f§f§f§f";
     public static final String COLOR_STRESS = "§x§f§f§f§f§8§8";

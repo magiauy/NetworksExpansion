@@ -1,8 +1,11 @@
 package com.ytdd9527.networksexpansion.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+@UtilityClass
 public class ReflectionUtil {
 
     public static boolean setValue(Object object, String field, Object value) {

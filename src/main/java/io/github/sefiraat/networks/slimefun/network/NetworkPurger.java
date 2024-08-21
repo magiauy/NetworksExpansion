@@ -33,7 +33,6 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.logging.Logger;
 
 @SuppressWarnings("deprecation")
 public class NetworkPurger extends NetworkObject {

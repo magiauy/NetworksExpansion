@@ -1,6 +1,6 @@
 package com.ytdd9527.networksexpansion.api.helpers;
 
-import com.ytdd9527.networksexpansion.core.items.machines.manual.ExpansionWorkbench;
+import com.ytdd9527.networksexpansion.implementation.items.machines.manual.ExpansionWorkbench;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;

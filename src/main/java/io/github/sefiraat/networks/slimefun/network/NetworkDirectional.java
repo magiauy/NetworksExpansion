@@ -379,6 +379,7 @@ public abstract class NetworkDirectional extends NetworkObject {
     public int[] getItemSlots() {
         return new int[]{};
     }
+
     public int[] getInputSlots() {
         return new int[0];
     }

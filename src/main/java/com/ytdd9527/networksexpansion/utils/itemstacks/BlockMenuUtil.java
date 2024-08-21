@@ -3,12 +3,14 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@UtilityClass
 public class BlockMenuUtil {
     @Nullable
     public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, ItemStack item, int... slots) {

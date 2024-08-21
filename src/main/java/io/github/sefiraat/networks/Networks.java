@@ -1,13 +1,13 @@
 package io.github.sefiraat.networks;
 
-import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.advanced.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.advanced.AdvancedAutoCraftingCrafter;
-import com.ytdd9527.networksexpansion.core.items.machines.autocrafters.basic.AbstractAutoCrafter;
-import com.ytdd9527.networksexpansion.core.items.machines.cargo.advanced.AdvancedLineTransfer;
-import com.ytdd9527.networksexpansion.core.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
-import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransfer;
-import com.ytdd9527.networksexpansion.core.items.machines.cargo.basic.LineTransferGrabber;
-import com.ytdd9527.networksexpansion.core.items.machines.networks.advanced.AdvancedImport;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoCraftingCrafter;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransfer;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransfer;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferGrabber;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.setup.SetupUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
@@ -18,14 +18,10 @@ import io.github.sefiraat.networks.integrations.HudCallbacks;
 import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
-import io.github.sefiraat.networks.integrations.HudCallbacks;
-import io.github.sefiraat.networks.integrations.NetheoPlants;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
-import net.guizhanss.slimefun4.utils.WikiUtils;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
@@ -108,37 +104,13 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        getLogger().info("#########################################################################");
-        getLogger().info("███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗           ");
-        getLogger().info("████╗  ██║██╔════╝╚══██╔══╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝           ");
-        getLogger().info("██╔██╗ ██║█████╗     ██║   ██║ █╗ ██║██║   ██║██████╔╝█████╔╝            ");
-        getLogger().info("██║╚██╗██║██╔══╝     ██║   ██║███╗██║██║   ██║██╔══██╗██╔═██╗            ");
-        getLogger().info("██║ ╚████║███████╗   ██║   ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗           ");
-        getLogger().info("╚═╝  ╚═══╝╚══════╝   ╚═╝    ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝           ");
-        getLogger().info("███████╗██╗  ██╗██████╗  █████╗ ███╗   ██╗███████╗██╗ ██████╗ ███╗   ██╗ ");
-        getLogger().info("██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║██╔═══██╗████╗  ██║ ");
-        getLogger().info("█████╗   ╚███╔╝ ██████╔╝███████║██╔██╗ ██║███████╗██║██║   ██║██╔██╗ ██║ ");
-        getLogger().info("██╔══╝   ██╔██╗ ██╔═══╝ ██╔══██║██║╚██╗██║╚════██║██║██║   ██║██║╚██╗██║ ");
-        getLogger().info("███████╗██╔╝ ██╗██║     ██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║ ");
-        getLogger().info("╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ");
-        getLogger().info("                                                                         ");
-        getLogger().info("                           Networks - 网络                                ");
-        getLogger().info("                      作者: Sefiraat 汉化: ybw0014                         ");
-        getLogger().info("                      NetworksExpansion - 网络拓展                         ");
-        getLogger().info("                      作者: yitoudaidai, tinalness                        ");
-        getLogger().info("                    你必须使用汉化版粘液科技才能加载此附属！                     ");
-        getLogger().info("                       如遇bug请优先反馈至改版仓库:                           ");
-        getLogger().info("         https://github.com/ytdd9527/NetworksExpansion/issues            ");
-        getLogger().info("                      使用本附属时，请不要直接叉掉进程                         ");
-        getLogger().info("                      而是应该正常/stop以避免数据丢失                         ");
-        getLogger().info("#########################################################################");
-
+        superHead();
         getLogger().info("正在获取配置信息...");
         saveDefaultConfig();
 
         getLogger().info("尝试自动更新...");
         this.configManager = new ConfigManager();
-        tryUpdate();
+        // tryUpdate();
 
         this.supportedPluginManager = new SupportedPluginManager();
 
@@ -224,6 +196,33 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         if (configManager.isAutoUpdate() && getDescription().getVersion().startsWith("Build")) {
             GuizhanUpdater.start(this, getFile(), username, repo, branch);
         }
+    }
+
+    public void superHead() {
+        getLogger().info("#########################################################################");
+        getLogger().info("███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗           ");
+        getLogger().info("████╗  ██║██╔════╝╚══██╔══╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝           ");
+        getLogger().info("██╔██╗ ██║█████╗     ██║   ██║ █╗ ██║██║   ██║██████╔╝█████╔╝            ");
+        getLogger().info("██║╚██╗██║██╔══╝     ██║   ██║███╗██║██║   ██║██╔══██╗██╔═██╗            ");
+        getLogger().info("██║ ╚████║███████╗   ██║   ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗           ");
+        getLogger().info("╚═╝  ╚═══╝╚══════╝   ╚═╝    ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝           ");
+        getLogger().info("███████╗██╗  ██╗██████╗  █████╗ ███╗   ██╗███████╗██╗ ██████╗ ███╗   ██╗ ");
+        getLogger().info("██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗████╗  ██║██╔════╝██║██╔═══██╗████╗  ██║ ");
+        getLogger().info("█████╗   ╚███╔╝ ██████╔╝███████║██╔██╗ ██║███████╗██║██║   ██║██╔██╗ ██║ ");
+        getLogger().info("██╔══╝   ██╔██╗ ██╔═══╝ ██╔══██║██║╚██╗██║╚════██║██║██║   ██║██║╚██╗██║ ");
+        getLogger().info("███████╗██╔╝ ██╗██║     ██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║ ");
+        getLogger().info("╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ");
+        getLogger().info("                                                                         ");
+        getLogger().info("                           Networks - 网络                                ");
+        getLogger().info("                      作者: Sefiraat 汉化: ybw0014                         ");
+        getLogger().info("                      NetworksExpansion - 网络拓展                         ");
+        getLogger().info("                      作者: yitoudaidai, tinalness                        ");
+        getLogger().info("             你必须使用2024.07以上版本的汉化版粘液科技才能加载此附属！             ");
+        getLogger().info("                       如遇bug请优先反馈至改版仓库:                           ");
+        getLogger().info("         https://github.com/ytdd9527/NetworksExpansion/issues            ");
+        getLogger().info("                      使用本附属时，请不要直接叉掉进程                         ");
+        getLogger().info("                      而是应该正常/stop以避免数据丢失                         ");
+        getLogger().info("#########################################################################");
     }
 
     public void setupIntegrations() {

@@ -4,6 +4,7 @@ import com.ytdd9527.networksexpansion.api.data.ItemAmountWrapper;
 import com.ytdd9527.networksexpansion.api.data.ItemWrapper;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @since 1.0
  */
 // TODO: abstract as lib
+@UtilityClass
 public final class MachineUtil {
     public static final BlockPlaceHandler BLOCK_PLACE_HANDLER_PLACER_ALLOW = new BlockPlaceHandler(true) {
         @Override

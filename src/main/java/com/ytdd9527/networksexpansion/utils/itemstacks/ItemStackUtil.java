@@ -2,6 +2,8 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 
 import com.ytdd9527.networksexpansion.api.data.ItemAmountWrapper;
 import com.ytdd9527.networksexpansion.api.data.ItemWrapper;
+import com.ytdd9527.networksexpansion.utils.NetworksVersionedEnchantment;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.nms.ItemNameAdapter;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.ChatColor;
@@ -954,5 +956,29 @@ public final class ItemStackUtil {
 
     public static void send(CommandSender p, String message) {
         p.sendMessage(color("&7[&6NetworksExpansion&7] &r" + message));
+    }
+
+    // TODO: package to a utility class
+    public static ItemStack getPreEnchantedItemStack(Material material) {
+        return getPreEnchantedItemStack(material, true);
+    }
+
+    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide) {
+        return getPreEnchantedItemStack(material, hide, new Pair<>(NetworksVersionedEnchantment.GLOW, 1));
+    }
+
+    @Nonnull
+    @SafeVarargs
+    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide, @Nonnull Pair<Enchantment, Integer>... enchantments) {
+        ItemStack itemStack = new ItemStack(material);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        for (Pair<Enchantment, Integer> pair : enchantments) {
+            itemMeta.addEnchant(pair.getFirstValue(), pair.getSecondValue(), true);
+        }
+        if (hide) {
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
     }
 }
