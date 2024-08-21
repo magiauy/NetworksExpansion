@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.setup;
 
-import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
-import com.ytdd9527.networksexpansion.implementation.ExpansionItemsMenus;
+import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
+import com.ytdd9527.networksexpansion.implementation.menus.ExpansionItemsMenus;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import net.guizhanss.slimefun4.utils.WikiUtils;
@@ -233,9 +233,11 @@ public class SetupUtil {
     public static void setupWiki() {
         WikiUtils.setupJson(Networks.getInstance());
     }
+
     public static void setupIntegration() {
         Networks.getInstance().setupIntegrations();
     }
+
     public static void setupAll() {
 
         setupItem();

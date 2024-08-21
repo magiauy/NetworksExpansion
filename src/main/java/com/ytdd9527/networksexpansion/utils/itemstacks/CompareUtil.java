@@ -1,8 +1,11 @@
 package com.ytdd9527.networksexpansion.utils.itemstacks;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * @author Final_ROOT
  */
+@UtilityClass
 public class CompareUtil {
     public static SimpleComparator<Integer> INTEGER_SIMPLE_COMPARATOR = (comparison, compared) -> comparison - compared;
 

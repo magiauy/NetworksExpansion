@@ -1,7 +1,6 @@
 package com.ytdd9527.networksexpansion.utils.itemstacks;
 
 import com.ytdd9527.networksexpansion.api.data.RandomMachineRecipe;
-import com.ytdd9527.networksexpansion.api.data.attributes.WorkingRecipe;
 import com.ytdd9527.networksexpansion.api.interfaces.RecipeItem;
 import com.ytdd9527.networksexpansion.core.items.unusable.ReplaceableCard;
 import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
@@ -15,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
+import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -25,15 +25,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Final_ROOT
  * @since 2.0
  */
+@UtilityClass
 public class RecipeUtil {
     public static void registerRecipeBySlimefunId(@Nonnull RecipeItem recipeItem, @Nonnull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);
@@ -189,49 +188,5 @@ public class RecipeUtil {
             return null;
         }
         return ReplaceableCard.getByMaterial(itemStack.getType());
-    }
-
-    public static int getCraftLevel(Map<ItemStack, Long> allItems, WorkingRecipe recipe, int maxAmount) {
-        int maxCraftable = Integer.MAX_VALUE;
-
-        // 计算可以合成的最大数量，并更新allItems
-        for (Map.Entry<ItemStack, Integer> entry : recipe.getInputs().entrySet()) {
-            ItemStack item = entry.getKey();
-            int requiredAmount = entry.getValue();
-            long availableAmount = allItems.getOrDefault(item, 0L);
-
-            // 计算可以合成的最大数量
-            if (requiredAmount <= 0) {
-                continue;
-            }
-            long canCraft = availableAmount / requiredAmount;
-            if (canCraft == 0) {
-                // 如果无法合成任何一个recipe，直接返回
-                return 0;
-            }
-            maxCraftable = (int) Math.min(maxCraftable, canCraft);
-        }
-
-        maxCraftable = Math.min(maxCraftable, maxAmount);
-        return maxCraftable;
-    }
-
-    public static Map<ItemStack, Integer> getCraftOutputs(Map<ItemStack, Long> allItems, WorkingRecipe recipe, int maxCraftable) {
-        if (maxCraftable == 0) {
-            return new HashMap<>();
-        }
-
-        // 更新allItems，减去用于合成的物品数量，并增加合成的结果物品数量
-        for (Map.Entry<ItemStack, Integer> entry : recipe.getInputs().entrySet()) {
-            ItemStack item = entry.getKey();
-            int requiredAmount = entry.getValue();
-            allItems.put(item, allItems.get(item) - requiredAmount * maxCraftable);
-        }
-        Map<ItemStack, Integer> outputItem = recipe.outputItems();
-        Map<ItemStack, Integer> outputs = new HashMap<>();
-        for (Map.Entry<ItemStack, Integer> entry : outputItem.entrySet()) {
-            outputs.put(entry.getKey(), entry.getValue() * maxCraftable);
-        }
-        return outputs;
     }
 }

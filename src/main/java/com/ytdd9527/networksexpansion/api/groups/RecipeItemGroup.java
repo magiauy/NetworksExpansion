@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.api.groups;
 
-import com.ytdd9527.networksexpansion.core.menu.common.SlimefunItem3x3RecipeMenu;
-import com.ytdd9527.networksexpansion.core.menu.common.SlimefunItem6x6RecipeMenu;
+import com.ytdd9527.networksexpansion.api.menu.common.SlimefunItem3x3RecipeMenu;
+import com.ytdd9527.networksexpansion.api.menu.common.SlimefunItem6x6RecipeMenu;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
