@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.api.data;
 
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import io.github.sefiraat.networks.utils.StackUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -53,7 +54,7 @@ public class ItemAmountWrapper extends ItemWrapper {
 
     public static void addToList(@Nonnull List<ItemAmountWrapper> list, @Nonnull ItemAmountWrapper item) {
         for (ItemAmountWrapper existedItem : list) {
-            if (ItemStackUtil.isItemSimilar(existedItem, item)) {
+            if (StackUtils.itemsMatch(existedItem.getItemStack(), item.getItemStack())) {
                 existedItem.addAmount(item.amount);
                 return;
             }
@@ -63,7 +64,7 @@ public class ItemAmountWrapper extends ItemWrapper {
 
     public static void addToList(@Nonnull List<ItemAmountWrapper> list, @Nonnull ItemAmountWrapper item, int mul) {
         for (ItemAmountWrapper existedItem : list) {
-            if (ItemStackUtil.isItemSimilar(existedItem, item)) {
+            if (StackUtils.itemsMatch(existedItem.getItemStack(), item.getItemStack())) {
                 existedItem.addAmount(item.amount * mul);
                 return;
             }

@@ -23,7 +23,7 @@ public class NetworksVersionedEnchantment {
         try {
             Field field = Enchantment.class.getDeclaredField(key);
             return (Enchantment) field.get((Object) null);
-        } catch (Exception var2) {
+        } catch (Exception ignored) {
             return null;
         }
     }

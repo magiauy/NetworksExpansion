@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items;
 
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoEnhancedCraftingTableCrafter;
 import com.ytdd9527.networksexpansion.implementation.menus.ExpansionItemsMenus;
 import com.ytdd9527.networksexpansion.implementation.recipes.ExpansionRecipes;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.AncientAltarBlueprint;
@@ -12,7 +13,6 @@ import com.ytdd9527.networksexpansion.implementation.items.blueprints.QuantumWor
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.SmelteryBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoAncientAltarCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoArmorForgeCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoCraftingCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoExpansionWorkbenchCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoMagicWorkbenchCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoQuantumWorkbenchCrafter;
@@ -443,7 +443,7 @@ public class ExpansionItems {
             true
     );
 
-    public static final AdvancedAutoCraftingCrafter ADVANCED_AUTO_CRAFTING_TABLE = new AdvancedAutoCraftingCrafter(
+    public static final AdvancedAutoEnhancedCraftingTableCrafter ADVANCED_AUTO_CRAFTING_TABLE = new AdvancedAutoEnhancedCraftingTableCrafter(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_CRAFTING_TABLE,
             ExpansionWorkbench.TYPE,
@@ -452,7 +452,7 @@ public class ExpansionItems {
             false
     );
 
-    public static final AdvancedAutoCraftingCrafter ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = new AdvancedAutoCraftingCrafter(
+    public static final AdvancedAutoEnhancedCraftingTableCrafter ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = new AdvancedAutoEnhancedCraftingTableCrafter(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING,
             ExpansionWorkbench.TYPE,

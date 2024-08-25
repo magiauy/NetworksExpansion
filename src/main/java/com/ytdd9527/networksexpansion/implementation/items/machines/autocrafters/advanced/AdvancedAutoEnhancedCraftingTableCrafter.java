@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced;
 
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import io.github.sefiraat.networks.network.SupportedRecipes;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
 import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -25,11 +25,11 @@ public class AdvancedAutoEnhancedCraftingTableCrafter extends AbstractAdvancedAu
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedRecipes.getRecipes().entrySet();
+        return SupportedEnhancedCraftingTableRecipes.getRecipes().entrySet();
     }
 
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
-        return SupportedRecipes.testRecipe(inputs, recipe);
+        return SupportedEnhancedCraftingTableRecipes.testRecipe(inputs, recipe);
     }
 
     public boolean isVaildBlueprint(SlimefunItem item) {

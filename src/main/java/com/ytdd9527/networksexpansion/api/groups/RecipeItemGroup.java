@@ -4,6 +4,7 @@ import com.ytdd9527.networksexpansion.api.menu.common.SlimefunItem3x3RecipeMenu;
 import com.ytdd9527.networksexpansion.api.menu.common.SlimefunItem6x6RecipeMenu;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -25,7 +26,7 @@ import java.util.Map;
  * @author Final_ROOT
  * @since 2.0
  */
-// TODO: abstract as lib
+
 public class RecipeItemGroup extends FlexItemGroup {
     private static final Map<String, RecipeItemGroup> ID_MAP = new HashMap<>();
     private static final int SMALL_LIMIT = 9;
@@ -70,7 +71,7 @@ public class RecipeItemGroup extends FlexItemGroup {
             }
         } else if (!ItemStackUtil.isItemNull(itemStack)) {
             Material material = itemStack.getType();
-            if (ItemStackUtil.isItemSimilar(itemStack, new ItemStack(material))) {
+            if (StackUtils.itemsMatch(itemStack, new ItemStack(material))) {
                 // TODO vanilla item recipe
             } else {
                 return null;

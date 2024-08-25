@@ -4,7 +4,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.network.SupportedRecipes;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -131,8 +131,8 @@ public class NetworkEncoder extends NetworkObject {
         ItemStack crafted = null;
 
         // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedRecipes.getRecipes().entrySet()) {
-            if (SupportedRecipes.testRecipe(inputs, entry.getKey())) {
+        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedEnhancedCraftingTableRecipes.getRecipes().entrySet()) {
+            if (SupportedEnhancedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
                 crafted = new ItemStack(entry.getValue().clone());
                 break;
             }

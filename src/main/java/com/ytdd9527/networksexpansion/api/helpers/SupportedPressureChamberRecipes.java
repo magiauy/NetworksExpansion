@@ -1,4 +1,4 @@
-package io.github.sefiraat.networks.network;
+package com.ytdd9527.networksexpansion.api.helpers;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -13,14 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
-public final class SupportedRecipes {
+public final class SupportedPressureChamberRecipes {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 
     static {
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             RecipeType recipeType = item.getRecipeType();
-            if ((recipeType == RecipeType.ENHANCED_CRAFTING_TABLE) && allowedRecipe(item)) {
+            if ((recipeType == RecipeType.PRESSURE_CHAMBER) && allowedRecipe(item)) {
                 ItemStack[] itemStacks = new ItemStack[9];
                 int i = 0;
                 for (ItemStack itemStack : item.getRecipe()) {
@@ -33,7 +33,7 @@ public final class SupportedRecipes {
                         break;
                     }
                 }
-                SupportedRecipes.addRecipe(itemStacks, item.getRecipeOutput());
+                SupportedPressureChamberRecipes.addRecipe(itemStacks, item.getRecipeOutput());
             }
         }
     }
@@ -48,7 +48,7 @@ public final class SupportedRecipes {
 
     public static boolean testRecipe(@Nonnull ItemStack[] input, @Nonnull ItemStack[] recipe) {
         for (int test = 0; test < recipe.length; test++) {
-            if (!StackUtils.itemsMatch(input[test], recipe[test])) {
+            if (!StackUtils.itemsMatch(input[test], recipe[test], false)) {
                 return false;
             }
         }

@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.sefiraat</groupId>
     <artifactId>Networks</artifactId>
-    <version>Expansion-2.0.8-Preview</version>
+    <version>Expansion-2.0.8-Alpha-Unsafe</version>
 
     <distributionManagement>
         <repository>
@@ -208,7 +208,7 @@
             <version>3c5db3650a</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Support NetheoPlants -->
+        <!-- Support Netheopoiesis -->
         <dependency>
             <groupId>com.github.Sefiraat</groupId>
             <artifactId>Netheopoiesis</artifactId>
@@ -256,13 +256,6 @@
             <artifactId>GuizhanLibPlugin</artifactId>
             <version>1.7.6</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- Useful Minecraft Libraries -->
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.7</version>
-            <scope>compile</scope>
         </dependency>
         <!-- Useful Library -->
         <dependency>

@@ -113,7 +113,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
         for (int inputSlot : INPUT_SLOTS) {
             final ItemStack itemStack = blockMenu.getItemInSlot(inputSlot);
 
-            if (itemStack == null || itemStack.getType() == Material.AIR) {
+            if (itemStack == null || itemStack.getType().isAir()) {
                 continue;
             }
             root.addItemStack(itemStack);

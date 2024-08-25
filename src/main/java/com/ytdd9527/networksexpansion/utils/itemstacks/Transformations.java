@@ -3,7 +3,8 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 
 import dev.sefiraat.sefilib.misc.RotationFace;
 import dev.sefiraat.sefilib.misc.TransformationBuilder;
-import io.papermc.lib.PaperLib;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.util.Transformation;
 import org.joml.Quaternionf;
 
@@ -60,7 +61,7 @@ public enum Transformations {
     public Transformation getTransformation(boolean itemDisplay) {
         // In 1.20+ the y axis of item displays are rotated by 180°
         // This corrects the visuals by rotating again
-        if (itemDisplay && PaperLib.getMinecraftVersion() >= 20) {
+        if (itemDisplay && Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
             return new Transformation(transformation.getTranslation(),
                     transformation.getLeftRotation(),
                     transformation.getScale(),

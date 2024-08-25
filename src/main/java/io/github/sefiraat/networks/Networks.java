@@ -1,7 +1,6 @@
 package io.github.sefiraat.networks;
 
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoCraftingCrafter;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
@@ -21,10 +20,12 @@ import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -98,12 +99,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         instance = this;
 
-        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
-            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
-            getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
+        environmentCheck();
         superHead();
         getLogger().info("正在获取配置信息...");
         saveDefaultConfig();
@@ -181,7 +177,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("已保存数据库信息！");
         getLogger().info("正在结束任务...");
         AbstractAutoCrafter.cancelCraftTask();
-        AdvancedAutoCraftingCrafter.cancelCraftTask();
         AbstractAdvancedAutoCrafter.cancelCraftTask();
         AdvancedImport.cancelTransferTask();
         LineTransfer.cancelTransferTask();
@@ -217,12 +212,25 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("                      作者: Sefiraat 汉化: ybw0014                         ");
         getLogger().info("                      NetworksExpansion - 网络拓展                         ");
         getLogger().info("                      作者: yitoudaidai, tinalness                        ");
-        getLogger().info("             你必须使用2024.07以上版本的汉化版粘液科技才能加载此附属！             ");
         getLogger().info("                       如遇bug请优先反馈至改版仓库:                           ");
         getLogger().info("         https://github.com/ytdd9527/NetworksExpansion/issues            ");
         getLogger().info("                      使用本附属时，请不要直接叉掉进程                         ");
         getLogger().info("                      而是应该正常/stop以避免数据丢失                         ");
         getLogger().info("#########################################################################");
+    }
+
+    public void environmentCheck() {
+        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
+            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
+            getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        try {
+            Enchantment luckOfTheSea = VersionedEnchantment.LUCK_OF_THE_SEA;
+        } catch (NoClassDefFoundError | NoSuchFieldError e) {
+            getLogger().severe("你必须使用2024.07以上版本的汉化版粘液科技才能加载此附属！");
+        }
     }
 
     public void setupIntegrations() {

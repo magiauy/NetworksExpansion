@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 
 import com.ytdd9527.networksexpansion.api.data.ItemAmountWrapper;
 import com.ytdd9527.networksexpansion.api.data.ItemWrapper;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import lombok.experimental.UtilityClass;
@@ -171,7 +172,7 @@ public final class MachineUtil {
             itemAmountWrapper.newWrap(item);
             boolean find = false;
             for (ItemAmountWrapper existedItemWrapper : itemAmountWrapperList) {
-                if (ItemStackUtil.isItemSimilar(itemAmountWrapper, existedItemWrapper)) {
+                if (StackUtils.itemsMatch(itemAmountWrapper.getItemStack(), existedItemWrapper.getItemStack())) {
                     existedItemWrapper.addAmount(item.getAmount());
                     find = true;
                     break;
@@ -206,7 +207,7 @@ public final class MachineUtil {
             }
             itemWrapper.newWrap(item);
             for (int i = 0; i < itemAmountWrapperList.size(); i++) {
-                if (ItemStackUtil.isItemSimilar(itemWrapper, itemAmountWrapperList.get(i))) {
+                if (StackUtils.itemsMatch(itemWrapper.getItemStack(), itemAmountWrapperList.get(i).getItemStack())) {
                     counts[i] = counts[i] + item.getMaxStackSize() - item.getAmount();
                     stacks[i] = counts[i] / itemAmountWrapperList.get(i).getAmount();
                     break;
@@ -257,7 +258,7 @@ public final class MachineUtil {
             }
             itemWrapper.newWrap(item);
             for (int i = 0; i < itemAmountWrapperList.length; i++) {
-                if (ItemStackUtil.isItemSimilar(itemWrapper, itemAmountWrapperList[i])) {
+                if (StackUtils.itemsMatch(itemWrapper.getItemStack(), itemAmountWrapperList[i].getItemStack())) {
                     countList.set(i, countList.get(i) + (item.getMaxStackSize() - item.getAmount()));
                     stackList.set(i, countList.get(i) / itemAmountWrapperList[i].getAmount());
                     break;
@@ -293,7 +294,7 @@ public final class MachineUtil {
             ItemStack item = inventory.getItem(slot);
             if (ItemStackUtil.isItemNull(item)) {
                 count += maxStack;
-            } else if (item.getAmount() < maxStack && ItemStackUtil.isItemSimilar(itemAmountWrapper, item)) {
+            } else if (item.getAmount() < maxStack && StackUtils.itemsMatch(itemAmountWrapper.getItemStack(), item)) {
                 count += maxStack - item.getAmount();
             }
         }

@@ -85,7 +85,11 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
 
                     @Override
                     public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                        performCraftAsync(block, data);
+                        BlockMenu blockMenu = data.getBlockMenu();
+                        if (blockMenu != null) {
+                            addToRegistry(block);
+                            craftPreFlight(blockMenu);
+                        }
                     }
                 }
         );
@@ -95,19 +99,6 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         if (craftTask != null && !craftTask.isCancelled()) {
             craftTask.cancel();
         }
-    }
-
-    protected void performCraftAsync(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
-        craftTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                BlockMenu blockMenu = data.getBlockMenu();
-                if (blockMenu != null) {
-                    addToRegistry(block);
-                    craftPreFlight(blockMenu);
-                }
-            }
-        }.runTaskAsynchronously(Networks.getInstance());
     }
 
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {
