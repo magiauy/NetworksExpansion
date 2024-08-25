@@ -1,10 +1,10 @@
 package io.github.sefiraat.networks.slimefun.network;
 
+import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
-import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
 import io.github.sefiraat.networks.utils.StackUtils;

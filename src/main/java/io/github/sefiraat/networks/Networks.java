@@ -2,12 +2,12 @@ package io.github.sefiraat.networks;
 
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
+import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransfer;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferGrabber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
-import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.setup.SetupUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;

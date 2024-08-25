@@ -1,9 +1,9 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
+import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.GridItemRequest;
 import io.github.sefiraat.networks.network.NodeDefinition;
-import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;

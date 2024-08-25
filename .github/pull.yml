@@ -4,7 +4,9 @@ rules:
     upstream: Sefiraat:master
     mergeMethod: merge
     assignees:
-      - ybw0014
+      - ytdd9527
+      - balugaq
     conflictReviewers:
-      - ybw0014
+      - ytdd9527
+      - balugaq
 
