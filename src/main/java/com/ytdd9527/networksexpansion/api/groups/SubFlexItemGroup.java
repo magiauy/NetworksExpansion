@@ -34,7 +34,8 @@ import java.util.Map;
  * @author Final_ROOT
  * @since 2.0
  */
-// TODO: abstract as lib
+
+@SuppressWarnings({"deprecation", "unused"})
 public class SubFlexItemGroup extends FlexItemGroup {
     private static final int BACK_SLOT = 1;
     private static final int PREVIOUS_SLOT = 3;
@@ -69,7 +70,6 @@ public class SubFlexItemGroup extends FlexItemGroup {
         this.page = page;
     }
 
-    // TODO
     @Nonnull
     public static SubFlexItemGroup generateFromItemGroup(@Nonnull ItemGroup itemGroup, @Nonnull Player player) {
         SubFlexItemGroup subFlexItemGroup = new SubFlexItemGroup(Keys.newKey(itemGroup.getKey().getNamespace()), itemGroup.getItem(player), itemGroup.getTier());

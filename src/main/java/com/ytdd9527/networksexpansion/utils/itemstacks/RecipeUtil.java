@@ -4,6 +4,7 @@ import com.ytdd9527.networksexpansion.api.data.RandomMachineRecipe;
 import com.ytdd9527.networksexpansion.api.interfaces.RecipeItem;
 import com.ytdd9527.networksexpansion.core.items.unusable.ReplaceableCard;
 import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
@@ -184,7 +185,7 @@ public class RecipeUtil {
         if (ItemStackUtil.isItemNull(itemStack) || ReplaceableCard.getByMaterial(itemStack.getType()) == null) {
             return null;
         }
-        if (!ItemStackUtil.isItemSimilar(itemStack, new ItemStack(itemStack.getType()))) {
+        if (!StackUtils.itemsMatch(itemStack, new ItemStack(itemStack.getType()))) {
             return null;
         }
         return ReplaceableCard.getByMaterial(itemStack.getType());

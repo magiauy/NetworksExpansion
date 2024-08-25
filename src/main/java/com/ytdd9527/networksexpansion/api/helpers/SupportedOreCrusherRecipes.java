@@ -1,6 +1,5 @@
 package com.ytdd9527.networksexpansion.api.helpers;
 
-import io.github.sefiraat.networks.slimefun.network.NetworkQuantumWorkbench;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -14,14 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
-public final class SupportedQuantumWorkbenchRecipes {
+public final class SupportedOreCrusherRecipes {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 
     static {
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             RecipeType recipeType = item.getRecipeType();
-            if ((recipeType == NetworkQuantumWorkbench.TYPE) && allowedRecipe(item)) {
+            if ((recipeType == RecipeType.ORE_CRUSHER) && allowedRecipe(item)) {
                 ItemStack[] itemStacks = new ItemStack[9];
                 int i = 0;
                 for (ItemStack itemStack : item.getRecipe()) {
@@ -34,7 +33,7 @@ public final class SupportedQuantumWorkbenchRecipes {
                         break;
                     }
                 }
-                SupportedQuantumWorkbenchRecipes.addRecipe(itemStacks, item.getRecipeOutput());
+                SupportedOreCrusherRecipes.addRecipe(itemStacks, item.getRecipeOutput());
             }
         }
     }
@@ -49,7 +48,7 @@ public final class SupportedQuantumWorkbenchRecipes {
 
     public static boolean testRecipe(@Nonnull ItemStack[] input, @Nonnull ItemStack[] recipe) {
         for (int test = 0; test < recipe.length; test++) {
-            if (!StackUtils.itemsMatch(input[test], recipe[test], false)) {
+            if (!StackUtils.itemsMatch(input[test], recipe[test], false, true)) {
                 return false;
             }
         }

@@ -2,7 +2,8 @@ name: Bug汇报
 description: 反馈本插件的Bug或问题
 labels: [ "bug" ]
 assignees:
-  - ybw0014
+  - ytdd9527
+  - balugaq
 body:
   - type: markdown
     attributes:

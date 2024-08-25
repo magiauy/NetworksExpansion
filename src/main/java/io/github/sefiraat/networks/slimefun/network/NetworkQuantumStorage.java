@@ -166,7 +166,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             if (isBlacklisted(itemStack)) {
                 continue;
             }
-            if (StackUtils.itemsMatch(cache, itemStack, true)) {
+            if (StackUtils.itemsMatch(cache, itemStack, false)) {
                 int leftover = cache.increaseAmount(itemStack.getAmount());
                 itemStack.setAmount(leftover);
             }

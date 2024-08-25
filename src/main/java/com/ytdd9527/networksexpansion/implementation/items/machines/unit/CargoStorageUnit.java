@@ -7,7 +7,6 @@ import com.ytdd9527.networksexpansion.api.data.ItemContainer;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.api.enums.QuickTransferMode;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
-import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -15,7 +14,6 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
-import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.Keys;
@@ -555,26 +553,8 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                         }
 
                         if (quantumCache == null) {
-                            Map<SlimefunItemStack, Integer> quantumMap = new HashMap<>();
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_0, 64);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_1, 4096);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_2, 32768);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_3, 262144);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_4, 2097152);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_5, 16777216);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_6, 134217728);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_7, 1073741824);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_8, Integer.MAX_VALUE);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_9, 256);
-                            quantumMap.put(NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_10, 1024);
-                            quantumMap.put(ExpansionItemStacks.ADVANCED_QUANTUM_STORAGE, Integer.MAX_VALUE);
-
-                            Integer quantumLimit = quantumMap.get(slimefunItem.getItem());
-
-                            if (quantumLimit == null) {
-                                player.sendMessage(ChatColor.RED + "该量子存储不支持快速转移");
-                                return;
-                            }
+                            NetworkQuantumStorage nqs = (NetworkQuantumStorage) slimefunItem;
+                            int quantumLimit = nqs.getMaxAmount();
 
                             int unitAmount = each.getAmount();
                             int canAdd = Math.min(unitAmount, quantumLimit);

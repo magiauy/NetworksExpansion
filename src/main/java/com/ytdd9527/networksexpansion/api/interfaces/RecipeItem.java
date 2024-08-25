@@ -6,6 +6,7 @@ import com.ytdd9527.networksexpansion.api.helpers.Icon;
 import com.ytdd9527.networksexpansion.core.items.unusable.ReplaceableCard;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.RecipeUtil;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
@@ -105,7 +106,7 @@ public interface RecipeItem extends RecipeDisplayItem {
         List<ItemStack> outputList1 = new ArrayList<>(output.length);
         List<ItemStack> outputList2 = new ArrayList<>(output.length);
         for (ItemStack item : output) {
-            if (!ItemStackUtil.isItemNull(item) && !ItemStackUtil.isItemSimilar(item, new CustomItemStack(Material.BUCKET))) {
+            if (!ItemStackUtil.isItemNull(item) && !StackUtils.itemsMatch(item, new CustomItemStack(Material.BUCKET))) {
                 outputList1.add(item);
             }
         }

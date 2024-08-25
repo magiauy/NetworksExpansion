@@ -2,7 +2,6 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -32,7 +31,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
@@ -85,7 +83,11 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
 
                     @Override
                     public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                        performCraftAsync(block, data);
+                        BlockMenu blockMenu = data.getBlockMenu();
+                        if (blockMenu != null) {
+                            addToRegistry(block);
+                            craftPreFlight(blockMenu);
+                        }
                     }
                 }
         );
@@ -95,19 +97,6 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         if (craftTask != null && !craftTask.isCancelled()) {
             craftTask.cancel();
         }
-    }
-
-    protected void performCraftAsync(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
-        craftTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                BlockMenu blockMenu = data.getBlockMenu();
-                if (blockMenu != null) {
-                    addToRegistry(block);
-                    craftPreFlight(blockMenu);
-                }
-            }
-        }.runTaskAsynchronously(Networks.getInstance());
     }
 
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {

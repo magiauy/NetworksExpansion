@@ -7,12 +7,12 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanc
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransfer;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferGrabber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferPusher;
-import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.implementation.items.machines.manual.StorageUnitUpgradeTableModel;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedExport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedPurger;
+import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkAutoCrafter;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;

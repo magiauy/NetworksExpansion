@@ -1,11 +1,11 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.network.SupportedRecipes;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
@@ -212,8 +212,8 @@ public class NetworkAutoCrafter extends NetworkObject {
         ItemStack crafted = null;
 
         // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedRecipes.getRecipes().entrySet()) {
-            if (SupportedRecipes.testRecipe(inputs, entry.getKey())) {
+        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedEnhancedCraftingTableRecipes.getRecipes().entrySet()) {
+            if (SupportedEnhancedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
                 crafted = entry.getValue().clone();
                 break;
             }

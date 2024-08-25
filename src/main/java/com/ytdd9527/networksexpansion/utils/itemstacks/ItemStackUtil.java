@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 import com.ytdd9527.networksexpansion.api.data.ItemAmountWrapper;
 import com.ytdd9527.networksexpansion.api.data.ItemWrapper;
 import com.ytdd9527.networksexpansion.utils.NetworksVersionedEnchantment;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.nms.ItemNameAdapter;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -65,7 +66,7 @@ public final class ItemStackUtil {
      * @return Whether the item seems to be null
      */
     public static boolean isItemNull(@Nullable ItemStack item) {
-        return item == null || item.getType().equals(Material.AIR) || item.getAmount() == 0;
+        return item == null || item.getType().isAir() || item.getAmount() == 0;
     }
 
     /**
@@ -272,7 +273,7 @@ public final class ItemStackUtil {
                 if (itemStack.getAmount() >= itemStack.getMaxStackSize()) {
                     continue;
                 }
-                if (ItemStackUtil.isItemSimilar(itemWrapper, resultItem)) {
+                if (StackUtils.itemsMatch(itemWrapper.getItemStack(), resultItem.getItemStack())) {
                     int count = Math.min(amount, itemStack.getMaxStackSize() - itemStack.getAmount());
                     itemStack.setAmount(itemStack.getAmount() + count);
                     amount -= count;
@@ -309,7 +310,7 @@ public final class ItemStackUtil {
                 if (itemStack.getAmount() >= itemStack.getMaxStackSize()) {
                     continue;
                 }
-                if (ItemStackUtil.isItemSimilar(itemWrapper, resultItem)) {
+                if (StackUtils.itemsMatch(itemWrapper.getItemStack(), resultItem.getItemStack())) {
                     int count = Math.min(amount, itemStack.getMaxStackSize() - itemStack.getAmount());
                     itemStack.setAmount(itemStack.getAmount() + count);
                     amount -= count;
@@ -435,7 +436,7 @@ public final class ItemStackUtil {
             itemAmountWrapper.newWrap(ItemStackUtil.cloneItem(item));
             boolean find = false;
             for (ItemAmountWrapper existedItemWrapper : itemWithWrapperList) {
-                if (ItemStackUtil.isItemSimilar(itemAmountWrapper, existedItemWrapper)) {
+                if (StackUtils.itemsMatch(itemAmountWrapper.getItemStack(), existedItemWrapper.getItemStack())) {
                     existedItemWrapper.addAmount(item.getAmount());
                     find = true;
                     break;
@@ -463,7 +464,7 @@ public final class ItemStackUtil {
             itemAmountWrapper.newWrap(ItemStackUtil.cloneItem(item));
             boolean find = false;
             for (ItemAmountWrapper existedItemWrapper : itemWithWrapperList) {
-                if (ItemStackUtil.isItemSimilar(itemAmountWrapper, existedItemWrapper)) {
+                if (StackUtils.itemsMatch(itemAmountWrapper.getItemStack(), existedItemWrapper.getItemStack())) {
                     existedItemWrapper.addAmount(item.getAmount());
                     find = true;
                     break;
@@ -504,7 +505,7 @@ public final class ItemStackUtil {
      * @return The number that truly stacked.
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input, output)) {
             int amount = Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount());
             input.setAmount(input.getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -514,7 +515,7 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nullable ItemStack output) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output)) {
             int amount = Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -524,7 +525,7 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nullable ItemStack input, @Nonnull ItemWrapper output) {
-        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input, output.getItemStack())) {
             int amount = Math.min(input.getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount());
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
@@ -534,7 +535,7 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nonnull ItemWrapper output) {
-        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
             int amount = Math.min(input.getItemStack().getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
@@ -553,7 +554,7 @@ public final class ItemStackUtil {
      * @return The number that truly stacked.
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(output) && output.getMaxStackSize() > output.getAmount() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (!ItemStackUtil.isItemNull(output) && output.getMaxStackSize() > output.getAmount() && StackUtils.itemsMatch(input, output)) {
             int amount = Math.min(maxAmount, Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -563,7 +564,7 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nullable ItemStack output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output)) {
             int amount = Math.min(maxAmount, Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -573,7 +574,7 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nullable ItemStack input, @Nonnull ItemWrapper output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input, output.getItemStack())) {
             int amount = Math.min(maxAmount, Math.min(input.getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
@@ -583,7 +584,7 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nonnull ItemWrapper output, int maxAmount) {
-        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && ItemStackUtil.isItemSimilar(input, output)) {
+        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
             int amount = Math.min(maxAmount, Math.min(input.getItemStack().getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
@@ -605,9 +606,6 @@ public final class ItemStackUtil {
             ItemMeta itemMeta = item.getItemMeta();
             if (itemMeta.hasDisplayName()) {
                 return itemMeta.getDisplayName();
-            }
-            if (itemMeta.hasLocalizedName()) {
-                return itemMeta.getLocalizedName();
             }
         } else {
             try {

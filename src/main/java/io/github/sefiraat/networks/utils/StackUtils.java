@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.utils;
 
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import lombok.experimental.UtilityClass;
@@ -42,23 +43,23 @@ public class StackUtils {
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, true, false);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, true, false, true);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, true);
     }
 
     public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
-        return itemsMatch(cache, itemStack, true, false);
+        return itemsMatch(cache, itemStack, true, false, true);
     }
 
     public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
-        return itemsMatch(cache, itemStack, checkLore, false);
+        return itemsMatch(cache, itemStack, checkLore, false, true);
     }
 
     /**
@@ -68,7 +69,7 @@ public class StackUtils {
      * @param itemStack The {@link ItemStack} being evaluated
      * @return True if items match
      */
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
         // Null check
         if (cache.getItemStack() == null || itemStack == null) {
             return itemStack == null && cache.getItemStack() == null;
@@ -96,6 +97,10 @@ public class StackUtils {
         // ItemMetas are different types and cannot match
         if (!itemMeta.getClass().equals(cachedMeta.getClass())) {
             return false;
+        }
+
+        if (checkDistinctive && itemStack instanceof DistinctiveItem distinctiveItem && cache.getItemStack() instanceof DistinctiveItem) {
+            return distinctiveItem.canStack(itemMeta, cachedMeta);
         }
 
         // Quick meta-extension escapes
