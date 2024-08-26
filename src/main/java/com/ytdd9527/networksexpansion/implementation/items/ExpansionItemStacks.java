@@ -1087,7 +1087,7 @@ public static final SlimefunItemStack NETWORK_BRIDGE_PINK = Theme.Random(
                 "to form a complete network",
                 "and layout the network more clearly"
 );
-    private static final String thanks = "&x&c&c&8&c&f&4&l魔&x&c&b&9&7&f&5&l芋&x&c&a&a&3&f&6&l粘&x&c&9&a&e&f&7&l液&x&c&8&b&9&f&8&l科&x&c&7&c&5&f&9&l技&x&c&5&d&0&f&9&l服&x&c&4&d&b&f&a&l务&x&c&3&e&6&f&b&l器&x&c&2&f&2&f&c&l提&x&c&1&f&d&f&d&l供";
+    private static final String thanks = "&#F87DF1&lC&#F885F2&lo&#F98DF3&lu&#F995F4&lr&#FA9EF5&lt&#FAA6F5&le&#FBAEF6&ls&#FBB6F7&ly &#FCC6F9&lo&#FCCEFA&lf &#FDDFFC&lK&#FEE7FC&lo&#FEEFFD&ln&#FFF7FE&lj&#FFFFFF&la&#F6FEFF&lc &#E3FDFF&lS&#D9FCFF&ll&#D0FBFF&li&#C6FAFF&lm&#BDFAFF&le &#AAF8FF&lT&#A1F7FF&le&#97F6FF&lc&#8EF6FF&lh &#7BF4FF&lS&#7BF4FF&le&#7BF4FF&lr&#7BF4FF&lv&#7BF4FF&le&#7BF4FF&lr";
     private static final Map<StorageUnitType, SlimefunItemStack> typeMap = new HashMap<>();
 public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
         "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",

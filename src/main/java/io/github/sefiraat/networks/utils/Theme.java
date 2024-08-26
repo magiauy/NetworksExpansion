@@ -21,25 +21,25 @@ public enum Theme {
     GOLD(ChatColor.GOLD, ""),
     WHITE(ChatColor.WHITE, ""),
     AQUA(ChatColor.AQUA, ""),
-    WARNING(ChatColor.YELLOW, "警告"),
-    ERROR(ChatColor.RED, "错误"),
-    NOTICE(ChatColor.WHITE, "通知"),
+    WARNING(ChatColor.YELLOW, "Warning"),
+    ERROR(ChatColor.RED, "Error"),
+    NOTICE(ChatColor.WHITE, "Notice"),
     PASSIVE(ChatColor.GRAY, ""),
-    SUCCESS(ChatColor.GREEN, "成功"),
-    MAIN(ChatColor.of("#21588f"), "网络"),
-    CLICK_INFO(ChatColor.of("#e4ed32"), "单击此处"),
-    RESEARCH(ChatColor.of("#a60e03"), "研究"),
-    CRAFTING(ChatColor.of("#dbcea9"), "合成材料"),
-    MACHINE(ChatColor.of("#3295a8"), "机器"),
+    SUCCESS(ChatColor.GREEN, "Success"),
+    MAIN(ChatColor.of("#21588f"), "Alone"),
+    CLICK_INFO(ChatColor.of("#e4ed32"), "Click here"),
+    RESEARCH(ChatColor.of("#a60e03"), "Research"),
+    CRAFTING(ChatColor.of("#dbcea9"), "Crafting Material"),
+    MACHINE(ChatColor.of("#3295a8"), "Machine"),
 
-    TOOL(ChatColor.of("#6b32a8"), "工具"),
-    MECHANISM(ChatColor.of("#3295a8"), "装置"),
-    FUEL(ChatColor.of("#112211"), "染料"),
-    MATERIAL_CLASS(ChatColor.of("#a4c2ba"), "材料"),
-    RECIPE_TYPE(ChatColor.of("#ffe89c"), "配方类型"),
+    TOOL(ChatColor.of("#6b32a8"), "Tool"),
+    MECHANISM(ChatColor.of("#3295a8"), "Mechanism"),
+    FUEL(ChatColor.of("#112211"), "Fossil Fuel"),
+    MATERIAL_CLASS(ChatColor.of("#a4c2ba"), "Material Class"),
+    RECIPE_TYPE(ChatColor.of("#ffe89c"), "Recipe Type"),
 
 
-    GUIDE(ChatColor.of("#444444"), "指南");
+    GUIDE(ChatColor.of("#444444"), "Guide");
 
 
     private static final Theme[] cachedValues = values();

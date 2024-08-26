@@ -75,7 +75,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     private static final CustomItemStack SHOW_ICON = new CustomItemStack(
             Material.GOLD_BLOCK,
-            TextUtil.colorRandomString("数量"),
+            TextUtil.colorRandomString("Amount"),
             TextUtil.colorRandomString("当前数量: 64")
     );
 
