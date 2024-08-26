@@ -13,7 +13,7 @@ public class QueryQueue {
     private boolean threadStarted;
 
     public QueryQueue() {
-        // Creat database query processing thread
+        // Create database query processing thread
         updateTasks = new LinkedBlockingDeque<>();
         queryTasks = new LinkedBlockingDeque<>();
 

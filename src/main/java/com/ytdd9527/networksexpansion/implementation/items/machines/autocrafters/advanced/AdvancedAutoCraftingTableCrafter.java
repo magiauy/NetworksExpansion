@@ -1,19 +1,21 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedCraftingTableRecipes;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 import java.util.Set;
 
-public class AdvancedAutoEnhancedCraftingTableCrafter extends AbstractAdvancedAutoCrafter {
-    public AdvancedAutoEnhancedCraftingTableCrafter(
+public class AdvancedAutoCraftingTableCrafter extends AbstractAdvancedAutoCrafter {
+    public AdvancedAutoCraftingTableCrafter(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,
@@ -25,14 +27,20 @@ public class AdvancedAutoEnhancedCraftingTableCrafter extends AbstractAdvancedAu
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedEnhancedCraftingTableRecipes.getRecipes().entrySet();
+        return SupportedCraftingTableRecipes.getRecipes().entrySet();
     }
 
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
-        return SupportedEnhancedCraftingTableRecipes.testRecipe(inputs, recipe);
+        return SupportedCraftingTableRecipes.testRecipe(inputs, recipe);
     }
 
-    public boolean isVaildBlueprint(SlimefunItem item) {
+    public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof CraftingBlueprint;
+    }
+    public boolean canTestVanillaRecipe() {
+        return true;
+    }
+    public Pair<Boolean, ItemStack> testVanillaRecipe(ItemStack[] inputs, World world) {
+        return SupportedCraftingTableRecipes.testVanillaRecipe(inputs, world);
     }
 }

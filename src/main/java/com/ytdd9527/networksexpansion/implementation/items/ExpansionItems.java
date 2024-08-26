@@ -11,7 +11,7 @@ import com.ytdd9527.networksexpansion.implementation.items.blueprints.QuantumWor
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.SmelteryBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoAncientAltarCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoArmorForgeCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoEnhancedCraftingTableCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoCraftingTableCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoExpansionWorkbenchCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoMagicWorkbenchCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced.AdvancedAutoQuantumWorkbenchCrafter;
@@ -443,7 +443,7 @@ public class ExpansionItems {
             true
     );
 
-    public static final AdvancedAutoEnhancedCraftingTableCrafter ADVANCED_AUTO_CRAFTING_TABLE = new AdvancedAutoEnhancedCraftingTableCrafter(
+    public static final AdvancedAutoCraftingTableCrafter ADVANCED_AUTO_CRAFTING_TABLE = new AdvancedAutoCraftingTableCrafter(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_CRAFTING_TABLE,
             ExpansionWorkbench.TYPE,
@@ -452,7 +452,7 @@ public class ExpansionItems {
             false
     );
 
-    public static final AdvancedAutoEnhancedCraftingTableCrafter ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = new AdvancedAutoEnhancedCraftingTableCrafter(
+    public static final AdvancedAutoCraftingTableCrafter ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = new AdvancedAutoCraftingTableCrafter(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING,
             ExpansionWorkbench.TYPE,

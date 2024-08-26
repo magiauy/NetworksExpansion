@@ -1,6 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedCraftingTableRecipes;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -8,7 +8,7 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -283,8 +283,8 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
         ItemStack crafted = null;
 
         // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedEnhancedCraftingTableRecipes.getRecipes().entrySet()) {
-            if (SupportedEnhancedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
+        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedCraftingTableRecipes.getRecipes().entrySet()) {
+            if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
                 crafted = new ItemStack(entry.getValue().clone());
                 break;
             }

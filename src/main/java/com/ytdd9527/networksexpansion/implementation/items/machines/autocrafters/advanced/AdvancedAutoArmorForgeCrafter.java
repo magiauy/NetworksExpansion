@@ -32,7 +32,7 @@ public class AdvancedAutoArmorForgeCrafter extends AbstractAdvancedAutoCrafter {
         return SupportedArmorForgeRecipes.testRecipe(inputs, recipe);
     }
 
-    public boolean isVaildBlueprint(SlimefunItem item) {
+    public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof ArmorForgeBlueprint;
     }
 }

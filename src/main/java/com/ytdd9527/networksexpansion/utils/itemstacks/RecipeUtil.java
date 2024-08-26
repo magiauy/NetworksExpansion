@@ -34,6 +34,7 @@ import java.util.Set;
  * @since 2.0
  */
 @UtilityClass
+@SuppressWarnings({"unchecked", "unused", "deprecation"})
 public class RecipeUtil {
     public static void registerRecipeBySlimefunId(@Nonnull RecipeItem recipeItem, @Nonnull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);

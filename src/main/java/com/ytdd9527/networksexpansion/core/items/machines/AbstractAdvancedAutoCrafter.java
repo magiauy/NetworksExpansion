@@ -129,7 +129,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         if (networkCharge > this.chargePerCraft) {
             final SlimefunItem item = SlimefunItem.getByItem(blueprint);
 
-            if (!isVaildBlueprint(item)) {
+            if (!isValidBlueprint(item)) {
                 return;
             }
 
@@ -301,7 +301,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         };
     }
 
-    public abstract boolean isVaildBlueprint(SlimefunItem item);
+    public abstract boolean isValidBlueprint(SlimefunItem item);
 
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
 

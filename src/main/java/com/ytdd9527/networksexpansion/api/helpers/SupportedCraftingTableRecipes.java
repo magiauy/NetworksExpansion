@@ -1,11 +1,16 @@
 package com.ytdd9527.networksexpansion.api.helpers;
 
+import com.ytdd9527.networksexpansion.api.interfaces.CanTestRecipe;
+import com.ytdd9527.networksexpansion.api.interfaces.HasRecipes;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -13,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
-public final class SupportedEnhancedCraftingTableRecipes {
+public final class SupportedCraftingTableRecipes implements HasRecipes, CanTestRecipe {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 
@@ -33,7 +38,7 @@ public final class SupportedEnhancedCraftingTableRecipes {
                         break;
                     }
                 }
-                SupportedEnhancedCraftingTableRecipes.addRecipe(itemStacks, item.getRecipeOutput());
+                SupportedCraftingTableRecipes.addRecipe(itemStacks, item.getRecipeOutput());
             }
         }
     }
