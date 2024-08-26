@@ -1318,7 +1318,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.MINI_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.MINI_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "&7⇨ &eRequires Network Wrench to remove the machine",
         "",
         thanks,
         ""
@@ -1333,7 +1333,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.SMALL_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.SMALL_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "&7⇨ &eRequires Network Wrench to remove the machine",
         "",
         thanks,
         ""
@@ -1348,7 +1348,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.MEDIUM_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.MEDIUM_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "&7⇨ &eRequires Network Wrench to remove the machine",
         "",
         thanks,
         ""
@@ -1363,7 +1363,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.LARGE_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.LARGE_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "&7⇨ &eRequires Network Wrench to remove the machine",
         "",
         thanks,
         ""
@@ -1378,7 +1378,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.ENHANCED_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.ENHANCED_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "&7⇨ &eRequires Network Wrench to remove the machine",
         "",
         thanks,
         ""
@@ -1394,7 +1394,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.ADVANCED_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.ADVANCED_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "&7⇨ &eRequires Network Wrench to remove the machine",
         "",
         thanks,
         ""
@@ -1409,7 +1409,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.EXTRA_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.EXTRA_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "&7⇨ &eRequires Network Wrench to remove the machine",
                 "",
                 thanks,
                 ""
@@ -1424,7 +1424,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.ULTRA_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.ULTRA_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "&7⇨ &eRequires Network Wrench to remove the machine",
                 "",
                 thanks,
                 ""
@@ -1439,7 +1439,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_BASIC_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_BASIC_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "&7⇨ &eRequires Network Wrench to remove the machine",
                 "",
                 thanks,
                 ""
@@ -1454,7 +1454,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "&7⇨ &eRequires Network Wrench to remove the machine",
                 "",
                 thanks,
                 ""
@@ -1469,7 +1469,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_ADVANCED_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_ADVANCED_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "&7⇨ &eRequires Network Wrench to remove the machine",
                 "",
                 thanks,
                 ""
@@ -1486,7 +1486,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_MAX_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_MAX_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "&7⇨ &eRequires Network Wrench to remove the machine",
                 "",
                 thanks,
                 ""
@@ -1496,8 +1496,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
             "NETWORKS_AUTHOR_SEFIRAAT",
             SEFIRAAT_ITEMSTACK,
             Theme.GUIDE,
-            "Sefiraat",
-            "Networks' author"
+            "Sefitard",
+            "Bugworks' author"
     );
     public static ItemStack YBW0014_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_YBW0014 = Theme.Random(
