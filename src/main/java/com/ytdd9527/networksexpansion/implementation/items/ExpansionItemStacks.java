@@ -27,1478 +27,1470 @@ import java.util.Map;
 public class ExpansionItemStacks {
     //工作台
 
-    public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(
-            "NTW_EXPANSION_WORKBENCH",
-            new ItemStack(Material.BAMBOO_BLOCK),
-            Theme.MACHINE,
-            "网络拓展工作台",
-            "可以合成网络拓展的各种材料和机器"
-    );
+public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(
+                "NTW_EXPANSION_WORKBENCH",
+                new ItemStack(Material.BAMBOO_BLOCK),
+                Theme.MACHINE,
+                "Network Expansion Workbench",
+                "Can be used to craft various materials and machines for network expansion"
+);
 
     //工具
-    public static final SlimefunItemStack NETWORK_COORDINATE_CONFIGURATOR = Theme.Random(
-            "NTW_EXPANSION_COORDINATE_CONFIGURATOR",
-            new ItemStack(Material.RECOVERY_COMPASS),
-            Theme.TOOL,
-            "网络坐标配置器",
-            "已弃用"
-    );
-    public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
-            "NTW_EXPANSION_WORLD_EDIT_AXE",
-            new ItemStack(Material.DIAMOND_AXE),
-            Theme.TOOL,
-            "网络粘液创世神",
-            "仅管理员可用",
-            "右键选择第一个位置",
-            "Shift + 右键选择第二个位置"
-    );
+public static final SlimefunItemStack NETWORK_COORDINATE_CONFIGURATOR = Theme.Random(
+                "NTW_EXPANSION_COORDINATE_CONFIGURATOR",
+                new ItemStack(Material.RECOVERY_COMPASS),
+                Theme.TOOL,
+                "Network Coordinate Configurator",
+                "Deprecated"
+);
+public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
+                "NTW_EXPANSION_WORLD_EDIT_AXE",
+                new ItemStack(Material.DIAMOND_AXE),
+                Theme.TOOL,
+                "Network Slimefun World Edit Axe",
+                "Only available for administrators",
+                "Right-click to select the first position",
+                "Shift + Right-click to select the second position"
+);
     //高级网络物品
-    public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_IMPORT",
-            Enchanted(Material.RED_STAINED_GLASS),
-            Theme.MACHINE,
-            "高级网络入口",
-            "高级网络入口会将其中的物品送入网络中",
-            "每个SF tick可传输最多54组物品",
-            "可接收来自货运网络的物品"
-    );
-    public static final SlimefunItemStack ADVANCED_EXPORT = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_EXPORT",
-            Enchanted(Material.BLUE_STAINED_GLASS),
-            Theme.MACHINE,
-            "高级网络出口",
-            "高级网络出口可以设置成",
-            "持续将指定数量的物品送出网络",
-            "可以使用货运网络从中提取物品"
-    );
-    public static final SlimefunItemStack ADVANCED_PURGER = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_PURGER",
-            Enchanted(Material.YELLOW_STAINED_GLASS),
-            Theme.MACHINE,
-            "高级网络清除器",
-            "高级网络清除器会从网络中",
-            "不断地移除指定物品",
-            "清除的物品会立即消失，谨慎使用!"
-    );
-    public static final SlimefunItemStack ADVANCED_GREEDY_BLOCK = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_GREEDY_BLOCK",
-            Enchanted(Material.GRAY_STAINED_GLASS),
-            Theme.MACHINE,
-            "高级网络阻断器",
-            "高级网络阻断器可以设置一个物品,",
-            "然后会从网络各处输入中",
-            "收集指定的物品,最多为9组.",
-            "收集满后,会阻断该物品在网络中的传输,",
-            "任何其他网络方块都不会收到该物品."
-    );
+public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_IMPORT",
+                Enchanted(Material.RED_STAINED_GLASS),
+                Theme.MACHINE,
+                "Advanced Network Importer",
+                "The Advanced Network Importer will send its items into the network",
+                "Up to 54 item stacks can be transferred per SF tick",
+                "Can receive items from the Cargo Network"
+);
+public static final SlimefunItemStack ADVANCED_EXPORT = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_EXPORT",
+        Enchanted(Material.BLUE_STAINED_GLASS),
+        Theme.MACHINE,
+        "Advanced Network Exporter",
+        "The Advanced Network Exporter can be set to continuously send out a specified quantity of items from the network",
+        "Items can be extracted from it using a Cargo Network"
+);
+public static final SlimefunItemStack ADVANCED_PURGER = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_PURGER",
+                Enchanted(Material.YELLOW_STAINED_GLASS),
+                Theme.MACHINE,
+                "Advanced Network Purger",
+                "The Advanced Network Purger continuously removes specified items from the network",
+                "The removed items will disappear immediately, use with caution!"
+);
+public static final SlimefunItemStack ADVANCED_GREEDY_BLOCK = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_GREEDY_BLOCK",
+                Enchanted(Material.GRAY_STAINED_GLASS),
+                Theme.MACHINE,
+                "Advanced Network Blocker",
+                "The Advanced Network Blocker can be set to collect a specified item from various inputs in the network",
+                "Up to 9 groups can be collected",
+                "Once the collection is full, the item will be blocked from being transferred in the network",
+                "No other network blocks will receive the item."
+);
 
-    public static final SlimefunItemStack NETWORK_CAPACITOR_5 = Theme.Random(
-            "NTW_EXPANSION_CAPACITOR_5",
-            new ItemStack(Material.CYAN_GLAZED_TERRACOTTA),
-            Theme.MACHINE,
-            "网络电容 (5)",
-            "网络电容可以接收来自",
-            "能源网络的电力并存储起来",
-            "以供其他网络设备使用",
-            "",
-            MessageFormat.format("{0}容量: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, 100000000)
-    );
+public static final SlimefunItemStack NETWORK_CAPACITOR_5 = Theme.Random(
+                "NTW_EXPANSION_CAPACITOR_5",
+                new ItemStack(Material.CYAN_GLAZED_TERRACOTTA),
+                Theme.MACHINE,
+                "Network Capacitor (5)",
+                "The Network Capacitor can receive power from the energy network and store it",
+                "for use by other network devices",
+                "",
+                MessageFormat.format("{0}Capacity: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, 100000000)
+);
 
-    public static final SlimefunItemStack NETWORK_CAPACITOR_6 = Theme.Random(
-            "NTW_EXPANSION_CAPACITOR_6",
-            new ItemStack(Material.BLUE_GLAZED_TERRACOTTA),
-            Theme.MACHINE,
-            "网络电容 (6)",
-            "网络电容可以接收来自",
-            "能源网络的电力并存储起来",
-            "以供其他网络设备使用",
-            "",
-            MessageFormat.format("{0}容量: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, Integer.MAX_VALUE)
-    );
+public static final SlimefunItemStack NETWORK_CAPACITOR_6 = Theme.Random(
+                "NTW_EXPANSION_CAPACITOR_6",
+                new ItemStack(Material.BLUE_GLAZED_TERRACOTTA),
+                Theme.MACHINE,
+                "Network Capacitor (6)",
+                "The Network Capacitor can receive power from the energy network and store it",
+                "for use by other network devices",
+                "",
+                MessageFormat.format("{0}Capacity: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, Integer.MAX_VALUE)
+);
 
-    //存储
-    public static final SlimefunItemStack ADVANCED_QUANTUM_STORAGE = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_QUANTUM_STORAGE",
-            new ItemStack(Material.AMETHYST_BLOCK),
-            Theme.MACHINE,
-            "高级量子存储",
-            "可自定义的最大存储容量",
-            "请注意设置数量之后不能在设置小于之前设置的数量",
-            "否则清空到当前最大容量"
-    );
-
+//Storage
+public static final SlimefunItemStack ADVANCED_QUANTUM_STORAGE = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_QUANTUM_STORAGE",
+                new ItemStack(Material.AMETHYST_BLOCK),
+                Theme.MACHINE,
+                "Advanced Quantum Storage",
+                "Customizable maximum storage capacity",
+                "Please note that once the quantity is set, it cannot be set to a smaller value than before",
+                "Otherwise, it will be cleared to the current maximum capacity"
+);
 
     //运输 LINE_TRANSFER POINT_TRANSFER_PUSHER
 
     //对点传输器
-    public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
-            "NTW_EXPANSION_POINT_TRANSFER",
-            Enchanted(Material.END_ROD),
-            Theme.MACHINE,
-            "对点传输器"
-    );
-    public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
-            "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
-            new ItemStack(Material.END_ROD),
-            Theme.MACHINE,
-            "对点传输器 [抓取]"
-    );
+public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
+                "NTW_EXPANSION_POINT_TRANSFER",
+                Enchanted(Material.END_ROD),
+                Theme.MACHINE,
+                "Point Transfer"
+);
+public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
+                "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
+                new ItemStack(Material.END_ROD),
+                Theme.MACHINE,
+                "Point Transfer Grabber"
+);
 
     //链式传输
-    public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER_PUSHER",
-            new ItemStack(Material.OBSERVER),
-            Theme.MACHINE,
-            "链式传输器 [推送]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位"
-    );
-    public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER_GRABBER",
-            new ItemStack(Material.TARGET),
-            Theme.MACHINE,
-            "链式传输器 [抓取]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
-    );
-    public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER",
-            new ItemStack(Material.PISTON),
-            Theme.MACHINE,
-            "链式传输器",
-            "&c仅支持粘液容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送和抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
-    );
+public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
+        "NTW_EXPANSION_LINE_TRANSFER_PUSHER",
+        new ItemStack(Material.OBSERVER),
+        Theme.MACHINE,
+        "Network Line Transfer Pusher",
+        "&cOnly supports slime containers",
+        "&6Transport distance: 32 blocks",
+        "&7Default transport mode: &6First Slot Blocking",
+        "&cTransport mode cannot be adjusted",
+        "&7Default transport quantity: &664",
+        "&cTransport quantity cannot be adjusted",
+        "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous pushing functionality",
+        "&cInstead of continuous item transfer!",
+        "&7Transport mode explanation:",
+        "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items"
+);
+public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
+        "NTW_EXPANSION_LINE_TRANSFER_GRABBER",
+        new ItemStack(Material.TARGET),
+        Theme.MACHINE,
+        "Network Line Transfer Grabber",
+        "&cOnly supports slime containers",
+        "&6Transport distance: 32 blocks",
+        "&7Default transport mode: &6First Slot Blocking",
+        "&cTransport mode cannot be adjusted",
+        "&7Default transport quantity: &664",
+        "&cTransport quantity cannot be adjusted",
+        "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous grabbing functionality",
+        "&cInstead of continuous item transfer!",
+        "&7Transport mode explanation:",
+        "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items"
+);
+public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
+        "NTW_EXPANSION_LINE_TRANSFER",
+        new ItemStack(Material.PISTON),
+        Theme.MACHINE,
+        "Network Line Transfer",
+        "&cOnly supports slime containers",
+        "&6Transport distance: 32 blocks",
+        "&7Default transport mode: &6First Slot Blocking",
+        "&cTransport mode cannot be adjusted",
+        "&7Default transport quantity: &664",
+        "&cTransport quantity cannot be adjusted",
+        "&eUnlike the Random Skill's Line Transfer, this machine &chas both continuous pushing and grabbing functionality",
+        "&cInstead of continuous item transfer!",
+        "&7Transport mode explanation:",
+        "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items / Only grabs from the first slot that has items"
+);
 
     //链式传输Plus
-    public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER",
-            new ItemStack(Material.OBSERVER),
-            Theme.MACHINE,
-            "链式传输器Plus [推送]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 64 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位"
-    );
-    public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER",
-            new ItemStack(Material.TARGET),
-            Theme.MACHINE,
-            "链式传输器Plus [抓取]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 64 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
-    );
-    public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER_PLUS",
-            new ItemStack(Material.STICKY_PISTON),
-            Theme.MACHINE,
-            "链式传输器Plus",
-            "&c仅支持粘液容器",
-            "&6运输距离: 64 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送和抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
-    );
+public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
+                "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER",
+                new ItemStack(Material.OBSERVER),
+                Theme.MACHINE,
+                "Network Line Transfer Plus [Pusher]",
+                "&cOnly supports slime containers",
+                "&6Transport distance: 64 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&cTransport mode cannot be adjusted",
+                "&7Default transport quantity: &664",
+                "&cTransport quantity cannot be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous pushing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation:",
+                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items"
+);
+public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
+                "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER",
+                new ItemStack(Material.TARGET),
+                Theme.MACHINE,
+                "Network Line Transfer Plus [Grabber]",
+                "&cOnly supports slime containers",
+                "&6Transport distance: 64 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&cTransport mode cannot be adjusted",
+                "&7Default transport quantity: &664",
+                "&cTransport quantity cannot be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous grabbing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation:",
+                "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items"
+);
+public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
+                "NTW_EXPANSION_LINE_TRANSFER_PLUS",
+                new ItemStack(Material.STICKY_PISTON),
+                Theme.MACHINE,
+                "Network Line Transfer Plus",
+                "&cOnly supports slime containers",
+                "&6Transport distance: 64 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&cTransport mode cannot be adjusted",
+                "&7Default transport quantity: &664",
+                "&cTransport quantity cannot be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &chas both continuous pushing and grabbing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation:",
+                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items / Only grabs from the first slot that has items"
+);
 
-    public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER",
-            new ItemStack(Material.OBSERVER),
-            Theme.MACHINE,
-            "链式原版传输器 [推送]",
-            "&c仅支持原版容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位"
-    );
+public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Random(
+                "NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER",
+                new ItemStack(Material.OBSERVER),
+                Theme.MACHINE,
+                "Vanilla Line Transfer [Pusher]",
+                "&cOnly supports vanilla containers",
+                "&6Transport distance: 32 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&cTransport mode cannot be adjusted",
+                "&7Default transport quantity: &664",
+                "&cTransport quantity cannot be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous pushing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation:",
+                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items"
+);
 
-    public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
-            "NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER",
-            new ItemStack(Material.TARGET),
-            Theme.MACHINE,
-            "链式原版传输器 [抓取]",
-            "&c仅支持原版容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&c不可调整运输模式",
-            "&7默认运输数量: &664",
-            "&c不可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
-    );
+public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
+                "NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER",
+                new ItemStack(Material.TARGET),
+                Theme.MACHINE,
+                "Vanilla Line Transfer [Grabber]",
+                "&cOnly supports vanilla containers",
+                "&6Transport distance: 32 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&cTransport mode cannot be adjusted",
+                "&7Default transport quantity: &664",
+                "&cTransport quantity cannot be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous grabbing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation:",
+                "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items"
+);
 
     //高级链式传输
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER",
-            Enchanted(Material.OBSERVER),
-            Theme.MACHINE,
-            "高级链式传输 [推送]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&a可调整运输模式",
-            "&7默认运输数量: &63456",
-            "&a可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6无限制&7: &e可推送至任何槽位",
-            "&6仅空&7: &e仅推送至空槽位",
-            "&6仅非空&7: &e仅推送至非空槽位",
-            "&6仅首位&7: &e仅推送至第一格",
-            "&6仅末位&7: &e仅推送至最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位",
-            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位"
-    );
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
-            Enchanted(Material.TARGET),
-            Theme.MACHINE,
-            "高级链式传输 [抓取]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&a可调整运输模式",
-            "&7默认运输数量: &63456",
-            "&a可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6无限制&7: &e可抓取任何槽位",
-            "&6仅空&7: &e仅抓取空槽位",
-            "&6仅非空&7: &e仅抓取非空槽位",
-            "&6仅首位&7: &e仅抓取第一格",
-            "&6仅末位&7: &e仅抓取最后一格",
-            "&6首位阻断&7: &e仅抓取第一个有物品的槽位",
-            "&6懒惰模式&7: &e当第一格存在物品时，抓取所有槽位"
-    );
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_LINE_TRANSFER",
-            Enchanted(Material.PISTON),
-            Theme.MACHINE,
-            "高级链式传输",
-            "&c仅支持粘液容器",
-            "&6运输距离: 32 格",
-            "&7默认运输模式: &6首位阻断",
-            "&a可调整运输模式",
-            "&7默认运输数量: &63456",
-            "&a可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送和抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位",
-            "&6仅空&7: &e仅推送至空槽位 / 仅抓取空槽位",
-            "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位",
-            "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格",
-            "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位",
-            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
-    );
+public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER",
+                Enchanted(Material.OBSERVER),
+                Theme.MACHINE,
+                "Network Line Transfer Pusher",
+                "&cOnly supports slime containers",
+                "&6Transport distance: 32 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&aTransport mode can be adjusted",
+                "&7Default transport quantity: &63456",
+                "&aTransport quantity can be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous pushing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation: ",
+                "&6Unrestricted&7: &eCan push to any slot",
+                "&6Only Empty&7: &eOnly pushes to empty slots",
+                "&6Only Non-Empty&7: &eOnly pushes to non-empty slots",
+                "&6Only First Slot&7: &eOnly pushes to the first slot",
+                "&6Only Last Slot&7: &eOnly pushes to the last slot",
+                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items",
+                "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots"
+);
+public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
+                Enchanted(Material.TARGET),
+                Theme.MACHINE,
+                "Network Line Transfer Grabber",
+                "&cOnly supports slime containers",
+                "&6Transport distance: 32 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&aTransport mode can be adjusted",
+                "&7Default transport quantity: &63456",
+                "&aTransport quantity can be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &conly has continuous grabbing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation: ",
+                "&6Unrestricted&7: &eCan grab from any slot",
+                "&6Only Empty&7: &eOnly grabs from empty slots",
+                "&6Only Non-Empty&7: &eOnly grabs from non-empty slots",
+                "&6Only First Slot&7: &eOnly grabs from the first slot",
+                "&6Only Last Slot&7: &eOnly grabs from the last slot",
+                "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items",
+                "&6Lazy Mode&7: &eWhen the first slot has items, grab from all slots"
+);
+public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_LINE_TRANSFER",
+                Enchanted(Material.PISTON),
+                Theme.MACHINE,
+                "Network Line Transfer",
+                "&cOnly supports slime containers",
+                "&6Transport distance: 32 blocks",
+                "&7Default transport mode: &6First Slot Blocking",
+                "&aTransport mode can be adjusted",
+                "&7Default transport quantity: &63456",
+                "&aTransport quantity can be adjusted",
+                "&eUnlike the Random Skill's Line Transfer, this machine &chas both continuous pushing and grabbing functionality",
+                "&cInstead of continuous item transfer!",
+                "&7Transport mode explanation: ",
+                "&6Unrestricted&7: &eCan push to any slot / Can grab from any slot",
+                "&6Only Empty&7: &eOnly pushes to empty slots / Only grabs from empty slots",
+                "&6Only Non-Empty&7: &eOnly pushes to non-empty slots / Only grabs from non-empty slots",
+                "&6Only First Slot&7: &eOnly pushes to the first slot / Only grabs from the first slot",
+                "&6Only Last Slot&7: &eOnly pushes to the last slot / Only grabs from the last slot",
+                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items / Only grabs from the first slot that has items",
+                "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots / When the first slot has items, grab from all slots"
+);
+//高级链式传输Plus
+public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER",
+        Enchanted(Material.OBSERVER),
+        Theme.MACHINE,
+        "Network Line Transfer Plus [Pusher]",
+        "&cOnly supports slime containers",
+        "&6Transport distance: 64 blocks",
+        "&7Default transport mode: &6First Slot Blocking",
+        "&aTransport mode can be adjusted",
+        "&7Default transport quantity: &63456",
+        "&aTransport quantity can be adjusted",
+        "&eUnlike the Random Skill's Line Transfer, this machine &chas both continuous pushing and grabbing functionality",
+        "&cInstead of continuous item transfer!",
+        "&7Transport mode explanation: ",
+        "&6Unrestricted&7: &eCan push to any slot",
+        "&6Only Empty&7: &eOnly pushes to empty slots",
+        "&6Only Non-Empty&7: &eOnly pushes to non-empty slots",
+        "&6Only First Slot&7: &eOnly pushes to the first slot",
+        "&6Only Last Slot&7: &eOnly pushes to the last slot",
+        "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items",
+        "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots"
+);
+public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER",
+        Enchanted(Material.TARGET),
+        Theme.MACHINE,
+        "Network Line Transfer Plus [Grabber]",
+        "&cOnly supports slime containers",
+        "&6Transport distance: 64 blocks",
+        "&7Default transport mode: &6First Slot Blocking",
+        "&aTransport mode can be adjusted",
+        "&7Default transport quantity: &63456",
+        "&aTransport quantity can be adjusted",
+        "&eUnlike the Random Skill's Line Transfer, this machine &chas both continuous pushing and grabbing functionality",
+        "&cInstead of continuous item transfer!",
+        "&7Transport mode explanation: ",
+        "&6Unrestricted&7: &eCan grab from any slot",
+        "&6Only Empty&7: &eOnly grabs from empty slots",
+        "&6Only Non-Empty&7: &eOnly grabs from non-empty slots",
+        "&6Only First Slot&7: &eOnly grabs from the first slot",
+        "&6Only Last Slot&7: &eOnly grabs from the last slot",
+        "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items",
+        "&6Lazy Mode&7: &eWhen the first slot has items, grab from all slots"
+);
+public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS",
+        Enchanted(Material.STICKY_PISTON),
+        Theme.MACHINE,
+        "Network Line Transfer Plus",
+        "&cOnly supports slime containers",
+        "&6Transport distance: 64 blocks",
+        "&7Default transport mode: &6First Slot Blocking",
+        "&aTransport mode can be adjusted",
+        "&7Default transport quantity: &63456",
+        "&aTransport quantity can be adjusted",
+        "&eUnlike the Random Skill's Line Transfer, this machine &chas both continuous pushing and grabbing functionality",
+        "&cInstead of continuous item transfer!",
+        "&7Transport mode explanation: ",
+        "&6Unrestricted&7: &eCan push to any slot / Can grab from any slot",
+        "&6Only Empty&7: &eOnly pushes to empty slots / Only grabs from empty slots",
+        "&6Only Non-Empty&7: &eOnly pushes to non-empty slots / Only grabs from non-empty slots",
+        "&6Only First Slot&7: &eOnly pushes to the first slot / Only grabs from the first slot",
+        "&6Only Last Slot&7: &eOnly pushes to the last slot / Only grabs from the last slot",
+        "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items / Only grabs from the first slot that has items",
+        "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots / When the first slot has items, grab from all slots"
+);
 
-    //高级链式传输Plus
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER",
-            Enchanted(Material.OBSERVER),
-            Theme.MACHINE,
-            "高级链式传输Plus [推送]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 64 格",
-            "&7默认运输模式: &6首位阻断",
-            "&a可调整运输模式",
-            "&7默认运输数量: &63456",
-            "&a可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6无限制&7: &e可推送至任何槽位",
-            "&6仅空&7: &e仅推送至空槽位",
-            "&6仅非空&7: &e仅推送至非空槽位",
-            "&6仅首位&7: &e仅推送至第一格",
-            "&6仅末位&7: &e仅推送至最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位",
-            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位"
-    );
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER",
-            Enchanted(Material.TARGET),
-            Theme.MACHINE,
-            "高级链式传输Plus [抓取]",
-            "&c仅支持粘液容器",
-            "&6运输距离: 64 格",
-            "&7默认运输模式: &6首位阻断",
-            "&a可调整运输模式",
-            "&7默认运输数量: &63456",
-            "&a可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6无限制&7: &e可抓取任何槽位",
-            "&6仅空&7: &e仅抓取空槽位",
-            "&6仅非空&7: &e仅抓取非空槽位",
-            "&6仅首位&7: &e仅抓取第一格",
-            "&6仅末位&7: &e仅抓取最后一格",
-            "&6首位阻断&7: &e仅抓取第一个有物品的槽位",
-            "&6懒惰模式&7: &e当第一格存在物品时，抓取所有槽位"
-    );
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS",
-            Enchanted(Material.STICKY_PISTON),
-            Theme.MACHINE,
-            "高级链式传输Plus",
-            "&c仅支持粘液容器",
-            "&6运输距离: 64 格",
-            "&7默认运输模式: &6首位阻断",
-            "&a可调整运输模式",
-            "&7默认运输数量: &63456",
-            "&a可调整运输数量",
-            "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送和抓取的功能",
-            "&c而不是连续转移物品！",
-            "&7运输模式解释: ",
-            "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位",
-            "&6仅空&7: &e仅推送至空槽位 / 仅抓取空槽位",
-            "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位",
-            "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格",
-            "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格",
-            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位",
-            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
-    );
+//网格
+public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE = Theme.Random(
+                "NTW_EXPANSION_GRID_NEW_STYLE",
+                new ItemStack(Material.NOTE_BLOCK),
+                Theme.MACHINE,
+                "Advanced Network Grid",
+                "Advanced network grid allows you to view all items in the network",
+                "You can also directly insert or retrieve items",
+                "Supports Pinyin search"
+);
+public static final SlimefunItemStack NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.Random(
+                "NTW_EXPANSION_CRAFTING_GRID_NEW_STYLE",
+                new ItemStack(Material.JUKEBOX),
+                Theme.MACHINE,
+                "Advanced Crafting Grid",
+                "This grid is similar to the normal grid",
+                "But it displays fewer items",
+                "However, you can directly use items from the network",
+                "for crafting",
+                "Supports Pinyin search"
+);
+public static final SlimefunItemStack NETWORK_ENCODING_GRID_NEW_STYLE = Theme.Random(
+                "NTW_EXPANSION_ENCODING_GRID_NEW_STYLE",
+                new ItemStack(Material.TARGET),
+                Theme.MACHINE,
+                "Advanced Encoding Grid",
+                "This grid is similar to the advanced grid",
+                "But it displays fewer items",
+                "However, you can directly use items from the network",
+                "for encoding",
+                "Supports Pinyin search"
+);
+//蓝图
+public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT = Theme.Random(
+                "NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT",
+                new ItemStack(Material.RED_DYE),
+                Theme.MACHINE,
+                "Magic Workbench Blueprint",
+                "An empty blueprint",
+                "Can store a magic workbench recipe"
+);
+public static final SlimefunItemStack ARMOR_FORGE_BLUEPRINT = Theme.Random(
+                "NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT",
+                new ItemStack(Material.ORANGE_DYE),
+                Theme.MACHINE,
+                "Armor Forge Blueprint",
+                "An empty blueprint",
+                "Can store an armor forge recipe"
+);
+public static final SlimefunItemStack SMELTERY_BLUEPRINT = Theme.Random(
+                "NTW_EXPANSION_SMELTERY_BLUEPRINT",
+                new ItemStack(Material.YELLOW_DYE),
+                Theme.MACHINE,
+                "Smeltery Blueprint",
+                "An empty blueprint",
+                "Can store a smeltery recipe"
+);
+public static final SlimefunItemStack QUANTUM_WORKBENCH_BLUEPRINT = Theme.Random(
+                "NTW_EXPANSION_QUANTUM_WORKBENCH_BLUEPRINT",
+                new ItemStack(Material.LIME_DYE),
+                Theme.MACHINE,
+                "Quantum Workbench Blueprint",
+                "An empty blueprint",
+                "Can store a quantum workbench recipe"
+);
+public static final SlimefunItemStack ANCIENT_ALTAR_BLUEPRINT = Theme.Random(
+                "NTW_EXPANSION_ANCIENT_ALTAR_BLUEPRINT",
+                new ItemStack(Material.CYAN_DYE),
+                Theme.MACHINE,
+                "Ancient Altar Blueprint",
+                "An empty blueprint",
+                "Can store an ancient altar recipe"
+);
+public static final SlimefunItemStack EXPANSION_WORKBENCH_BLUEPRINT = Theme.Random(
+                "NTW_EXPANSION_EXPANSION_WORKBENCH_BLUEPRINT",
+                new ItemStack(Material.BROWN_DYE),
+                Theme.MACHINE,
+                "Network Expansion Workbench Blueprint",
+                "An empty blueprint",
+                "Can store a network expansion workbench recipe"
+);
 
-    //网格
-    public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE = Theme.Random(
-            "NTW_EXPANSION_GRID_NEW_STYLE",
-            new ItemStack(Material.NOTE_BLOCK),
-            Theme.MACHINE,
-            "高级网格",
-            "高级网格允许你查看网络中所有的物品",
-            "你也可以直接放入或取出物品",
-            "支持拼音搜索"
-    );
-    public static final SlimefunItemStack NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.Random(
-            "NTW_EXPANSION_CRAFTING_GRID_NEW_STYLE",
-            new ItemStack(Material.JUKEBOX),
-            Theme.MACHINE,
-            "高级网格(带合成)",
-            "这种网格与普通网格类似",
-            "但会显示更少的物品",
-            "不过你可以直接使用网络中的物品",
-            "进行合成",
-            "支持拼音搜索"
-    );
-    public static final SlimefunItemStack NETWORK_ENCODING_GRID_NEW_STYLE = Theme.Random(
-            "NTW_EXPANSION_ENCODING_GRID_NEW_STYLE",
-            new ItemStack(Material.TARGET),
-            Theme.MACHINE,
-            "高级网格(带编码)",
-            "这种网格与高级网格类似",
-            "但会显示更少的物品",
-            "不过你可以直接使用网络中的物品",
-            "进行编码",
-            "支持拼音搜索"
-    );
-    //蓝图
-    public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT = Theme.Random(
-            "NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT",
-            new ItemStack(Material.RED_DYE),
-            Theme.MACHINE,
-            "魔法工作台蓝图",
-            "一张空白的蓝图",
-            "可以存储一个魔法工作台配方"
-    );
-    public static final SlimefunItemStack ARMOR_FORGE_BLUEPRINT = Theme.Random(
-            "NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT",
-            new ItemStack(Material.ORANGE_DYE),
-            Theme.MACHINE,
-            "盔甲锻造台蓝图",
-            "一张空白的蓝图",
-            "可以存储一个盔甲锻造台配方"
-    );
-    public static final SlimefunItemStack SMELTERY_BLUEPRINT = Theme.Random(
-            "NTW_EXPANSION_SMELTERY_BLUEPRINT",
-            new ItemStack(Material.YELLOW_DYE),
-            Theme.MACHINE,
-            "冶炼炉蓝图",
-            "一张空白的蓝图",
-            "可以存储一个冶炼炉配方"
-    );
-    public static final SlimefunItemStack QUANTUM_WORKBENCH_BLUEPRINT = Theme.Random(
-            "NTW_EXPANSION_QUANTUM_WORKBENCH_BLUEPRINT",
-            new ItemStack(Material.LIME_DYE),
-            Theme.MACHINE,
-            "量子工作台蓝图",
-            "一张空白的蓝图",
-            "可以存储一个量子工作台配方"
-    );
-    public static final SlimefunItemStack ANCIENT_ALTAR_BLUEPRINT = Theme.Random(
-            "NTW_EXPANSION_ANCIENT_ALTAR_BLUEPRINT",
-            new ItemStack(Material.CYAN_DYE),
-            Theme.MACHINE,
-            "古代祭坛蓝图",
-            "一张空白的蓝图",
-            "可以存储一个古代祭坛配方"
-    );
-    public static final SlimefunItemStack EXPANSION_WORKBENCH_BLUEPRINT = Theme.Random(
-            "NTW_EXPANSION_EXPANSION_WORKBENCH_BLUEPRINT",
-            new ItemStack(Material.BROWN_DYE),
-            Theme.MACHINE,
-            "网络拓展工作台蓝图",
-            "一张空白的蓝图",
-            "可以存储一个网络拓展工作台配方"
-    );
-
-    //编码器
-    public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.Random(
-            "NTW_EXPANSION_MAGIC_WORKBENCH_RECIPE_ENCODER",
-            new ItemStack(Material.OAK_HANGING_SIGN),
-            Theme.MACHINE,
-            "网络魔法工作台配方编码器",
-            "可以根据输入的物品来制作魔法工作台蓝图",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
-    );
-    public static final SlimefunItemStack ARMOR_FORGE_RECIPE_ENCODER = Theme.Random(
-            "NTW_EXPANSION_ARMOR_FORGE_RECIPE_ENCODER",
-            new ItemStack(Material.SPRUCE_HANGING_SIGN),
-            Theme.MACHINE,
-            "网络盔甲锻造台配方编码器",
-            "可以根据输入的物品来制作盔甲锻造台蓝图",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
-    );
-    public static final SlimefunItemStack SMELTERY_RECIPE_ENCODER = Theme.Random(
-            "NTW_EXPANSION_SMELTERY_RECIPE_ENCODER",
-            new ItemStack(Material.BIRCH_HANGING_SIGN),
-            Theme.MACHINE,
-            "网络冶炼炉配方编码器",
-            "可以根据输入的物品来制作冶炼炉蓝图",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
-    );
-    public static final SlimefunItemStack QUANTUM_WORKBENCH_RECIPE_ENCODER = Theme.Random(
-            "NTW_EXPANSION_QUANTUM_WORKBENCH_RECIPE_ENCODER",
-            new ItemStack(Material.JUNGLE_HANGING_SIGN),
-            Theme.MACHINE,
-            "网络量子工作台配方编码器",
-            "可以根据输入的物品来制作量子工作台蓝图",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
-    );
-    public static final SlimefunItemStack ANCIENT_ALTAR_RECIPE_ENCODER = Theme.Random(
-            "NTW_EXPANSION_ANCIENT_ALTAR_RECIPE_ENCODER",
-            new ItemStack(Material.CHERRY_HANGING_SIGN),
-            Theme.MACHINE,
-            "网络古代祭坛配方编码器",
-            "可以根据输入的物品来制作古代祭坛蓝图",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
-    );
-    public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme.Random(
-            "NTW_EXPANSION_EXPANSION_WORKBENCH_RECIPE_ENCODER",
-            new ItemStack(Material.ACACIA_HANGING_SIGN),
-            Theme.MACHINE,
-            "网络拓展工作台配方编码器",
-            "可以根据输入的物品来制作网络拓展工作台蓝图",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
-    );
+//编码器
+public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.Random(
+                "NTW_EXPANSION_MAGIC_WORKBENCH_RECIPE_ENCODER",
+                new ItemStack(Material.OAK_HANGING_SIGN),
+                Theme.MACHINE,
+                "Network Magic Workbench Recipe Encoder",
+                "Can create magic workbench blueprints based on the input items",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+);
+public static final SlimefunItemStack ARMOR_FORGE_RECIPE_ENCODER = Theme.Random(
+                "NTW_EXPANSION_ARMOR_FORGE_RECIPE_ENCODER",
+                new ItemStack(Material.SPRUCE_HANGING_SIGN),
+                Theme.MACHINE,
+                "Network Armor Forge Recipe Encoder",
+                "Can create armor forge blueprints based on the input items",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+);
+public static final SlimefunItemStack SMELTERY_RECIPE_ENCODER = Theme.Random(
+                "NTW_EXPANSION_SMELTERY_RECIPE_ENCODER",
+                new ItemStack(Material.BIRCH_HANGING_SIGN),
+                Theme.MACHINE,
+                "Network Smeltery Recipe Encoder",
+                "Can create smeltery blueprints based on the input items",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+);
+public static final SlimefunItemStack QUANTUM_WORKBENCH_RECIPE_ENCODER = Theme.Random(
+                "NTW_EXPANSION_QUANTUM_WORKBENCH_RECIPE_ENCODER",
+                new ItemStack(Material.JUNGLE_HANGING_SIGN),
+                Theme.MACHINE,
+                "Network Quantum Workbench Recipe Encoder",
+                "Can create quantum workbench blueprints based on the input items",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+);
+public static final SlimefunItemStack ANCIENT_ALTAR_RECIPE_ENCODER = Theme.Random(
+                "NTW_EXPANSION_ANCIENT_ALTAR_RECIPE_ENCODER",
+                new ItemStack(Material.CHERRY_HANGING_SIGN),
+                Theme.MACHINE,
+                "Network Ancient Altar Recipe Encoder",
+                "Can create ancient altar blueprints based on the input items",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+);
+public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme.Random(
+                "NTW_EXPANSION_EXPANSION_WORKBENCH_RECIPE_ENCODER",
+                new ItemStack(Material.ACACIA_HANGING_SIGN),
+                Theme.MACHINE,
+                "Network Expansion Workbench Recipe Encoder",
+                "Can create expansion workbench blueprints based on the input items",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+);
 
 
-    //网络合成机
-    public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH = Theme.Random(
-            "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH",
-            new ItemStack(Material.BOOKSHELF),
-            Theme.MACHINE,
-            "网络自动魔法工作台",
-            "网络自动魔法工作台需要魔法工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
-    );
-    public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH_WITHHOLDING",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络自动魔法工作台 (预留版)",
-            "网络自动魔法工作台需要魔法工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
-    );
-    public static final SlimefunItemStack AUTO_ARMOR_FORGE = Theme.Random(
-            "NTW_EXPANSION_AUTO_ARMOR_FORGE",
-            new ItemStack(Material.SMITHING_TABLE),
-            Theme.MACHINE,
-            "网络自动盔甲锻造台",
-            "网络自动盔甲锻造台需要盔甲锻造台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
-    );
-    public static final SlimefunItemStack AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_AUTO_ARMOR_FORGE_WITHHOLDING",
-            new ItemStack(Material.CARTOGRAPHY_TABLE),
-            Theme.MACHINE,
-            "网络自动盔甲锻造台 (预留版)",
-            "网络自动盔甲锻造台需要盔甲锻造台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
-    );
-    public static final SlimefunItemStack AUTO_SMELTERY = Theme.Random(
-            "NTW_EXPANSION_AUTO_SMELTERY",
-            new ItemStack(Material.FURNACE),
-            Theme.MACHINE,
-            "网络自动冶炼炉",
-            "网络自动冶炼炉需要冶炼炉蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
-    );
-    public static final SlimefunItemStack AUTO_SMELTERY_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_AUTO_SMELTERY_WITHHOLDING",
-            new ItemStack(Material.BLAST_FURNACE),
-            Theme.MACHINE,
-            "网络自动冶炼炉 (预留版)",
-            "网络自动冶炼炉需要冶炼炉蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
-    );
-    public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH = Theme.Random(
-            "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH",
-            new ItemStack(Material.HAY_BLOCK),
-            Theme.MACHINE,
-            "网络自动量子工作台",
-            "网络自动量子工作台需要量子工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
-    );
-    public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH_WITHHOLDING",
-            new ItemStack(Material.DRIED_KELP_BLOCK),
-            Theme.MACHINE,
-            "网络自动量子工作台 (预留版)",
-            "网络自动量子工作台需要量子工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
-    );
-    public static final SlimefunItemStack AUTO_ANCIENT_ALTAR = Theme.Random(
-            "NTW_EXPANSION_AUTO_ANCIENT_ALTAR",
-            new ItemStack(Material.CRAFTING_TABLE),
-            Theme.MACHINE,
-            "网络自动古代祭坛",
-            "网络自动古代祭坛需要古代祭坛蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
-    );
-    public static final SlimefunItemStack AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_AUTO_ANCIENT_ALTAR_WITHHOLDING",
-            new ItemStack(Material.ENCHANTING_TABLE),
-            Theme.MACHINE,
-            "网络自动古代祭坛 (预留版)",
-            "网络自动古代祭坛需要古代祭坛蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
-    );
-    public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH = Theme.Random(
-            "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH",
-            new ItemStack(Material.FIRE_CORAL_BLOCK),
-            Theme.MACHINE,
-            "网络自动网络拓展工作台",
-            "网络自动网络拓展工作台需要网络拓展工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
-    );
-    public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH_WITHHOLDING",
-            new ItemStack(Material.HORN_CORAL_BLOCK),
-            Theme.MACHINE,
-            "网络自动网络拓展工作台 (预留版)",
-            "网络自动网络拓展工作台需要网络拓展工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
-    );
+//网络合成机
+public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH = Theme.Random(
+                "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH",
+                new ItemStack(Material.BOOKSHELF),
+                Theme.MACHINE,
+                "Network Magic Workbench",
+                "The network magic workbench requires a magic workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+);
+public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH_WITHHOLDING",
+                new ItemStack(Material.CHISELED_BOOKSHELF),
+                Theme.MACHINE,
+                "Network Magic Workbench (Withholding Version)",
+                "The network magic workbench requires a magic workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+);
+public static final SlimefunItemStack AUTO_ARMOR_FORGE = Theme.Random(
+                "NTW_EXPANSION_AUTO_ARMOR_FORGE",
+                new ItemStack(Material.SMITHING_TABLE),
+                Theme.MACHINE,
+                "Network Armor Forge",
+                "The network armor forge requires an armor forge blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+);
+public static final SlimefunItemStack AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_AUTO_ARMOR_FORGE_WITHHOLDING",
+                new ItemStack(Material.CARTOGRAPHY_TABLE),
+                Theme.MACHINE,
+                "Network Armor Forge (Withholding Version)",
+                "The network armor forge requires an armor forge blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+);
+public static final SlimefunItemStack AUTO_SMELTERY = Theme.Random(
+                "NTW_EXPANSION_AUTO_SMELTERY",
+                new ItemStack(Material.FURNACE),
+                Theme.MACHINE,
+                "Network Smeltery",
+                "The network smeltery requires a smeltery blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+);
+public static final SlimefunItemStack AUTO_SMELTERY_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_AUTO_SMELTERY_WITHHOLDING",
+                new ItemStack(Material.BLAST_FURNACE),
+                Theme.MACHINE,
+                "Network Smeltery (Withholding Version)",
+                "The network smeltery requires a smeltery blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+);
+public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH = Theme.Random(
+                "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH",
+                new ItemStack(Material.HAY_BLOCK),
+                Theme.MACHINE,
+                "Network Quantum Workbench",
+                "The network quantum workbench requires a quantum workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+);
+public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH_WITHHOLDING",
+                new ItemStack(Material.DRIED_KELP_BLOCK),
+                Theme.MACHINE,
+                "Network Quantum Workbench (Withholding Version)",
+                "The network quantum workbench requires a quantum workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+);
+public static final SlimefunItemStack AUTO_ANCIENT_ALTAR = Theme.Random(
+                "NTW_EXPANSION_AUTO_ANCIENT_ALTAR",
+                new ItemStack(Material.CRAFTING_TABLE),
+                Theme.MACHINE,
+                "Network Ancient Altar",
+                "The network ancient altar requires an ancient altar blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+);
+public static final SlimefunItemStack AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_AUTO_ANCIENT_ALTAR_WITHHOLDING",
+                new ItemStack(Material.ENCHANTING_TABLE),
+                Theme.MACHINE,
+                "Network Ancient Altar (Withholding Version)",
+                "The network ancient altar requires an ancient altar blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+);
+public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH = Theme.Random(
+                "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH",
+                new ItemStack(Material.FIRE_CORAL_BLOCK),
+                Theme.MACHINE,
+                "Network Expansion Workbench",
+                "The network expansion workbench requires an expansion workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+);
+public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH_WITHHOLDING",
+                new ItemStack(Material.HORN_CORAL_BLOCK),
+                Theme.MACHINE,
+                "Network Expansion Workbench (Withholding Version)",
+                "The network expansion workbench requires an expansion workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+);
 
-    //高级网络合成机
-    public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH",
-            Enchanted(Material.BOOKSHELF),
-            Theme.MACHINE,
-            "高级网络自动魔法工作台",
-            "高级网络自动魔法工作台需要魔法工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING",
-            Enchanted(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "高级网络自动魔法工作台 (预留版)",
-            "高级网络自动魔法工作台需要魔法工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE",
-            Enchanted(Material.SMITHING_TABLE),
-            Theme.MACHINE,
-            "高级网络自动盔甲锻造台",
-            "高级网络自动盔甲锻造台需要盔甲锻造台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING",
-            Enchanted(Material.CARTOGRAPHY_TABLE),
-            Theme.MACHINE,
-            "高级网络自动盔甲锻造台 (预留版)",
-            "高级网络自动盔甲锻造台需要盔甲锻造台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY",
-            Enchanted(Material.FURNACE),
-            Theme.MACHINE,
-            "高级网络自动冶炼炉",
-            "高级网络自动冶炼炉需要冶炼炉蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY_WITHHOLDING",
-            Enchanted(Material.BLAST_FURNACE),
-            Theme.MACHINE,
-            "高级网络自动冶炼炉 (预留版)",
-            "高级网络自动冶炼炉需要冶炼炉蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH",
-            Enchanted(Material.HAY_BLOCK),
-            Theme.MACHINE,
-            "高级网络自动量子工作台",
-            "高级网络自动量子工作台需要量子工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING",
-            Enchanted(Material.DRIED_KELP_BLOCK),
-            Theme.MACHINE,
-            "高级网络自动量子工作台 (预留版)",
-            "高级网络自动量子工作台需要量子工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR",
-            Enchanted(Material.CRAFTING_TABLE),
-            Theme.MACHINE,
-            "高级网络自动古代祭坛",
-            "高级网络自动古代祭坛需要古代祭坛蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING",
-            Enchanted(Material.ENCHANTING_TABLE),
-            Theme.MACHINE,
-            "高级网络自动古代祭坛 (预留版)",
-            "高级网络自动古代祭坛需要古代祭坛蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH",
-            Enchanted(Material.FIRE_CORAL_BLOCK),
-            Theme.MACHINE,
-            "高级网络自动网络拓展工作台",
-            "高级网络自动网络拓展工作台需要网络拓展工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING",
-            Enchanted(Material.HORN_CORAL_BLOCK),
-            Theme.MACHINE,
-            "高级网络自动网络拓展工作台 (预留版)",
-            "高级网络自动网络拓展工作台需要网络拓展工作台蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
-    );
+// Advanced Auto Magic Workbench
+public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH",
+                Enchanted(Material.BOOKSHELF),
+                Theme.MACHINE,
+                "Advanced Auto Magic Workbench",
+                "The advanced auto magic workbench requires a magic workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting.",
+                "Allows blueprint stacking (not backward compatible)",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING",
+                Enchanted(Material.CHISELED_BOOKSHELF),
+                Theme.MACHINE,
+                "Advanced Auto Magic Workbench (Withholding Version)",
+                "The advanced auto magic workbench requires a magic workbench blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting.",
+                "Allows blueprint stacking (not backward compatible)",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE",
+                Enchanted(Material.SMITHING_TABLE),
+                Theme.MACHINE,
+                "Advanced Auto Armor Forge",
+                "The advanced auto armor forge requires an armor forge blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting.",
+                "Allows blueprint stacking (not backward compatible)",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING",
+                Enchanted(Material.CARTOGRAPHY_TABLE),
+                Theme.MACHINE,
+                "Advanced Auto Armor Forge (Withholding Version)",
+                "The advanced auto armor forge requires an armor forge blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting.",
+                "Allows blueprint stacking (not backward compatible)",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY",
+                Enchanted(Material.FURNACE),
+                Theme.MACHINE,
+                "Advanced Auto Smeltery",
+                "The advanced auto smeltery requires a smeltery blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting.",
+                "Allows blueprint stacking (not backward compatible)",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY_WITHHOLDING = Theme.Random(
+                "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY_WITHHOLDING",
+                Enchanted(Material.BLAST_FURNACE),
+                Theme.MACHINE,
+                "Advanced Auto Smeltery (Withholding Version)",
+                "The advanced auto smeltery requires a smeltery blueprint to function.",
+                "When there is no blueprint for the target item in the network,",
+                "the machine will automatically select materials from the network for crafting.",
+                "Allows blueprint stacking (not backward compatible)",
+                "(Requires sufficient raw materials in the network)",
+                "",
+                "The withholding version of the auto crafting machine will continuously perform crafting",
+                "until the output slot contains a group of items",
+                "This group of items can be accessed in the network",
+                "or retrieved through the shipping system",
+                "",
+                MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH",
+        Enchanted(Material.HAY_BLOCK),
+        Theme.MACHINE,
+        "Advanced Auto Quantum Workbench",
+        "The advanced auto quantum workbench requires a quantum workbench blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING",
+        Enchanted(Material.DRIED_KELP_BLOCK),
+        Theme.MACHINE,
+        "Advanced Auto Quantum Workbench (Withholding Version)",
+        "The advanced auto quantum workbench requires a quantum workbench blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        "The withholding version of the auto crafting machine will continuously perform crafting",
+        "until the output slot contains a group of items",
+        "This group of items can be accessed in the network",
+        "or retrieved through the shipping system",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR",
+        Enchanted(Material.CRAFTING_TABLE),
+        Theme.MACHINE,
+        "Advanced Auto Ancient Altar",
+        "The advanced auto ancient altar requires an ancient altar blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING",
+        Enchanted(Material.ENCHANTING_TABLE),
+        Theme.MACHINE,
+        "Advanced Auto Ancient Altar (Withholding Version)",
+        "The advanced auto ancient altar requires an ancient altar blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        "The withholding version of the auto crafting machine will continuously perform crafting",
+        "until the output slot contains a group of items",
+        "This group of items can be accessed in the network",
+        "or retrieved through the shipping system",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH",
+        Enchanted(Material.FIRE_CORAL_BLOCK),
+        Theme.MACHINE,
+        "Advanced Auto Network Expansion Workbench",
+        "The advanced auto network expansion workbench requires a network expansion workbench blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING",
+        Enchanted(Material.HORN_CORAL_BLOCK),
+        Theme.MACHINE,
+        "Advanced Auto Network Expansion Workbench (Withholding Version)",
+        "The advanced auto network expansion workbench requires a network expansion workbench blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        "The withholding version of the auto crafting machine will continuously perform crafting",
+        "until the output slot contains a group of items",
+        "This group of items can be accessed in the network",
+        "or retrieved through the shipping system",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+);
 
-    public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_CRAFTING",
-            Enchanted(Material.CRAFTING_TABLE),
-            Theme.MACHINE,
-            "高级网络自动合成机",
-            "高级网络自动合成机需要合成蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
-    );
-    public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_AUTO_CRAFTING_WITHHOLDING",
-            Enchanted(Material.CRAFTING_TABLE),
-            Theme.MACHINE,
-            "高级网络自动合成机工作台 (预留版)",
-            "高级网络自动合成机需要合成蓝图才能工作。",
-            "当网络中没有蓝图的目标物品时，",
-            "机器会自动从网络中选取材料进行合成",
-            "允许堆叠蓝图 (不向下兼容)",
-            "(需要网络中有足够的原材料)",
-            "",
-            "预留版的自动合成机会不断进行合成",
-            "直到输出栏拥有1组物品",
-            "这一组物品可以在网络中访问",
-            "也可以通过货运系统取出",
-            "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
-    );
+public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_CRAFTING",
+        Enchanted(Material.CRAFTING_TABLE),
+        Theme.MACHINE,
+        "Advanced Auto Crafting Table",
+        "The advanced auto crafting table requires a crafting blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+);
+public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = Theme.Random(
+        "NTW_EXPANSION_ADVANCED_AUTO_CRAFTING_WITHHOLDING",
+        Enchanted(Material.CRAFTING_TABLE),
+        Theme.MACHINE,
+        "Advanced Auto Crafting Table (Withholding Version)",
+        "The advanced auto crafting table requires a crafting blueprint to function.",
+        "When there is no blueprint for the target item in the network,",
+        "the machine will automatically select materials from the network for crafting.",
+        "Allows blueprint stacking (not backward compatible)",
+        "(Requires sufficient raw materials in the network)",
+        "",
+        "The withholding version of the auto crafting machine will continuously perform crafting",
+        "until the output slot contains a group of items",
+        "This group of items can be accessed in the network",
+        "or retrieved through the shipping system",
+        "",
+        MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+);
 
-    //网桥
-    public static final SlimefunItemStack NETWORK_BRIDGE_WHITE = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_WHITE",
-            new ItemStack(Material.WHITE_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(白色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_GRAY = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_LIGHT_GRAY",
-            new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(淡灰色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_GRAY = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_GRAY",
-            new ItemStack(Material.GRAY_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(灰色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_BLACK = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_BLACK",
-            new ItemStack(Material.BLACK_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(黑色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_BROWN = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_BROWN",
-            new ItemStack(Material.BROWN_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(棕色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_RED = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_RED",
-            new ItemStack(Material.RED_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(红色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_ORANGE = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_ORANGE",
-            new ItemStack(Material.ORANGE_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(橙色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_YELLOW = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_YELLOW",
-            new ItemStack(Material.YELLOW_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(黄色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_LIME = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_LIME",
-            new ItemStack(Material.LIME_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(黄绿色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_GREEN = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_GREEN",
-            new ItemStack(Material.GREEN_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(绿色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_CYAN = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_CYAN",
-            new ItemStack(Material.CYAN_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(青色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_BLUE = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_LIGHT_BLUE",
-            new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(淡蓝色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_BLUE = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_BLUE",
-            new ItemStack(Material.BLUE_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(蓝色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_PURPLE = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_PURPLE",
-            new ItemStack(Material.PURPLE_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(紫色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_MAGENTA = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_MAGENTA",
-            new ItemStack(Material.MAGENTA_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(品红色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
-    public static final SlimefunItemStack NETWORK_BRIDGE_PINK = Theme.Random(
-            "NTW_EXPANSION_BRIDGE_PINK",
-            new ItemStack(Material.PINK_STAINED_GLASS),
-            Theme.MACHINE,
-            "网桥(粉红色)",
-            "网桥用于连接不同的网络物品",
-            "来形成一个完整的网络",
-            "更加清晰的布局网络"
-    );
+//网桥
+public static final SlimefunItemStack NETWORK_BRIDGE_WHITE = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_WHITE",
+                new ItemStack(Material.WHITE_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (White)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_GRAY = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_LIGHT_GRAY",
+                new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Light Gray)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_GRAY = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_GRAY",
+                new ItemStack(Material.GRAY_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Gray)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_BLACK = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_BLACK",
+                new ItemStack(Material.BLACK_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Black)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_BROWN = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_BROWN",
+                new ItemStack(Material.BROWN_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Brown)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_RED = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_RED",
+                new ItemStack(Material.RED_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Red)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_ORANGE = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_ORANGE",
+                new ItemStack(Material.ORANGE_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Orange)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_YELLOW = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_YELLOW",
+                new ItemStack(Material.YELLOW_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Yellow)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_LIME = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_LIME",
+                new ItemStack(Material.LIME_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Lime)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_GREEN = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_GREEN",
+                new ItemStack(Material.GREEN_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Green)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_CYAN = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_CYAN",
+                new ItemStack(Material.CYAN_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Cyan)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_BLUE = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_LIGHT_BLUE",
+                new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Light Blue)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_BLUE = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_BLUE",
+                new ItemStack(Material.BLUE_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Blue)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_PURPLE = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_PURPLE",
+                new ItemStack(Material.PURPLE_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Purple)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_MAGENTA = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_MAGENTA",
+                new ItemStack(Material.MAGENTA_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Magenta)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
+public static final SlimefunItemStack NETWORK_BRIDGE_PINK = Theme.Random(
+                "NTW_EXPANSION_BRIDGE_PINK",
+                new ItemStack(Material.PINK_STAINED_GLASS),
+                Theme.MACHINE,
+                "Network Bridge (Pink)",
+                "The network bridge is used to connect different network items",
+                "to form a complete network",
+                "and layout the network more clearly"
+);
     private static final String thanks = "&x&c&c&8&c&f&4&l魔&x&c&b&9&7&f&5&l芋&x&c&a&a&3&f&6&l粘&x&c&9&a&e&f&7&l液&x&c&8&b&9&f&8&l科&x&c&7&c&5&f&9&l技&x&c&5&d&0&f&9&l服&x&c&4&d&b&f&a&l务&x&c&3&e&6&f&b&l器&x&c&2&f&2&f&c&l提&x&c&1&f&d&f&d&l供";
     private static final Map<StorageUnitType, SlimefunItemStack> typeMap = new HashMap<>();
+public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
+        "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",
+        new ItemStack(Material.BONE),
+        Theme.MACHINE,
+        "Cargo Node Quick Tool",
+        "&aRight-click: Set the configuration of the cargo node it points to",
+        "&eSneak + Right-click: Load the configuration from the pointed cargo node",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE = Theme.Random(
+        "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
+        new ItemStack(Material.CARTOGRAPHY_TABLE),
+        Theme.MACHINE,
+        "Network Drawer Upgrade Table",
+        "&eUsed to upgrade network drawers",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE_MODEL = Theme.model(
+        "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
+        Skins.STORAGE_UNIT_UPGRADE_TABLE_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Drawer Upgrade Table",
+        "&eUsed to upgrade network drawers",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer I",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.TINY.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.TINY.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer II",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.MINI.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.MINI.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer III",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.SMALL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.SMALL.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer IV",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.MEDIUM.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.MEDIUM.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer V",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.LARGE.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.LARGE.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer VI",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.ENHANCED.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.ENHANCED.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
 
-    public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
-            "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",
-            new ItemStack(Material.BONE),
-            Theme.MACHINE,
-            "货运节点快配工具",
-            "&a右键: 设置指向货运节点的配置",
-            "&e下蹲+右键: 从指向的货运节点加载配置",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE = Theme.Random(
-            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
-            new ItemStack(Material.CARTOGRAPHY_TABLE),
-            Theme.MACHINE,
-            "网络抽屉升级台",
-            "&e用于升级网络抽屉",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE_MODEL = Theme.model(
-            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
-            Skins.STORAGE_UNIT_UPGRADE_TABLE_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉升级台",
-            "&e用于升级网络抽屉",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 I",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.TINY.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.TINY.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 II",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MINI.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MINI.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 III",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.SMALL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.SMALL.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 IV",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MEDIUM.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MEDIUM.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 V",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.LARGE.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.LARGE.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 VI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ENHANCED.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ENHANCED.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 VII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ADVANCED.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ADVANCED.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 VIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.EXTRA.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.EXTRA.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 IX",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ULTRA.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ULTRA.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 X",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_BASIC.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_BASIC.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 XI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_INTERMEDIATE.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_INTERMEDIATE.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 XII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_ADVANCED.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_ADVANCED.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 XIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_MAX.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_MAX.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
-            Skins.CARGO_STORAGE_UNIT_1_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 I",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.TINY_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.TINY_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
-            Skins.CARGO_STORAGE_UNIT_2_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 II",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MINI_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MINI_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
-            Skins.CARGO_STORAGE_UNIT_3_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 III",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.SMALL_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.SMALL_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
-            Skins.CARGO_STORAGE_UNIT_4_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 IV",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MEDIUM_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MEDIUM_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
-            Skins.CARGO_STORAGE_UNIT_5_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 V",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.LARGE_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.LARGE_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
-            Skins.CARGO_STORAGE_UNIT_6_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 VI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ENHANCED_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ENHANCED_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
-            Skins.CARGO_STORAGE_UNIT_7_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 VII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ADVANCED_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ADVANCED_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
-            Skins.CARGO_STORAGE_UNIT_8_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 VIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.EXTRA_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.EXTRA_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
-            Skins.CARGO_STORAGE_UNIT_9_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 IX",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ULTRA_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ULTRA_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
-            Skins.CARGO_STORAGE_UNIT_10_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 X",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_BASIC_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_BASIC_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
-            Skins.CARGO_STORAGE_UNIT_11_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 XI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
-            Skins.CARGO_STORAGE_UNIT_12_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 XII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_ADVANCED_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_ADVANCED_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
+public static SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer VII",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.ADVANCED.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.ADVANCED.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer VIII",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.EXTRA.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.EXTRA.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Drawer IX",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.ULTRA.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.ULTRA.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit X",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.END_GAME_BASIC.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_BASIC.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit XI",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.END_GAME_INTERMEDIATE.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_INTERMEDIATE.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit XII",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.END_GAME_ADVANCED.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_ADVANCED.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
 
 
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
-            Skins.CARGO_STORAGE_UNIT_13_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 XIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_MAX_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_MAX_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
+public static SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
+        new ItemStack(Material.CHISELED_BOOKSHELF),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit XIII",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.END_GAME_MAX.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_MAX.getEachMaxSize() + " items",
+        "",
+        thanks,
+        ""
+);
+
+public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
+        Skins.CARGO_STORAGE_UNIT_1_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit I",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.TINY_MODEL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.TINY_MODEL.getEachMaxSize() + " items",
+        "",
+        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
+        Skins.CARGO_STORAGE_UNIT_2_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit II",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.MINI_MODEL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.MINI_MODEL.getEachMaxSize() + " items",
+        "",
+        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
+        Skins.CARGO_STORAGE_UNIT_3_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit III",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.SMALL_MODEL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.SMALL_MODEL.getEachMaxSize() + " items",
+        "",
+        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
+        Skins.CARGO_STORAGE_UNIT_4_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit IV",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.MEDIUM_MODEL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.MEDIUM_MODEL.getEachMaxSize() + " items",
+        "",
+        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
+        Skins.CARGO_STORAGE_UNIT_5_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit V",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.LARGE_MODEL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.LARGE_MODEL.getEachMaxSize() + " items",
+        "",
+        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
+        Skins.CARGO_STORAGE_UNIT_6_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit VI",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.ENHANCED_MODEL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.ENHANCED_MODEL.getEachMaxSize() + " items",
+        "",
+        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "",
+        thanks,
+        ""
+);
+
+public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
+        "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
+        Skins.CARGO_STORAGE_UNIT_7_MODEL.getPlayerHead(),
+        Theme.MACHINE,
+        "Network Cargo Storage Unit VII",
+        "&6Supports fast input/output through networks",
+        "",
+        "&7⇨ &eCan store " + StorageUnitType.ADVANCED_MODEL.getMaxItemCount() + " types of items",
+        "&7⇨ &eEach type can hold up to " + StorageUnitType.ADVANCED_MODEL.getEachMaxSize() + " items",
+        "",
+        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "",
+        thanks,
+        ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
+                "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
+                Skins.CARGO_STORAGE_UNIT_8_MODEL.getPlayerHead(),
+                Theme.MACHINE,
+                "Network Cargo Storage Unit VIII",
+                "&6Supports fast input/output through networks",
+                "",
+                "&7⇨ &eCan store " + StorageUnitType.EXTRA_MODEL.getMaxItemCount() + " types of items",
+                "&7⇨ &eEach type can hold up to " + StorageUnitType.EXTRA_MODEL.getEachMaxSize() + " items",
+                "",
+                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "",
+                thanks,
+                ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
+                "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
+                Skins.CARGO_STORAGE_UNIT_9_MODEL.getPlayerHead(),
+                Theme.MACHINE,
+                "Network Cargo Storage Unit IX",
+                "&6Supports fast input/output through networks",
+                "",
+                "&7⇨ &eCan store " + StorageUnitType.ULTRA_MODEL.getMaxItemCount() + " types of items",
+                "&7⇨ &eEach type can hold up to " + StorageUnitType.ULTRA_MODEL.getEachMaxSize() + " items",
+                "",
+                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "",
+                thanks,
+                ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
+                "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
+                Skins.CARGO_STORAGE_UNIT_10_MODEL.getPlayerHead(),
+                Theme.MACHINE,
+                "Network Cargo Storage Unit X",
+                "&6Supports fast input/output through networks",
+                "",
+                "&7⇨ &eCan store " + StorageUnitType.END_GAME_BASIC_MODEL.getMaxItemCount() + " types of items",
+                "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_BASIC_MODEL.getEachMaxSize() + " items",
+                "",
+                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "",
+                thanks,
+                ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
+                "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
+                Skins.CARGO_STORAGE_UNIT_11_MODEL.getPlayerHead(),
+                Theme.MACHINE,
+                "Network Cargo Storage Unit XI",
+                "&6Supports fast input/output through networks",
+                "",
+                "&7⇨ &eCan store " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getMaxItemCount() + " types of items",
+                "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getEachMaxSize() + " items",
+                "",
+                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "",
+                thanks,
+                ""
+);
+public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
+                "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
+                Skins.CARGO_STORAGE_UNIT_12_MODEL.getPlayerHead(),
+                Theme.MACHINE,
+                "Network Cargo Storage Unit XII",
+                "&6Supports fast input/output through networks",
+                "",
+                "&7⇨ &eCan store " + StorageUnitType.END_GAME_ADVANCED_MODEL.getMaxItemCount() + " types of items",
+                "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_ADVANCED_MODEL.getEachMaxSize() + " items",
+                "",
+                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "",
+                thanks,
+                ""
+);
+
+
+public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
+                "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
+                Skins.CARGO_STORAGE_UNIT_13_MODEL.getPlayerHead(),
+                Theme.MACHINE,
+                "Network Cargo Storage Unit XIII",
+                "&6Supports fast input/output through networks",
+                "",
+                "&7⇨ &eCan store " + StorageUnitType.END_GAME_MAX_MODEL.getMaxItemCount() + " types of items",
+                "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_MAX_MODEL.getEachMaxSize() + " items",
+                "",
+                "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+                "",
+                thanks,
+                ""
+);
     public static ItemStack SEFIRAAT_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_SEFIRAAT = Theme.Random(
             "NETWORKS_AUTHOR_SEFIRAAT",
