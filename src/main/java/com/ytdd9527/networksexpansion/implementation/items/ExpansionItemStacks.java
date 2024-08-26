@@ -1154,7 +1154,7 @@ public static final SlimefunItemStack NETWORK_BRIDGE_PINK = Theme.Random(
                 "to form a complete network",
                 "and layout the network more clearly"
 );
-    private static final String thanks = "&#F87DF1&lC&#F885F2&lo&#F98DF3&lu&#F995F4&lr&#FA9EF5&lt&#FAA6F5&le&#FBAEF6&ls&#FBB6F7&ly &#FCC6F9&lo&#FCCEFA&lf &#FDDFFC&lK&#FEE7FC&lo&#FEEFFD&ln&#FFF7FE&lj&#FFFFFF&la&#F6FEFF&lc &#E3FDFF&lS&#D9FCFF&ll&#D0FBFF&li&#C6FAFF&lm&#BDFAFF&le &#AAF8FF&lT&#A1F7FF&le&#97F6FF&lc&#8EF6FF&lh &#7BF4FF&lS&#7BF4FF&le&#7BF4FF&lr&#7BF4FF&lv&#7BF4FF&le&#7BF4FF&lr";
+    private static final String thanks = "&x&F&8&7&D&F&1&lC&x&F&8&8&5&F&2&lo&x&F&9&8&D&F&3&lu&x&F&9&9&5&F&4&lr&x&F&A&9&E&F&5&lt&x&F&A&A&6&F&5&le&x&F&B&A&E&F&6&ls&x&F&B&B&6&F&7&ly &x&F&C&C&6&F&9&lo&x&F&C&C&E&F&A&lf &x&F&D&D&F&F&C&lK&x&F&E&E&7&F&C&lo&x&F&E&E&F&F&D&ln&x&F&F&F&7&F&E&lj&x&F&F&F&F&F&F&la&x&F&6&F&E&F&F&lc &x&E&3&F&D&F&F&lS&x&D&9&F&C&F&F&ll&x&D&0&F&B&F&F&li&x&C&6&F&A&F&F&lm&x&B&D&F&A&F&F&le &x&A&A&F&8&F&F&lT&x&A&1&F&7&F&F&le&x&9&7&F&6&F&F&lc&x&8&E&F&6&F&F&lh &x&7&B&F&4&F&F&lS&x&7&B&F&4&F&F&le&x&7&B&F&4&F&F&lr&x&7&B&F&4&F&F&lv&x&7&B&F&4&F&F&le&x&7&B&F&4&F&F&lr";
     private static final Map<StorageUnitType, SlimefunItemStack> typeMap = new HashMap<>();
 public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
         "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",
