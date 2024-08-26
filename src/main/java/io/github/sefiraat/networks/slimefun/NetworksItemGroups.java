@@ -27,7 +27,7 @@ public final class NetworksItemGroups {
             Keys.newKey("main"),
             new CustomItemStack(
                     new ItemStack(Material.BLACK_STAINED_GLASS),
-                    Theme.MAIN.getColor() + "网络 (Networks)"
+                    Theme.MAIN.getColor() + "Networks"
             ), 0
     );
 
@@ -35,7 +35,7 @@ public final class NetworksItemGroups {
             Keys.newKey("materials"),
             new CustomItemStack(
                     new ItemStack(Material.WHITE_STAINED_GLASS),
-                    Theme.MAIN.getColor() + "合成材料"
+                    Theme.MAIN.getColor() + "Crafting Materials"
             ), 0
     );
 
@@ -43,7 +43,7 @@ public final class NetworksItemGroups {
             Keys.newKey("tools"),
             new CustomItemStack(
                     new ItemStack(Material.PAINTING),
-                    Theme.MAIN.getColor() + "网络管理工具"
+                    Theme.MAIN.getColor() + "Network Management Tools"
             ), 0
     );
 
@@ -51,7 +51,7 @@ public final class NetworksItemGroups {
             Keys.newKey("network_items"),
             new CustomItemStack(
                     new ItemStack(Material.BLACK_STAINED_GLASS),
-                    Theme.MAIN.getColor() + "网络物品"
+                    Theme.MAIN.getColor() + "Network Items"
             ), 0
     );
 
@@ -59,7 +59,7 @@ public final class NetworksItemGroups {
             Keys.newKey("network_quantums"),
             new CustomItemStack(
                     new ItemStack(Material.WHITE_TERRACOTTA),
-                    Theme.MAIN.getColor() + "量子存储设备"
+                    Theme.MAIN.getColor() + "Network Quantum Storage Devices"
             ), 0
     );
 
@@ -67,7 +67,7 @@ public final class NetworksItemGroups {
             Keys.newKey("disabled_items"),
             new CustomItemStack(
                     new ItemStack(Material.BARRIER),
-                    Theme.MAIN.getColor() + "已禁用/移除的物品"
+                    Theme.MAIN.getColor() + "Disabled/Removed Items"
             )
     );
 
