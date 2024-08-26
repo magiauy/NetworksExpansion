@@ -60,7 +60,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-//!TODO 对于一些复杂的逻辑，需要重构
+//TODO 对于一些复杂的逻辑，需要重构
 public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
 
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
@@ -731,8 +731,6 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
 
     @Override
     public void onBreak(@Nonnull BlockBreakEvent e) {
-        e.setCancelled(true);
-        super.onBreak(e);
         Block b = e.getBlock();
         Location l = b.getLocation();
 
@@ -740,6 +738,10 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
         if (useSpecialModel) {
             removeDisplay(l);
         }
+
+        // Fix display didn't remove when break
+        e.setCancelled(true);
+        super.onBreak(e);
 
         // Remove data cache
         StorageUnitData data = storages.remove(l);
