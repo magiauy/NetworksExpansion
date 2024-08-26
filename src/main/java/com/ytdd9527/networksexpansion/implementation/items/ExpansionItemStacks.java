@@ -511,7 +511,8 @@ public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.Ran
                 new ItemStack(Material.OAK_HANGING_SIGN),
                 Theme.MACHINE,
                 "Network Magic Workbench Recipe Encoder",
-                "Can create magic workbench blueprints based on the input items",
+                "Can create magic workbench",
+                "blueprints based on the input items",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
 );
@@ -520,7 +521,8 @@ public static final SlimefunItemStack ARMOR_FORGE_RECIPE_ENCODER = Theme.Random(
                 new ItemStack(Material.SPRUCE_HANGING_SIGN),
                 Theme.MACHINE,
                 "Network Armor Forge Recipe Encoder",
-                "Can create armor forge blueprints based on the input items",
+                "Can create armor forge",
+                "blueprints based on the input items",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
 );
@@ -529,7 +531,8 @@ public static final SlimefunItemStack SMELTERY_RECIPE_ENCODER = Theme.Random(
                 new ItemStack(Material.BIRCH_HANGING_SIGN),
                 Theme.MACHINE,
                 "Network Smeltery Recipe Encoder",
-                "Can create smeltery blueprints based on the input items",
+                "Can create smeltery",
+                "blueprints based on the input items",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
 );
@@ -538,7 +541,8 @@ public static final SlimefunItemStack QUANTUM_WORKBENCH_RECIPE_ENCODER = Theme.R
                 new ItemStack(Material.JUNGLE_HANGING_SIGN),
                 Theme.MACHINE,
                 "Network Quantum Workbench Recipe Encoder",
-                "Can create quantum workbench blueprints based on the input items",
+                "Can create quantum workbench",
+                "blueprints based on the input items",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
 );
@@ -547,7 +551,8 @@ public static final SlimefunItemStack ANCIENT_ALTAR_RECIPE_ENCODER = Theme.Rando
                 new ItemStack(Material.CHERRY_HANGING_SIGN),
                 Theme.MACHINE,
                 "Network Ancient Altar Recipe Encoder",
-                "Can create ancient altar blueprints based on the input items",
+                "Can create ancient altar",
+                "blueprints based on the input items",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
 );
@@ -556,7 +561,8 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
                 new ItemStack(Material.ACACIA_HANGING_SIGN),
                 Theme.MACHINE,
                 "Network Expansion Workbench Recipe Encoder",
-                "Can create expansion workbench blueprints based on the input items",
+                "Can create expansion workbench",
+                "blueprints based on the input items",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
 );
@@ -568,12 +574,9 @@ public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH = Theme.Random(
                 new ItemStack(Material.BOOKSHELF),
                 Theme.MACHINE,
                 "Network Auto Magic Workbench",
-                "The Auto Network Magic Workbench accepts",
-                "a magic workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Auto Network Magic Workbench uses",
+                "a magic workbench to fabricate items",
+                "using magics and electricity",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
 );
@@ -582,18 +585,13 @@ public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.R
                 new ItemStack(Material.CHISELED_BOOKSHELF),
                 Theme.MACHINE,
                 "Network Auto Magic Workbench (Withholding Version)",
-                "The Auto Network Magic Workbench accepts",
-                "a magic workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Auto Network Magic Workbench uses",
+                "a magic workbench to fabricate items",
+                "using magics and electricity",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
 );
@@ -602,12 +600,9 @@ public static final SlimefunItemStack AUTO_ARMOR_FORGE = Theme.Random(
                 new ItemStack(Material.SMITHING_TABLE),
                 Theme.MACHINE,
                 "Network Auto Armor Forge",
-                "The Network Auto Armor Forge accepts",
-                "an armor forge blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Armor Forge uses",
+                "an armor forge blueprint to create",
+                "slimefun armors.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
 );
@@ -616,18 +611,13 @@ public static final SlimefunItemStack AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Rando
                 new ItemStack(Material.CARTOGRAPHY_TABLE),
                 Theme.MACHINE,
                 "Network Auto Armor Forge (Withholding Version)",
-                "The Network Auto Armor Forge accepts",
-                "an armor forge blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Armor Forge uses",
+                "an armor forge blueprint to create",
+                "slimefun armors.",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
 );
@@ -636,12 +626,9 @@ public static final SlimefunItemStack AUTO_SMELTERY = Theme.Random(
                 new ItemStack(Material.FURNACE),
                 Theme.MACHINE,
                 "Network Auto Smeltery",
-                "The Network Auto Smeltery accepts",
-                "a smeltery blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Smeltery uses",
+                "a smeltery blueprint to cast a",
+                "metal ingot or an alloy.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
 );
@@ -650,18 +637,13 @@ public static final SlimefunItemStack AUTO_SMELTERY_WITHHOLDING = Theme.Random(
                 new ItemStack(Material.BLAST_FURNACE),
                 Theme.MACHINE,
                 "Network Auto Smeltery (Withholding Version)",
-                "The Network Auto Smeltery accepts",
-                "a smeltery blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Smeltery uses",
+                "a smeltery blueprint to cast a",
+                "metal ingot or an alloy.",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
 );
@@ -670,12 +652,9 @@ public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH = Theme.Random(
                 new ItemStack(Material.HAY_BLOCK),
                 Theme.MACHINE,
                 "Network Auto Quantum Workbench",
-                "The Network Auto Quantum Workbench accepts",
-                "a quantum workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Quantum Workbench uses",
+                "a quantum worckbench blueprint to form",
+                "quantum storages.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
 );
@@ -684,18 +663,13 @@ public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme
                 new ItemStack(Material.DRIED_KELP_BLOCK),
                 Theme.MACHINE,
                 "Network Auto Quantum Workbench (Withholding Version)",
-                "The Network Auto Quantum Workbench accepts",
-                "a quantum workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Quantum Workbench uses",
+                "a quantum worckbench blueprint to form",
+                "quantum storages.",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
 );
@@ -704,12 +678,9 @@ public static final SlimefunItemStack AUTO_ANCIENT_ALTAR = Theme.Random(
                 new ItemStack(Material.CRAFTING_TABLE),
                 Theme.MACHINE,
                 "Network Auto Ancient Altar",
-                "The Network Auto Ancient Altar accepts",
-                "an ancient altar blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Ancient Altar uses",
+                "an ancient altar blueprint to compound",
+                "the items.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
 );
@@ -718,18 +689,13 @@ public static final SlimefunItemStack AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Ran
                 new ItemStack(Material.ENCHANTING_TABLE),
                 Theme.MACHINE,
                 "Network Ancient Altar (Withholding Version)",
-                "The Network Auto Ancient Altar accepts",
-                "an ancient altar blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Network Auto Ancient Altar uses",
+                "an ancient altar blueprint to compound",
+                "the items.",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
 );
@@ -738,12 +704,9 @@ public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH = Theme.Random(
                 new ItemStack(Material.FIRE_CORAL_BLOCK),
                 Theme.MACHINE,
                 "Auto Network Expansion Workbench",
-                "The Auto Network Expansion Workbench accepts",
-                "a network expansion workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Auto Network Expansion Workbench",
+                "uses a network expansion workbench blueprint",
+                "to assemble the network items.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 640)
 );
@@ -752,18 +715,13 @@ public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH_WITHHOLDING = The
                 new ItemStack(Material.HORN_CORAL_BLOCK),
                 Theme.MACHINE,
                 "Network Expansion Workbench (Withholding Version)",
-                "The Auto Network Expansion Workbench accepts",
-                "a network expansion workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Auto Network Expansion Workbench",
+                "uses a network expansion workbench blueprint",
+                "to assemble the network items.",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
 );
@@ -774,12 +732,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.Rand
                 Enchanted(Material.BOOKSHELF),
                 Theme.MACHINE,
                 "Advanced Auto Magic Workbench",
-                "The Advanced Auto Magic Workbench accepts",
-                "a magic workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Advanced Auto Magic Workbench uses",
+                "a magic workbench to fabricate items",
+                "using magics and electricity",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -788,18 +743,13 @@ public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING 
                 Enchanted(Material.CHISELED_BOOKSHELF),
                 Theme.MACHINE,
                 "Advanced Auto Magic Workbench (Withholding Version)",
-                "The Advanced Auto Magic Workbench accepts",
-                "a magic workbench blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Advanced Auto Magic Workbench uses",
+                "a magic workbench to fabricate items",
+                "using magics and electricity",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
@@ -808,12 +758,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.Random(
                 Enchanted(Material.SMITHING_TABLE),
                 Theme.MACHINE,
                 "Advanced Auto Armor Forge",
-                "The Advanced Auto Armor Forge accepts",
-                "an armor forge blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Advanced Auto Armor Forge uses",
+                "an armor forge blueprint to create",
+                "slimefun armors.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -822,18 +769,13 @@ public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = Th
                 Enchanted(Material.CARTOGRAPHY_TABLE),
                 Theme.MACHINE,
                 "Advanced Auto Armor Forge (Withholding Version)",
-                "The Advanced Auto Armor Forge accepts",
-                "an armor forge blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Advanced Auto Armor Forge uses",
+                "an armor forge blueprint to create",
+                "slimefun armors.",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
@@ -842,12 +784,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.Random(
                 Enchanted(Material.FURNACE),
                 Theme.MACHINE,
                 "Advanced Auto Smeltery",
-                "The Advanced Auto Smeltery accepts",
-                "a smeltery blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Advanced Auto Smeltery uses",
+                "a smeltery blueprint to cast a",
+                "metal ingot or an alloy.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -856,18 +795,13 @@ public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY_WITHHOLDING = Theme
                 Enchanted(Material.BLAST_FURNACE),
                 Theme.MACHINE,
                 "Advanced Auto Smeltery (Withholding Version)",
-                "The Advanced Auto Smeltery accepts",
-                "a smeltery blueprint. When the",
-                "blueprint output item is requested",
-                "while there is none in the network",
-                "it will be crafted if you have",
-                "materials.",
+                "The Advanced Auto Smeltery uses",
+                "a smeltery blueprint to cast a",
+                "metal ingot or an alloy.",
                 "",
                 "A Withholding Crafter will keep",
-                "a stack in the output and stop",
-                "crafting. The stack can been seen",
-                "in the Network and also allows for",
-                "cargo.",
+                "a stack of the item in the output",
+                "slot and stop crafting.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
@@ -876,12 +810,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Ra
         Enchanted(Material.HAY_BLOCK),
         Theme.MACHINE,
         "Advanced Auto Quantum Workbench",
-        "The Advanced Auto Quantum Workbench accepts",
-        "a quantum workbench. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Quantum Workbench uses",
+        "a quantum worckbench blueprint to form",
+        "quantum storages.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -890,18 +821,13 @@ public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDIN
         Enchanted(Material.DRIED_KELP_BLOCK),
         Theme.MACHINE,
         "Advanced Auto Quantum Workbench (Withholding Version)",
-        "The Advanced Auto Quantum Workbench accepts",
-        "a quantum workbench. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Quantum Workbench uses",
+        "a quantum worckbench blueprint to form",
+        "quantum storages.",
         "",
         "A Withholding Crafter will keep",
-        "a stack in the output and stop",
-        "crafting. The stack can been seen",
-        "in the Network and also allows for",
-        "cargo.",
+        "a stack of the item in the output",
+        "slot and stop crafting.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
@@ -910,12 +836,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random
         Enchanted(Material.CRAFTING_TABLE),
         Theme.MACHINE,
         "Advanced Auto Ancient Altar",
-        "The Advanced Auto Ancient Altar accepts",
-        "an ancient altar. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Ancient Altar uses",
+        "an ancient altar blueprint to compound",
+        "the items.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -924,18 +847,13 @@ public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = 
         Enchanted(Material.ENCHANTING_TABLE),
         Theme.MACHINE,
         "Advanced Auto Ancient Altar (Withholding Version)",
-        "The Advanced Auto Ancient Altar accepts",
-        "an ancient altar. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Ancient Altar uses",
+        "an ancient altar blueprint to compound",
+        "the items.",
         "",
         "A Withholding Crafter will keep",
-        "a stack in the output and stop",
-        "crafting. The stack can been seen",
-        "in the Network and also allows for",
-        "cargo.",
+        "a stack of the item in the output",
+        "slot and stop crafting.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
@@ -944,12 +862,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.
         Enchanted(Material.FIRE_CORAL_BLOCK),
         Theme.MACHINE,
         "Advanced Auto Network Expansion Workbench",
-        "The Advanced Auto Network Expansion Workbench accepts",
-        "a network expansion workbench blueprint. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Network Expansion Workbench",
+        "uses a network expansion workbench blueprint",
+        "to assemble the network items.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -958,18 +873,13 @@ public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLD
         Enchanted(Material.HORN_CORAL_BLOCK),
         Theme.MACHINE,
         "Advanced Auto Network Expansion Workbench (Withholding Version)",
-        "The Advanced Auto Network Expansion Workbench accepts",
-        "a network expansion workbench blueprint. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Network Expansion Workbench",
+        "uses a network expansion workbench blueprint",
+        "to assemble the network items.",
         "",
         "A Withholding Crafter will keep",
-        "a stack in the output and stop",
-        "crafting. The stack can been seen",
-        "in the Network and also allows for",
-        "cargo.",
+        "a stack of the item in the output",
+        "slot and stop crafting.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
@@ -979,12 +889,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE = Theme.Rando
         Enchanted(Material.CRAFTING_TABLE),
         Theme.MACHINE,
         "Advanced Auto Crafting Table",
-        "The Advanced Auto Crafting Tableaccepts",
-        "a crafting blueprint. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Crafting Table uses",
+        "a crafting blueprint to construct",
+        "the items.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -993,18 +900,13 @@ public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING =
         Enchanted(Material.CRAFTING_TABLE),
         Theme.MACHINE,
         "Advanced Auto Crafting Table (Withholding Version)",
-        "The Advanced Auto Crafting Tableaccepts",
-        "a crafting blueprint. When the",
-        "blueprint output item is requested",
-        "while there is none in the network",
-        "it will be crafted if you have",
-        "materials.",
+        "The Advanced Auto Crafting Table uses",
+        "a crafting blueprint to construct",
+        "the items.",
         "",
         "A Withholding Crafter will keep",
-        "a stack in the output and stop",
-        "crafting. The stack can been seen",
-        "in the Network and also allows for",
-        "cargo.",
+        "a stack of the item in the output",
+        "slot and stop crafting.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
@@ -1015,144 +917,128 @@ public static final SlimefunItemStack NETWORK_BRIDGE_WHITE = Theme.Random(
                 new ItemStack(Material.WHITE_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (White)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_GRAY = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_LIGHT_GRAY",
                 new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Light Gray)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_GRAY = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_GRAY",
                 new ItemStack(Material.GRAY_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Gray)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_BLACK = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_BLACK",
                 new ItemStack(Material.BLACK_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Black)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_BROWN = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_BROWN",
                 new ItemStack(Material.BROWN_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Brown)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_RED = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_RED",
                 new ItemStack(Material.RED_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Red)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_ORANGE = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_ORANGE",
                 new ItemStack(Material.ORANGE_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Orange)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_YELLOW = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_YELLOW",
                 new ItemStack(Material.YELLOW_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Yellow)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_LIME = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_LIME",
                 new ItemStack(Material.LIME_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Lime)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_GREEN = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_GREEN",
                 new ItemStack(Material.GREEN_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Green)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_CYAN = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_CYAN",
                 new ItemStack(Material.CYAN_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Cyan)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_BLUE = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_LIGHT_BLUE",
                 new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Light Blue)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_BLUE = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_BLUE",
                 new ItemStack(Material.BLUE_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Blue)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_PURPLE = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_PURPLE",
                 new ItemStack(Material.PURPLE_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Purple)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_MAGENTA = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_MAGENTA",
                 new ItemStack(Material.MAGENTA_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Magenta)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
 public static final SlimefunItemStack NETWORK_BRIDGE_PINK = Theme.Random(
                 "NTW_EXPANSION_BRIDGE_PINK",
                 new ItemStack(Material.PINK_STAINED_GLASS),
                 Theme.MACHINE,
                 "Network Bridge (Pink)",
-                "The network bridge is used to connect different network items",
-                "to form a complete network",
-                "and layout the network more clearly"
+                "The Bridge allows you to cheaply",
+                "connect network objects together."
 );
     private static final String thanks = "&#F87DF1&lC&#F885F2&lo&#F98DF3&lu&#F995F4&lr&#FA9EF5&lt&#FAA6F5&le&#FBAEF6&ls&#FBB6F7&ly &#FCC6F9&lo&#FCCEFA&lf &#FDDFFC&lK&#FEE7FC&lo&#FEEFFD&ln&#FFF7FE&lj&#FFFFFF&la&#F6FEFF&lc &#E3FDFF&lS&#D9FCFF&ll&#D0FBFF&li&#C6FAFF&lm&#BDFAFF&le &#AAF8FF&lT&#A1F7FF&le&#97F6FF&lc&#8EF6FF&lh &#7BF4FF&lS&#7BF4FF&le&#7BF4FF&lr&#7BF4FF&lv&#7BF4FF&le&#7BF4FF&lr";
     private static final Map<StorageUnitType, SlimefunItemStack> typeMap = new HashMap<>();
@@ -1370,7 +1256,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.TINY_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.TINY_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to dismantle model blocks",
+        "&7⇨ &eRequires Network Wrench to remove the storage",
         "",
         thanks,
         ""
@@ -1385,7 +1271,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.MINI_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.MINI_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to remove the machine",
+        "&7⇨ &eRequires Network Wrench to remove the storage",
         "",
         thanks,
         ""
@@ -1400,7 +1286,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.SMALL_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.SMALL_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to remove the machine",
+        "&7⇨ &eRequires Network Wrench to remove the storage",
         "",
         thanks,
         ""
@@ -1415,7 +1301,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.MEDIUM_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.MEDIUM_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to remove the machine",
+        "&7⇨ &eRequires Network Wrench to remove the storage",
         "",
         thanks,
         ""
@@ -1430,7 +1316,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.LARGE_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.LARGE_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to remove the machine",
+        "&7⇨ &eRequires Network Wrench to remove the storage",
         "",
         thanks,
         ""
@@ -1445,7 +1331,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.ENHANCED_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.ENHANCED_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to remove the machine",
+        "&7⇨ &eRequires Network Wrench to remove the storage",
         "",
         thanks,
         ""
@@ -1461,7 +1347,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
         "&7⇨ &eCan store " + StorageUnitType.ADVANCED_MODEL.getMaxItemCount() + " types of items",
         "&7⇨ &eEach type can hold up to " + StorageUnitType.ADVANCED_MODEL.getEachMaxSize() + " items",
         "",
-        "&7⇨ &eRequires Network Wrench to remove the machine",
+        "&7⇨ &eRequires Network Wrench to remove the storage",
         "",
         thanks,
         ""
@@ -1476,7 +1362,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.EXTRA_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.EXTRA_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to remove the machine",
+                "&7⇨ &eRequires Network Wrench to remove the storage",
                 "",
                 thanks,
                 ""
@@ -1491,7 +1377,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.ULTRA_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.ULTRA_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to remove the machine",
+                "&7⇨ &eRequires Network Wrench to remove the storage",
                 "",
                 thanks,
                 ""
@@ -1506,7 +1392,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_BASIC_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_BASIC_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to remove the machine",
+                "&7⇨ &eRequires Network Wrench to remove the storage",
                 "",
                 thanks,
                 ""
@@ -1521,7 +1407,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to remove the machine",
+                "&7⇨ &eRequires Network Wrench to remove the storage",
                 "",
                 thanks,
                 ""
@@ -1536,7 +1422,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_ADVANCED_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_ADVANCED_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to remove the machine",
+                "&7⇨ &eRequires Network Wrench to remove the storage",
                 "",
                 thanks,
                 ""
@@ -1553,7 +1439,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_MAX_MODEL.getMaxItemCount() + " types of items",
                 "&7⇨ &eEach type can hold up to " + StorageUnitType.END_GAME_MAX_MODEL.getEachMaxSize() + " items",
                 "",
-                "&7⇨ &eRequires Network Wrench to remove the machine",
+                "&7⇨ &eRequires Network Wrench to remove the storage",
                 "",
                 thanks,
                 ""
@@ -1563,8 +1449,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
             "NETWORKS_AUTHOR_SEFIRAAT",
             SEFIRAAT_ITEMSTACK,
             Theme.GUIDE,
-            "Sefitard",
-            "Bugworks' author"
+            "Sefiraat",
+            "Networks' author"
     );
     public static ItemStack YBW0014_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_YBW0014 = Theme.Random(
