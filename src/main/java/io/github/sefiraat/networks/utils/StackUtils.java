@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
@@ -140,7 +141,14 @@ public class StackUtils {
         }
 
         // Check the lore
-        if (checkLore && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+        if (itemMeta.hasLore() && cachedMeta.hasLore()) {
+            if ((checkLore
+                    || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
+                    || itemStack.getType() == Material.FLINT // Fix Dupe card in FinalTech | FinalTECH
+            ) && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+                return false;
+            }
+        } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
             return false;
         }
 
