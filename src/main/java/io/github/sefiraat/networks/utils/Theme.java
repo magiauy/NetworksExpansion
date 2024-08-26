@@ -167,7 +167,7 @@ public enum Theme {
         return new SlimefunItemStack(
                 id + "_MODEL",
                 itemStack,
-                coloredName + " &f(&a模型&f)",
+                coloredName + " &f(&aModel&f)",
                 finalLore.toArray(new String[0])
         );
     }

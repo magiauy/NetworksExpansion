@@ -635,12 +635,12 @@ public final class ItemStackUtil {
         List<String> lore = itemMeta.getLore();
         if (lore == null) {
             lore = new ArrayList<>(8);
-            lore.add(s);
+            // lore.add(s);
             itemMeta.setLore(lore);
             item.setItemMeta(itemMeta);
         } else {
             List<String> newLore = new ArrayList<>(lore.size() + 1);
-            newLore.add(s);
+            // newLore.add(s);
             for (String string : lore) {
                 newLore.add(string);
             }
