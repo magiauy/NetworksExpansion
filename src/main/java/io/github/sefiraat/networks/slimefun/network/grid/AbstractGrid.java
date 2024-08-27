@@ -79,6 +79,25 @@ public abstract class AbstractGrid extends NetworkObject {
             Theme.CLICK_INFO.getColor() + "设置过滤器 (右键点击以清除)"
     );
     private static final Comparator<Map.Entry<ItemStack, Long>> NUMERICAL_SORT = Map.Entry.comparingByValue();
+    private static final Comparator<Map.Entry<ItemStack, Long>> ADDON_SORT = Comparator.comparing(
+            itemStackIntegerEntry -> {
+                ItemStack itemStack = itemStackIntegerEntry.getKey();
+                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+                if (slimefunItem != null) {
+                    return ChatColor.stripColor(slimefunItem.getAddon().getName());
+                } else {
+                    return "Minecraft";
+                }
+            },
+            Collator.getInstance(Locale.CHINA)::compare
+    );
+    private static final Map<GridCache.SortOrder, Comparator<? super Map.Entry<ItemStack, Long>>> SORT_MAP = new HashMap<>();
+
+    static {
+        SORT_MAP.put(GridCache.SortOrder.ALPHABETICAL, ALPHABETICAL_SORT);
+        SORT_MAP.put(GridCache.SortOrder.NUMBER, NUMERICAL_SORT.reversed());
+        SORT_MAP.put(GridCache.SortOrder.ADDON, ADDON_SORT);
+    }
 
     private final ItemSetting<Integer> tickRate;
 
@@ -231,11 +250,11 @@ public abstract class AbstractGrid extends NetworkObject {
 
                     final ItemStack itemStack = entry.getKey();
                     String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                    final String pyName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                    final String pyFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                    return name.contains(cache.getFilter()) || pyName.contains(cache.getFilter()) || pyFirstLetter.contains(cache.getFilter());
+                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                    return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
                 })
-                .sorted(cache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL ? ALPHABETICAL_SORT : NUMERICAL_SORT.reversed())
+                .sorted(SORT_MAP.get(cache.getSortOrder()))
                 .toList();
     }
 
@@ -280,6 +299,13 @@ public abstract class AbstractGrid extends NetworkObject {
         cloneLore.remove(cloneLore.size() - 1);
         cloneMeta.setLore(cloneLore);
         clone.setItemMeta(cloneMeta);
+
+        final ItemStack cursor = player.getItemOnCursor();
+        if (!cursor.getType().isAir() && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
+            definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
+            return;
+        }
+
         int amount = 1;
 
         if (action.isRightClicked()) {
@@ -317,7 +343,7 @@ public abstract class AbstractGrid extends NetworkObject {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
-        if (cursor.getType() != Material.AIR && !canAddMore(action, cursor, request)) {
+        if (!cursor.getType().isAir() && !canAddMore(action, cursor, request)) {
             return;
         }
 

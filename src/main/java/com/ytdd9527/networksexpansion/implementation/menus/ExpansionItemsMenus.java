@@ -53,7 +53,6 @@ public final class ExpansionItemsMenus {
     public static final SubFlexItemGroup SUB_MENU_CORE_MACHINE = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_CORE_MACHINE", Material.AMETHYST_BLOCK, TextUtil.colorRandomString("功能机器 - 核心机器"));
     public static final SubFlexItemGroup SUB_MENU_ADVANCED_NET = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_ADVANCED_NET", Material.BLACK_STAINED_GLASS, TextUtil.colorRandomString("功能机器 - 更高级的网络机器"));
     public static final SubFlexItemGroup SUB_MENU_BRIDGE = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_BRIDGE", Material.WHITE_STAINED_GLASS, TextUtil.colorRandomString("功能机器 - 更多的网桥"));
-    public static final SubFlexItemGroup SUB_MENU_GRID = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_GRID", Material.NOTE_BLOCK, TextUtil.colorRandomString("功能机器 - 网格"));
     public static final SubFlexItemGroup SUB_MENU_ENCODER = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_ENCODER", Material.TARGET, TextUtil.colorRandomString("功能机器 - 编码器"));
     public static final SubFlexItemGroup SUB_MENU_CRAFTER_MACHINE = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_CRAFTER_MACHINE", Material.CRAFTING_TABLE, TextUtil.colorRandomString("功能机器 - 自动合成机器"));
 

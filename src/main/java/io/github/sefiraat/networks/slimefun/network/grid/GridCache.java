@@ -4,6 +4,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GridCache {
@@ -16,7 +17,8 @@ public class GridCache {
     private SortOrder sortOrder;
     @Nullable
     private String filter;
-    private List<ItemStack> pullItemHistory = new java.util.ArrayList<ItemStack>();
+    @Nonnull
+    private List<ItemStack> pullItemHistory = new ArrayList<>();
 
     public GridCache(int page, int maxPages, @Nonnull SortOrder sortOrder) {
         this.page = page;
@@ -88,7 +90,8 @@ public class GridCache {
 
     public enum SortOrder {
         ALPHABETICAL,
-        NUMBER
+        NUMBER,
+        ADDON
     }
 
     public enum DisplayMode {

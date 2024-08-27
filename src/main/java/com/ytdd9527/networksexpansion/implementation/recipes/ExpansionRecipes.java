@@ -16,49 +16,26 @@ public class ExpansionRecipes {
             null, null, null
     };
 
-    //工具
-    public static final ItemStack[] NE_COORDINATE_CONFIGURATOR = new ItemStack[]{
-            null, RADIOACTIVE_OPTIC_STAR.getItem(), null,
-            null, NETWORK_CONFIGURATOR.getItem(), null,
-            null, INTERDIMENSIONAL_PRESENCE.getItem(), null
-    };
-
-    //工作台
+    // Workbench
     public static final ItemStack[] NE_EXPANSION_WORKBENCH = new ItemStack[]{
             EMPOWERED_AI_CORE.getItem(), SlimefunItems.ADVANCED_CIRCUIT_BOARD, EMPOWERED_AI_CORE.getItem(),
             OPTIC_CABLE.getItem(), NETWORK_BRIDGE.getItem(), OPTIC_CABLE.getItem(),
             EMPOWERED_AI_CORE.getItem(), SlimefunItems.ADVANCED_CIRCUIT_BOARD, EMPOWERED_AI_CORE.getItem()
     };
 
-    //坐标传输器
-    @Deprecated
-    public static final ItemStack[] COORDINATE_TRANSMITTER = new ItemStack[]{
-            NETWORK_WIRELESS_TRANSMITTER.getItem(), ADVANCED_NANOBOTS.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(),
-            ADVANCED_NANOBOTS.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, ADVANCED_NANOBOTS.getItem(),
-            NETWORK_WIRELESS_TRANSMITTER.getItem(), PRISTINE_AI_CORE.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem()
-    };
-
-    //坐标接收器
-    @Deprecated
-    public static final ItemStack[] COORDINATE_RECEIVER = new ItemStack[]{
-            NETWORK_WIRELESS_RECEIVER.getItem(), ADVANCED_NANOBOTS.getItem(), NETWORK_WIRELESS_RECEIVER.getItem(),
-            ADVANCED_NANOBOTS.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, ADVANCED_NANOBOTS.getItem(),
-            NETWORK_WIRELESS_RECEIVER.getItem(), AI_CORE.getItem(), NETWORK_WIRELESS_RECEIVER.getItem()
-    };
-    ///对点传输器
+    // Point Transfers
     public static final ItemStack[] POINT_TRANSFER = new ItemStack[]{
             NETWORK_GRABBER.getItem(), NETWORK_PUSHER.getItem(), NETWORK_GRABBER.getItem(),
             NETWORK_PUSHER.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), NETWORK_PUSHER.getItem(),
             NETWORK_GRABBER.getItem(), NETWORK_PUSHER.getItem(), NETWORK_GRABBER.getItem()
     };
-    ///对点传输器 [抓取]
     public static final ItemStack[] POINT_TRANSFER_GRABBER = new ItemStack[]{
             NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(),
             OPTIC_CABLE.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), OPTIC_CABLE.getItem(),
             NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem()
     };
 
-    ///链式传输器推送
+    // Line Transfers
     public static final ItemStack[] LINE_TRANSFER_PUSHER = new ItemStack[]{
             NETWORK_PUSHER.getItem(), NETWORK_EXPORT.getItem(), AI_CORE.getItem(),
             NETWORK_EXPORT.getItem(), NETWORK_MONITOR.getItem(), NETWORK_EXPORT.getItem(),
@@ -82,14 +59,11 @@ public class ExpansionRecipes {
             SHRINKING_BASE.getItem(), OPTIC_CABLE.getItem(), SHRINKING_BASE.getItem()
     };
 
-    ///链式传输器抓取
     public static final ItemStack[] LINE_TRANSFER_GRABBER = new ItemStack[]{
             NETWORK_GRABBER.getItem(), NETWORK_IMPORT.getItem(), AI_CORE.getItem(),
             NETWORK_IMPORT.getItem(), NETWORK_MONITOR.getItem(), NETWORK_IMPORT.getItem(),
             AI_CORE.getItem(), NETWORK_IMPORT.getItem(), NETWORK_GRABBER.getItem()
     };
-
-
     public static final ItemStack[] LINE_TRANSFER_PLUS_GRABBER = new ItemStack[]{
             SHRINKING_BASE.getItem(), OPTIC_CABLE.getItem(), SHRINKING_BASE.getItem(),
             OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, OPTIC_CABLE.getItem(),
@@ -106,7 +80,6 @@ public class ExpansionRecipes {
             OPTIC_CABLE.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_GRABBER, OPTIC_CABLE.getItem(),
             SHRINKING_BASE.getItem(), OPTIC_CABLE.getItem(), SHRINKING_BASE.getItem()
     };
-    //链式传输器
     public static final ItemStack[] LINE_TRANSFER = new ItemStack[]{
             ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_IMPORT.getItem(), NETWORK_BRIDGE.getItem(),
             NETWORK_EXPORT.getItem(), NETWORK_MONITOR.getItem(), NETWORK_EXPORT.getItem(),
@@ -249,7 +222,7 @@ public class ExpansionRecipes {
             ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT, ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH, ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
             SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.CARGO_MOTOR, SlimefunItems.BASIC_CIRCUIT_BOARD
     };
-    //合成机
+    // Crafter
     public static final ItemStack[] AUTO_MAGIC_WORKBENCH = new ItemStack[]{
             OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
             ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT, SIMPLE_NANOBOTS.getItem(), ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
@@ -321,7 +294,7 @@ public class ExpansionRecipes {
             ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH, ADVANCED_NANOBOTS.getItem(), ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH,
             OPTIC_GLASS.getItem(), NETWORK_AUTO_CRAFTER_WITHHOLDING.getItem(), OPTIC_GLASS.getItem()
     };
-    //高级合成机
+    // Advanced Auto Crafter
     public static final ItemStack[] ADVANCED_AUTO_CRAFTING_TABLE = new ItemStack[]{
             NETWORK_AUTO_CRAFTER.getItem(), ADVANCED_NANOBOTS.getItem(), NETWORK_AUTO_CRAFTER.getItem(),
             ADVANCED_NANOBOTS.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), ADVANCED_NANOBOTS.getItem(),
@@ -405,31 +378,19 @@ public class ExpansionRecipes {
             ADVANCED_NANOBOTS.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), ADVANCED_NANOBOTS.getItem(),
             ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH_WITHHOLDING, ExpansionItemStacks.EXPANSION_WORKBENCH_RECIPE_ENCODER, ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH_WITHHOLDING
     };
-    //网格
+    // Grid
     public static final ItemStack[] NETWORK_GRID_NEW_STYLE = new ItemStack[]{
             NETWORK_BRIDGE.getItem(), OPTIC_CABLE.getItem(), NETWORK_BRIDGE.getItem(),
             OPTIC_CABLE.getItem(), NETWORK_GRID.getItem(), OPTIC_CABLE.getItem(),
             NETWORK_BRIDGE.getItem(), OPTIC_CABLE.getItem(), NETWORK_BRIDGE.getItem()
     };
-
-    public static final ItemStack[] NETWORK_CRAFTING_GRID_NEW_STYLE = new ItemStack[]{
-            OPTIC_STAR.getItem(), OPTIC_STAR.getItem(), OPTIC_STAR.getItem(),
-            OPTIC_STAR.getItem(), NETWORK_CRAFTING_GRID.getItem(), OPTIC_STAR.getItem(),
-            OPTIC_STAR.getItem(), OPTIC_STAR.getItem(), OPTIC_STAR.getItem()
-    };
-
-    public static final ItemStack[] NETWORK_ENCODING_GRID_NEW_STYLE = new ItemStack[]{
-            NETWORK_BRIDGE.getItem(), NETWORK_RECIPE_ENCODER.getItem(), NETWORK_BRIDGE.getItem(),
-            OPTIC_CABLE.getItem(), ExpansionItemStacks.NETWORK_CRAFTING_GRID_NEW_STYLE, OPTIC_CABLE.getItem(),
-            NETWORK_BRIDGE.getItem(), OPTIC_CABLE.getItem(), NETWORK_BRIDGE.getItem()
-    };
-    //高级量子存储
+    // Storages
     public static final ItemStack[] ADVANCED_QUANTUM_STORAGE = new ItemStack[]{
             OPTIC_STAR.getItem(), NETWORK_CONFIGURATOR.getItem(), OPTIC_STAR.getItem(),
             OPTIC_CABLE.getItem(), NETWORK_QUANTUM_STORAGE_8.getItem(), OPTIC_CABLE.getItem(),
             OPTIC_STAR.getItem(), NETWORK_CONFIGURATOR.getItem(), OPTIC_STAR.getItem()
     };
-    //NETWORK_BRIDGE.getItem()
+    // Bridges
     public static final ItemStack[] NETWORK_BRIDGE_WHITE = new ItemStack[]{
             NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
             NETWORK_BRIDGE.getItem(), new ItemStack(Material.WHITE_DYE), NETWORK_BRIDGE.getItem(),
