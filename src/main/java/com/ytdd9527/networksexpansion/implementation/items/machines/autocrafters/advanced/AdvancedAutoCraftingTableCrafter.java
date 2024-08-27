@@ -40,7 +40,4 @@ public class AdvancedAutoCraftingTableCrafter extends AbstractAdvancedAutoCrafte
     public boolean canTestVanillaRecipe() {
         return true;
     }
-    public Pair<Boolean, ItemStack> testVanillaRecipe(ItemStack[] inputs, World world) {
-        return SupportedCraftingTableRecipes.testVanillaRecipe(inputs, world);
-    }
 }
