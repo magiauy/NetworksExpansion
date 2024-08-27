@@ -14,7 +14,7 @@ import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
-import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;

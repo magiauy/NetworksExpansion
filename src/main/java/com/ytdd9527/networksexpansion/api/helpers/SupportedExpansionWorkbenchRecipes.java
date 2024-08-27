@@ -1,5 +1,7 @@
 package com.ytdd9527.networksexpansion.api.helpers;
 
+import com.ytdd9527.networksexpansion.api.interfaces.CanTestRecipe;
+import com.ytdd9527.networksexpansion.api.interfaces.HasRecipes;
 import com.ytdd9527.networksexpansion.implementation.items.machines.manual.ExpansionWorkbench;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -14,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
-public final class SupportedExpansionWorkbenchRecipes {
+public final class SupportedExpansionWorkbenchRecipes implements HasRecipes, CanTestRecipe {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 

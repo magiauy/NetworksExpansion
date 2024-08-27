@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedEnhancedCraftingTableRecipes;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedCraftingTableRecipes;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.GridItemRequest;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -213,8 +213,8 @@ public class NetworkCraftingGrid extends AbstractGrid {
         ItemStack crafted = null;
 
         // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedEnhancedCraftingTableRecipes.getRecipes().entrySet()) {
-            if (SupportedEnhancedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
+        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedCraftingTableRecipes.getRecipes().entrySet()) {
+            if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
                 crafted = entry.getValue().clone();
                 break;
             }

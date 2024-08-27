@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Getter
 public enum Theme {
     GOLD(ChatColor.GOLD, ""),
