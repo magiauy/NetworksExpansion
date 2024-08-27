@@ -32,7 +32,8 @@ public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random
                 new ItemStack(Material.BAMBOO_BLOCK),
                 Theme.MACHINE,
                 "Network Expansion Workbench",
-                "Can be used to craft various materials and machines for network expansion"
+                "Can be used to craft various materials",
+                "and machines for network expansion."
 );
 
     //工具
@@ -50,7 +51,7 @@ public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
                 "Network Slimefun World Edit Axe",
                 "Only available for administrators",
                 "Right-click to select the first position",
-                "Shift + Right-click to select the second position"
+                "Shift + Right-click to select the second position."
 );
     //高级网络物品
 public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
@@ -58,35 +59,38 @@ public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
                 Enchanted(Material.RED_STAINED_GLASS),
                 Theme.MACHINE,
                 "Advanced Network Importer",
-                "The Advanced Network Importer will send its items into the network",
-                "Up to 54 item stacks can be transferred per SF tick",
-                "Can receive items from the Cargo Network"
+                "The Advance Networks Importer brings",
+                "any item inside it into the network, up",
+                "up to 54 stacks per SF tick."
 );
 public static final SlimefunItemStack ADVANCED_EXPORT = Theme.Random(
         "NTW_EXPANSION_ADVANCED_EXPORT",
         Enchanted(Material.BLUE_STAINED_GLASS),
         Theme.MACHINE,
         "Advanced Network Exporter",
-        "The Advanced Network Exporter can be set to continuously send out a specified quantity of items from the network",
-        "Items can be extracted from it using a Cargo Network"
+        "The Advanced Network Exporter can be set",
+        "to constantly export 18 stacks of any",
+        "given item.",
+        "accepts item withdrawal from cargo."
 );
 public static final SlimefunItemStack ADVANCED_PURGER = Theme.Random(
                 "NTW_EXPANSION_ADVANCED_PURGER",
                 Enchanted(Material.YELLOW_STAINED_GLASS),
                 Theme.MACHINE,
                 "Advanced Network Purger",
-                "The Advanced Network Purger continuously removes specified items from the network",
-                "The removed items will disappear immediately, use with caution!"
+                "The Advanced Network Purger will pull up to 48",
+                "types of matching items from network and instantly",
+                "void them. Use with great care!"
 );
 public static final SlimefunItemStack ADVANCED_GREEDY_BLOCK = Theme.Random(
                 "NTW_EXPANSION_ADVANCED_GREEDY_BLOCK",
                 Enchanted(Material.GRAY_STAINED_GLASS),
                 Theme.MACHINE,
-                "Advanced Network Blocker",
-                "The Advanced Network Blocker can be set to collect a specified item from various inputs in the network",
-                "Up to 9 groups can be collected",
-                "Once the collection is full, the item will be blocked from being transferred in the network",
-                "No other network blocks will receive the item."
+                "Advanced Network Greedy Block",
+                "The Advanced Network Greedy Block can be set to",
+                "one item which it will then greedily hold on to",
+                "a total of 9 stacks. If more incomming items do ",
+                "not fit, they will not enter the network."
 );
 
 public static final SlimefunItemStack NETWORK_CAPACITOR_5 = Theme.Random(
@@ -94,8 +98,9 @@ public static final SlimefunItemStack NETWORK_CAPACITOR_5 = Theme.Random(
                 new ItemStack(Material.CYAN_GLAZED_TERRACOTTA),
                 Theme.MACHINE,
                 "Network Capacitor (5)",
-                "The Network Capacitor can receive power from the energy network and store it",
-                "for use by other network devices",
+                "The Network Capacitor can take",
+                "power in and store it for use",
+                "within the network.",
                 "",
                 MessageFormat.format("{0}Capacity: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, 100000000)
 );
@@ -105,8 +110,9 @@ public static final SlimefunItemStack NETWORK_CAPACITOR_6 = Theme.Random(
                 new ItemStack(Material.BLUE_GLAZED_TERRACOTTA),
                 Theme.MACHINE,
                 "Network Capacitor (6)",
-                "The Network Capacitor can receive power from the energy network and store it",
-                "for use by other network devices",
+                "The Network Capacitor can take",
+                "power in and store it for use",
+                "within the network.",
                 "",
                 MessageFormat.format("{0}Capacity: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, Integer.MAX_VALUE)
 );
@@ -118,8 +124,10 @@ public static final SlimefunItemStack ADVANCED_QUANTUM_STORAGE = Theme.Random(
                 Theme.MACHINE,
                 "Advanced Quantum Storage",
                 "Customizable maximum storage capacity",
-                "Please note that once the quantity is set, it cannot be set to a smaller value than before",
-                "Otherwise, it will be cleared to the current maximum capacity"
+                "Please note that once the quantity is set,",
+                "it cannot be set to a smaller value than before",
+                "Otherwise, it will be cleared to the current",
+                "maximum capacity"
 );
 
     //运输 LINE_TRANSFER POINT_TRANSFER_PUSHER
@@ -143,52 +151,42 @@ public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
         "NTW_EXPANSION_LINE_TRANSFER_PUSHER",
         new ItemStack(Material.OBSERVER),
         Theme.MACHINE,
-        "Network Line Transfer Pusher",
-        "&cOnly supports slime containers",
-        "&6Transport distance: 32 blocks",
-        "&7Default transport mode: &6First Slot Blocking",
-        "&cTransport mode cannot be adjusted",
-        "&7Default transport quantity: &664",
-        "&cTransport quantity cannot be adjusted",
-        "&eUnlike the Random Skill's Line Transfer, this machine",
-        " &conly has continuous pushing functionality",
-        "&cInstead of continuous item transfer!",
-        "&7Transport mode explanation:",
-        "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items"
+        "Network Line Pusher",
+        "Only supports Slimefun Machine",
+        "Max distance: 32 blocks",
+        "Default mode: First slot",
+        "Default quantity per SF tick: 64",
+        "Line pusher will push an item through",
+        "a line of machines it facing.",
+        "First slot mode: Pushes to the accepted slot in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
         "NTW_EXPANSION_LINE_TRANSFER_GRABBER",
         new ItemStack(Material.TARGET),
         Theme.MACHINE,
-        "Network Line Transfer Grabber",
-        "&cOnly supports slime containers",
-        "&6Transport distance: 32 blocks",
-        "&7Default transport mode: &6First Slot Blocking",
-        "&cTransport mode cannot be adjusted",
-        "&7Default transport quantity: &664",
-        "&cTransport quantity cannot be adjusted",
-        "&eUnlike the Random Skill's Line Transfer, this machine ",
-        "&conly has continuous grabbing functionality",
-        "&cInstead of continuous item transfer!",
-        "&7Transport mode explanation:",
-        "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items"
+        "Network Line Grabber",
+        "Only supports Slimefun Machine",
+        "Max distance: 32 blocks",
+        "Default mode: First slot",
+        "Default quantity per SF tick: 64",
+        "Line pusher will grab items through",
+        "a line of machines it facing.",
+        "First slot mode: Grabs the slot",
+        "that has items in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
         "NTW_EXPANSION_LINE_TRANSFER",
         new ItemStack(Material.PISTON),
         Theme.MACHINE,
         "Network Line Transfer",
-        "&cOnly supports slime containers",
-        "&6Transport distance: 32 blocks",
-        "&7Default transport mode: &6First Slot Blocking",
-        "&cTransport mode cannot be adjusted",
-        "&7Default transport quantity: &664",
-        "&cTransport quantity cannot be adjusted",
-        "&eUnlike the Random Skill's Line Transfer, this machine ",
-        "&chas both continuous pushing and grabbing functionality",
-        "&cInstead of continuous item transfer!",
-        "&7Transport mode explanation:",
-        "&6First Slot Blocking&7: &eOnly pushes / grabs from the first slot that has items"
+        "Only supports Slimefun Machine",
+        "Max distance: 32 blocks",
+        "Default mode: First slot",
+        "Default quantity per SF tick: 64",
+        "Line pusher will grab and push items",
+        "a through line of machines it facing.",
+        "First slot mode: Grabs / Pushes the",
+        "items in the machine."
 );
 
     //链式传输Plus
@@ -196,88 +194,71 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER",
                 new ItemStack(Material.OBSERVER),
                 Theme.MACHINE,
-                "Network Line Transfer Plus [Pusher]",
-                "&cOnly supports slime containers",
-                "&6Transport distance: 64 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&cTransport mode cannot be adjusted",
-                "&7Default transport quantity: &664",
-                "&cTransport quantity cannot be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine",
-                " &conly has continuous pushing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation:",
-                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items"
+                "Network Line Pusher Plus",
+                "Only supports Slimefun Machine",
+                "Max distance: 64 blocks",
+                "Default mode: First slot",
+                "Default quantity per SF tick: 64",
+                "Line pusher will push an item through",
+                "a line of machines it facing.",
+                "First slot mode: Pushes to the accepted slot in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER",
                 new ItemStack(Material.TARGET),
                 Theme.MACHINE,
-                "Network Line Transfer Plus [Grabber]",
-                "&cOnly supports slime containers",
-                "&6Transport distance: 64 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&cTransport mode cannot be adjusted",
-                "&7Default transport quantity: &664",
-                "&cTransport quantity cannot be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine ",
-                "&conly has continuous grabbing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation:",
-                "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items"
+                "Network Line Grabber Plus",
+                "Only supports Slimefun Machine",
+                "Max distance: 64 blocks",
+                "Default mode: First slot",
+                "Default quantity per SF tick: 64",
+                "Line pusher will grab items through",
+                "a line of machines it facing.",
+                "First slot mode: Grabs the slot",
+                "that has items in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_PLUS",
                 new ItemStack(Material.STICKY_PISTON),
                 Theme.MACHINE,
                 "Network Line Transfer Plus",
-                "&cOnly supports slime containers",
-                "&6Transport distance: 64 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&cTransport mode cannot be adjusted",
-                "&7Default transport quantity: &664",
-                "&cTransport quantity cannot be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine ",
-                "&chas both continuous pushing and grabbing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation:",
-                "&6First Slot Blocking&7: &eOnly pushes / grabs from the first slot that has items"
+                "Only supports Slimefun Machine",
+                "Max distance: 64 blocks",
+                "Default mode: First slot",
+                "Default quantity per SF tick: 64",
+                "Line pusher will grab and push items",
+                "a through line of machines it facing.",
+                "First slot mode: Grabs / Pushes the",
+                "items in the machine."
 );
 
 public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER",
                 new ItemStack(Material.OBSERVER),
                 Theme.MACHINE,
-                "Vanilla Line Transfer [Pusher]",
-                "&cOnly supports vanilla containers",
-                "&6Transport distance: 32 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&cTransport mode cannot be adjusted",
-                "&7Default transport quantity: &664",
-                "&cTransport quantity cannot be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine ",
-                "&conly has continuous pushing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation:",
-                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items"
+                "Vanilla Line Pusher",
+                "Only supports Vanilla Machine",
+                "Max distance: 32 blocks",
+                "Default mode: First slot",
+                "Default quantity per SF tick: 64",
+                "Line pusher will push an item through",
+                "a line of machines it facing.",
+                "First slot mode: Pushes to the accepted slot in the machine."
 );
 
 public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER",
                 new ItemStack(Material.TARGET),
                 Theme.MACHINE,
-                "Vanilla Line Transfer [Grabber]",
-                "&cOnly supports vanilla containers",
-                "&6Transport distance: 32 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&cTransport mode cannot be adjusted",
-                "&7Default transport quantity: &664",
-                "&cTransport quantity cannot be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine ",
-                "&conly has continuous grabbing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation:",
-                "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items"
+                "Vanilla Line Grabber",
+                "Only supports Vanilla Machine",
+                "Max distance: 32 blocks",
+                "Default mode: First slot",
+                "Default quantity per SF tick: 64",
+                "Line pusher will grab items through",
+                "a line of machines it facing.",
+                "First slot mode: Grabs the slot",
+                "that has items in the machine."
 );
 
     //高级链式传输
@@ -285,24 +266,21 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Rand
                 "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER",
                 Enchanted(Material.OBSERVER),
                 Theme.MACHINE,
-                "Network Line Transfer Pusher",
-                "&cOnly supports slime containers",
-                "&6Transport distance: 32 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&aTransport mode can be adjusted",
-                "&7Default transport quantity: &63456",
-                "&aTransport quantity can be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine ",
-                "&conly has continuous pushing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation: ",
-                "&6Unrestricted&7: &eCan push to any slot",
-                "&6Only Empty&7: &eOnly pushes to empty slots",
-                "&6Only Non-Empty&7: &eOnly pushes to non-empty slots",
-                "&6Only First Slot&7: &eOnly pushes to the first slot",
-                "&6Only Last Slot&7: &eOnly pushes to the last slot",
-                "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items",
-                "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots"
+                "Advance Network Line Pusher",
+                "Only supports Slimefun Machine",
+                "Max distance: 32 blocks",
+                "Default mode: First slot",
+                "Default quantity per SF tick: 64",
+                "Line pusher will grab and push items",
+                "a through line of machines it facing.",
+                "Unlimited Mode: Can push to any slot",
+                "Null Only Mode: Only pushes to empty slots",
+                "Non-Null Only Mode: Only pushes to non-empty slots",
+                "First Only Mode: Only pushes to the first slot",
+                "Last Only Mode: Only pushes to the last slot",
+                "First Stop Mode: Only pushes to the accepted",
+                "slot in the machine.",
+                "Lazy Mode: When the first slot is empty, push to all slots"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
                 "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
@@ -430,8 +408,7 @@ public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE = Theme.Random(
                 Theme.MACHINE,
                 "Advanced Network Grid",
                 "Advanced network grid allows you to view all items in the network",
-                "You can also directly insert or retrieve items",
-                "Supports Pinyin search"
+                "You can also directly insert or retrieve items"
 );
 public static final SlimefunItemStack NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.Random(
                 "NTW_EXPANSION_CRAFTING_GRID_NEW_STYLE",
@@ -441,8 +418,7 @@ public static final SlimefunItemStack NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.Ra
                 "This grid is similar to the normal grid",
                 "But it displays fewer items",
                 "However, you can directly use items from the network",
-                "for crafting",
-                "Supports Pinyin search"
+                "for crafting"
 );
 public static final SlimefunItemStack NETWORK_ENCODING_GRID_NEW_STYLE = Theme.Random(
                 "NTW_EXPANSION_ENCODING_GRID_NEW_STYLE",
@@ -452,8 +428,7 @@ public static final SlimefunItemStack NETWORK_ENCODING_GRID_NEW_STYLE = Theme.Ra
                 "This grid is similar to the advanced grid",
                 "But it displays fewer items",
                 "However, you can directly use items from the network",
-                "for encoding",
-                "Supports Pinyin search"
+                "for encoding"
 );
 //蓝图
 public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT = Theme.Random(
