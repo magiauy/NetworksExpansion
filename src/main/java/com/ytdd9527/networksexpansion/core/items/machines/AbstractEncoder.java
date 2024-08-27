@@ -178,6 +178,7 @@ public abstract class AbstractEncoder extends NetworkObject {
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
 
     public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
+
     public boolean canTestVanillaRecipe(ItemStack[] inputs) {
         return false;
     }

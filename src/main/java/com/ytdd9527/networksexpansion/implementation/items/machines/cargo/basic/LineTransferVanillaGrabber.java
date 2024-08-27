@@ -138,7 +138,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
 
         // dirty fix
         Block targetBlock = block.getRelative(direction);
-        for (int d = 0; d < maxDistance; d++) {
+        for (int d = 0; d <= maxDistance; d++) {
             try {
                 if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
                     break;

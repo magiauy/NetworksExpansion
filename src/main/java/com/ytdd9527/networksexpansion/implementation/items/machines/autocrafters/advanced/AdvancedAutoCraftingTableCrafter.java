@@ -7,8 +7,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
@@ -37,6 +35,7 @@ public class AdvancedAutoCraftingTableCrafter extends AbstractAdvancedAutoCrafte
     public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof CraftingBlueprint;
     }
+
     public boolean canTestVanillaRecipe() {
         return true;
     }

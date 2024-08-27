@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun;
 
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoCraftingTableCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.CraftingEncoder;
 import io.github.sefiraat.networks.Networks;
@@ -29,7 +30,6 @@ import io.github.sefiraat.networks.slimefun.network.grid.NetworkCraftingGrid;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkBestPusher;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkMorePusher;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.sefiraat.networks.slimefun.tools.NetworkAdminDebugger;
 import io.github.sefiraat.networks.slimefun.tools.NetworkConfigurator;
 import io.github.sefiraat.networks.slimefun.tools.NetworkCrayon;
