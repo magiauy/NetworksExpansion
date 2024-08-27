@@ -280,6 +280,10 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
         if (menu != null && (force || menu.hasViewer())) {
 
             StorageUnitData data = storages.get(l);
+            if (data == null) {
+                requestData(l, getContainerId(l));
+                return;
+            }
             StorageUnitType sizeType = data.getSizeType();
             int maxEach = sizeType.getEachMaxSize();
 
@@ -683,10 +687,10 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                 Location currLoc = data.getLastLocation();
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e" + (currLoc.getWorld() == null ? "Unknown" : currLoc.getWorld().getName()) + " &7| &e" + currLoc.getBlockX() + "&7/&e" + currLoc.getBlockY() + "&7/&e" + currLoc.getBlockZ() + "&7;"));
                 e.setCancelled(true);
-                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
                 if (useSpecialModel) {
                     removeDisplay(l);
                 }
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
                 return;
             }
             // Request data

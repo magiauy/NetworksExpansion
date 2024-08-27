@@ -32,7 +32,7 @@ public class AdvancedAutoMagicWorkbenchCrafter extends AbstractAdvancedAutoCraft
         return SupportedMagicWorkbenchRecipes.testRecipe(inputs, recipe);
     }
 
-    public boolean isVaildBlueprint(SlimefunItem item) {
+    public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof MagicWorkbenchBlueprint;
     }
 }

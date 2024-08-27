@@ -1,13 +1,13 @@
 package io.github.sefiraat.networks.slimefun;
 
+import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoCraftingTableCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.CraftingEncoder;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.slimefun.network.NetworkAutoCrafter;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
 import io.github.sefiraat.networks.slimefun.network.NetworkControlV;
 import io.github.sefiraat.networks.slimefun.network.NetworkControlX;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
-import io.github.sefiraat.networks.slimefun.network.NetworkEncoder;
 import io.github.sefiraat.networks.slimefun.network.NetworkExport;
 import io.github.sefiraat.networks.slimefun.network.NetworkGrabber;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
@@ -29,7 +29,7 @@ import io.github.sefiraat.networks.slimefun.network.grid.NetworkCraftingGrid;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkBestPusher;
 import io.github.sefiraat.networks.slimefun.network.pusher.NetworkMorePusher;
-import io.github.sefiraat.networks.slimefun.tools.CraftingBlueprint;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.sefiraat.networks.slimefun.tools.NetworkAdminDebugger;
 import io.github.sefiraat.networks.slimefun.tools.NetworkConfigurator;
 import io.github.sefiraat.networks.slimefun.tools.NetworkCrayon;
@@ -103,9 +103,9 @@ public class NetworkSlimefunItems {
     public static final NetworkPowerOutlet NETWORK_POWER_OUTLET_1;
     public static final NetworkPowerOutlet NETWORK_POWER_OUTLET_2;
     public static final NetworkPowerDisplay NETWORK_POWER_DISPLAY;
-    public static final NetworkEncoder NETWORK_RECIPE_ENCODER;
-    public static final NetworkAutoCrafter NETWORK_AUTO_CRAFTER;
-    public static final NetworkAutoCrafter NETWORK_AUTO_CRAFTER_WITHHOLDING;
+    public static final CraftingEncoder NETWORK_RECIPE_ENCODER;
+    public static final AutoCraftingTableCrafter NETWORK_AUTO_CRAFTER;
+    public static final AutoCraftingTableCrafter NETWORK_AUTO_CRAFTER_WITHHOLDING;
 
     public static final CraftingBlueprint CRAFTING_BLUEPRINT;
     public static final NetworkProbe NETWORK_PROBE;
@@ -715,7 +715,7 @@ public class NetworkSlimefunItems {
                 }
         );
 
-        NETWORK_RECIPE_ENCODER = new NetworkEncoder(
+        NETWORK_RECIPE_ENCODER = new CraftingEncoder(
                 NetworksItemGroups.NETWORK_ITEMS,
                 NetworksSlimefunItemStacks.NETWORK_RECIPE_ENCODER,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -726,7 +726,7 @@ public class NetworkSlimefunItems {
                 }
         );
 
-        NETWORK_AUTO_CRAFTER = new NetworkAutoCrafter(
+        NETWORK_AUTO_CRAFTER = new AutoCraftingTableCrafter(
                 NetworksItemGroups.NETWORK_ITEMS,
                 NetworksSlimefunItemStacks.NETWORK_AUTO_CRAFTER,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -739,7 +739,7 @@ public class NetworkSlimefunItems {
                 false
         );
 
-        NETWORK_AUTO_CRAFTER_WITHHOLDING = new NetworkAutoCrafter(
+        NETWORK_AUTO_CRAFTER_WITHHOLDING = new AutoCraftingTableCrafter(
                 NetworksItemGroups.NETWORK_ITEMS,
                 NetworksSlimefunItemStacks.NETWORK_AUTO_CRAFTER_WITHHOLDING,
                 RecipeType.ENHANCED_CRAFTING_TABLE,

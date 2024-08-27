@@ -1,5 +1,7 @@
 package com.ytdd9527.networksexpansion.api.helpers;
 
+import com.ytdd9527.networksexpansion.api.interfaces.CanTestRecipe;
+import com.ytdd9527.networksexpansion.api.interfaces.HasRecipes;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -13,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
-public final class SupportedArmorForgeRecipes {
+public final class SupportedArmorForgeRecipes implements HasRecipes, CanTestRecipe {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 

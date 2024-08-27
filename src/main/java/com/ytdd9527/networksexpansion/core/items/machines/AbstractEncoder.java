@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -133,6 +134,11 @@ public abstract class AbstractEncoder extends NetworkObject {
                 break;
             }
         }
+
+        if (crafted == null && canTestVanillaRecipe(inputs)) {
+            crafted = Bukkit.craftItem(inputs.clone(), player.getWorld(), player);
+        }
+
         if (crafted == null || crafted.getType().isAir()) {
             player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
             return;
@@ -172,4 +178,7 @@ public abstract class AbstractEncoder extends NetworkObject {
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
 
     public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
+    public boolean canTestVanillaRecipe(ItemStack[] inputs) {
+        return false;
+    }
 }
