@@ -3,12 +3,12 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.networks.ad
 import com.ytdd9527.networksexpansion.api.helpers.SupportedCraftingTableRecipes;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;

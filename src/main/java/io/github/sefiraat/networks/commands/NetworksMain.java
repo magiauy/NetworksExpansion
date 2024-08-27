@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
@@ -14,7 +15,6 @@ import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
@@ -167,6 +167,7 @@ public class NetworksMain implements TabExecutor {
         Block target = p.getTargetBlockExact(5);
         if (target == null || target.getType().isAir()) {
             p.sendMessage(ChatColor.RED + "请指向一个失效的网络抽屉单元");
+            return;
         }
         Location l = target.getLocation();
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
@@ -174,6 +175,7 @@ public class NetworksMain implements TabExecutor {
             String id = blockData.getData("containerId");
             if (id != null) {
                 p.sendMessage(ChatColor.RED + "该单元的数据正常，无需恢复。");
+                return;
             }
         } else {
             p.sendMessage(ChatColor.GREEN + "正在查询，请稍候...");
@@ -187,6 +189,7 @@ public class NetworksMain implements TabExecutor {
                     p.sendMessage(ChatColor.GREEN + "已成功恢复！");
                 } else {
                     p.sendMessage(ChatColor.RED + "未找到数据。");
+                    return;
                 }
             });
         }
@@ -395,18 +398,22 @@ public class NetworksMain implements TabExecutor {
 
         if (!sfItem.getItem().getType().isBlock()) {
             player.sendMessage(ChatColor.RED + "这不是一个有效的粘液方块ID！");
+            return;
         }
 
         if (sfItem.getItem().getType().isAir()) {
             player.sendMessage(ChatColor.RED + "不可放置的粘液方块！");
+            return;
         }
 
         if (POS1 == null || POS2 == null) {
             player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+            return;
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
             player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
+            return;
         }
 
         int upX = Math.max(POS1.getBlockX(), POS2.getBlockX());
@@ -658,6 +665,7 @@ public class NetworksMain implements TabExecutor {
             player.sendMessage(ChatColor.GREEN + "已更新物品！");
         } else {
             player.sendMessage(ChatColor.RED + "不支持其他物品的更新");
+            return;
         }
     }
 

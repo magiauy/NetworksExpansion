@@ -305,6 +305,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
 
     public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
+
     public boolean canTestVanillaRecipe() {
         return false;
     }
