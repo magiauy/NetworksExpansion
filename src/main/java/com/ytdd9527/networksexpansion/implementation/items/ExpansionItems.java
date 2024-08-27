@@ -45,9 +45,7 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedPurger;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid.NetworkCraftingGridNewStyle;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid.NetworkEncodingGridNewStyle;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid.NetworkGridNewStyle;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.implementation.items.tools.CargoNodeQuickTool;
 import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksExpansionWorldEditAxe;
@@ -125,19 +123,6 @@ public class ExpansionItems {
             ExpansionItemStacks.NETWORK_GRID_NEW_STYLE,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.NETWORK_GRID_NEW_STYLE
-    );
-    public static final NetworkCraftingGridNewStyle NETWORK_CRAFTING_GRID_NEW_STYLE = new NetworkCraftingGridNewStyle(
-            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
-            ExpansionItemStacks.NETWORK_CRAFTING_GRID_NEW_STYLE,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.NETWORK_CRAFTING_GRID_NEW_STYLE
-    );
-
-    public static final NetworkEncodingGridNewStyle NETWORK_ENCODING_GRID_NEW_STYLE = new NetworkEncodingGridNewStyle(
-            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
-            ExpansionItemStacks.NETWORK_ENCODING_GRID_NEW_STYLE,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.NETWORK_ENCODING_GRID_NEW_STYLE
     );
 
     // Blueprints
