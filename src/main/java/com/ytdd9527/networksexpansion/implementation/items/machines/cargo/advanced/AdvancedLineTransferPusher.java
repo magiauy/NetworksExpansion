@@ -44,7 +44,7 @@ import java.util.function.Function;
 // TODO: 需要重构
 public class AdvancedLineTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Specify the items to be pushed"
     );
     private static final String KEY_UUID = "display-uuid";
     private static final int TRANSPORT_LIMIT = 3456;
@@ -533,23 +533,23 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩传输数据⇩",
+                "&a⇩Transfer data⇩",
                 "",
-                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
-                "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次"
+                "&7[&aMaximum distance&7]&f:&6" + maxDistance + "Block",
+                "&7[&aPush Rate&7]&f:&7 Every &6" + pushItemTick + " SfTick &7Push once"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩参数⇩",
-                "&7默认运输模式: &6首位阻断",
-                "&a可调整运输模式",
-                "&7默认运输数量: &63456",
-                "&a可调整运输数量"
+                "&a⇩Parameters ⇩",
+                "&7Default Transportation modes : &6Frist Slot Blocking",
+                "&aAdjustable Transportation modes",
+                "&7Default transport quantity: &63456",
+                "&aAdjustable transport quantities"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩功能⇩",
-                "",
-                "&e与链式不同的是，此机器&c只有连续推送的功能",
-                "&c而不是连续转移物品！"
+        "&a⇩Feature⇩",
+        "",
+        "&eUnlike the chain type, this machine &conly continuously pushes",
+        "&cInstead of transferring items consecutively！"
         ));
         return displayRecipes;
     }

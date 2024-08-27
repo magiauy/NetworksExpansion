@@ -716,7 +716,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩ Transfer data⇩",
+                "&a⇩Transfer data⇩",
                 "",
                 "&7[&aMaximum distance&7]&f:&6" + maxDistance + "Block",
                 "&7[&aPush Rate&7]&f:&7 Every &6" + pushItemTick + " SfTick &7Push once",

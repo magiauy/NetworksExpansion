@@ -355,17 +355,17 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                 "&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩参数⇩",
-                "&7默认运输模式: &6无限制",
-                "&a可调整运输模式",
-                "&7默认运输数量: &63456",
-                "&a可调整运输数量"
+                "&a⇩Parameters ⇩",
+                "&7Default Transportation modes : &6Unlimited",
+                "&aAdjustable Transportation modes",
+                "&7Default transport quantity: &63456",
+                "&aAdjustable transport quantities"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩功能⇩",
+                "&a⇩Feature⇩",
                 "",
-                "&e与链式不同的是，此机器&c只有连续抓取的功能",
-                "&c而不是连续转移物品！"
+                "&eUnlike the chain type, this machine &conly continuously grabs",
+                "&cInstead of transferring items consecutively！"
         ));
         return displayRecipes;
     }
