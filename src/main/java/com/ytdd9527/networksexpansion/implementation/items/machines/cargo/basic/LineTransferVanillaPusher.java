@@ -141,7 +141,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
         // dirty fix
         Block targetBlock = block.getRelative(direction);
-        for (int d = 0; d < maxDistance; d++) {
+        for (int d = 0; d <= maxDistance; d++) {
             // 如果方块是空气，退出
             if (targetBlock.getType().isAir()) {
                 break;
