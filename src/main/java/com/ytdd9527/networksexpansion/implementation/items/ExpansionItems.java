@@ -140,7 +140,7 @@ public class ExpansionItems {
             ExpansionRecipes.NETWORK_ENCODING_GRID_NEW_STYLE
     );
 
-    //蓝图
+    // Blueprints
     public static final MagicWorkbenchBlueprint MAGIC_WORKBENCH_BLUEPRINT = new MagicWorkbenchBlueprint(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
@@ -183,7 +183,7 @@ public class ExpansionItems {
             ExpansionRecipes.EXPANSION_WORKBENCH_BLUEPRINT
     );
 
-    //编码器
+    // Encoders
     public static final MagicWorkbenchEncoder MAGIC_WORKBENCH_RECIPE_ENCODER = new MagicWorkbenchEncoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.MAGIC_WORKBENCH_RECIPE_ENCODER,
@@ -225,7 +225,7 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.EXPANSION_WORKBENCH_RECIPE_ENCODER
     );
-    //合成机
+    // Auto Crafters
     public static final AutoMagicWorkbenchCrafter AUTO_MAGIC_WORKBENCH = new AutoMagicWorkbenchCrafter(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_MAGIC_WORKBENCH,
@@ -334,7 +334,7 @@ public class ExpansionItems {
             true
     );
 
-    //高级合成机
+    // Advanced Auto Crafters
     public static final AdvancedAutoMagicWorkbenchCrafter ADVANCED_AUTO_MAGIC_WORKBENCH = new AdvancedAutoMagicWorkbenchCrafter(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_MAGIC_WORKBENCH,
@@ -820,7 +820,7 @@ public class ExpansionItems {
             "CARGO_STORAGE_UNIT_13_MODEL"
     );
 
-    // 网桥
+    // Bridges
     public static final NetworkBridge NETWORK_BRIDGE_WHITE = new NetworkBridge(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.NETWORK_BRIDGE_WHITE,

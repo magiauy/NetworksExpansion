@@ -25,7 +25,9 @@ import java.util.Map;
  * @since 2.0
  */
 public class ExpansionItemStacks {
-    //工作台
+    private static final String thanks = "&x&c&c&8&c&f&4&l魔&x&c&b&9&7&f&5&l芋&x&c&a&a&3&f&6&l粘&x&c&9&a&e&f&7&l液&x&c&8&b&9&f&8&l科&x&c&7&c&5&f&9&l技&x&c&5&d&0&f&9&l服&x&c&4&d&b&f&a&l务&x&c&3&e&6&f&b&l器&x&c&2&f&2&f&c&l提&x&c&1&f&d&f&d&l供";
+
+    // Workbench
 
     public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_WORKBENCH",
@@ -35,14 +37,18 @@ public class ExpansionItemStacks {
             "可以合成网络拓展的各种材料和机器"
     );
 
-    //工具
-    public static final SlimefunItemStack NETWORK_COORDINATE_CONFIGURATOR = Theme.Random(
-            "NTW_EXPANSION_COORDINATE_CONFIGURATOR",
-            new ItemStack(Material.RECOVERY_COMPASS),
-            Theme.TOOL,
-            "网络坐标配置器",
-            "已弃用"
+    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE_MODEL = Theme.model(
+            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
+            Skins.STORAGE_UNIT_UPGRADE_TABLE_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉升级台",
+            "&e用于升级网络抽屉",
+            "",
+            thanks,
+            ""
     );
+
+    // Tools
     public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
             "NTW_EXPANSION_WORLD_EDIT_AXE",
             new ItemStack(Material.DIAMOND_AXE),
@@ -52,7 +58,7 @@ public class ExpansionItemStacks {
             "右键选择第一个位置",
             "Shift + 右键选择第二个位置"
     );
-    //高级网络物品
+    // Advanced Networks Machines
     public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
             "NTW_EXPANSION_ADVANCED_IMPORT",
             Enchanted(Material.RED_STAINED_GLASS),
@@ -116,21 +122,10 @@ public class ExpansionItemStacks {
             MessageFormat.format("{0}容量: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, Integer.MAX_VALUE)
     );
 
-    //存储
-    public static final SlimefunItemStack ADVANCED_QUANTUM_STORAGE = Theme.Random(
-            "NTW_EXPANSION_ADVANCED_QUANTUM_STORAGE",
-            new ItemStack(Material.AMETHYST_BLOCK),
-            Theme.MACHINE,
-            "高级量子存储",
-            "可自定义的最大存储容量",
-            "请注意设置数量之后不能在设置小于之前设置的数量",
-            "否则清空到当前最大容量"
-    );
 
+    // Transfers
 
-    //运输 LINE_TRANSFER POINT_TRANSFER_PUSHER
-
-    //对点传输器
+    // Points
     public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
             "NTW_EXPANSION_POINT_TRANSFER",
             Enchanted(Material.END_ROD),
@@ -144,7 +139,7 @@ public class ExpansionItemStacks {
             "对点传输器 [抓取]"
     );
 
-    //链式传输
+    // Lines
     public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_PUSHER",
             new ItemStack(Material.OBSERVER),
@@ -194,7 +189,6 @@ public class ExpansionItemStacks {
             "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
     );
 
-    //链式传输Plus
     public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER",
             new ItemStack(Material.OBSERVER),
@@ -278,7 +272,6 @@ public class ExpansionItemStacks {
             "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
     );
 
-    //高级链式传输
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER",
             Enchanted(Material.OBSERVER),
@@ -346,7 +339,6 @@ public class ExpansionItemStacks {
             "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
     );
 
-    //高级链式传输Plus
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER",
             Enchanted(Material.OBSERVER),
@@ -414,7 +406,7 @@ public class ExpansionItemStacks {
             "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
     );
 
-    //网格
+    // Grid
     public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE = Theme.Random(
             "NTW_EXPANSION_GRID_NEW_STYLE",
             new ItemStack(Material.NOTE_BLOCK),
@@ -446,7 +438,7 @@ public class ExpansionItemStacks {
             "进行编码",
             "支持拼音搜索"
     );
-    //蓝图
+    // Blueprints
     public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT = Theme.Random(
             "NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT",
             new ItemStack(Material.RED_DYE),
@@ -496,7 +488,7 @@ public class ExpansionItemStacks {
             "可以存储一个网络拓展工作台配方"
     );
 
-    //编码器
+    // Encoders
     public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_MAGIC_WORKBENCH_RECIPE_ENCODER",
             new ItemStack(Material.OAK_HANGING_SIGN),
@@ -553,7 +545,7 @@ public class ExpansionItemStacks {
     );
 
 
-    //网络合成机
+    // Auto Crafters
     public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH",
             new ItemStack(Material.BOOKSHELF),
@@ -729,7 +721,7 @@ public class ExpansionItemStacks {
             MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
 
-    //高级网络合成机
+    // Advanced Auto Crafters
     public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH",
             Enchanted(Material.BOOKSHELF),
@@ -949,7 +941,7 @@ public class ExpansionItemStacks {
             MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
     );
 
-    //网桥
+    // Bridges
     public static final SlimefunItemStack NETWORK_BRIDGE_WHITE = Theme.Random(
             "NTW_EXPANSION_BRIDGE_WHITE",
             new ItemStack(Material.WHITE_STAINED_GLASS),
@@ -1094,7 +1086,6 @@ public class ExpansionItemStacks {
             "来形成一个完整的网络",
             "更加清晰的布局网络"
     );
-    private static final String thanks = "&x&c&c&8&c&f&4&l魔&x&c&b&9&7&f&5&l芋&x&c&a&a&3&f&6&l粘&x&c&9&a&e&f&7&l液&x&c&8&b&9&f&8&l科&x&c&7&c&5&f&9&l技&x&c&5&d&0&f&9&l服&x&c&4&d&b&f&a&l务&x&c&3&e&6&f&b&l器&x&c&2&f&2&f&c&l提&x&c&1&f&d&f&d&l供";
     private static final Map<StorageUnitType, SlimefunItemStack> typeMap = new HashMap<>();
 
     public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
@@ -1118,16 +1109,18 @@ public class ExpansionItemStacks {
             thanks,
             ""
     );
-    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE_MODEL = Theme.model(
-            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
-            Skins.STORAGE_UNIT_UPGRADE_TABLE_MODEL.getPlayerHead(),
+
+    // Storages
+    public static final SlimefunItemStack ADVANCED_QUANTUM_STORAGE = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_QUANTUM_STORAGE",
+            new ItemStack(Material.AMETHYST_BLOCK),
             Theme.MACHINE,
-            "网络抽屉升级台",
-            "&e用于升级网络抽屉",
-            "",
-            thanks,
-            ""
+            "高级量子存储",
+            "可自定义的最大存储容量",
+            "请注意设置数量之后不能在设置小于之前设置的数量",
+            "否则清空到当前最大容量"
     );
+
     public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
             "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
             new ItemStack(Material.CHISELED_BOOKSHELF),
