@@ -133,16 +133,16 @@ public abstract class NetworkDirectional extends NetworkObject {
         if (blockMaterial.isItem() && !blockMaterial.isAir()) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
-                    Theme.PASSIVE + "设置朝向 " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
+                    Theme.PASSIVE + "Direction " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
             itemMeta.setLore(List.of(
-                    Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
-                    Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
+                    Theme.CLICK_INFO + "Left Click: " + Theme.PASSIVE + "Set Direction",
+                    Theme.CLICK_INFO + "Shift Left Click: " + Theme.PASSIVE + "Open Target Block"
             ));
             if (active) {
                 List<String> lore = itemMeta.getLore();
-                lore.add(Theme.SUCCESS + "已设置朝向此容器！");
+                lore.add(Theme.SUCCESS + "Already set！");
                 itemMeta.setLore(lore);
                 itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -153,7 +153,7 @@ public abstract class NetworkDirectional extends NetworkObject {
             Material material = active ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
             return new CustomItemStack(
                     material,
-                    ChatColor.GRAY + "设置朝向: " + blockFace.name()
+                    ChatColor.GRAY + "Set Direction: " + blockFace.name()
             );
         }
     }

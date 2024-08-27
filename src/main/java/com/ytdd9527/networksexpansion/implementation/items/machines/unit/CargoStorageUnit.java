@@ -330,10 +330,10 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
         if (meta != null) {
             lore = meta.getLore();
             if (lore != null) {
-                lore.add(ChatColor.BLUE + "已绑定容器ID: " + ChatColor.YELLOW + id);
+                lore.add(ChatColor.BLUE + "ID: " + ChatColor.YELLOW + id);
             } else {
                 lore = new ArrayList<>();
-                lore.add(ChatColor.BLUE + "已绑定容器ID: " + ChatColor.YELLOW + id);
+                lore.add(ChatColor.BLUE + "ID: " + ChatColor.YELLOW + id);
             }
             meta.setLore(lore);
             meta.getPersistentDataContainer().set(idKey, PersistentDataType.INTEGER, id);
@@ -372,7 +372,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
             return ERROR_BORDER;
         }
         try {
-            return new CustomItemStack(item, (String) null, "", "&b存储数量: &e" + amount + " &7/ &6" + max);
+            return new CustomItemStack(item, (String) null, "", "&bStorage Quantity: &e" + amount + " &7/ &6" + max);
         } catch (NullPointerException e) {
             return item.clone();
         }
@@ -448,12 +448,12 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
     }
 
     private static ItemStack getStorageInfoItem(int id, int typeCount, int maxType, int maxEach, boolean locked, boolean voidExcess) {
-        return new CustomItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "&c存储信息", "",
-                "&b容器ID: &a" + id,
-                "&b物品种类: &e" + typeCount + " &7/ &6" + maxType,
+        return new CustomItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "&cStorage info", "",
+                "&bID: &a" + id,
+                "&bItem Type: &e" + typeCount + " &7/ &6" + maxType,
                 "&b容量上限: &e" + maxType + " &7* &6" + maxEach,
-                "&b内容锁定模式: " + (locked ? (ChatColor.DARK_GREEN + "✔") : (ChatColor.DARK_RED + "✘")),
-                "&b满载清空模式: " + (voidExcess ? (ChatColor.DARK_GREEN + "✔") : (ChatColor.DARK_RED + "✘"))
+                "&bCapacity Limit: " + (locked ? (ChatColor.DARK_GREEN + "✔") : (ChatColor.DARK_RED + "✘")),
+                "&bVoid Mode: " + (voidExcess ? (ChatColor.DARK_GREEN + "✔") : (ChatColor.DARK_RED + "✘"))
         );
     }
 
@@ -486,16 +486,16 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
     private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
         ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
         if (itemStack == null || itemStack.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "请在量子存储槽放入量子存储");
+            player.sendMessage(ChatColor.RED + "Please put quantum storage in the quantum storage slot");
             return;
         }
         if (itemStack.getAmount() > 1) {
-            player.sendMessage(ChatColor.RED + "量子存储槽只能放入一个物品！");
+            player.sendMessage(ChatColor.RED + "Quantum storage slots can only hold one item!");
             return;
         }
         ItemStack toTransfer = blockMenu.getItemInSlot(ITEM_CHOOSE_SLOT);
         if (toTransfer == null || toTransfer.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "请在下方放入你要传输的物品");
+            player.sendMessage(ChatColor.RED + "Please place the items you want to transfer below");
             return;
         }
         StorageUnitData thisStorage = storages.get(location);
@@ -505,7 +505,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                 SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
 
                 if (!(slimefunItem instanceof NetworkQuantumStorage)) {
-                    player.sendMessage(ChatColor.RED + "这不是一个量子存储");
+                    player.sendMessage(ChatColor.RED + "It's not a quantum storage");
                     return;
                 }
 
@@ -520,17 +520,17 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                 switch (mode) {
                     case FROM_QUANTUM -> {
                         if (quantumCache == null || quantumCache.getItemStack() == null || quantumCache.getAmount() <= 0) {
-                            player.sendMessage(ChatColor.RED + "量子存储无物品或已损坏");
+                            player.sendMessage(ChatColor.RED + "Quantum storage without items or broken");
                             return;
                         }
                         if (!StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
-                            player.sendMessage(ChatColor.RED + "量子存储中的物品与要传输的物品不同");
+                            player.sendMessage(ChatColor.RED + "The item in quantum storage is different from the item in the storage");
                             return;
                         }
                         long quantumAmount = quantumCache.getAmount();
                         int canAdd = (int) Math.min(quantumAmount, thisStorage.getSizeType().getEachMaxSize() - each.getAmount());
                         if (canAdd <= 0) {
-                            player.sendMessage(ChatColor.RED + "量子存储中没有足够的物品或无法存入更多的物品");
+                            player.sendMessage(ChatColor.RED + "Not enough items in quantum storage or unable to deposit more items");
                             return;
                         }
 
@@ -546,13 +546,13 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                         ItemStack clone = quantumCache.getItemStack().clone();
                         clone.setAmount(canAdd);
                         thisStorage.depositItemStack(clone, true);
-                        player.sendMessage(ChatColor.GREEN + "已存入物品！");
+                        player.sendMessage(ChatColor.GREEN + "Deposit from quantum storage is successful!");
                         return;
                     }
 
                     case TO_QUANTUM -> {
                         if (each.getAmount() == 0 && locked.contains(location)) {
-                            player.sendMessage(ChatColor.RED + "此容器物品不足，无法转移至量子存储");
+                            player.sendMessage(ChatColor.RED + "Not enough items in this container to transfer to quantum storage");
                             return;
                         }
 
@@ -563,7 +563,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                             int unitAmount = each.getAmount();
                             int canAdd = Math.min(unitAmount, quantumLimit);
                             if (canAdd <= 0) {
-                                player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                                player.sendMessage(ChatColor.RED + "No more items to transfer or quantum storage is full");
                                 return;
                             }
                             ItemStack clone = sample.clone();
@@ -576,7 +576,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                             quantumCache.updateMetaLore(meta);
                             itemStack.setItemMeta(meta);
 
-                            player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
+                            player.sendMessage(ChatColor.GREEN + "Withdraw to quantum storage is successful");
                             return;
                         } else if (StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
                             int quantumLimit = quantumCache.getLimit();
@@ -584,7 +584,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                             int unitAmount = each.getAmount();
                             int canAdd = Math.min(unitAmount, quantumLimit - quantumAmount);
                             if (canAdd <= 0) {
-                                player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                                player.sendMessage(ChatColor.RED + "No more items to transfer or quantum storage is full");
                                 return;
                             }
                             ItemStack clone = sample.clone();
@@ -596,7 +596,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                             DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
                             quantumCache.updateMetaLore(meta);
                             itemStack.setItemMeta(meta);
-                            player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
+                            player.sendMessage(ChatColor.GREEN + "Has been withdraw to quantum storage!");
                             return;
                         } else {
                             return;
@@ -605,7 +605,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                 }
             }
         }
-        player.sendMessage(ChatColor.RED + "未找到物品" + ItemStackHelper.getDisplayName(toTransfer));
+        player.sendMessage(ChatColor.RED + "No items found" + ItemStackHelper.getDisplayName(toTransfer));
     }
 
     private static int getContainerId(Location l) {
@@ -616,17 +616,17 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
     private static ItemStack getQuickTransferItem(QuickTransferMode mode) {
         return new CustomItemStack(
                 mode == QuickTransferMode.FROM_QUANTUM ? Material.GREEN_CONCRETE_POWDER : Material.BLUE_CONCRETE_POWDER,
-                "&6快速转移模式",
+                "&6Fast transfer mode",
                 "",
-                "&b状态: " + (mode == QuickTransferMode.FROM_QUANTUM ? "&a从量子存储转移" : "&c转移至量子存储"),
+                "&bMode: " + (mode == QuickTransferMode.FROM_QUANTUM ? "&aTransfer from quantum storage" : "&cTransfer to quantum storage"),
                 " ",
-                "&e在上方放入量子存储",
-                "&e在下方放入要转移的物品",
+                "&ePut quantum storage above",
+                "&ePlace the item to be transferred below",
                 " ",
-                "&e点击左键开始转移",
-                "&e点击右键切换模式",
+                "&eLeft-click to start the transfer",
+                "&eRight-click to switch modes",
                 " ",
-                "&c需要货运单元中存在此物品才能运输！"
+                "&cThe Cargo Storage Unit must have this item to transfer it！"
         );
     }
 
@@ -683,7 +683,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
             StorageUnitData data = DataStorage.getCachedStorageData(id).orElse(null);
             if (data != null && data.isPlaced() && !l.equals(data.getLastLocation())) {
                 // This container already exists and placed in another location
-                p.sendMessage(ChatColor.RED + "该容器已在其它位置存在！");
+                p.sendMessage(ChatColor.RED + "The container already exists in another location!");
                 Location currLoc = data.getLastLocation();
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e" + (currLoc.getWorld() == null ? "Unknown" : currLoc.getWorld().getName()) + " &7| &e" + currLoc.getBlockX() + "&7/&e" + currLoc.getBlockY() + "&7/&e" + currLoc.getBlockZ() + "&7;"));
                 e.setCancelled(true);

@@ -42,7 +42,7 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
     private static final int OUTPUT_SLOT = 25;
     private static final CustomItemStack CRAFT_BUTTON_STACK = new CustomItemStack(
             Material.BOOK,
-            Theme.CLICK_INFO + "合成"
+            Theme.CLICK_INFO + "Craft"
     );
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 
@@ -51,7 +51,7 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
             Theme.themedItemStack(
                     Material.BAMBOO_BLOCK,
                     Theme.MACHINE,
-                    "网络拓展工作台",
+                    "Network Expansion Workbench",
                     "在拓展工作台中制作"
             ),
             ExpansionWorkbench::addRecipe

@@ -64,8 +64,8 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
 
     private static final CustomItemStack CRAFT_BUTTON_STACK = new CustomItemStack(
             Material.CRAFTING_TABLE,
-            Theme.CLICK_INFO.getColor() + "合成",
-            Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "返回物品到网络并合成"
+            Theme.CLICK_INFO.getColor() + "Craft",
+            Theme.CLICK_INFO + "Left Click: " + Theme.PASSIVE + "Try to Craft"
     );
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();

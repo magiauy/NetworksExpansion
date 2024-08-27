@@ -17,13 +17,13 @@ public enum TransportMode {
 
     public String getRawName() {
         return switch (this) {
-            case NONE -> "无限制";
-            case NULL_ONLY -> "仅空";
-            case NONNULL_ONLY -> "仅非空";
-            case FIRST_ONLY -> "仅首位";
-            case LAST_ONLY -> "仅末位";
-            case FIRST_STOP -> "首位阻断";
-            case LAZY -> "懒惰模式";
+            case NONE -> "Unlimited";
+            case NULL_ONLY -> "Null Only";
+            case NONNULL_ONLY -> "Non-Null Only";
+            case FIRST_ONLY -> "Frist Only";
+            case LAST_ONLY -> "Last Only";
+            case FIRST_STOP -> "First Stop";
+            case LAZY -> "Lazy";
         };
     }
 
