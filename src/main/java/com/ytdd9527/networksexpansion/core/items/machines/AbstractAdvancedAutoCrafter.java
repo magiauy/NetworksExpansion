@@ -41,10 +41,10 @@ import java.util.Set;
 
 public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
     public static final CustomItemStack BLUEPRINT_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "合成蓝图"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Blueprint"
     );
     public static final CustomItemStack OUTPUT_BACKGROUND_STACK = new CustomItemStack(
-            Material.GREEN_STAINED_GLASS_PANE, Theme.PASSIVE + "输出"
+            Material.GREEN_STAINED_GLASS_PANE, Theme.PASSIVE + "Exports"
     );
     private static final int[] BACKGROUND_SLOTS = new int[]{
             3, 4, 5, 12, 13, 14, 21, 22, 23

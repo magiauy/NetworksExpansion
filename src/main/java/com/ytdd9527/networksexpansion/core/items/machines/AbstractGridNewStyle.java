@@ -57,45 +57,45 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     private static final CustomItemStack PAGE_PREVIOUS_STACK = new CustomItemStack(
             Material.RED_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "上一页"
+            Theme.CLICK_INFO.getColor() + "Previous Page"
     );
 
     private static final CustomItemStack PAGE_NEXT_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "下一页"
+            Theme.CLICK_INFO.getColor() + "Next Page"
     );
 
     private static final CustomItemStack CHANGE_SORT_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "更改排序方式"
+            Theme.CLICK_INFO.getColor() + "Change Sort Order"
     );
 
     private static final CustomItemStack FILTER_STACK = new CustomItemStack(
             Material.NAME_TAG,
-            Theme.CLICK_INFO.getColor() + "左键设置过滤器 (右键点击以清除)"
+            Theme.CLICK_INFO.getColor() + "Set Filter (Right Click to Clear)"
     );
 
     private static final CustomItemStack CLICK_SEARCH_STACK = new CustomItemStack(
             Material.WHITE_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "点击搜索物品 →"
+            Theme.CLICK_INFO.getColor() + "Click to search items →"
     );
 
     private static final CustomItemStack AUTO_FILTER_STACK = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "存入物品 →"
+            Theme.CLICK_INFO.getColor() + "Deposited items →"
     );
 
     private static final CustomItemStack DISPLAY_MODE_STACK = new CustomItemStack(
             Material.OBSERVER,
-            Theme.CLICK_INFO.getColor() + "点击切换显示模式",
-            Theme.CLICK_INFO.getColor() + "当前模式：显示网络所有物品"
+            Theme.CLICK_INFO.getColor() + "Click to switch display mode",
+            Theme.CLICK_INFO.getColor() + "Current mode: Show all items in the network"
     );
 
     private static final CustomItemStack HISTORY_MODE_STACK = new CustomItemStack(
             Material.OBSERVER,
-            Theme.CLICK_INFO.getColor() + "点击切换显示模式",
-            Theme.CLICK_INFO.getColor() + "当前模式：显示取出物品历史",
-            Theme.CLICK_INFO.getColor() + "当前模式不可使用排序或搜索！"
+            Theme.CLICK_INFO.getColor() + "Click to switch display mode",
+            Theme.CLICK_INFO.getColor() + "Current Mode: Displays the history of items removed",
+            Theme.CLICK_INFO.getColor() + "Sorting / searching is not available in the current mode!"
     );
 
     private static final Comparator<? super Entry<ItemStack, Long>> ALPHABETICAL_SORT = Comparator.comparing(
@@ -158,7 +158,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     @Nonnull
     private static List<String> getLoreAddition(Long long1) {
-        final MessageFormat format = new MessageFormat("{0}数量: {1}{2}", Locale.ROOT);
+        final MessageFormat format = new MessageFormat("{0}Amount: {1}{2}", Locale.ROOT);
         return List.of(
                 "",
                 format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), long1}, new StringBuffer(), null).toString()
@@ -169,7 +169,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     private static List<String> getHistoryLoreAddtion() {
         return List.of(
                 " ",
-                Theme.PASSIVE.getColor() + "点击取出物品"
+                Theme.PASSIVE.getColor() + "Click to remove item"
         );
     }
 
@@ -349,14 +349,14 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             gridCache.setFilter(null);
         } else {
             player.closeInventory();
-            player.sendMessage(Theme.WARNING + "请输入你想要过滤的物品名称(显示名)或类型");
+            player.sendMessage(Theme.WARNING + "Type what you would like to filter this grid to");
             ChatUtils.awaitInput(player, s -> {
                 if (s.isBlank()) {
                     return;
                 }
                 s = s.toLowerCase(Locale.ROOT);
                 gridCache.setFilter(s);
-                player.sendMessage(Theme.SUCCESS + "已启用过滤器");
+                player.sendMessage(Theme.SUCCESS + "Filter applied");
                 if (!blockMenu.getBlock().getType().isAir()) {
                     blockMenu.open(player);
                 }

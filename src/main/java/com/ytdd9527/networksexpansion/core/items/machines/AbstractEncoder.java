@@ -28,10 +28,10 @@ import java.util.Set;
 public abstract class AbstractEncoder extends NetworkObject {
 
     public static final CustomItemStack BLUEPRINT_BACK_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "空白蓝图"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Blank Blueprint"
     );
     public static final CustomItemStack ENCODE_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "点击此处进行编码"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Click here to encode"
     );
     private static final int[] BACKGROUND = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 17, 18, 20, 24, 25, 26, 27, 28, 29, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
@@ -101,14 +101,14 @@ public abstract class AbstractEncoder extends NetworkObject {
         final long networkCharge = root.getRootPower();
 
         if (networkCharge < CHARGE_COST) {
-            player.sendMessage(Theme.WARNING + "网络中的电力不足，无法完成该任务");
+            player.sendMessage(Theme.WARNING + "Not enough power in the network to complete ");
             return;
         }
 
         ItemStack blueprint = blockMenu.getItemInSlot(BLANK_BLUEPRINT_SLOT);
 
         if (!isValidBlueprint(blueprint)) {
-            player.sendMessage(Theme.WARNING + "你需要提供一个正确的空白的蓝图");
+            player.sendMessage(Theme.WARNING + "You need to provide a blueprint for the right blanks ");
             return;
         }
 
@@ -134,13 +134,13 @@ public abstract class AbstractEncoder extends NetworkObject {
             }
         }
         if (crafted == null || crafted.getType().isAir()) {
-            player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
+            player.sendMessage(Theme.WARNING + "This does not seem to be an active recipe ");
             return;
         }
 
         // 确保crafted不是AIR，避免NullPointerException
         if (crafted.getType().isAir()) {
-            player.sendMessage(Theme.WARNING + "编码的结果是空气，这不是一个有效的配方。");
+            player.sendMessage(Theme.WARNING + "Doesn't look like this is a valid recipe.");
             return;
         }
         final ItemStack blueprintClone = StackUtils.getAsQuantity(blueprint, 1);
@@ -158,7 +158,7 @@ public abstract class AbstractEncoder extends NetworkObject {
             }
             blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
         } else {
-            player.sendMessage(Theme.WARNING + "需要清空输出烂");
+            player.sendMessage(Theme.WARNING + "The output slot must be empty");
             return;
         }
 

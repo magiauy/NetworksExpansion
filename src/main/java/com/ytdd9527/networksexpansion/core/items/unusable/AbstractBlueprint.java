@@ -30,18 +30,18 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
         DataTypeMethods.setCustom(itemMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE, new BlueprintInstance(recipe, output));
         List<String> lore = new ArrayList<>();
 
-        lore.add(Theme.CLICK_INFO + "已指定配方");
+        lore.add(Theme.CLICK_INFO + "Assigned Recipe");
 
         for (ItemStack item : recipe) {
             if (item == null) {
-                lore.add(Theme.PASSIVE + "空");
+                lore.add(Theme.PASSIVE + "Nothing");
                 continue;
             }
             lore.add(Theme.PASSIVE + ChatColor.stripColor(ItemStackHelper.getDisplayName(item)));
         }
 
         lore.add("");
-        lore.add(Theme.CLICK_INFO + "输出物品");
+        lore.add(Theme.CLICK_INFO + "Outputting");
 
         lore.add(Theme.PASSIVE + ChatColor.stripColor(ItemStackHelper.getDisplayName(output)));
 

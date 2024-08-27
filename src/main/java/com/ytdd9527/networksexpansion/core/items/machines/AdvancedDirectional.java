@@ -70,23 +70,23 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     );
 
     private static final CustomItemStack MINUS_ICON = new CustomItemStack(
-            Material.RED_CONCRETE, TextUtil.colorRandomString("减少数量")
+            Material.RED_CONCRETE, TextUtil.colorRandomString("Decrease")
     );
 
     private static final CustomItemStack SHOW_ICON = new CustomItemStack(
             Material.GOLD_BLOCK,
             TextUtil.colorRandomString("Amount"),
-            TextUtil.colorRandomString("当前数量: 64")
+            TextUtil.colorRandomString("Current amount: 64")
     );
 
     private static final CustomItemStack ADD_ICON = new CustomItemStack(
-            Material.GREEN_CONCRETE, TextUtil.colorRandomString("增加数量")
+            Material.GREEN_CONCRETE, TextUtil.colorRandomString("Increase")
     );
 
     private static final CustomItemStack TRANSPORT_MODE_ICON = new CustomItemStack(
             Material.FURNACE_MINECART,
-            TextUtil.colorRandomString("运输模式"),
-            TextUtil.colorRandomString("当前模式：") + TextUtil.colorRandomString("无")
+            TextUtil.colorRandomString("Transportation modes"),
+            TextUtil.colorRandomString("Current Mode:") + TextUtil.colorRandomString("none")
     );
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
     private static final Map<Location, Integer> NETWORK_NUMBER_MAP = new HashMap<>();
@@ -125,16 +125,16 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
         final ItemStack displayStack = new CustomItemStack(
                 slimefunItem.getItem(),
-                Theme.PASSIVE + "设置朝向: " + blockFace.name() + " (" + ChatColor.stripColor(slimefunItem.getItemName()) + ")"
+                Theme.PASSIVE + "Set the direction: " + blockFace.name() + " (" + ChatColor.stripColor(slimefunItem.getItemName()) + ")"
         );
         final ItemMeta itemMeta = displayStack.getItemMeta();
         itemMeta.setLore(List.of(
-                Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
-                Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
+                Theme.CLICK_INFO + "Left-click: " + Theme.PASSIVE + "Set the direction",
+                Theme.CLICK_INFO + "Shift+Left-click: " + Theme.PASSIVE + "Open the target block"
         ));
         if (active) {
             List<String> lore = itemMeta.getLore();
-            lore.add(Theme.SUCCESS + "已设置朝向此容器！");
+            lore.add(Theme.SUCCESS + "Set toward this container! ");
             itemMeta.setLore(lore);
             itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -148,16 +148,16 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (blockMaterial.isItem() && !blockMaterial.isAir()) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
-                    Theme.PASSIVE + "设置朝向 " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
+                    Theme.PASSIVE + "Set the direction: " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
             itemMeta.setLore(List.of(
-                    Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
-                    Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
+                    Theme.CLICK_INFO + "Left-click:: " + Theme.PASSIVE + "Set the direction",
+                    Theme.CLICK_INFO + "Shift+Left-click:: " + Theme.PASSIVE + "Open the target block"
             ));
             if (active) {
                 List<String> lore = itemMeta.getLore();
-                lore.add(Theme.SUCCESS + "已设置朝向此容器！");
+                lore.add(Theme.SUCCESS + "Set toward this container！");
                 itemMeta.setLore(lore);
                 itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -168,7 +168,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             Material material = active ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
             return new CustomItemStack(
                     material,
-                    ChatColor.GRAY + "设置朝向: " + blockFace.name()
+                    ChatColor.GRAY + "Set the direction: " + blockFace.name()
             );
         }
     }
@@ -202,7 +202,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                             blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
                     case DOWN ->
                             blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    default -> throw new IllegalStateException("意外的值: " + blockFace);
+                    default -> throw new IllegalStateException("Unexpected values: " + blockFace);
                 }
             } else {
                 final Material material = block.getType();
@@ -219,7 +219,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                             blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
                     case DOWN ->
                             blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    default -> throw new IllegalStateException("意外的值: " + blockFace);
+                    default -> throw new IllegalStateException("Unexpected values: " + blockFace);
                 }
             }
         }
@@ -554,7 +554,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, TextUtil.colorRandomString("当前数量: ") + getCurrentNumber(location));
+        lore.set(0, TextUtil.colorRandomString("Current Amount: ") + getCurrentNumber(location));
         itemMeta.setLore(lore);
         this.showIconClone.setItemMeta(itemMeta);
 
@@ -567,7 +567,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateTransportModeIcon(Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, TextUtil.colorRandomString("当前模式: ") + Theme.MECHANISM + getCurrentTransportMode(location).getName());
+        lore.set(0, TextUtil.colorRandomString("Current Mode: ") + Theme.MECHANISM + getCurrentTransportMode(location).getName());
         itemMeta.setLore(lore);
         this.transportModeIconClone.setItemMeta(itemMeta);
 

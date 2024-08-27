@@ -349,10 +349,10 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩传输数据⇩",
+                "&a⇩Transfer data⇩",
                 "",
-                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
-                "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次"
+                "&7[&aMaximum distance&7]&f:&6" + maxDistance + "Block",
+                "&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩参数⇩",
