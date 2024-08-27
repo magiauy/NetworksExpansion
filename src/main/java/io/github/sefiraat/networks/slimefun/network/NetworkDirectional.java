@@ -110,16 +110,16 @@ public abstract class NetworkDirectional extends NetworkObject {
     public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
         final ItemStack displayStack = new CustomItemStack(
                 slimefunItem.getItem(),
-                Theme.PASSIVE + "设置朝向: " + blockFace.name() + " (" + ChatColor.stripColor(slimefunItem.getItemName()) + ")"
-        );
+                Theme.PASSIVE + "Direction " + blockFace.name() + " (" + ChatColor.stripColor(slimefunItem.getItemName()) + ")"
+                );
         final ItemMeta itemMeta = displayStack.getItemMeta();
         itemMeta.setLore(List.of(
-                Theme.CLICK_INFO + "左键点击: " + Theme.PASSIVE + "设置朝向",
-                Theme.CLICK_INFO + "Shift+左键点击: " + Theme.PASSIVE + "打开目标方块"
+            Theme.CLICK_INFO + "Left Click: " + Theme.PASSIVE + "Set Direction",
+            Theme.CLICK_INFO + "Shift Left Click: " + Theme.PASSIVE + "Open Target Block"
         ));
         if (active) {
             List<String> lore = itemMeta.getLore();
-            lore.add(Theme.SUCCESS + "已设置朝向此容器！");
+            lore.add(Theme.SUCCESS + "Already set！");
             itemMeta.setLore(lore);
             itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

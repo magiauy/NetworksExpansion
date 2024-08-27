@@ -23,7 +23,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,7 +52,10 @@ public abstract class AbstractGrid extends NetworkObject {
                 if (slimefunItem != null) {
                     return ChatColor.stripColor(slimefunItem.getItemName());
                 } else {
-                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
+                    ItemMeta itemMeta = itemStackIntegerEntry.getKey().getItemMeta();
+                    return itemMeta.hasDisplayName()
+                        ? ChatColor.stripColor(itemMeta.getDisplayName())
+                        : itemStackIntegerEntry.getKey().getType().name();
                 }
             },
             Collator.getInstance(Locale.CHINA)::compare
@@ -64,19 +66,19 @@ public abstract class AbstractGrid extends NetworkObject {
     );
     private static final CustomItemStack PAGE_PREVIOUS_STACK = new CustomItemStack(
             Material.RED_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "上一页"
+            Theme.CLICK_INFO.getColor() + "Previous Page"
     );
     private static final CustomItemStack PAGE_NEXT_STACK = new CustomItemStack(
             Material.RED_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "下一页"
+            Theme.CLICK_INFO.getColor() + "Next Page"
     );
     private static final CustomItemStack CHANGE_SORT_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "更改排序方式"
+            Theme.CLICK_INFO.getColor() + "Change Sort Order"
     );
     private static final CustomItemStack FILTER_STACK = new CustomItemStack(
             Material.NAME_TAG,
-            Theme.CLICK_INFO.getColor() + "设置过滤器 (右键点击以清除)"
+            Theme.CLICK_INFO.getColor() + "Set Filter (Right Click to Clear)"
     );
     private static final Comparator<Map.Entry<ItemStack, Long>> NUMERICAL_SORT = Map.Entry.comparingByValue();
 
@@ -123,7 +125,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @Nonnull
     private static List<String> getLoreAddition(long amount) {
-        final MessageFormat format = new MessageFormat("{0}数量: {1}{2}", Locale.ROOT);
+        final MessageFormat format = new MessageFormat("{0}Amount: {1}{2}", Locale.ROOT);
         return List.of(
                 "",
                 format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount}, new StringBuffer(), null).toString()
@@ -230,7 +232,7 @@ public abstract class AbstractGrid extends NetworkObject {
                     }
 
                     final ItemStack itemStack = entry.getKey();
-                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                    String name = itemStack.getType().name().toLowerCase(Locale.ROOT);
                     final String pyName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
                     final String pyFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
                     return name.contains(cache.getFilter()) || pyName.contains(cache.getFilter()) || pyFirstLetter.contains(cache.getFilter());
@@ -244,13 +246,13 @@ public abstract class AbstractGrid extends NetworkObject {
             gridCache.setFilter(null);
         } else {
             player.closeInventory();
-            player.sendMessage(Theme.WARNING + "请输入你想要过滤的物品名称(显示名)或类型");
+            player.sendMessage(Theme.WARNING + "Type what you would like to filter this grid to");
             ChatUtils.awaitInput(player, s -> {
                 if (s.isBlank()) {
                     return;
                 }
                 gridCache.setFilter(s.toLowerCase(Locale.ROOT));
-                player.sendMessage(Theme.SUCCESS + "已启用过滤器");
+                player.sendMessage(Theme.SUCCESS + "Filter applied");
                 if (!blockMenu.getBlock().getType().isAir()) {
                     blockMenu.open(player);
                 }

@@ -33,6 +33,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.stringtemplate.v4.compiler.CodeGenerator.region_return;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -105,7 +106,10 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 if (slimefunItem != null) {
                     return ChatColor.stripColor(slimefunItem.getItemName());
                 } else {
-                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
+                    ItemMeta itemMeta = itemStackIntegerEntry.getKey().getItemMeta();
+                    return itemMeta.hasDisplayName()
+                        ? ChatColor.stripColor(itemMeta.getDisplayName())
+                        : itemStackIntegerEntry.getKey().getType().name();
                 }
             },
             Collator.getInstance(Locale.CHINA)::compare
@@ -335,7 +339,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     }
 
                     final ItemStack itemStack = entry.getKey();
-                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                    String name = itemStack.getType().name().toLowerCase(Locale.ROOT);
                     final String pyName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
                     final String pyFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
                     return name.contains(cache.getFilter()) || pyName.contains(cache.getFilter()) || pyFirstLetter.contains(cache.getFilter());

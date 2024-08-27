@@ -46,7 +46,7 @@ public class NetworkWirelessTransmitter extends NetworkObject {
 
     private static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "发送的物品"
+            Theme.SUCCESS + "Transmit items matching"
     );
 
     private static final String LINKED_LOCATION_KEY_X = "linked-location-x";

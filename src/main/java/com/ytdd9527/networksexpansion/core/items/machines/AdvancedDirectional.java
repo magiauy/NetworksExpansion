@@ -31,6 +31,7 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.Material;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -148,12 +149,12 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (blockMaterial.isItem() && !blockMaterial.isAir()) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
-                    Theme.PASSIVE + "Set the direction: " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
+                    Theme.PASSIVE + "Set the direction: " + blockFace.name() + " (" + blockMaterial.name() + ")"
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
             itemMeta.setLore(List.of(
-                    Theme.CLICK_INFO + "Left-click:: " + Theme.PASSIVE + "Set the direction",
-                    Theme.CLICK_INFO + "Shift+Left-click:: " + Theme.PASSIVE + "Open the target block"
+                    Theme.CLICK_INFO + "Left-click: " + Theme.PASSIVE + "Set the direction",
+                    Theme.CLICK_INFO + "Shift+Left-click: " + Theme.PASSIVE + "Open the target block"
             ));
             if (active) {
                 List<String> lore = itemMeta.getLore();

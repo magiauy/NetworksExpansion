@@ -45,7 +45,7 @@ public class NetworkQuantumWorkbench extends SlimefunItem {
 
     private static final CustomItemStack CRAFT_BUTTON_STACK = new CustomItemStack(
             Material.CRAFTING_TABLE,
-            Theme.CLICK_INFO + "点击进行量子纠缠"
+            Theme.CLICK_INFO + "Click to entangle"
     );
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
@@ -55,8 +55,8 @@ public class NetworkQuantumWorkbench extends SlimefunItem {
             Theme.themedItemStack(
                     Material.BRAIN_CORAL_BLOCK,
                     Theme.MACHINE,
-                    "网络量子工作台",
-                    "在量子工作台中制作"
+                    "Quantum Workbench",
+                    "Crafted using the Quantum Workbench."
             ),
             NetworkQuantumWorkbench::addRecipe
     );
@@ -161,7 +161,7 @@ public class NetworkQuantumWorkbench extends SlimefunItem {
                 }
                 menu.pushItem(crafted, OUTPUT_SLOT);
             } else {
-                player.sendMessage(Theme.WARNING + "需要清空输出烂");
+                player.sendMessage(Theme.WARNING + "The output slot must be empty");
             }
         }
     }

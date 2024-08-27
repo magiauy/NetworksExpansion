@@ -40,7 +40,7 @@ import java.util.UUID;
 public class NetworkControlV extends NetworkDirectional {
 
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "粘贴物品模版"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Paste items matching template"
     );
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44

@@ -39,7 +39,7 @@ public class NetworkWirelessReceiver extends NetworkObject {
 
     private static final CustomItemStack RECEIVED_BACKGROUND_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "接收的物品"
+            Theme.SUCCESS + "Received items"
     );
 
     public NetworkWirelessReceiver(ItemGroup itemGroup,

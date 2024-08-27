@@ -26,9 +26,9 @@ public interface AdminDebuggable {
         final boolean isDebug = isDebug(location);
         final boolean nextState = !isDebug;
         setDebug(location, nextState);
-        player.sendMessage(Theme.SUCCESS + "该方块的调试模式已设置为：" + nextState + "。");
+        player.sendMessage(Theme.SUCCESS + "Debugging for this block has been set to: " + nextState + "。");
         if (nextState) {
-            player.sendMessage(Theme.SUCCESS + "该模式将持续至服务器关闭，或者手动关闭。");
+            player.sendMessage(Theme.SUCCESS + "It will last until a restart or you toggle it off.");
         }
     }
 
