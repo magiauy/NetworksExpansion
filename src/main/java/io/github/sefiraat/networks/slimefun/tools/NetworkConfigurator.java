@@ -3,7 +3,7 @@ package io.github.sefiraat.networks.slimefun.tools;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
-import de.jeff_media.morepersistentdatatypes.DataType;
+import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.NetworkUtils;
