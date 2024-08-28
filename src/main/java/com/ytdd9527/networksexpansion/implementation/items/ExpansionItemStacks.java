@@ -158,7 +158,7 @@ public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
         "Default quantity per SF tick: 64",
         "Line pusher will push an item through",
         "a line of machines it facing.",
-        "First slot mode: Pushes to the accepted slot in the machine."
+        "First Stop Mode: Pushes to the accepted slot in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
         "NTW_EXPANSION_LINE_TRANSFER_GRABBER",
@@ -171,7 +171,7 @@ public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
         "Default quantity per SF tick: 64",
         "Line pusher will grab items through",
         "a line of machines it facing.",
-        "First slot mode: Grabs the slot",
+        "First Stop Mode: Grabs the slot",
         "that has items in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
@@ -185,7 +185,7 @@ public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
         "Default quantity per SF tick: 64",
         "Line pusher will grab and push items",
         "a through line of machines it facing.",
-        "First slot mode: Grabs / Pushes the",
+        "First Stop Mode: Grabs / Pushes the",
         "items in the machine."
 );
 
@@ -201,7 +201,7 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
                 "Default quantity per SF tick: 64",
                 "Line pusher will push an item through",
                 "a line of machines it facing.",
-                "First slot mode: Pushes to the accepted slot in the machine."
+                "First Stop Mode: Pushes to the accepted slot in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER",
@@ -214,7 +214,7 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
                 "Default quantity per SF tick: 64",
                 "Line pusher will grab items through",
                 "a line of machines it facing.",
-                "First slot mode: Grabs the slot",
+                "First Stop Mode: Grabs the slot",
                 "that has items in the machine."
 );
 public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
@@ -228,7 +228,7 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
                 "Default quantity per SF tick: 64",
                 "Line pusher will grab and push items",
                 "a through line of machines it facing.",
-                "First slot mode: Grabs / Pushes the",
+                "First Stop Mode: Grabs / Pushes the",
                 "items in the machine."
 );
 
@@ -243,7 +243,7 @@ public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Rando
                 "Default quantity per SF tick: 64",
                 "Line pusher will push an item through",
                 "a line of machines it facing.",
-                "First slot mode: Pushes to the accepted slot in the machine."
+                "First Stop Mode: Pushes to the accepted slot in the machine."
 );
 
 public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
@@ -267,138 +267,79 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Rand
                 Enchanted(Material.OBSERVER),
                 Theme.MACHINE,
                 "Advance Network Line Pusher",
-                "Only supports Slimefun Machine",
-                "Max distance: 32 blocks",
-                "Default mode: First slot",
-                "Default quantity per SF tick: 64",
-                "Line pusher will grab and push items",
-                "a through line of machines it facing.",
-                "Unlimited Mode: Can push to any slot",
-                "Null Only Mode: Only pushes to empty slots",
-                "Non-Null Only Mode: Only pushes to non-empty slots",
-                "First Only Mode: Only pushes to the first slot",
-                "Last Only Mode: Only pushes to the last slot",
-                "First Stop Mode: Only pushes to the accepted",
-                "slot in the machine.",
-                "Lazy Mode: When the first slot is empty, push to all slots"
+                "&aOnly supports Slimefun Machine",
+                "&6Max distance: &e32 blocks",
+                "&6Default mode: &eFirst slot",
+                "&6Default quantity per SF tick: &e64",
+                "&aLine pusher will push items through",
+                "&aa line of machines it facing.",
+                "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
                 "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
                 Enchanted(Material.TARGET),
                 Theme.MACHINE,
-                "Network Line Transfer Grabber",
-                "&cOnly supports slime containers",
-                "&6Transport distance: 32 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&aTransport mode can be adjusted",
-                "&7Default transport quantity: &63456",
-                "&aTransport quantity can be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine ",
-                "&conly has continuous grabbing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation: ",
-                "&6Unrestricted&7: &eCan grab from any slot",
-                "&6Only Empty&7: &eOnly grabs from empty slots",
-                "&6Only Non-Empty&7: &eOnly grabs from non-empty slots",
-                "&6Only First Slot&7: &eOnly grabs from the first slot",
-                "&6Only Last Slot&7: &eOnly grabs from the last slot",
-                "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items",
-                "&6Lazy Mode&7: &eWhen the first slot has items, grab from all slots"
+                "Advance Network Line Grabber",
+                "&aOnly supports Slimefun Machine",
+                "&6Max distance: &e32 blocks",
+                "&6Default mode: &eFirst slot",
+                "&6Default quantity per SF tick: &e64",
+                "&aLine pusher will grab items through",
+                "&aa line of machines it facing.",
+                "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
                 "NTW_EXPANSION_ADVANCED_LINE_TRANSFER",
                 Enchanted(Material.PISTON),
                 Theme.MACHINE,
-                "Network Line Transfer",
-                "&cOnly supports slime containers",
-                "&6Transport distance: 32 blocks",
-                "&7Default transport mode: &6First Slot Blocking",
-                "&aTransport mode can be adjusted",
-                "&7Default transport quantity: &63456",
-                "&aTransport quantity can be adjusted",
-                "&eUnlike the Random Skill's Line Transfer, this machine ",
-                "&chas both continuous pushing and grabbing functionality",
-                "&cInstead of continuous item transfer!",
-                "&7Transport mode explanation: ",
-                "&6Unrestricted&7: &eCan push / grab from any slot",
-                "&6Only Empty&7: &eOnly pushes / grabs from empty slots",
-                "&6Only Non-Empty&7: &eOnly pushes / grabs from non-empty slots",
-                "&6Only First Slot&7: &eOnly pushes / grabs from the first slot",
-                "&6Only Last Slot&7: &eOnly pushes / grabs from the last slot",
-                "&6First Slot Blocking&7: &eOnly pushes / grabs from the first slot that has items",
-                "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots ",
-                "               &eWhen the first slot has items, grab from all slots"
+                "Advance Network Line Transfer",
+                "&aOnly supports Slimefun Machine",
+                "&6Max distance: &e32 blocks",
+                "&6Default mode: &eFirst slot",
+                "&6Default quantity per SF tick: &e64",
+                "&aLine pusher will grab and push items through",
+                "&aa line of machines it facing.",
+                "&66 Changable Modes"
 );
 //高级链式传输Plus
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
         "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER",
         Enchanted(Material.OBSERVER),
         Theme.MACHINE,
-        "Network Line Transfer Plus [Pusher]",
-        "&cOnly supports slime containers",
-        "&6Transport distance: 64 blocks",
-        "&7Default transport mode: &6First Slot Blocking",
-        "&aTransport mode can be adjusted",
-        "&7Default transport quantity: &63456",
-        "&aTransport quantity can be adjusted",
-        "&eUnlike the Random Skill's Line Transfer, this machine ",
-        "&chas both continuous pushing and grabbing functionality",
-        "&cInstead of continuous item transfer!",
-        "&7Transport mode explanation: ",
-        "&6Unrestricted&7: &eCan push to any slot",
-        "&6Only Empty&7: &eOnly pushes to empty slots",
-        "&6Only Non-Empty&7: &eOnly pushes to non-empty slots",
-        "&6Only First Slot&7: &eOnly pushes to the first slot",
-        "&6Only Last Slot&7: &eOnly pushes to the last slot",
-        "&6First Slot Blocking&7: &eOnly pushes to the first slot that can accept pushed items",
-        "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots"
+        "Advance Network Line Pusher Plus",
+        "&aOnly supports Slimefun Machine",
+        "&6Max distance: &e64 blocks",
+        "&6Default mode: &eFirst slot",
+        "&6Default quantity per SF tick: &e64",
+        "&aLine pusher will push items through",
+        "&aa line of machines it facing.",
+        "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
         "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER",
         Enchanted(Material.TARGET),
         Theme.MACHINE,
-        "Network Line Transfer Plus [Grabber]",
-        "&cOnly supports slime containers",
-        "&6Transport distance: 64 blocks",
-        "&7Default transport mode: &6First Slot Blocking",
-        "&aTransport mode can be adjusted",
-        "&7Default transport quantity: &63456",
-        "&aTransport quantity can be adjusted",
-        "&eUnlike the Random Skill's Line Transfer, this machine ",
-        "&chas both continuous pushing and grabbing functionality",
-        "&cInstead of continuous item transfer!",
-        "&7Transport mode explanation: ",
-        "&6Unrestricted&7: &eCan grab from any slot",
-        "&6Only Empty&7: &eOnly grabs from empty slots",
-        "&6Only Non-Empty&7: &eOnly grabs from non-empty slots",
-        "&6Only First Slot&7: &eOnly grabs from the first slot",
-        "&6Only Last Slot&7: &eOnly grabs from the last slot",
-        "&6First Slot Blocking&7: &eOnly grabs from the first slot that has items",
-        "&6Lazy Mode&7: &eWhen the first slot has items, grab from all slots"
+        "Advance Network Line Grabber Plus",
+        "&aOnly supports Slimefun Machine",
+        "&6Max distance: &e64 blocks",
+        "&6Default mode: &eFirst slot",
+        "&6Default quantity per SF tick: &e64",
+        "&aLine pusher will grab items through",
+        "&aa line of machines it facing.",
+        "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random(
         "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS",
         Enchanted(Material.STICKY_PISTON),
         Theme.MACHINE,
-        "Network Line Transfer Plus",
-        "&cOnly supports slime containers",
-        "&6Transport distance: 64 blocks",
-        "&7Default transport mode: &6First Slot Blocking",
-        "&aTransport mode can be adjusted",
-        "&7Default transport quantity: &63456",
-        "&aTransport quantity can be adjusted",
-        "&eUnlike the Random Skill's Line Transfer, this machine ",
-        "&chas both continuous pushing and grabbing functionality",
-        "&cInstead of continuous item transfer!",
-        "&7Transport mode explanation: ",
-        "&6Unrestricted&7: &eCan push / grab from any slot",
-        "&6Only Empty&7: &eOnly pushes / grabs from empty slots",
-        "&6Only Non-Empty&7: &eOnly pushes / grabs from non-empty slots",
-        "&6Only First Slot&7: &eOnly pushes / grabs from the first slot",
-        "&6Only Last Slot&7: &eOnly pushes / grabs from the last slot",
-        "&6First Slot Blocking&7: &eOnly pushes / grabs from the first slot that has items",
-        "&6Lazy Mode&7: &eWhen the first slot is empty, push to all slots ",
-        "               &eWhen the first slot has items, grab from all slots"
+        "Advance Network Line Transfer Plus",
+        "&aOnly supports Slimefun Machine",
+        "&6Max distance: &e64 blocks",
+        "&6Default mode: &eFirst slot",
+        "&6Default quantity per SF tick: &e64",
+        "&aLine pusher will grab and push items through",
+        "&aa line of machines it facing.",
+        "&66 Changable Modes"
 );
 
 //网格
