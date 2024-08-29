@@ -50,6 +50,9 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
         blueprint.setItemMeta(itemMeta);
     }
 
+    /*
+     * Fix https://github.com/Sefiraat/Networks/issues/201
+     */
     @Override
     public boolean canStack(ItemMeta meta1, ItemMeta meta2) {
         return meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer());

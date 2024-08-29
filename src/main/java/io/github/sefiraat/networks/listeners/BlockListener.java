@@ -12,6 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+/*
+ * Fix https://github.com/Sefiraat/Networks/issues/188
+ * Fix https://github.com/Sefiraat/Networks/issues/192
+ */
 public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
