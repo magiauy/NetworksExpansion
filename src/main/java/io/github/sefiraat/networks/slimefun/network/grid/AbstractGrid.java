@@ -252,9 +252,13 @@ public abstract class AbstractGrid extends NetworkObject {
 
                     final ItemStack itemStack = entry.getKey();
                     String name = itemStack.getType().name().toLowerCase(Locale.ROOT);
-                    final String pyName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                    final String pyFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                    return name.contains(cache.getFilter()) || pyName.contains(cache.getFilter()) || pyFirstLetter.contains(cache.getFilter());
+                    if (itemStack.hasItemMeta()) {
+                        final ItemMeta itemMeta = itemStack.getItemMeta();
+                        if (itemMeta.hasDisplayName()) {
+                            name = ChatColor.stripColor(itemMeta.getDisplayName().toLowerCase(Locale.ROOT));
+                        }
+                    }
+                    return name.contains(cache.getFilter());
                 })
                 .sorted(SORT_MAP.get(cache.getSortOrder()))
                 .toList();

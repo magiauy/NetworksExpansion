@@ -20,7 +20,6 @@ import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
@@ -97,7 +96,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         instance = this;
 
-        environmentCheck();
         superHead();
         getLogger().info("正在获取配置信息...");
         saveDefaultConfig();
@@ -185,12 +183,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("已安全禁用附属！");
     }
 
-    public void tryUpdate() {
-        if (configManager.isAutoUpdate() && getDescription().getVersion().startsWith("Build")) {
-            GuizhanUpdater.start(this, getFile(), username, repo, branch);
-        }
-    }
-
     public void superHead() {
         getLogger().info("#########################################################################");
         getLogger().info("███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗           ");
@@ -217,14 +209,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("#########################################################################");
     }
 
-    public void environmentCheck() {
-        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
-            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
-            getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-    }
+
 
     public void setupIntegrations() {
         if (supportedPluginManager.isSlimeHud()) {

@@ -250,13 +250,6 @@
             <version>2.2.017</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Chinese localization library -->
-        <dependency>
-            <groupId>net.guizhanss</groupId>
-            <artifactId>GuizhanLibPlugin</artifactId>
-            <version>1.7.6</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Useful Library -->
         <dependency>
             <groupId>dev.sefiraat</groupId>
