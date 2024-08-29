@@ -9,7 +9,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -37,13 +36,13 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
                 lore.add(Theme.PASSIVE + "Nothing");
                 continue;
             }
-            lore.add(Theme.PASSIVE + ChatColor.stripColor(ItemStackHelper.getDisplayName(item)));
+            lore.add(Theme.PASSIVE + ChatColor.stripColor(item.getItemMeta().getDisplayName()));
         }
 
         lore.add("");
         lore.add(Theme.CLICK_INFO + "Outputting");
 
-        lore.add(Theme.PASSIVE + ChatColor.stripColor(ItemStackHelper.getDisplayName(output)));
+        lore.add(Theme.PASSIVE + ChatColor.stripColor(output.getItemMeta().getDisplayName()));
 
         itemMeta.setLore(lore);
 

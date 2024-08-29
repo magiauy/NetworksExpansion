@@ -34,7 +34,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -603,7 +602,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                 }
             }
         }
-        player.sendMessage(ChatColor.RED + "No items found" + ItemStackHelper.getDisplayName(toTransfer));
+        player.sendMessage(ChatColor.RED + "No items found" + toTransfer.getItemMeta().getDisplayName());
     }
 
     private static int getContainerId(Location l) {

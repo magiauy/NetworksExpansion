@@ -1,7 +1,6 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
-import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
-import com.github.houbb.pinyin.util.PinyinHelper;
+
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.GridItemRequest;
@@ -25,7 +24,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -335,10 +334,14 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     }
 
                     final ItemStack itemStack = entry.getKey();
-                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                    return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
+                    String name = itemStack.getType().name().toLowerCase(Locale.ROOT);
+                    if (itemStack.hasItemMeta()) {
+                        final ItemMeta itemMeta = itemStack.getItemMeta();
+                        if (itemMeta.hasDisplayName()) {
+                            name = ChatColor.stripColor(itemMeta.getDisplayName().toLowerCase(Locale.ROOT));
+                        }
+                    }
+                    return name.contains(cache.getFilter());
                 })
                 .sorted(SORT_MAP.get(cache.getSortOrder()))
                 .toList();
@@ -372,7 +375,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             if (slimefunItem != null) {
                 itemName = ChatColor.stripColor(slimefunItem.getItemName());
             } else {
-                itemName = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
+                itemName = ChatColor.stripColor(itemStack.getItemMeta().getDisplayName());
             }
 
             gridCache.setFilter(itemName.toLowerCase(Locale.ROOT));
