@@ -45,7 +45,7 @@ public class PointTransfer extends NetworkDirectional implements RecipeDisplayIt
 
 
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, TextUtil.colorRandomString("指定需要推送的物品")
+            Material.BLUE_STAINED_GLASS_PANE, TextUtil.colorRandomString("Push items matching template")
     );
     private static final String TICK_COUNTER_KEY = "tick_rate";
     private static final String KEY_UUID = "display-uuid";
@@ -321,11 +321,11 @@ public class PointTransfer extends NetworkDirectional implements RecipeDisplayIt
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩功能⇩",
+                "&a⇩Function⇩",
                 "",
-                "&e逻辑&f:",
-                "&f-&7[&a推送物品&7]&f:&7将设置的推送物品推送至机器的输入槽中",
-                "&f-&7[&a抓取物品&7]&f:&7将输出槽上的物品全部抓取进网络中"
+                "&eLogic&f:",
+                "&f-&7[&aPush items&7]&f:&7Push the set push item into the input slot of the machine",
+                "&f-&7[&aGrab item&7]&f:&7Grab all the items on the output slot into the network"
         ));
         return displayRecipes;
     }

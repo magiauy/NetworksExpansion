@@ -42,12 +42,12 @@ public class NetworkExport extends NetworkObject {
 
     private static final CustomItemStack TEST_BACKDROP_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "指定输出物品"
+            Theme.SUCCESS + "Export Item Matching"
     );
 
     private static final CustomItemStack OUTPUT_BACKDROP_STACK = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "输出栏"
+            Theme.SUCCESS + "Output Slot"
     );
 
     private final ItemSetting<Integer> tickRate;

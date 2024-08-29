@@ -451,8 +451,8 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
         return new CustomItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "&cStorage info", "",
                 "&bID: &a" + id,
                 "&bItem Type: &e" + typeCount + " &7/ &6" + maxType,
-                "&b容量上限: &e" + maxType + " &7* &6" + maxEach,
-                "&bCapacity Limit: " + (locked ? (ChatColor.DARK_GREEN + "✔") : (ChatColor.DARK_RED + "✘")),
+                "&bCapacity Limit: &e" + maxType + " &7* &6" + maxEach,
+                "&bLocked Mode: " + (locked ? (ChatColor.DARK_GREEN + "✔") : (ChatColor.DARK_RED + "✘")),
                 "&bVoid Mode: " + (voidExcess ? (ChatColor.DARK_GREEN + "✔") : (ChatColor.DARK_RED + "✘"))
         );
     }
@@ -820,26 +820,26 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
 
     private ItemStack getLocationErrorItem(int id, Location lastLoc) {
         if (lastLoc == null) {
-            return new CustomItemStack(Material.REDSTONE_TORCH, "&c位置错误", "",
-                    "&e这个容器已在其它位置存在",
-                    "&e请不要将同ID的容器放在多个不同的位置",
-                    "&e如果您认为这是个意外，请联系管理员处理",
-                    " ",
-                    "&6容器信息:",
-                    "&b容器ID: &a" + id,
-                    "&b所在世界: &e Unknown",
-                    "&b所在坐标: &e Unknown"
+            return new CustomItemStack(Material.REDSTONE_TORCH, "&cPositioning error", "",
+                "&eThis container already exists in some other location",
+                "&ePlease do not place containers with the same ID in multiple different locations",
+                "&eeIf you think this is an issue, please contact an administrator to take care of it",
+                " ",
+                "&6Storage info:",
+                "&bID: &a" + id,
+                "&bWorld: &e Unknown",
+                "&bLocation: &e Unknown"
             );
         }
-        return new CustomItemStack(Material.REDSTONE_TORCH, "&c位置错误", "",
-                "&e这个容器已在其它位置存在",
-                "&e请不要将同ID的容器放在多个不同的位置",
-                "&e如果您认为这是个意外，请联系管理员处理",
+        return new CustomItemStack(Material.REDSTONE_TORCH, "&cPositioning error", "",
+                "&eThis container already exists in some other location",
+                "&ePlease do not place containers with the same ID in multiple different locations",
+                "&eeIf you think this is an issue, please contact an administrator to take care of it",
                 " ",
-                "&6容器信息:",
-                "&b容器ID: &a" + id,
-                "&b所在世界: &e" + (lastLoc.getWorld() == null ? "Unknown" : lastLoc.getWorld().getName()),
-                "&b所在坐标: &e" + lastLoc.getBlockX() + " &7/ &e" + lastLoc.getBlockY() + " &7/ &e" + lastLoc.getBlockZ()
+                "&Storage info:",
+                "&bID: &a" + id,
+                "&bWorld: &e" + (lastLoc.getWorld() == null ? "Unknown" : lastLoc.getWorld().getName()),
+                "&bLocation: &e" + lastLoc.getBlockX() + " &7/ &e" + lastLoc.getBlockY() + " &7/ &e" + lastLoc.getBlockZ()
         );
     }
 
@@ -870,25 +870,25 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
     private ItemStack getContentLockItem(boolean locked) {
         return new CustomItemStack(
                 locked ? Material.RED_STAINED_GLASS_PANE : Material.LIME_STAINED_GLASS_PANE,
-                "&6内容锁定模式",
+                "&6Locked Mode",
                 "",
-                "&b状态: " + (locked ? "&c已锁定" : "&a未锁定"),
+                "&bStatus: " + (locked ? "&cLocked" : "&aUnlocked"),
                 "",
-                "&7当容器锁定后，将仅允许当前存在的物品输入",
-                "&7并且输出时将会留下至少一个物品",
-                locked ? "&e点击禁用" : "&e点击启用"
+                "&7When the container is locked，Will ONLY allow of currently-existing items",
+                "&7And the output will leave at last one item",
+                locked ? "&eClick on Disable" : "&eClick on Enable"
         );
     }
 
     private ItemStack getVoidExcessItem(boolean voidExcess) {
         return new CustomItemStack(
                 voidExcess ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE,
-                "&6满载清空模式",
+                "&6Void Mode",
                 "",
-                "&b状态: " + (voidExcess ? "&a已开启" : "&c未开启"),
+                "&bStatus: " + (voidExcess ? "&aEnable" : "&cDisable"),
                 "",
-                "&7开启此模式后，超过存储上限的物品的数量不会再增加，但仍能存入",
-                voidExcess ? "&e点击禁用" : "&e点击启用"
+                "&7Turned on to void items that can't be stored",
+                voidExcess ? "&eClick on Disable" : "&eClick on Enable"
         );
     }
 

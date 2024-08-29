@@ -56,14 +56,14 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
             Player p = e.getPlayer();
             if (!isTool(tool)) {
                 // Not holding the a valid tool, return
-                p.sendMessage(ChatColor.RED + "工具无效，请勿堆叠使用");
+                p.sendMessage(ChatColor.RED + "Invalid tool, do not stack");
                 return;
             }
             Location bLoc = target.getLocation();
             // If not cargo node block, return.
             SlimefunBlockData blockData = StorageCacheUtils.getBlock(bLoc);
             if (blockData == null || !blockData.getSfId().startsWith("CARGO_NODE_")) {
-                p.sendMessage(ChatColor.RED + "请指向一个货运节点");
+                p.sendMessage(ChatColor.RED + "Please point to a cargo node");
                 return;
             }
             ItemMeta meta = tool.getItemMeta();

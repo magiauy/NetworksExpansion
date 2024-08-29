@@ -35,10 +35,10 @@ import java.util.Map;
 public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
 
     public static final CustomItemStack BLUEPRINT_BACK_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "空白蓝图 →"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Blank Blueprint →"
     );
     public static final CustomItemStack ENCODE_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "点击此处进行编码"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Click to encode when valid"
     );
     private static final int[] BACKGROUND_SLOTS = {
             5, 14, 23, 40, 41, 42, 43, 44, 45, 48
@@ -257,14 +257,14 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
         final long networkCharge = root.getRootPower();
 
         if (networkCharge < CHARGE_COST) {
-            player.sendMessage(Theme.WARNING + "网络中的电力不足，无法完成该任务");
+            player.sendMessage(Theme.WARNING + "Not enough Network power to fulfill this task");
             return;
         }
 
         ItemStack blueprint = blockMenu.getItemInSlot(BLANK_BLUEPRINT_SLOT);
 
         if (!(SlimefunItem.getByItem(blueprint) instanceof CraftingBlueprint)) {
-            player.sendMessage(Theme.WARNING + "你需要提供一个空的合成蓝图");
+            player.sendMessage(Theme.WARNING + "You need to provide a blank blueprint");
             return;
         }
 
@@ -297,7 +297,7 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
 
         // If no item crafted OR result doesn't fit, escape
         if (crafted.getType() == Material.AIR) {
-            player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
+            player.sendMessage(Theme.WARNING + "Is not available recipe ");
             return;
         }
 
@@ -315,7 +315,7 @@ public class NetworkEncodingGridNewStyle extends AbstractGridNewStyle {
             }
             blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
         } else {
-            player.sendMessage(Theme.WARNING + "需要清空输出烂");
+            player.sendMessage(Theme.WARNING + "Need to clear the output ");
         }
 
         root.removeRootPower(CHARGE_COST);

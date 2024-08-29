@@ -107,13 +107,13 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             Theme.PASSIVE + "Click here to set change capacity",
             Theme.CLICK_INFO + "Shift+Click" + Theme.PASSIVE + "to change voiding");
 
-    private static final ItemStack TRASH_ON_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3满载清空输入 &a(ON)",
+    private static final ItemStack TRASH_ON_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3Void mode &a(ON)",
             "&7Turned on to void items that can't be stored");
-    private static final ItemStack TRASH_OFF_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3满载清空输入 &c(OFF)",
+    private static final ItemStack TRASH_OFF_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3Void mode &c(OFF)",
             "&7Turned on to void items that can't be stored");
     private static final ItemStack BACK_OUTPUT = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.PASSIVE + "输出"
+            Theme.PASSIVE + "Output"
     );
 
     private static final int[] INPUT_SLOTS = new int[]{0, 2};

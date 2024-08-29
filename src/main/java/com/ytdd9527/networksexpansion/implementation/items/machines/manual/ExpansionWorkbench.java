@@ -52,7 +52,7 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
                     Material.BAMBOO_BLOCK,
                     Theme.MACHINE,
                     "Network Expansion Workbench",
-                    "在拓展工作台中制作"
+                    "Produced in the Expansion Workbench"
             ),
             ExpansionWorkbench::addRecipe
     );
@@ -132,7 +132,7 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
                 // Output slot is occupied by a different type of item
                 Block block = menu.getBlock();
                 Player player = (Player) block.getWorld().getPlayers().toArray()[0]; // Assume only one player is interacting
-                player.sendMessage(Theme.WARNING + "需要清空输出栏");
+                player.sendMessage(Theme.WARNING + "Need to clear the output slot");
                 return;
             }
             if (itemInOutputSlot != null && itemInOutputSlot.getType() == crafted.getType()) {
@@ -140,7 +140,7 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
                 if (itemInOutputSlot.getAmount() >= maxStackSize) {
                     Block block = menu.getBlock();
                     Player player = (Player) block.getWorld().getPlayers().toArray()[0];
-                    player.sendMessage(Theme.WARNING + "输出槽位已满，请清空以继续制作");
+                    player.sendMessage(Theme.WARNING + "Output slot is full, please clear to continue production");
                     return;
                 }
             }
