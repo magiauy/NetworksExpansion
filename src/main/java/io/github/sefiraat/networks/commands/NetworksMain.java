@@ -62,7 +62,7 @@ public class NetworksMain implements TabExecutor {
     public static void restore(Player p) {
         Block target = p.getTargetBlockExact(5);
         if (target == null || target.getType().isAir()) {
-            p.sendMessage(ChatColor.RED + "请指向一个失效的网络抽屉单元");
+            p.sendMessage(ChatColor.RED + "Please point to a network storage unit");
             return;
         }
         Location l = target.getLocation();
@@ -70,11 +70,11 @@ public class NetworksMain implements TabExecutor {
         if (blockData != null) {
             String id = blockData.getData("containerId");
             if (id != null) {
-                p.sendMessage(ChatColor.RED + "该单元的数据正常，无需恢复。");
+                p.sendMessage(ChatColor.RED + "The data in this unit is normal and does not need to be restored.");
                 return;
             }
         } else {
-            p.sendMessage(ChatColor.GREEN + "正在查询，请稍候...");
+            p.sendMessage(ChatColor.GREEN + "In progress, please wait...");
             DataStorage.restoreFromLocation(l, opData -> {
                 if (opData.isPresent()) {
                     StorageUnitData data = opData.get();
@@ -82,9 +82,9 @@ public class NetworksMain implements TabExecutor {
 
                     CargoStorageUnit.addBlockInfo(l, data.getId(), false, false);
                     Slimefun.getDatabaseManager().getBlockDataController().createBlock(l, sfId);
-                    p.sendMessage(ChatColor.GREEN + "已成功恢复！");
+                    p.sendMessage(ChatColor.GREEN + "Restore Successfully");
                 } else {
-                    p.sendMessage(ChatColor.RED + "未找到数据。");
+                    p.sendMessage(ChatColor.RED + "No data found.");
                     return;
                 }
             });
@@ -95,24 +95,24 @@ public class NetworksMain implements TabExecutor {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must hold the item to execute the command!");
             return;
         }
 
         if (targetBlock == null || targetBlock.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络存储才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络存储才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络存储才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
@@ -121,7 +121,7 @@ public class NetworksMain implements TabExecutor {
         if (slimefunItem instanceof NetworkQuantumStorage) {
             BlockMenu blockMenu = StorageCacheUtils.getMenu(targetLocation);
             if (blockMenu == null) {
-                player.sendMessage(Theme.ERROR + "Cannot set item for air");
+                player.sendMessage(Theme.ERROR + "Cannot set item to air");
                 return;
             }
 
@@ -135,7 +135,7 @@ public class NetworksMain implements TabExecutor {
             NetworkQuantumStorage.syncBlock(blockMenu.getLocation(), cache);
             NetworkQuantumStorage.getCaches().put(blockMenu.getLocation(), cache);
         } else {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络存储才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
     }
@@ -144,24 +144,24 @@ public class NetworksMain implements TabExecutor {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must hold the item to execute the command!");
             return;
         }
 
         if (targetBlock == null || targetBlock.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
@@ -171,16 +171,16 @@ public class NetworksMain implements TabExecutor {
             StorageUnitData data = CargoStorageUnit.getStorageData(targetLocation);
 
             if (data == null) {
-                player.sendMessage(Theme.ERROR + "该网络抽屉不存在或已损坏!");
+                player.sendMessage(Theme.ERROR + "This network Quantum does not exist or its corrupted!");
                 return;
             }
 
             clone.setAmount(amount);
             data.depositItemStack(clone, false);
             CargoStorageUnit.setStorageData(targetLocation, data);
-            player.sendMessage(ChatColor.GREEN + "已更新物品");
+            player.sendMessage(ChatColor.GREEN + "Item updated");
         } else {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
     }
@@ -189,24 +189,24 @@ public class NetworksMain implements TabExecutor {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must hold the item to execute the command!");
             return;
         }
 
         if (targetBlock == null || targetBlock.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
@@ -216,16 +216,16 @@ public class NetworksMain implements TabExecutor {
             StorageUnitData data = CargoStorageUnit.getStorageData(targetLocation);
 
             if (data == null) {
-                player.sendMessage(Theme.ERROR + "该网络抽屉不存在或已损坏!");
+                player.sendMessage(Theme.ERROR + "This network Quantum does not exist or its corrupted!\"");
                 return;
             }
 
             clone.setAmount(1);
             data.requestItem(new ItemRequest(clone, amount));
             CargoStorageUnit.setStorageData(targetLocation, data);
-            player.sendMessage(ChatColor.GREEN + "已更新物品");
+            player.sendMessage(ChatColor.GREEN + "Item updated");
         } else {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
     }
@@ -233,31 +233,31 @@ public class NetworksMain implements TabExecutor {
     public static void setContainerId(Player player, int containerId) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         if (!(slimefunItem instanceof CargoStorageUnit)) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         Location location = targetBlock.getLocation();
 
-        player.sendMessage(ChatColor.GREEN + "已请求数据，请稍候...");
+        player.sendMessage(ChatColor.GREEN + "Data requested, please wait...");
         CargoStorageUnit.requestData(location, containerId);
         player.sendMessage(ChatColor.GREEN +
-                "已设置位于为" + location.getWorld().getName()
+                "has been set to be located at" + location.getWorld().getName()
                 + " " + location.getBlockX()
                 + " " + location.getBlockY()
                 + " " + location.getBlockZ()
-                + " 的网络抽屉的容器ID为" + containerId + ".");
+                + " The network quantum ID:" + containerId + ".");
     }
 
     public static void worldeditPos1(Player player) {
@@ -288,27 +288,27 @@ public class NetworksMain implements TabExecutor {
         SlimefunItem sfItem = SlimefunItem.getById(sfid);
 
         if (sfItem == null) {
-            player.sendMessage(ChatColor.RED + "这不是一个有效的粘液方块ID！");
+            player.sendMessage(ChatColor.RED + "This is not a valid slimefun ID!");
             return;
         }
 
         if (!sfItem.getItem().getType().isBlock()) {
-            player.sendMessage(ChatColor.RED + "这不是一个有效的粘液方块ID！");
+            player.sendMessage(ChatColor.RED + "This is not a valid slimefun ID!");
             return;
         }
 
         if (sfItem.getItem().getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "不可放置的粘液方块！");
+            player.sendMessage(ChatColor.RED + "Cannot be placed!");
             return;
         }
 
         if (POS1 == null || POS2 == null) {
-            player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+            player.sendMessage(ChatColor.RED + "Please select an area first!");
             return;
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
+            player.sendMessage(ChatColor.RED + "Two selected location must be in the same world!");
             return;
         }
 
@@ -359,12 +359,12 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditClear(Player player, boolean callHandler) {
         if (POS1 == null || POS2 == null) {
-            player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+            player.sendMessage(ChatColor.RED + "Please select an area first!");
             return;
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
+            player.sendMessage(ChatColor.RED + "Two selected location must be in the same world!");
             return;
         }
 
@@ -411,7 +411,7 @@ public class NetworksMain implements TabExecutor {
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "Please select two locations in the same world!");
+            player.sendMessage(ChatColor.RED + "Two selected location must be in the same world!");
             return;
         }
 
@@ -453,7 +453,7 @@ public class NetworksMain implements TabExecutor {
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "Please select two locations in the same world!");
+            player.sendMessage(ChatColor.RED + "Two selected location must be in the same world!");
             return;
         }
 
@@ -489,7 +489,7 @@ public class NetworksMain implements TabExecutor {
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "Please select two locations in the same world!");
+            player.sendMessage(ChatColor.RED + "Two selected location must be in the same world!");
             return;
         }
 
@@ -528,7 +528,7 @@ public class NetworksMain implements TabExecutor {
 
         String currentId = slimefunItem.getId();
         if (slimefunItem instanceof CargoStorageUnit) {
-            player.sendMessage(ChatColor.RED + "暂不支持此物品的更新");
+            player.sendMessage(ChatColor.RED + "Unsupported!");
             return;
         } else if (slimefunItem instanceof NetworkQuantumStorage) {
             ItemMeta meta = itemInHand.getItemMeta();
@@ -549,15 +549,15 @@ public class NetworksMain implements TabExecutor {
             if (sfi != null) {
                 String quantumStoredId = sfi.getId();
                 stored.setItemMeta(SlimefunItem.getById(quantumStoredId).getItem().getItemMeta());
-                player.sendMessage(ChatColor.GREEN + "已更新存储内的物品！");
+                player.sendMessage(ChatColor.GREEN + "Item in network quantum has been updated!");
             }
             DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
             quantumCache.updateMetaLore(meta);
             itemInHand.setItemMeta(meta);
-            player.sendMessage(ChatColor.GREEN + "已更新物品！");
+            player.sendMessage(ChatColor.GREEN + "Item has been updated!");
         } else {
             itemInHand.setItemMeta(SlimefunItem.getById(currentId).getItem().getItemMeta());
-            player.sendMessage(ChatColor.GREEN + "已更新物品！");
+            player.sendMessage(ChatColor.GREEN + "Item has been updated!");
         }
     }
 
@@ -588,19 +588,19 @@ public class NetworksMain implements TabExecutor {
     public static void getStorageItem(Player player, int slot) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
 
@@ -609,25 +609,25 @@ public class NetworksMain implements TabExecutor {
             StorageUnitData data = CargoStorageUnit.getStorageData(targetLocation);
 
             if (data == null) {
-                player.sendMessage(Theme.ERROR + "该网络抽屉不存在或已损坏!");
+                player.sendMessage(Theme.ERROR + "This network quantum does not exist or its corrupted");
                 return;
             }
 
             List<ItemContainer> stored = data.getStoredItems();
             if (slot >= stored.size()) {
-                player.sendMessage(Theme.ERROR + "槽位号必须在0-" + (stored.size() - 1) + "之间!");
+                player.sendMessage(Theme.ERROR + "The slot number must be between 0-" + (stored.size() - 1) + "!");
                 return;
             } else {
                 ItemStack stack = stored.get(slot).getSample();
                 if (stack == null || stack.getType().isAir()) {
-                    player.sendMessage(Theme.ERROR + "该槽位没有物品!");
+                    player.sendMessage(Theme.ERROR + "There is no item in that slot!");
                     return;
                 } else {
                     player.getInventory().addItem(StackUtils.getAsQuantity(stack, 1));
                 }
             }
         } else {
-            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            player.sendMessage(ChatColor.RED + "You must point to a network Quantum to execute the command!");
             return;
         }
     }
@@ -637,15 +637,15 @@ public class NetworksMain implements TabExecutor {
             sender.sendMessage(ChatColor.GOLD + "Network Command Help:");
             sender.sendMessage(ChatColor.GOLD + "/networks help - Show help message.");
             sender.sendMessage(ChatColor.GOLD + "/networks fillquantum <amount> - Filling the storage of handheld quantum storage items.");
-            sender.sendMessage(ChatColor.GOLD + "/networks fixblueprint <keyInMeta> - Fix Handheld Crafting Blueprints.");
-            sender.sendMessage(ChatColor.GOLD + "/networks restore - Recovery of failed network drawer units.");
-            sender.sendMessage(ChatColor.GOLD + "/networks addstorageitem <amount> - Adding items to the network drawer of handheld items.");
-            sender.sendMessage(ChatColor.GOLD + "/networks reducestorageitem <amount> - Reduction of items from the network drawer of hand-held items.");
-            sender.sendMessage(ChatColor.GOLD + "/networks setquantum <amount> - Setting the storage capacity of handheld quantum storage items.");
-            sender.sendMessage(ChatColor.GOLD + "/networks setcontainerid <containerId> - Setting the ID of the network drawer.");
+            sender.sendMessage(ChatColor.GOLD + "/networks fixblueprint <keyInMeta> - Fix held Crafting Blueprints.");
+            sender.sendMessage(ChatColor.GOLD + "/networks restore - Recovery of error network drawer units.");
+            sender.sendMessage(ChatColor.GOLD + "/networks addstorageitem <amount> - Add items to the network storage of handheld items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks reducestorageitem <amount> - Reduce items from the network storage of held items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks setquantum <amount> - Setting the storage capacity of held quantum storage items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks setcontainerid <Id> - Setting the ID of the network storage.");
             sender.sendMessage(ChatColor.GOLD + "/networks worldedit <subCommand> - SlimeFun God of Creation Features.");
-            sender.sendMessage(ChatColor.GOLD + "/networks updateItem - 更新手持物品.");
-            sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - Finds Network Drawer placed by a given player.");
+            sender.sendMessage(ChatColor.GOLD + "/networks updateItem - Update held items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - Locates Network Storages placed by a given player.");
             return;
         }
         switch (mainCommand.toLowerCase(Locale.ROOT)) {
@@ -654,60 +654,60 @@ public class NetworksMain implements TabExecutor {
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks help");
             }
             case "fillquantum" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks fillQuantum <amount> - 设置手持量子存储的存储量.");
+                sender.sendMessage(ChatColor.GOLD + "/networks fillQuantum <amount> - Set the storage capacity of the held quantum storage");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks fillQuantum 1000");
             }
             case "fixblueprint" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks fixBlueprint <keyInMeta> - 修复手持合成蓝图.");
+                sender.sendMessage(ChatColor.GOLD + "/networks fixBlueprint <keyInMeta> - Fix held crafting blueprint.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks fixBlueprint networks-changed");
             }
             case "restore" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks restore - 恢复失效的网络抽屉单元.");
+                sender.sendMessage(ChatColor.GOLD + "/networks restore - Recovery of error network drawer units.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks restore");
             }
             case "addstorageitem" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks addStorageItem <amount> - 向指向的货运存储中添加手中物品指定数量.");
+                sender.sendMessage(ChatColor.GOLD + "/networks addStorageItem <amount> - Add items to the network storage of handheld items.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks addstorageItem 1000");
             }
             case "reducestorageitem" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks reduceStorageItem <amount> - 向指向的货运存储中减少手中物品指定数量.");
+                sender.sendMessage(ChatColor.GOLD + "/networks reduceStorageItem <amount> - Add items to the network storage of handheld items.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks reduceStorageItem 1000");
             }
             case "setquantum" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks setQuantum <amount> - 设置指向的量子存储的物品为手上的物品，并设置存储指定数量.");
+                sender.sendMessage(ChatColor.GOLD + "/networks setQuantum <amount> - Reduce items from the network storage of held items.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks setQuantum 1000");
             }
             case "setcontainerid" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks setContainerId <containerId> - 设置指向的货运存储的容器ID.");
+                sender.sendMessage(ChatColor.GOLD + "/networks setContainerId <containerId> - Setting the ID of the network storage.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks setContainerId 6");
             }
             case "findcachedstorages" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - 查找指定玩家放置的货运存储单元.");
+                sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - SlimeFun God of Creation Features.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks findCachedStorages Notch");
             }
             case "getstorageitem" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks getStorageItem <slot> - 获取指向的货运存储指定槽位的物品.");
+                sender.sendMessage(ChatColor.GOLD + "/networks getStorageItem <slot> - Locates Network Storages placed by a given player.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks getStorageItem 0");
             }
             case "worldedit" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit <subCommand> - 粘液创世神功能.");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit pos1 - 选择第一个位置");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit pos2 - 选择第二个位置");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> - 粘贴粘液方块");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> override - 覆盖原本的数据");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> keep - 保留原本的数据");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit clear <callHandler> - 清除粘液方块");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockMenu setSlot <slot> - 修改选中区域的粘液方法的菜单的对应槽位为手上物品");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo add <key> <value> - 增加粘液方块信息");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo remove <value> - 移除粘液方块信息");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo set <key> <value> - 设置粘液方块信息");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit <subCommand> - Slimefun features.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit pos1 - Select the 1st position.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit pos2 - Select the 2nd position.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> - Paste Slimefun machines.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> override - Overwrite the original data.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> keep - Keep the original data.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit clear <callHandler> - Remove Slimefun machines.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockMenu setSlot <slot> - Change the slot inside the selected machines to held items.");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo add <key> <value> - Change Slimefun machine info");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo remove <value> - Remove Slimefun machine info");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo set <key> <value> - Set Slimefun machine info");
             }
             case "updateitem" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks updateItem - 更新手持物品.");
+                sender.sendMessage(ChatColor.GOLD + "/networks updateItem - Update held items.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks updateItem");
             }
             default -> {
-                sender.sendMessage(ChatColor.RED + "未知命令! 请使用 /networks help 查看帮助信息.");
+                sender.sendMessage(ChatColor.RED + "Unknown command! Please use /networks help for information.");
             }
         }
     }
@@ -987,14 +987,14 @@ public class NetworksMain implements TabExecutor {
     public void fillQuantum(Player player, int amount) {
         final ItemStack itemStack = player.getInventory().getItemInMainHand();
         if (itemStack.getType().isAir()) {
-            player.sendMessage(Theme.ERROR + "你必须手持量子存储");
+            player.sendMessage(Theme.ERROR + "You must hold the quantum storage.");
             return;
         }
 
         SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
 
         if (!(slimefunItem instanceof NetworkQuantumStorage)) {
-            player.sendMessage(Theme.ERROR + "你手中的物品必须为量子存储");
+            player.sendMessage(Theme.ERROR + "The item in your hand must be for quantum storage.");
             return;
         }
 
@@ -1006,7 +1006,7 @@ public class NetworksMain implements TabExecutor {
         );
 
         if (quantumCache == null || quantumCache.getItemStack() == null) {
-            player.sendMessage(Theme.ERROR + "量子存储未指定物品或已损坏");
+            player.sendMessage(Theme.ERROR + "Quantum storage unspecified item or damaged.");
             return;
         }
 
@@ -1014,20 +1014,20 @@ public class NetworksMain implements TabExecutor {
         DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
         quantumCache.updateMetaLore(meta);
         itemStack.setItemMeta(meta);
-        player.sendMessage(Theme.SUCCESS + "已更新物品");
+        player.sendMessage(Theme.SUCCESS + "Item Updated.");
     }
 
     public void fixBlueprint(Player player, String before) {
         ItemStack blueprint = player.getInventory().getItemInMainHand();
         if (blueprint.getType().isAir()) {
-            player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
+            player.sendMessage(Theme.ERROR + "You must hold the blueprint.");
             return;
         }
 
         final SlimefunItem item = SlimefunItem.getByItem(blueprint);
 
         if (!(item instanceof CraftingBlueprint)) {
-            player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
+            player.sendMessage(Theme.ERROR + "You must hold the blueprint.");
             return;
         }
 
@@ -1040,7 +1040,7 @@ public class NetworksMain implements TabExecutor {
         );
 
         if (optional.isEmpty()) {
-            player.sendMessage(Theme.ERROR + "无法获取 instance");
+            player.sendMessage(Theme.ERROR + "Inaccesible instance");
             return;
         }
 
@@ -1051,7 +1051,7 @@ public class NetworksMain implements TabExecutor {
 
         blueprint.setItemMeta(fix.getItemMeta());
 
-        player.sendMessage(Theme.SUCCESS + "已修复蓝图");
+        player.sendMessage(Theme.SUCCESS + "Blueprint fixed.");
 
         return;
     }
@@ -1129,12 +1129,12 @@ public class NetworksMain implements TabExecutor {
 
     public String getErrorMessage(ERROR_TYPE errorType, String argument) {
         return switch (errorType) {
-            case NO_PERMISSION -> "你没有权限执行此命令! ";
-            case NO_ITEM_IN_HAND -> "你必须在手上持有物品! ";
-            case MISSING_REQUIRED_ARGUMENT -> "缺少必要参数: <" + argument + ">";
-            case INVALID_REQUIRED_ARGUMENT -> "无效的参数: <" + argument + ">";
-            case MUST_BE_PLAYER -> "此命令只能由玩家执行! ";
-            default -> "未知错误! ";
+            case NO_PERMISSION -> "You do not have permission to execute this command! ";
+            case NO_ITEM_IN_HAND -> "You must hold the items! ";
+            case MISSING_REQUIRED_ARGUMENT -> "Missing required argument: <" + argument + ">";
+            case INVALID_REQUIRED_ARGUMENT -> "Invalid required argument: <" + argument + ">";
+            case MUST_BE_PLAYER -> "This command can only be executed by the player! ";
+            default -> "Unknown Error! ";
         };
     }
 
