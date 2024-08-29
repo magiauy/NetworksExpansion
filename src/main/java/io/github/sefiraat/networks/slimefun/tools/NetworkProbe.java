@@ -87,15 +87,15 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int chainGrabbers = root.getChainGrabbers().size();
             final int advancedImporters = root.getAdvancedImports().size();
             final int advancedExporters = root.getAdvancedExports().size();
-            final int coordinateTransmitters = root.getCoordinateTransmitters().size();
-            final int coordinateReceivers = root.getCoordinateReceivers().size();
             final int chainDispatchers = root.getChainDispatchers().size();
             final int chainVanillaPushers = root.getChainVanillaPushers().size();
             final int chainVanillaGrabbers = root.getChainVanillaGrabbers().size();
 
             long totalItems = allNetworkItems.values().stream().mapToLong(integer -> integer).sum();
 
-            final String nodeCount = (root.getNodeCount() >= root.getMaxNodes() ? Theme.ERROR + String.valueOf(root.getNodeCount()) + "+" : String.valueOf(root.getNodeCount()));
+            final String nodeCount = root.getNodeCount() >= root.getMaxNodes()
+                    ? Theme.ERROR + String.valueOf(root.getNodeCount()) + "+"
+                    : String.valueOf(root.getNodeCount());
 
             final ChatColor c = Theme.CLICK_INFO.getColor();
             final ChatColor p = Theme.SUCCESS.getColor();
@@ -110,7 +110,7 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             player.sendMessage(formatter("网络出口", exporters));
             player.sendMessage(formatter("网格", grids));
             player.sendMessage(formatter("网络单元", cells));
-            player.sendMessage(formatter("网络内存清除器", wipers));
+            player.sendMessage(formatter("网络清除器", wipers));
             player.sendMessage(formatter("网络抓取器", grabbers));
             player.sendMessage(formatter("网络推送器", pushers));
             player.sendMessage(formatter("网络清除器", purgers));
@@ -126,17 +126,15 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             player.sendMessage(formatter("网络插口", powerOutlets));
             player.sendMessage(formatter("网络阻断器", greedyBlocks));
             player.sendMessage("------------------------------");
-            player.sendMessage("         网络拓展 - 组件统计        ");
+            player.sendMessage("        网络拓展 - 组件统计      ");
             player.sendMessage("------------------------------");
-            player.sendMessage(formatter("网络链式推送器", chainPushers));
-            player.sendMessage(formatter("网络链式抓取器", chainGrabbers));
-            player.sendMessage(formatter("网链调度器", chainDispatchers));
-            player.sendMessage(formatter("网络链式原版推送器", chainVanillaPushers));
-            player.sendMessage(formatter("网络链式原版抓取器", chainVanillaGrabbers));
-            player.sendMessage(formatter("网络高级入口", advancedImporters));
-            player.sendMessage(formatter("网络高级出口", advancedExporters));
-            player.sendMessage(formatter("网络坐标传输器", coordinateTransmitters));
-            player.sendMessage(formatter("网络坐标接收器", coordinateReceivers));
+            player.sendMessage(formatter("链式传输器 [推送]", chainPushers));
+            player.sendMessage(formatter("链式传输器 [抓取]", chainGrabbers));
+            player.sendMessage(formatter("链式传输器", chainDispatchers));
+            player.sendMessage(formatter("链式原版传输器 [推送]", chainVanillaPushers));
+            player.sendMessage(formatter("链式传输器 [抓取]", chainVanillaGrabbers));
+            player.sendMessage(formatter("高级网络入口", advancedImporters));
+            player.sendMessage(formatter("高级网络出口", advancedExporters));
             player.sendMessage("------------------------------");
             player.sendMessage(formatter("物品类型数量", distinctItems));
             player.sendMessage(formatter("累计物品数量", totalItems));

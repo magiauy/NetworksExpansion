@@ -53,8 +53,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-//!TODO 调整过于复杂的逻辑，需要重构
-
+@SuppressWarnings("deprecation")
 public class NetworksMain implements TabExecutor {
 
     private static Location POS1 = null;
@@ -1021,7 +1020,7 @@ public class NetworksMain implements TabExecutor {
 
     public void fixBlueprint(Player player, String before) {
         ItemStack blueprint = player.getInventory().getItemInMainHand();
-        if (blueprint == null || blueprint.getType().isAir()) {
+        if (blueprint.getType().isAir()) {
             player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
             return;
         }
@@ -1083,13 +1082,10 @@ public class NetworksMain implements TabExecutor {
             );
         } else if (args.length == 2) {
             return switch (args[0].toLowerCase(Locale.ROOT)) {
-                case "help", "restore", "updateitem" -> List.of();
+                // case "help", "restore", "updateitem" -> List.of();
                 case "getstorageitem" -> List.of("<slot>");
-                case "fillquantum" -> List.of("<amount>");
+                case "fillquantum", "addstorageitem", "reducestorageitem", "setquantum" -> List.of("<amount>");
                 case "fixblueprint" -> List.of("<keyInMeta>");
-                case "addstorageitem" -> List.of("<amount>");
-                case "reducestorageitem" -> List.of("<amount>");
-                case "setquantum" -> List.of("<amount>");
                 case "setcontainerid" -> List.of("<containerId>");
                 case "findcachedstorages" -> List.of("<playerName>");
                 case "worldedit" -> List.of("pos1", "pos2", "paste", "clear", "blockmenu", "blockinfo");
@@ -1098,7 +1094,7 @@ public class NetworksMain implements TabExecutor {
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("worldedit")) {
                 return switch (args[1]) {
-                    case "pos1", "pos2" -> List.of();
+                    // case "pos1", "pos2" -> List.of();
                     case "paste" -> Slimefun.getRegistry().getAllSlimefunItems()
                             .stream()
                             .filter(sfItem -> sfItem.getItem().getType().isBlock())

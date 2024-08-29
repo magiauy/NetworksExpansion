@@ -400,7 +400,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT = Theme.Random(
             "NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT",
             new ItemStack(Material.RED_DYE),
-            Theme.MACHINE,
+            Theme.TOOL,
             "魔法工作台蓝图",
             "一张空白的蓝图",
             "可以存储一个魔法工作台配方"
@@ -408,7 +408,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack ARMOR_FORGE_BLUEPRINT = Theme.Random(
             "NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT",
             new ItemStack(Material.ORANGE_DYE),
-            Theme.MACHINE,
+            Theme.TOOL,
             "盔甲锻造台蓝图",
             "一张空白的蓝图",
             "可以存储一个盔甲锻造台配方"
@@ -416,7 +416,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack SMELTERY_BLUEPRINT = Theme.Random(
             "NTW_EXPANSION_SMELTERY_BLUEPRINT",
             new ItemStack(Material.YELLOW_DYE),
-            Theme.MACHINE,
+            Theme.TOOL,
             "冶炼炉蓝图",
             "一张空白的蓝图",
             "可以存储一个冶炼炉配方"
@@ -424,7 +424,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack QUANTUM_WORKBENCH_BLUEPRINT = Theme.Random(
             "NTW_EXPANSION_QUANTUM_WORKBENCH_BLUEPRINT",
             new ItemStack(Material.LIME_DYE),
-            Theme.MACHINE,
+            Theme.TOOL,
             "量子工作台蓝图",
             "一张空白的蓝图",
             "可以存储一个量子工作台配方"
@@ -432,7 +432,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack ANCIENT_ALTAR_BLUEPRINT = Theme.Random(
             "NTW_EXPANSION_ANCIENT_ALTAR_BLUEPRINT",
             new ItemStack(Material.CYAN_DYE),
-            Theme.MACHINE,
+            Theme.TOOL,
             "古代祭坛蓝图",
             "一张空白的蓝图",
             "可以存储一个古代祭坛配方"
@@ -440,7 +440,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack EXPANSION_WORKBENCH_BLUEPRINT = Theme.Random(
             "NTW_EXPANSION_EXPANSION_WORKBENCH_BLUEPRINT",
             new ItemStack(Material.BROWN_DYE),
-            Theme.MACHINE,
+            Theme.TOOL,
             "网络拓展工作台蓝图",
             "一张空白的蓝图",
             "可以存储一个网络拓展工作台配方"
