@@ -66,7 +66,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     private final ItemSetting<Integer> tickRate;
 
     public AdvancedExport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.NEA_EXPORT);
+        super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_EXPORT);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
 

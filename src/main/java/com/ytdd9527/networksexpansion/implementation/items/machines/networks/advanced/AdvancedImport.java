@@ -47,7 +47,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
     private final ItemSetting<Integer> tickRate;
 
     public AdvancedImport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.NEA_IMPORT);
+        super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_IMPORT);
 
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);

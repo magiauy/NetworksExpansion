@@ -97,10 +97,6 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> advancedGreedyBlocks = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> coordinateTransmitters = ConcurrentHashMap.newKeySet();
-    @Getter
-    private final Set<Location> coordinateReceivers = ConcurrentHashMap.newKeySet();
-    @Getter
     private final Set<Location> chainVanillaPushers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
@@ -146,6 +142,9 @@ public class NetworkRoot extends NetworkNode {
             case EXPORT -> exporters.add(location);
             case GRID -> grids.add(location);
             case CELL -> {
+                /*
+                 * Fix https://github.com/Sefiraat/Networks/issues/211
+                 */
                 BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
                 if (blockMenu == null) {
                     return;
@@ -163,6 +162,9 @@ public class NetworkRoot extends NetworkNode {
             case POWER_DISPLAY -> powerDisplays.add(location);
             case ENCODER -> encoders.add(location);
             case GREEDY_BLOCK -> {
+                /*
+                 * Fix https://github.com/Sefiraat/Networks/issues/211
+                 */
                 BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
                 if (blockMenu == null) {
                     return;
@@ -182,9 +184,12 @@ public class NetworkRoot extends NetworkNode {
             case LINE_TRANSMITTER_PUSHER_PLUS -> chainPushers.add(location);
             case LINE_TRANSMITTER_GRABBER -> chainGrabbers.add(location);
             case LINE_TRANSMITTER_GRABBER_PLUS -> chainGrabbers.add(location);
-            case NEA_IMPORT -> advancedImporters.add(location);
-            case NEA_EXPORT -> advancedExporters.add(location);
-            case NEA_GREEDY_BLOCK -> {
+            case ADVANCED_IMPORT -> advancedImporters.add(location);
+            case ADVANCED_EXPORT -> advancedExporters.add(location);
+            case ADVANCED_GREEDY_BLOCK -> {
+                /*
+                 * Fix https://github.com/Sefiraat/Networks/issues/211
+                 */
                 BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
                 if (blockMenu == null) {
                     return;
@@ -193,8 +198,6 @@ public class NetworkRoot extends NetworkNode {
                     advancedGreedyBlocks.add(location);
                 }
             }
-            case COORDINATE_TRANSMITTER -> coordinateTransmitters.add(location);
-            case NE_COORDINATE_RECEIVER -> coordinateReceivers.add(location);
             case LINE_TRANSMITTER -> chainDispatchers.add(location);
             case LINE_TRANSMITTER_VANILLA_GRABBER -> chainVanillaGrabbers.add(location);
             case LINE_TRANSMITTER_VANILLA_PUSHER -> chainVanillaPushers.add(location);
