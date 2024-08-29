@@ -1,7 +1,6 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
 import io.github.sefiraat.networks.utils.Theme;
-import net.guizhanss.guizhanlib.minecraft.helper.MaterialHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -73,16 +72,16 @@ public class CardInstance extends ItemStackCache {
 
     public String getLoreLine() {
         if (this.getItemStack() == null) {
-            return Theme.WARNING + "空";
+            return Theme.WARNING + "Empty";
         }
         ItemMeta itemMeta = this.getItemMeta();
         String name;
         if (itemMeta != null && itemMeta.hasDisplayName()) {
             name = ChatColor.stripColor(itemMeta.getDisplayName());
         } else if (this.getItemType() != null) {
-            name = MaterialHelper.getName(this.getItemType());
+            name = this.getItemType().name();
         } else {
-            name = "未知/错误";
+            name = "Unknown/Error";
         }
         return Theme.CLICK_INFO + name + ": " + Theme.PASSIVE + this.amount;
     }

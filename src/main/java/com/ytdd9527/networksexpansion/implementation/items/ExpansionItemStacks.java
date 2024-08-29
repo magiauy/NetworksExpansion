@@ -137,13 +137,19 @@ public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
                 "NTW_EXPANSION_POINT_TRANSFER",
                 Enchanted(Material.END_ROD),
                 Theme.MACHINE,
-                "Point Transfer"
+                "Point Transfer",
+                "Only supports Slimefun Machine",
+                "The point transfer will grab and push a matching",
+                " items from with in selected machine."
 );
 public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
                 "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
                 new ItemStack(Material.END_ROD),
                 Theme.MACHINE,
-                "Point Transfer Grabber"
+                "Point Transfer Grabber",
+                "Only supports Slimefun Machine",
+                "The point transfer will grab items ",
+                "from a selected machine."
 );
 
     //链式传输
@@ -154,11 +160,9 @@ public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
         "Network Line Pusher",
         "Only supports Slimefun Machine",
         "Max distance: 32 blocks",
-        "Default mode: First slot",
         "Default quantity per SF tick: 64",
         "Line pusher will push an item through",
-        "a line of machines it facing.",
-        "First Stop Mode: Pushes to the accepted slot in the machine."
+        "a line of machines it facing."
 );
 public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
         "NTW_EXPANSION_LINE_TRANSFER_GRABBER",
@@ -167,12 +171,10 @@ public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
         "Network Line Grabber",
         "Only supports Slimefun Machine",
         "Max distance: 32 blocks",
-        "Default mode: First slot",
         "Default quantity per SF tick: 64",
         "Line pusher will grab items through",
-        "a line of machines it facing.",
-        "First Stop Mode: Grabs the slot",
-        "that has items in the machine."
+        "a line of machines it facing."
+
 );
 public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
         "NTW_EXPANSION_LINE_TRANSFER",
@@ -181,12 +183,10 @@ public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
         "Network Line Transfer",
         "Only supports Slimefun Machine",
         "Max distance: 32 blocks",
-        "Default mode: First slot",
         "Default quantity per SF tick: 64",
-        "Line pusher will grab and push items",
-        "a through line of machines it facing.",
-        "First Stop Mode: Grabs / Pushes the",
-        "items in the machine."
+        "Line transfer will grab and push items",
+        "a through line of machines it facing."
+
 );
 
     //链式传输Plus
@@ -197,11 +197,9 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
                 "Network Line Pusher Plus",
                 "Only supports Slimefun Machine",
                 "Max distance: 64 blocks",
-                "Default mode: First slot",
                 "Default quantity per SF tick: 64",
                 "Line pusher will push an item through",
-                "a line of machines it facing.",
-                "First Stop Mode: Pushes to the accepted slot in the machine."
+                "a line of machines it facing."
 );
 public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER",
@@ -210,12 +208,9 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
                 "Network Line Grabber Plus",
                 "Only supports Slimefun Machine",
                 "Max distance: 64 blocks",
-                "Default mode: First slot",
                 "Default quantity per SF tick: 64",
                 "Line pusher will grab items through",
-                "a line of machines it facing.",
-                "First Stop Mode: Grabs the slot",
-                "that has items in the machine."
+                "a line of machines it facing."
 );
 public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
                 "NTW_EXPANSION_LINE_TRANSFER_PLUS",
@@ -224,12 +219,9 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
                 "Network Line Transfer Plus",
                 "Only supports Slimefun Machine",
                 "Max distance: 64 blocks",
-                "Default mode: First slot",
                 "Default quantity per SF tick: 64",
                 "Line pusher will grab and push items",
-                "a through line of machines it facing.",
-                "First Stop Mode: Grabs / Pushes the",
-                "items in the machine."
+                "a through line of machines it facing."
 );
 
 public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Random(
@@ -239,11 +231,10 @@ public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Rando
                 "Vanilla Line Pusher",
                 "Only supports Vanilla Machine",
                 "Max distance: 32 blocks",
-                "Default mode: First slot",
                 "Default quantity per SF tick: 64",
                 "Line pusher will push an item through",
-                "a line of machines it facing.",
-                "First Stop Mode: Pushes to the accepted slot in the machine."
+                "a line of machines it facing."
+
 );
 
 public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
@@ -253,11 +244,11 @@ public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Rand
                 "Vanilla Line Grabber",
                 "Only supports Vanilla Machine",
                 "Max distance: 32 blocks",
-                "Default mode: First slot",
+                "Default mode: First stop",
                 "Default quantity per SF tick: 64",
                 "Line pusher will grab items through",
                 "a line of machines it facing.",
-                "First slot mode: Grabs the slot",
+                "First stop mode: Grabs the slot",
                 "that has items in the machine."
 );
 
@@ -269,7 +260,7 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Rand
                 "Advance Network Line Pusher",
                 "&aOnly supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
-                "&6Default mode: &eFirst slot",
+                "&6Default mode: &eFirst stop",
                 "&6Default quantity per SF tick: &e64",
                 "&aLine pusher will push items through",
                 "&aa line of machines it facing.",
@@ -282,7 +273,7 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Ran
                 "Advance Network Line Grabber",
                 "&aOnly supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
-                "&6Default mode: &eFirst slot",
+                "&6Default mode: &eFirst stop",
                 "&6Default quantity per SF tick: &e64",
                 "&aLine pusher will grab items through",
                 "&aa line of machines it facing.",
@@ -295,7 +286,7 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
                 "Advance Network Line Transfer",
                 "&aOnly supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
-                "&6Default mode: &eFirst slot",
+                "&6Default mode: &eFirst stop",
                 "&6Default quantity per SF tick: &e64",
                 "&aLine pusher will grab and push items through",
                 "&aa line of machines it facing.",
@@ -309,7 +300,7 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme
         "Advance Network Line Pusher Plus",
         "&aOnly supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
-        "&6Default mode: &eFirst slot",
+        "&6Default mode: &eFirst stop",
         "&6Default quantity per SF tick: &e64",
         "&aLine pusher will push items through",
         "&aa line of machines it facing.",
@@ -322,7 +313,7 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Them
         "Advance Network Line Grabber Plus",
         "&aOnly supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
-        "&6Default mode: &eFirst slot",
+        "&6Default mode: &eFirst stop",
         "&6Default quantity per SF tick: &e64",
         "&aLine pusher will grab items through",
         "&aa line of machines it facing.",
@@ -335,7 +326,7 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random
         "Advance Network Line Transfer Plus",
         "&aOnly supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
-        "&6Default mode: &eFirst slot",
+        "&6Default mode: &eFirst stop",
         "&6Default quantity per SF tick: &e64",
         "&aLine pusher will grab and push items through",
         "&aa line of machines it facing.",
@@ -375,7 +366,7 @@ public static final SlimefunItemStack NETWORK_ENCODING_GRID_NEW_STYLE = Theme.Ra
 public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT = Theme.Random(
                 "NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT",
                 new ItemStack(Material.RED_DYE),
-                Theme.MACHINE,
+                Theme.BLUEPRINTBLANK,
                 "Magic Workbench Blueprint",
                 "An empty blueprint",
                 "Can store a magic workbench recipe"
@@ -383,7 +374,7 @@ public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT = Theme.Random(
 public static final SlimefunItemStack ARMOR_FORGE_BLUEPRINT = Theme.Random(
                 "NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT",
                 new ItemStack(Material.ORANGE_DYE),
-                Theme.MACHINE,
+                Theme.BLUEPRINTBLANK,
                 "Armor Forge Blueprint",
                 "An empty blueprint",
                 "Can store an armor forge recipe"
@@ -391,7 +382,7 @@ public static final SlimefunItemStack ARMOR_FORGE_BLUEPRINT = Theme.Random(
 public static final SlimefunItemStack SMELTERY_BLUEPRINT = Theme.Random(
                 "NTW_EXPANSION_SMELTERY_BLUEPRINT",
                 new ItemStack(Material.YELLOW_DYE),
-                Theme.MACHINE,
+                Theme.BLUEPRINTBLANK,
                 "Smeltery Blueprint",
                 "An empty blueprint",
                 "Can store a smeltery recipe"
@@ -399,7 +390,7 @@ public static final SlimefunItemStack SMELTERY_BLUEPRINT = Theme.Random(
 public static final SlimefunItemStack QUANTUM_WORKBENCH_BLUEPRINT = Theme.Random(
                 "NTW_EXPANSION_QUANTUM_WORKBENCH_BLUEPRINT",
                 new ItemStack(Material.LIME_DYE),
-                Theme.MACHINE,
+                Theme.BLUEPRINTBLANK,
                 "Quantum Workbench Blueprint",
                 "An empty blueprint",
                 "Can store a quantum workbench recipe"
@@ -407,7 +398,7 @@ public static final SlimefunItemStack QUANTUM_WORKBENCH_BLUEPRINT = Theme.Random
 public static final SlimefunItemStack ANCIENT_ALTAR_BLUEPRINT = Theme.Random(
                 "NTW_EXPANSION_ANCIENT_ALTAR_BLUEPRINT",
                 new ItemStack(Material.CYAN_DYE),
-                Theme.MACHINE,
+                Theme.BLUEPRINTBLANK,
                 "Ancient Altar Blueprint",
                 "An empty blueprint",
                 "Can store an ancient altar recipe"
@@ -415,7 +406,7 @@ public static final SlimefunItemStack ANCIENT_ALTAR_BLUEPRINT = Theme.Random(
 public static final SlimefunItemStack EXPANSION_WORKBENCH_BLUEPRINT = Theme.Random(
                 "NTW_EXPANSION_EXPANSION_WORKBENCH_BLUEPRINT",
                 new ItemStack(Material.BROWN_DYE),
-                Theme.MACHINE,
+                Theme.BLUEPRINTBLANK,
                 "Network Expansion Workbench Blueprint",
                 "An empty blueprint",
                 "Can store a network expansion workbench recipe"
@@ -956,12 +947,12 @@ public static final SlimefunItemStack NETWORK_BRIDGE_PINK = Theme.Random(
                 "The Bridge allows you to cheaply",
                 "connect network objects together."
 );
-    private static final String thanks = "&x&F&8&7&D&F&1&lC&x&F&8&8&5&F&2&lo&x&F&9&8&D&F&3&lu&x&F&9&9&5&F&4&lr&x&F&A&9&E&F&5&lt&x&F&A&A&6&F&5&le&x&F&B&A&E&F&6&ls&x&F&B&B&6&F&7&ly &x&F&C&C&6&F&9&lo&x&F&C&C&E&F&A&lf &x&F&D&D&F&F&C&lK&x&F&E&E&7&F&C&lo&x&F&E&E&F&F&D&ln&x&F&F&F&7&F&E&lj&x&F&F&F&F&F&F&la&x&F&6&F&E&F&F&lc &x&E&3&F&D&F&F&lS&x&D&9&F&C&F&F&ll&x&D&0&F&B&F&F&li&x&C&6&F&A&F&F&lm&x&B&D&F&A&F&F&le &x&A&A&F&8&F&F&lT&x&A&1&F&7&F&F&le&x&9&7&F&6&F&F&lc&x&8&E&F&6&F&F&lh &x&7&B&F&4&F&F&lS&x&7&B&F&4&F&F&le&x&7&B&F&4&F&F&lr&x&7&B&F&4&F&F&lv&x&7&B&F&4&F&F&le&x&7&B&F&4&F&F&lr";
+    private static final String thanks = "&x&8&4&F&F&C&9&l☆ &x&8&9&F&4&D&1&lĐ&x&8&C&E&F&D&5&lộ&x&8&F&E&9&D&8&lc &x&9&4&D&E&E&0&lq&x&9&7&D&9&E&4&lu&x&9&A&D&3&E&8&ly&x&9&C&C&E&E&C&lề&x&9&F&C&8&F&0&ln &x&A&5&B&D&F&7&lb&x&A&7&B&8&F&B&lở&x&A&A&B&2&F&F&li &x&B&3&A&F&F&F&lM&x&B&8&A&E&F&F&le&x&B&D&A&D&F&F&lo&x&C&2&A&C&F&F&lw&x&C&6&A&A&F&F&lS&x&C&B&A&9&F&F&lM&x&D&0&A&8&F&F&lP&x&D&4&A&6&F&F&l.&x&D&9&A&5&F&F&ln&x&D&E&A&4&F&F&le&x&E&3&A&3&F&F&lt &x&E&C&A&0&F&F&l☆";
     private static final Map<StorageUnitType, SlimefunItemStack> typeMap = new HashMap<>();
 public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
         "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",
         new ItemStack(Material.BONE),
-        Theme.MACHINE,
+        Theme.TOOL,
         "Cargo Node Quick Tool",
         "&aRight-click: Set the configuration of the cargo node it points to",
         "&eSneak + Right-click: Load the configuration from the pointed cargo node",
@@ -992,7 +983,7 @@ public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer I",
         "&6Supports fast input/output through networks",
         "",
@@ -1005,7 +996,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer II",
         "&6Supports fast input/output through networks",
         "",
@@ -1018,7 +1009,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer III",
         "&6Supports fast input/output through networks",
         "",
@@ -1031,7 +1022,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer IV",
         "&6Supports fast input/output through networks",
         "",
@@ -1044,7 +1035,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer V",
         "&6Supports fast input/output through networks",
         "",
@@ -1057,7 +1048,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer VI",
         "&6Supports fast input/output through networks",
         "",
@@ -1071,7 +1062,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer VII",
         "&6Supports fast input/output through networks",
         "",
@@ -1084,7 +1075,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer VIII",
         "&6Supports fast input/output through networks",
         "",
@@ -1097,7 +1088,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
+        Theme.STORAGE,
         "Network Drawer IX",
         "&6Supports fast input/output through networks",
         "",
@@ -1110,8 +1101,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit X",
+        Theme.STORAGE,
+        "Network Drawer X",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.END_GAME_BASIC.getMaxItemCount() + " types of items",
@@ -1123,8 +1114,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit XI",
+        Theme.STORAGE,
+        "Network Drawer XI",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.END_GAME_INTERMEDIATE.getMaxItemCount() + " types of items",
@@ -1136,8 +1127,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit XII",
+        Theme.STORAGE,
+        "Network Drawer XII",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.END_GAME_ADVANCED.getMaxItemCount() + " types of items",
@@ -1151,8 +1142,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
         new ItemStack(Material.CHISELED_BOOKSHELF),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit XIII",
+        Theme.STORAGE,
+        "Network Drawer XIII",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.END_GAME_MAX.getMaxItemCount() + " types of items",
@@ -1165,8 +1156,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
         Skins.CARGO_STORAGE_UNIT_1_MODEL.getPlayerHead(),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit I",
+        Theme.STORAGE,
+        "Network Drawer I",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.TINY_MODEL.getMaxItemCount() + " types of items",
@@ -1180,8 +1171,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
         Skins.CARGO_STORAGE_UNIT_2_MODEL.getPlayerHead(),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit II",
+        Theme.STORAGE,
+        "Network Drawer II",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.MINI_MODEL.getMaxItemCount() + " types of items",
@@ -1195,8 +1186,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
         Skins.CARGO_STORAGE_UNIT_3_MODEL.getPlayerHead(),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit III",
+        Theme.STORAGE,
+        "Network Drawer III",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.SMALL_MODEL.getMaxItemCount() + " types of items",
@@ -1210,8 +1201,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
         Skins.CARGO_STORAGE_UNIT_4_MODEL.getPlayerHead(),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit IV",
+        Theme.STORAGE,
+        "Network Drawer IV",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.MEDIUM_MODEL.getMaxItemCount() + " types of items",
@@ -1225,8 +1216,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
         Skins.CARGO_STORAGE_UNIT_5_MODEL.getPlayerHead(),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit V",
+        Theme.STORAGE,
+        "Network Drawer V",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.LARGE_MODEL.getMaxItemCount() + " types of items",
@@ -1240,8 +1231,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
         Skins.CARGO_STORAGE_UNIT_6_MODEL.getPlayerHead(),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit VI",
+        Theme.STORAGE,
+        "Network Drawer VI",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.ENHANCED_MODEL.getMaxItemCount() + " types of items",
@@ -1256,8 +1247,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
         "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
         Skins.CARGO_STORAGE_UNIT_7_MODEL.getPlayerHead(),
-        Theme.MACHINE,
-        "Network Cargo Storage Unit VII",
+        Theme.STORAGE,
+        "Network Drawer VII",
         "&6Supports fast input/output through networks",
         "",
         "&7⇨ &eCan store " + StorageUnitType.ADVANCED_MODEL.getMaxItemCount() + " types of items",
@@ -1271,8 +1262,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
                 "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
                 Skins.CARGO_STORAGE_UNIT_8_MODEL.getPlayerHead(),
-                Theme.MACHINE,
-                "Network Cargo Storage Unit VIII",
+                Theme.STORAGE,
+                "Network Drawer VIII",
                 "&6Supports fast input/output through networks",
                 "",
                 "&7⇨ &eCan store " + StorageUnitType.EXTRA_MODEL.getMaxItemCount() + " types of items",
@@ -1286,8 +1277,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
                 "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
                 Skins.CARGO_STORAGE_UNIT_9_MODEL.getPlayerHead(),
-                Theme.MACHINE,
-                "Network Cargo Storage Unit IX",
+                Theme.STORAGE,
+                "Network Drawer IX",
                 "&6Supports fast input/output through networks",
                 "",
                 "&7⇨ &eCan store " + StorageUnitType.ULTRA_MODEL.getMaxItemCount() + " types of items",
@@ -1301,8 +1292,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
                 "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
                 Skins.CARGO_STORAGE_UNIT_10_MODEL.getPlayerHead(),
-                Theme.MACHINE,
-                "Network Cargo Storage Unit X",
+                Theme.STORAGE,
+                "Network Drawer X",
                 "&6Supports fast input/output through networks",
                 "",
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_BASIC_MODEL.getMaxItemCount() + " types of items",
@@ -1316,8 +1307,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
                 "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
                 Skins.CARGO_STORAGE_UNIT_11_MODEL.getPlayerHead(),
-                Theme.MACHINE,
-                "Network Cargo Storage Unit XI",
+                Theme.STORAGE,
+                "Network Drawer XI",
                 "&6Supports fast input/output through networks",
                 "",
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getMaxItemCount() + " types of items",
@@ -1331,8 +1322,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
                 "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
                 Skins.CARGO_STORAGE_UNIT_12_MODEL.getPlayerHead(),
-                Theme.MACHINE,
-                "Network Cargo Storage Unit XII",
+                Theme.STORAGE,
+                "Network Drawer XII",
                 "&6Supports fast input/output through networks",
                 "",
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_ADVANCED_MODEL.getMaxItemCount() + " types of items",
@@ -1348,8 +1339,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
 public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
                 "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
                 Skins.CARGO_STORAGE_UNIT_13_MODEL.getPlayerHead(),
-                Theme.MACHINE,
-                "Network Cargo Storage Unit XIII",
+                Theme.STORAGE,
+                "Network Drawer XIII",
                 "&6Supports fast input/output through networks",
                 "",
                 "&7⇨ &eCan store " + StorageUnitType.END_GAME_MAX_MODEL.getMaxItemCount() + " types of items",

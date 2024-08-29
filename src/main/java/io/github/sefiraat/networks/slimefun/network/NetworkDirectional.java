@@ -22,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import net.guizhanss.guizhanlib.minecraft.helper.MaterialHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -133,7 +132,7 @@ public abstract class NetworkDirectional extends NetworkObject {
         if (blockMaterial.isItem() && !blockMaterial.isAir()) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
-                    Theme.PASSIVE + "Direction " + blockFace.name() + " (" + MaterialHelper.getName(blockMaterial) + ")"
+                    Theme.PASSIVE + "Direction " + blockFace.name() + " (" + blockMaterial.name() + ")"
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
             itemMeta.setLore(List.of(

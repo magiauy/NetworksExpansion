@@ -78,19 +78,19 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     private static final CustomItemStack DISPLAY_MODE_STACK = new CustomItemStack(
             Material.KNOWLEDGE_BOOK,
-            Theme.CLICK_INFO.getColor() + "点击切换&2显示模式",
-            Theme.CLICK_INFO.getColor() + "当前&2显示模式&7: &2显示网络所有物品",
-            Theme.CLICK_INFO.getColor() + "&e↑ &7在上方放入物品以&e自动搜索物品",
-            Theme.CLICK_INFO.getColor() + "&6Shift+左键&7以切换&2显示模式"
+            Theme.CLICK_INFO.getColor() + "Display Modes",
+            Theme.CLICK_INFO.getColor() + "Current&2 Display Mode&7: &2Show all items in network",
+            Theme.CLICK_INFO.getColor() + "&e↑ &7Place items on top to&e automatic item search",
+            Theme.CLICK_INFO.getColor() + "&6Shift+Left-click&7 to switch&2 display mode"
     );
 
     private static final CustomItemStack HISTORY_MODE_STACK = new CustomItemStack(
             Material.BOOK,
-            Theme.CLICK_INFO.getColor() + "点击切换&2显示模式",
-            Theme.CLICK_INFO.getColor() + "当前&2显示模式&7: &2显示取出物品历史",
-            Theme.CLICK_INFO.getColor() + "&e↑ &7在上方放入物品以&e自动搜索物品",
-            Theme.CLICK_INFO.getColor() + "&6Shift+左键&7以切换&2显示模式",
-            Theme.CLICK_INFO.getColor() + "&c当前模式不可使用搜索！"
+            Theme.CLICK_INFO.getColor() + "&2Display Modes",
+            Theme.CLICK_INFO.getColor() + "Current&2 Display Mode&7: &2Display History",
+            Theme.CLICK_INFO.getColor() + "&e↑ &7Place items on top to&e automatic item search",
+            Theme.CLICK_INFO.getColor() + "&6Shift+Left-click&7 to switch&2 display mode",
+            Theme.CLICK_INFO.getColor() + "&cSearch is not available in the current mode！"
     );
 
     private static final Comparator<? super Entry<ItemStack, Long>> ALPHABETICAL_SORT = Comparator.comparing(

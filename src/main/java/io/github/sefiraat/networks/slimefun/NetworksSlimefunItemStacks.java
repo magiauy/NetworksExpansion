@@ -462,7 +462,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_0 = Theme.themedSlimefunItemStack(
                 "NTW_QUANTUM_STORAGE_0",
                 new ItemStack(Material.ORANGE_TERRACOTTA),
-                Theme.MACHINE,
+                Theme.STORAGE,
                 "Network Quantum Storage (64)",
                 "Stores " + NetworkQuantumStorage.getSizes()[0] + " Stores",
                 "",
@@ -473,7 +473,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_9 = Theme.themedSlimefunItemStack(
                 "NTW_QUANTUM_STORAGE_9",
                 new ItemStack(Material.YELLOW_TERRACOTTA),
-                Theme.MACHINE,
+                Theme.STORAGE,
                 "Network Quantum Storage (256)",
                 "Stores " + NetworkQuantumStorage.getSizes()[1] + " Stores",
                 "",
@@ -484,7 +484,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_10 = Theme.themedSlimefunItemStack(
                 "NTW_QUANTUM_STORAGE_10",
                 new ItemStack(Material.LIME_TERRACOTTA),
-                Theme.MACHINE,
+                Theme.STORAGE,
                 "Network Quantum Storage (1024)",
                 "Stores " + NetworkQuantumStorage.getSizes()[2] + " items",
                 "",
@@ -495,7 +495,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_1 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_1",
             new ItemStack(Material.WHITE_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (4K)",
             "Stores " + NetworkQuantumStorage.getSizes()[0] + " items",
             "",
@@ -506,7 +506,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_2 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_2",
             new ItemStack(Material.LIGHT_GRAY_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (32K)",
             "Stores " + NetworkQuantumStorage.getSizes()[1] + " items",
             "",
@@ -517,7 +517,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_3 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_3",
             new ItemStack(Material.GRAY_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (262K)",
             "Stores " + NetworkQuantumStorage.getSizes()[2] + " items",
             "",
@@ -528,7 +528,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_4 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_4",
             new ItemStack(Material.BROWN_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (2M)",
             "Stores " + NetworkQuantumStorage.getSizes()[3] + " items",
             "",
@@ -539,7 +539,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_5 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_5",
             new ItemStack(Material.BLACK_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (16M)",
             "Stores " + NetworkQuantumStorage.getSizes()[4] + " items",
             "",
@@ -550,7 +550,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_6 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_6",
             new ItemStack(Material.PURPLE_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (134M)",
             "Stores " + NetworkQuantumStorage.getSizes()[5] + " items",
             "",
@@ -561,7 +561,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_7 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_7",
             new ItemStack(Material.MAGENTA_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (1B)",
             "Stores " + NetworkQuantumStorage.getSizes()[6] + " items",
             "",
@@ -572,7 +572,7 @@ public class NetworksSlimefunItemStacks {
         NETWORK_QUANTUM_STORAGE_8 = Theme.themedSlimefunItemStack(
             "NTW_QUANTUM_STORAGE_8",
             new ItemStack(Material.RED_TERRACOTTA),
-            Theme.MACHINE,
+            Theme.STORAGE,
             "Network Quantum Storage (∞)",
             "Stores ∞ items... almost",
             "",
@@ -717,7 +717,7 @@ public class NetworksSlimefunItemStacks {
         CRAFTING_BLUEPRINT = Theme.themedSlimefunItemStack(
             "NTW_CRAFTING_BLUEPRINT",
             new ItemStack(Material.BLUE_DYE),
-            Theme.TOOL,
+            Theme.BLUEPRINTBLANK,
             "Crafting Blueprint",
             "A blank blueprint that can",
             "be used to store a crafting",

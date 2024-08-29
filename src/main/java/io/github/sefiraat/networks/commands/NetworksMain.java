@@ -508,17 +508,17 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditBlockMenuSetSlot(Player player, int slot) {
         if (POS1 == null || POS2 == null) {
-            player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+            player.sendMessage(ChatColor.RED + "Please select an area first!");
             return;
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
+            player.sendMessage(ChatColor.RED + "Please select two locations in the same world!");
             return;
         }
 
         if (!(0 <= slot && slot <= 53)) {
-            player.sendMessage(ChatColor.RED + "槽位号必须在0-53之间！");
+            player.sendMessage(ChatColor.RED + "The slot number must be between 0 and 53!");
             return;
         }
         ItemStack hand = player.getInventory().getItemInMainHand();
@@ -530,7 +530,7 @@ public class NetworksMain implements TabExecutor {
         int upZ = Math.max(POS1.getBlockZ(), POS2.getBlockZ());
         int downZ = Math.min(POS1.getBlockZ(), POS2.getBlockZ());
 
-        player.sendMessage(ChatColor.GREEN + "Setting slot " + slot + " to " + ItemStackHelper.getDisplayName(hand));
+        player.sendMessage(ChatColor.GREEN + "Setting slot " + slot + " to " + hand.getItemMeta().getDisplayName());
         long currentMillSeconds = System.currentTimeMillis();
 
         int count = 0;
@@ -550,12 +550,12 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditBlockInfoAdd(Player player, String key, String value) {
         if (POS1 == null || POS2 == null) {
-            player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+            player.sendMessage(ChatColor.RED + "Please select an area first!");
             return;
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
+            player.sendMessage(ChatColor.RED + "Please select two locations in the same world!");
             return;
         }
 
@@ -586,12 +586,12 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditBlockInfoRemove(Player player, String key) {
         if (POS1 == null || POS2 == null) {
-            player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+            player.sendMessage(ChatColor.RED + "Please select an area first!");
             return;
         }
 
         if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
+            player.sendMessage(ChatColor.RED + "Please select two locations in the same world!");
             return;
         }
 
@@ -624,7 +624,7 @@ public class NetworksMain implements TabExecutor {
         ItemStack itemInHand = player.getInventory().getItemInMainHand();
         SlimefunItem slimefunItem = SlimefunItem.getByItem(itemInHand);
         if (slimefunItem == null) {
-            player.sendMessage(ChatColor.RED + "无法更新非粘液物品！");
+            player.sendMessage(ChatColor.RED + "Can't update non-Slimefun items!");
             return;
         }
 
@@ -639,32 +639,32 @@ public class NetworksMain implements TabExecutor {
 
             if (quantumCache == null || quantumCache.getItemStack() == null) {
                 itemInHand.setItemMeta(SlimefunItem.getById(currentId).getItem().getItemMeta());
-                player.sendMessage(ChatColor.GREEN + "已更新物品！");
+                player.sendMessage(ChatColor.GREEN + "Item has been updated!");
                 return;
             }
 
             ItemStack stored = quantumCache.getItemStack();
             String quantumStoredId = SlimefunItem.getByItem(stored).getId();
             if (ID_UPDATE_MAP.get(quantumStoredId) != null) {
-                player.sendMessage(ChatColor.GREEN + "已更新存储内的物品！");
+                player.sendMessage(ChatColor.GREEN + "Items in storage have been updated!");
                 stored.setItemMeta(SlimefunItem.getById(ID_UPDATE_MAP.get(quantumStoredId)).getItem().getItemMeta());
             }
             DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
             quantumCache.updateMetaLore(meta);
             itemInHand.setItemMeta(meta);
-            player.sendMessage(ChatColor.GREEN + "已更新物品！");
+            player.sendMessage(ChatColor.GREEN + "Item has been updated!");
         }
 
         if (slimefunItem instanceof CargoStorageUnit) {
-            player.sendMessage(ChatColor.RED + "暂不支持此物品的更新");
+            player.sendMessage(ChatColor.RED + "Updates for this item are not supported at this time");
             return;
         }
 
         if (ID_UPDATE_MAP.get(currentId) != null) {
             itemInHand.setItemMeta(SlimefunItem.getById(ID_UPDATE_MAP.get(currentId)).getItem().getItemMeta());
-            player.sendMessage(ChatColor.GREEN + "已更新物品！");
+            player.sendMessage(ChatColor.GREEN + "Item has been updated!");
         } else {
-            player.sendMessage(ChatColor.RED + "不支持其他物品的更新");
+            player.sendMessage(ChatColor.RED + "Updates for other items are not supported");
             return;
         }
     }
@@ -696,23 +696,23 @@ public class NetworksMain implements TabExecutor {
 
     public static void help(CommandSender sender, String mainCommand) {
         if (mainCommand == null) {
-            sender.sendMessage(ChatColor.GOLD + "网络命令帮助:");
-            sender.sendMessage(ChatColor.GOLD + "/networks help - 显示此帮助信息.");
-            sender.sendMessage(ChatColor.GOLD + "/networks fillquantum <amount> - 填充手持量子存储物品的存储量.");
-            sender.sendMessage(ChatColor.GOLD + "/networks fixblueprint <keyInMeta> - 修复手持合成蓝图.");
-            sender.sendMessage(ChatColor.GOLD + "/networks restore - 恢复失效的网络抽屉单元.");
-            sender.sendMessage(ChatColor.GOLD + "/networks addstorageitem <amount> - 向手持物品的网络抽屉中添加物品.");
-            sender.sendMessage(ChatColor.GOLD + "/networks reducestorageitem <amount> - 从手持物品的网络抽屉中减少物品.");
-            sender.sendMessage(ChatColor.GOLD + "/networks setquantum <amount> - 设置手持量子存储物品的存储量.");
-            sender.sendMessage(ChatColor.GOLD + "/networks setcontainerid <containerId> - 设置网络抽屉的容器ID.");
-            sender.sendMessage(ChatColor.GOLD + "/networks worldedit <subCommand> - 粘液创世神功能.");
+            sender.sendMessage(ChatColor.GOLD + "Network Command Help:");
+            sender.sendMessage(ChatColor.GOLD + "/networks help - Show help message.");
+            sender.sendMessage(ChatColor.GOLD + "/networks fillquantum <amount> - Filling the storage of handheld quantum storage items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks fixblueprint <keyInMeta> - Fix Handheld Crafting Blueprints.");
+            sender.sendMessage(ChatColor.GOLD + "/networks restore - Recovery of failed network drawer units.");
+            sender.sendMessage(ChatColor.GOLD + "/networks addstorageitem <amount> - Adding items to the network drawer of handheld items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks reducestorageitem <amount> - Reduction of items from the network drawer of hand-held items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks setquantum <amount> - Setting the storage capacity of handheld quantum storage items.");
+            sender.sendMessage(ChatColor.GOLD + "/networks setcontainerid <containerId> - Setting the ID of the network drawer.");
+            sender.sendMessage(ChatColor.GOLD + "/networks worldedit <subCommand> - SlimeFun God of Creation Features.");
             sender.sendMessage(ChatColor.GOLD + "/networks updateItem - 更新手持物品.");
-            sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - 查找指定玩家放置的货运存储单元.");
+            sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - Finds Network Drawer placed by a given player.");
             return;
         }
         switch (mainCommand.toLowerCase(Locale.ROOT)) {
             case "help" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks help - 显示此帮助信息.");
+                sender.sendMessage(ChatColor.GOLD + "/networks help - Show help message.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks help");
             }
             case "fillquantum" -> {

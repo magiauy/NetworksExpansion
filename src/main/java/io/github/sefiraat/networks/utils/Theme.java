@@ -1,6 +1,8 @@
 package io.github.sefiraat.networks.utils;
 
 import com.ytdd9527.networksexpansion.utils.TextUtil;
+
+import io.github.mooy1.infinityexpansion.items.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
@@ -32,6 +34,8 @@ public enum Theme {
     RESEARCH(ChatColor.of("#a60e03"), "Research"),
     CRAFTING(ChatColor.of("#dbcea9"), "Crafting Material"),
     MACHINE(ChatColor.of("#3295a8"), "Machine"),
+    STORAGE(ChatColor.of("#3295a8"), "Storage"),
+    BLUEPRINTBLANK(ChatColor.of("#3295a8"), "Blueprint Blank"),
 
     TOOL(ChatColor.of("#6b32a8"), "Tool"),
     MECHANISM(ChatColor.of("#3295a8"), "Mechanism"),
