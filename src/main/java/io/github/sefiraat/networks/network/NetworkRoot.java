@@ -5,6 +5,7 @@ import com.ytdd9527.networksexpansion.api.data.ItemContainer;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
+import com.ytdd9527.networksexpansion.utils.NetworksVersionedParticle;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.barrel.InfinityBarrel;
@@ -19,7 +20,6 @@ import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -215,7 +215,7 @@ public class NetworkRoot extends NetworkNode {
             for (int x = 0; x <= 1; x++) {
                 for (int y = 0; y <= 1; y++) {
                     for (int z = 0; z <= 1; z++) {
-                        loc.getWorld().spawnParticle(VersionedParticle.EXPLOSION, loc.clone().add(x, y, z), 0);
+                        loc.getWorld().spawnParticle(NetworksVersionedParticle.EXPLOSION, loc.clone().add(x, y, z), 0);
                     }
                 }
             }
