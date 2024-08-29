@@ -34,6 +34,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -230,6 +231,18 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
             }
         }
 
+        if (crafted == null && canTestVanillaRecipe()) {
+            // If no slimefun recipe found, try a vanilla one
+            instance.generateVanillaRecipe(blockMenu.getLocation().getWorld());
+            if (instance.getRecipe() == null) {
+                returnItems(root, inputs);
+                return false;
+            } else if (Arrays.equals(instance.getRecipeItems(), inputs)) {
+                setCache(blockMenu, instance);
+                crafted = instance.getRecipe().getResult();
+            }
+        }
+
         // If no item crafted OR result doesn't fit, escape
         if (crafted == null || crafted.getType().isAir()) {
             returnItems(root, acutalInputs);
@@ -306,4 +319,8 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
 
     public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
+
+    public boolean canTestVanillaRecipe() {
+        return false;
+    }
 }

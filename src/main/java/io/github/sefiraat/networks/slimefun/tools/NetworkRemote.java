@@ -2,10 +2,8 @@ package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid.NetworkCraftingGridNewStyle;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid.NetworkEncodingGridNewStyle;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid.NetworkGridNewStyle;
-import de.jeff_media.morepersistentdatatypes.DataType;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkGridNewStyle;
+import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkCraftingGrid;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
 import io.github.sefiraat.networks.utils.Keys;
@@ -54,12 +52,9 @@ public class NetworkRemote extends SlimefunItem {
                             final Block block = optional.get();
                             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
                             if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)
-                                    && (
-                                    slimefunItem instanceof NetworkGrid ||
-                                            slimefunItem instanceof NetworkCraftingGrid ||
-                                            slimefunItem instanceof NetworkEncodingGridNewStyle ||
-                                            slimefunItem instanceof NetworkGridNewStyle ||
-                                            slimefunItem instanceof NetworkCraftingGridNewStyle
+                                    && (slimefunItem instanceof NetworkGrid ||
+                                    slimefunItem instanceof NetworkCraftingGrid ||
+                                    slimefunItem instanceof NetworkGridNewStyle
                             )) {
                                 setGrid(e.getItem(), block, player);
                             } else {
@@ -111,7 +106,7 @@ public class NetworkRemote extends SlimefunItem {
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(location);
         SlimefunItem item = SlimefunItem.getById(blockData.getSfId());
         StorageCacheUtils.executeAfterLoad(blockData, () -> {
-            if ((item instanceof NetworkGrid || item instanceof NetworkCraftingGrid || item instanceof NetworkEncodingGridNewStyle || item instanceof NetworkGridNewStyle || item instanceof NetworkCraftingGridNewStyle)
+            if ((item instanceof NetworkGrid || item instanceof NetworkCraftingGrid || item instanceof NetworkGridNewStyle)
                     && (player.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK))) {
                 blockData.getBlockMenu().open(player);
             } else {

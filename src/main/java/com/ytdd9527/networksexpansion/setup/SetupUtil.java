@@ -91,11 +91,10 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_IMPORT.registerThis(),
                 ExpansionItems.ADVANCED_EXPORT.registerThis(),
                 ExpansionItems.ADVANCED_PURGER.registerThis(),
-                ExpansionItems.ADVANCED_GREEDY_BLOCK.registerThis()
-        );
-        ExpansionItemsMenus.SUB_MENU_ADVANCED_NET.addTo(
+                ExpansionItems.ADVANCED_GREEDY_BLOCK.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_5.registerThis(),
-                ExpansionItems.NETWORK_CAPACITOR_6.registerThis()
+                ExpansionItems.NETWORK_CAPACITOR_6.registerThis(),
+                ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
                 ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),
@@ -114,11 +113,6 @@ public class SetupUtil {
                 ExpansionItems.NETWORK_BRIDGE_PURPLE.registerThis(),
                 ExpansionItems.NETWORK_BRIDGE_MAGENTA.registerThis(),
                 ExpansionItems.NETWORK_BRIDGE_PINK.registerThis()
-        );
-        ExpansionItemsMenus.SUB_MENU_GRID.addTo(
-                ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis(),
-                ExpansionItems.NETWORK_CRAFTING_GRID_NEW_STYLE.registerThis(),
-                ExpansionItems.NETWORK_ENCODING_GRID_NEW_STYLE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_ENCODER.addTo(
                 ExpansionItems.MAGIC_WORKBENCH_RECIPE_ENCODER.registerThis(),
@@ -206,7 +200,6 @@ public class SetupUtil {
                 ExpansionItemsMenus.SUB_MENU_CORE_MACHINE,
                 ExpansionItemsMenus.SUB_MENU_ADVANCED_NET,
                 ExpansionItemsMenus.SUB_MENU_BRIDGE,
-                ExpansionItemsMenus.SUB_MENU_GRID,
                 ExpansionItemsMenus.SUB_MENU_ENCODER,
                 ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE
         );
@@ -214,7 +207,6 @@ public class SetupUtil {
                 ExpansionItemsMenus.SUB_MENU_CORE_MACHINE,
                 ExpansionItemsMenus.SUB_MENU_ADVANCED_NET,
                 ExpansionItemsMenus.SUB_MENU_BRIDGE,
-                ExpansionItemsMenus.SUB_MENU_GRID,
                 ExpansionItemsMenus.SUB_MENU_ENCODER,
                 ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE
         );

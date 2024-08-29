@@ -135,7 +135,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         final BlockFace direction = this.getCurrentDirection(blockMenu);
         Block currentBlock = blockMenu.getBlock().getRelative(direction);
 
-        for (int i = 0; i < maxDistance; i++) {
+        for (int i = 0; i <= maxDistance; i++) {
             BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
             // 如果没有blockMenu，退出
             if (targetMenu == null) {

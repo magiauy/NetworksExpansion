@@ -76,27 +76,21 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             Theme.CLICK_INFO.getColor() + "Set Filter (Right Click to Clear)"
     );
 
-    private static final CustomItemStack CLICK_SEARCH_STACK = new CustomItemStack(
-            Material.WHITE_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "Click to search items →"
-    );
-
-    private static final CustomItemStack AUTO_FILTER_STACK = new CustomItemStack(
-            Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO.getColor() + "Deposited items →"
-    );
-
     private static final CustomItemStack DISPLAY_MODE_STACK = new CustomItemStack(
-            Material.OBSERVER,
-            Theme.CLICK_INFO.getColor() + "Click to switch display mode",
-            Theme.CLICK_INFO.getColor() + "Current mode: Show all items in the network"
+            Material.KNOWLEDGE_BOOK,
+            Theme.CLICK_INFO.getColor() + "点击切换&2显示模式",
+            Theme.CLICK_INFO.getColor() + "当前&2显示模式&7: &2显示网络所有物品",
+            Theme.CLICK_INFO.getColor() + "&e↑ &7在上方放入物品以&e自动搜索物品",
+            Theme.CLICK_INFO.getColor() + "&6Shift+左键&7以切换&2显示模式"
     );
 
     private static final CustomItemStack HISTORY_MODE_STACK = new CustomItemStack(
-            Material.OBSERVER,
-            Theme.CLICK_INFO.getColor() + "Click to switch display mode",
-            Theme.CLICK_INFO.getColor() + "Current Mode: Displays the history of items removed",
-            Theme.CLICK_INFO.getColor() + "Sorting / searching is not available in the current mode!"
+            Material.BOOK,
+            Theme.CLICK_INFO.getColor() + "点击切换&2显示模式",
+            Theme.CLICK_INFO.getColor() + "当前&2显示模式&7: &2显示取出物品历史",
+            Theme.CLICK_INFO.getColor() + "&e↑ &7在上方放入物品以&e自动搜索物品",
+            Theme.CLICK_INFO.getColor() + "&6Shift+左键&7以切换&2显示模式",
+            Theme.CLICK_INFO.getColor() + "&c当前模式不可使用搜索！"
     );
 
     private static final Comparator<? super Entry<ItemStack, Long>> ALPHABETICAL_SORT = Comparator.comparing(
@@ -116,15 +110,32 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     );
 
     private static final Comparator<Entry<ItemStack, Long>> NUMERICAL_SORT = Entry.comparingByValue();
+    private static final Comparator<Entry<ItemStack, Long>> ADDON_SORT = Comparator.comparing(
+            itemStackIntegerEntry -> {
+                ItemStack itemStack = itemStackIntegerEntry.getKey();
+                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+                if (slimefunItem != null) {
+                    return ChatColor.stripColor(slimefunItem.getAddon().getName());
+                } else {
+                    return "Minecraft";
+                }
+            },
+            Collator.getInstance(Locale.CHINA)::compare
+    );
+    private static final Map<GridCache.SortOrder, Comparator<? super Entry<ItemStack, Long>>> SORT_MAP = new HashMap<>();
+
+    static {
+        SORT_MAP.put(GridCache.SortOrder.ALPHABETICAL, ALPHABETICAL_SORT);
+        SORT_MAP.put(GridCache.SortOrder.NUMBER, NUMERICAL_SORT.reversed());
+        SORT_MAP.put(GridCache.SortOrder.ADDON, ADDON_SORT);
+    }
 
     private final ItemSetting<Integer> tickRate;
 
     protected AbstractGridNewStyle(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRID);
 
-        for (int slot : getInputSlots()) {
-            this.getSlotsToDrop().add(slot);
-        }
+        this.getSlotsToDrop().add(getAutoFilterSlot());
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -147,7 +158,6 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                                 return;
                             }
                             addToRegistry(block);
-                            tryAddItem(blockMenu);
                             updateDisplay(blockMenu);
                         }
                     }
@@ -170,27 +180,11 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     }
 
     @Nonnull
-    private static List<String> getHistoryLoreAddtion() {
+    private static List<String> getHistoryLoreAddition() {
         return List.of(
                 " ",
                 Theme.PASSIVE.getColor() + "Click to remove item"
         );
-    }
-
-    protected void tryAddItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-
-        if (definition.getNode() == null) {
-            return;
-        }
-
-        for (int slot : getInputSlots()) {
-            final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-
-            if (itemStack != null && itemStack.getType() != Material.AIR) {
-                definition.getNode().getRoot().addItemStack(itemStack);
-            }
-        }
     }
 
     protected void updateDisplay(@Nonnull BlockMenu blockMenu) {
@@ -210,6 +204,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         // Update Screen
         final NetworkRoot root = definition.getNode().getRoot();
         final GridCache gridCache = getCacheMap().get(blockMenu.getLocation().clone());
+
+        autoSetFilter(blockMenu, gridCache);
 
         // 显示物品模式
         if (gridCache.getDisplayMode() == DisplayMode.DISPLAY) {
@@ -259,7 +255,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                         return false;
                     });
                 } else {
-                    blockMenu.replaceExistingItem(getDisplaySlots()[i], BLANK_SLOT_STACK);
+                    blockMenu.replaceExistingItem(getDisplaySlots()[i], getBlankSlotStack());
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) -> false);
                 }
             }
@@ -287,13 +283,13 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
             final int start = gridCache.getPage() * getDisplaySlots().length;
             final int end = Math.min(start + getDisplaySlots().length, history.size());
-            final List<ItemStack> vaildHistory = history.subList(start, end);
+            final List<ItemStack> validHistory = history.subList(start, end);
 
             getCacheMap().put(blockMenu.getLocation(), gridCache);
 
             for (int i = 0; i < getDisplaySlots().length; i++) {
-                if (vaildHistory.size() > i) {
-                    final ItemStack displayStack = vaildHistory.get(i);
+                if (validHistory.size() > i) {
+                    final ItemStack displayStack = validHistory.get(i);
                     final ItemMeta itemMeta = displayStack.getItemMeta();
                     if (itemMeta == null) {
                         continue;
@@ -301,9 +297,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     List<String> lore = itemMeta.getLore();
 
                     if (lore == null) {
-                        lore = getHistoryLoreAddtion();
+                        lore = getHistoryLoreAddition();
                     } else {
-                        lore.addAll(getHistoryLoreAddtion());
+                        lore.addAll(getHistoryLoreAddition());
                     }
 
                     itemMeta.setLore(lore);
@@ -314,7 +310,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                         return false;
                     });
                 } else {
-                    blockMenu.replaceExistingItem(getDisplaySlots()[i], BLANK_SLOT_STACK);
+                    blockMenu.replaceExistingItem(getDisplaySlots()[i], getBlankSlotStack());
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) -> false);
                 }
             }
@@ -323,7 +319,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     protected void clearDisplay(BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
-            blockMenu.replaceExistingItem(displaySlot, BLANK_SLOT_STACK);
+            blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
         }
     }
@@ -339,16 +335,16 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     }
 
                     final ItemStack itemStack = entry.getKey();
-                    String name = itemStack.getType().name().toLowerCase(Locale.ROOT);
-                    final String pyName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                    final String pyFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                    return name.contains(cache.getFilter()) || pyName.contains(cache.getFilter()) || pyFirstLetter.contains(cache.getFilter());
+                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                    return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
                 })
-                .sorted(cache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL ? ALPHABETICAL_SORT : NUMERICAL_SORT.reversed())
+                .sorted(SORT_MAP.get(cache.getSortOrder()))
                 .toList();
     }
 
-    protected boolean setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
+    protected void setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {
@@ -366,33 +362,27 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 }
             });
         }
-        return false;
     }
 
-    protected boolean autoSetFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
-        if (action.isRightClicked()) {
-            gridCache.setFilter(null);
-        } else {
-            final ItemStack itemStack = blockMenu.getItemInSlot(getAutoFilterSlot());
-            if (itemStack != null && itemStack.getType() != Material.AIR) {
-                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-                String itemName = null;
-                if (slimefunItem != null) {
-                    itemName = ChatColor.stripColor(slimefunItem.getItemName());
-                } else {
-                    itemName = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
-                }
-
-                gridCache.setFilter(itemName.toLowerCase(Locale.ROOT));
+    protected void autoSetFilter(@Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache) {
+        final ItemStack itemStack = blockMenu.getItemInSlot(getAutoFilterSlot());
+        if (itemStack != null && !itemStack.getType().isAir()) {
+            SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+            String itemName;
+            if (slimefunItem != null) {
+                itemName = ChatColor.stripColor(slimefunItem.getItemName());
+            } else {
+                itemName = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
             }
+
+            gridCache.setFilter(itemName.toLowerCase(Locale.ROOT));
         }
-        return false;
     }
 
     @ParametersAreNonnullByDefault
     protected void retrieveItem(Player player, NodeDefinition definition, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
         // Todo Item can be null here. No idea how - investigate later
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
+        if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }
 
@@ -412,6 +402,12 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         cloneLore.remove(cloneLore.size() - 1);
         cloneMeta.setLore(cloneLore);
         clone.setItemMeta(cloneMeta);
+
+        final ItemStack cursor = player.getItemOnCursor();
+        if (!cursor.getType().isAir() && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
+            definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
+            return;
+        }
 
         int amount = 1;
 
@@ -453,7 +449,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
-        if (cursor.getType() != Material.AIR && !canAddMore(action, cursor, request)) {
+        if (!cursor.getType().isAir() && !canAddMore(action, cursor, request)) {
             return;
         }
 
@@ -463,7 +459,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     private void setCursor(Player player, ItemStack cursor, ItemStack requestingStack) {
         if (requestingStack != null) {
-            if (cursor.getType() != Material.AIR) {
+            if (!cursor.getType().isAir()) {
                 requestingStack.setAmount(cursor.getAmount() + 1);
             }
             player.setItemOnCursor(requestingStack);
@@ -492,7 +488,6 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     protected abstract int[] getDisplaySlots();
 
-    protected abstract int[] getInputSlots();
 
     protected abstract int getChangeSort();
 
@@ -526,20 +521,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         return FILTER_STACK;
     }
 
-    public CustomItemStack getAutoFilterStack() {
-        return AUTO_FILTER_STACK;
-    }
-
-    public CustomItemStack getClickSearchStack() {
-        return CLICK_SEARCH_STACK;
-    }
-
     public CustomItemStack getModeStack(GridCache gridCache) {
-        if (gridCache.getDisplayMode() == DisplayMode.DISPLAY) {
-            return DISPLAY_MODE_STACK;
-        } else {
-            return HISTORY_MODE_STACK;
-        }
+        return getModeStack(gridCache.getDisplayMode());
     }
 
     public CustomItemStack getModeStack(DisplayMode displayMode) {

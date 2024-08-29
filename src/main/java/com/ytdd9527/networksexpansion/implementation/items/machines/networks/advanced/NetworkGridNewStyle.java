@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.grid;
+package com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced;
 
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
@@ -23,38 +23,28 @@ import java.util.Map;
 
 public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
-    private static final int[] BACKGROUND_SLOTS = {
-            40, 41, 42, 43, 44, 45, 48
-    };
+    private static final int[] BACKGROUND_SLOTS = new int[0];
 
     private static final int[] DISPLAY_SLOTS = {
-            0, 1, 2, 3, 4, 5, 6, 7, 8,
-            9, 10, 11, 12, 13, 14, 15, 16, 17,
-            18, 19, 20, 21, 22, 23, 24, 25, 26,
-            27, 28, 29, 30, 31, 32, 33, 34, 35
+            0, 1, 2, 3, 4, 5, 6, 7,
+            9, 10, 11, 12, 13, 14, 15, 16,
+            18, 19, 20, 21, 22, 23, 24, 25,
+            27, 28, 29, 30, 31, 32, 33, 34,
+            36, 37, 38, 39, 40, 41, 42, 43,
+            45, 46, 47, 48, 49, 50, 51, 52,
     };
 
-    private static final int[] INPUT_SLOTS = {
-            49, 50, 51, 52, 53
-    };
-
-    private static final int CHANGE_SORT = 36;
-    private static final int CLICK_SEARCH_SLOT = 45;
-    private static final int FILTER = 47;
-    private static final int AUTO_FILTER_SLOT = 46;
-    private static final int PAGE_PREVIOUS = 37;
-    private static final int PAGE_NEXT = 38;
-    private static final int TOGGLE_MODE_SLOT = 39;
-    private static final int ORANGE_BACKGROUND = 48;
+    private static final int AUTO_FILTER_SLOT = 8;
+    private static final int CHANGE_SORT = 35;
+    private static final int FILTER = 26;
+    private static final int PAGE_PREVIOUS = 44;
+    private static final int PAGE_NEXT = 53;
+    private static final int TOGGLE_MODE_SLOT = 17;
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
     public NetworkGridNewStyle(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        for (int slot : getInputSlots()) {
-            this.getSlotsToDrop().add(slot);
-        }
-        this.getSlotsToDrop().add(AUTO_FILTER_SLOT);
     }
 
     @Override
@@ -76,9 +66,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.INSERT) {
-                    return getInputSlots();
-                }
                 return new int[0];
             }
 
@@ -108,6 +95,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     if (gridCache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL) {
                         gridCache.setSortOrder(GridCache.SortOrder.NUMBER);
+                    } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER) {
+                        gridCache.setSortOrder(GridCache.SortOrder.ADDON);
                     } else {
                         gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
                     }
@@ -122,28 +111,20 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                     return false;
                 });
 
-                menu.replaceExistingItem(getOrangeBackgroud(), getAutoFilterStack());
+                menu.replaceExistingItem(getToggleModeSlot(), getModeStack(DisplayMode.DISPLAY));
+                menu.addMenuClickHandler(getToggleModeSlot(), (p, slot, item, action) -> {
+                    if (action.isShiftClicked()) {
+                        GridCache gridCache = getCacheMap().get(menu.getLocation());
+                        gridCache.toggleDisplayMode();
+                        menu.replaceExistingItem(getToggleModeSlot(), getModeStack(gridCache));
+                    }
+                    return false;
+                });
 
                 for (int displaySlot : getDisplaySlots()) {
                     menu.replaceExistingItem(displaySlot, null);
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
-
-                menu.replaceExistingItem(getClickSearchSlot(), getClickSearchStack());
-                menu.addMenuClickHandler(getClickSearchSlot(), (p, slot, item, action) -> {
-                    GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    return autoSetFilter(p, menu, gridCache, action);
-                });
-
-                menu.replaceExistingItem(getToggleModeSlot(), getModeStack(DisplayMode.DISPLAY));
-                menu.addMenuClickHandler(getToggleModeSlot(), (p, slot, item, action) -> {
-                    GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    gridCache.toggleDisplayMode();
-                    menu.replaceExistingItem(getToggleModeSlot(), getModeStack(gridCache));
-                    return false;
-                });
-
-
             }
         };
     }
@@ -161,16 +142,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
         return DISPLAY_SLOTS;
     }
 
-    public int[] getInputSlots() {
-        return INPUT_SLOTS;
-    }
-
     public int getChangeSort() {
         return CHANGE_SORT;
-    }
-
-    public int getClickSearchSlot() {
-        return CLICK_SEARCH_SLOT;
     }
 
     public int getPagePrevious() {
@@ -179,10 +152,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
     public int getPageNext() {
         return PAGE_NEXT;
-    }
-
-    public int getOrangeBackgroud() {
-        return ORANGE_BACKGROUND;
     }
 
     public int getAutoFilterSlot() {
