@@ -20,12 +20,10 @@ import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -225,11 +223,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
             getServer().getPluginManager().disablePlugin(this);
             return;
-        }
-        try {
-            Enchantment luckOfTheSea = VersionedEnchantment.LUCK_OF_THE_SEA;
-        } catch (NoClassDefFoundError | NoSuchFieldError e) {
-            getLogger().severe("你必须使用2024.07以上版本的汉化版粘液科技才能加载此附属！");
         }
     }
 

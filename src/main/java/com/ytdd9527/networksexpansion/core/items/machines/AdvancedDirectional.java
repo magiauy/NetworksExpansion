@@ -3,6 +3,8 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.utils.NetworksVersionedEnchantment;
+import com.ytdd9527.networksexpansion.utils.NetworksVersionedParticle;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeType;
@@ -16,8 +18,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
-import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -136,7 +136,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             List<String> lore = itemMeta.getLore();
             lore.add(Theme.SUCCESS + "已设置朝向此容器！");
             itemMeta.setLore(lore);
-            itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
+            itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         displayStack.setItemMeta(itemMeta);
@@ -159,7 +159,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                 List<String> lore = itemMeta.getLore();
                 lore.add(Theme.SUCCESS + "已设置朝向此容器！");
                 itemMeta.setLore(lore);
-                itemMeta.addEnchant(VersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
+                itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             }
             displayStack.setItemMeta(itemMeta);
@@ -467,7 +467,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         final Vector faceVector = blockFace.getDirection().clone().multiply(-1);
         final Vector pushVector = faceVector.clone().multiply(2);
         final Location displayLocation = location.clone().add(0.5, 0.5, 0.5).add(faceVector);
-        location.getWorld().spawnParticle(VersionedParticle.DUST, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
+        location.getWorld().spawnParticle(NetworksVersionedParticle.DUST, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
     }
 
     public ItemStack getShowIcon() {

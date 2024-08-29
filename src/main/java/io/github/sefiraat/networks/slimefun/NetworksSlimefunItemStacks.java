@@ -9,7 +9,6 @@ import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
-import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import java.text.MessageFormat;
 
 /**
- * Creating SlimefunItemstacks here due to some items being created in Enums so this will
+ * Creating SlimefunItemStacks here due to some items being created in Enums so this will
  * act as a one-stop-shop for the stacks themselves.
  */
 @UtilityClass
@@ -798,7 +797,7 @@ public class NetworksSlimefunItemStacks {
 
         NETWORK_RAKE_3 = Theme.themedSlimefunItemStack(
                 "NTW_RAKE_3",
-                ItemStackUtil.getPreEnchantedItemStack(Material.WEEPING_VINES, true, new Pair<>(VersionedEnchantment.LUCK_OF_THE_SEA, 1)),
+                ItemStackUtil.getPreEnchantedItemStack(Material.WEEPING_VINES, true, new Pair<>(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1)),
                 Theme.TOOL,
                 "网络扳手 (3)",
                 "右键点击一个网络节点",
@@ -809,7 +808,7 @@ public class NetworksSlimefunItemStacks {
 
         NETWORK_DEBUG_STICK = Theme.themedSlimefunItemStack(
                 "NTW_DEBUG_STICK",
-                ItemStackUtil.getPreEnchantedItemStack(Material.STICK, true, new Pair<>(VersionedEnchantment.LUCK_OF_THE_SEA, 1)),
+                ItemStackUtil.getPreEnchantedItemStack(Material.STICK, true, new Pair<>(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1)),
                 Theme.TOOL,
                 "网络调试棒",
                 "右键点击一个网络方块开启调试。"
