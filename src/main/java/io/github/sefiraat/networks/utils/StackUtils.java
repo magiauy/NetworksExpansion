@@ -9,8 +9,11 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
 import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.inventory.meta.BlockDataMeta;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.BundleMeta;
 import org.bukkit.inventory.meta.CompassMeta;
@@ -20,12 +23,19 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.MapMeta;
+import org.bukkit.inventory.meta.MusicInstrumentMeta;
+import org.bukkit.inventory.meta.OminousBottleMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.Repairable;
+import org.bukkit.inventory.meta.ShieldMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
+import org.bukkit.inventory.meta.WritableBookMeta;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,6 +46,7 @@ import java.util.Optional;
 @UtilityClass
 // @SuppressWarnings("deprecation")
 public class StackUtils {
+    MinecraftVersion MC_VERSION = Slimefun.getMinecraftVersion();
     @Nonnull
     public static ItemStack getAsQuantity(@Nonnull ItemStack itemStack, int amount) {
         ItemStack clone = itemStack.clone();
@@ -162,9 +173,63 @@ public class StackUtils {
             return optionalStackId1.get().equals(optionalStackId2.get());
         }
 
-        // Finally, check the display name
+        // Check the display name
         if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
             return false;
+        }
+
+        // Check the attribute modifiers
+        if (!Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
+            return false;
+        }
+
+        // Check if fire resistant
+        if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
+            return false;
+        }
+
+        // Check if unbreakable
+        if (itemMeta.isUnbreakable() != cachedMeta.isUnbreakable()) {
+            return false;
+        }
+
+        // Check if hide tooltip
+        if (itemMeta.isHideTooltip() != cachedMeta.isHideTooltip()) {
+            return false;
+        }
+
+        if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+            // Check rarity
+            if (!Objects.equals(itemMeta.getRarity(), cachedMeta.getRarity())) {
+                return false;
+            }
+
+            // Check food components
+            if (itemMeta.hasFood() && cachedMeta.hasFood()) {
+                if (!Objects.equals(itemMeta.getFood(), cachedMeta.getFood())) {
+                    return false;
+                }
+            } else if (itemMeta.hasFood() != cachedMeta.hasFood()) {
+                return false;
+            }
+
+            // Check tool components
+            if (itemMeta.hasTool() && cachedMeta.hasTool()) {
+                if (!Objects.equals(itemMeta.getTool(), cachedMeta.getTool())) {
+                    return false;
+                }
+            } else if (itemMeta.hasTool() != cachedMeta.hasTool()) {
+                return false;
+            }
+
+            // Check jukebox playable
+            if (itemMeta.hasJukeboxPlayable() && cachedMeta.hasJukeboxPlayable()) {
+                if (!Objects.equals(itemMeta.getJukeboxPlayable(), cachedMeta.getJukeboxPlayable())) {
+                    return false;
+                }
+            } else if (itemMeta.hasJukeboxPlayable() != cachedMeta.hasJukeboxPlayable()) {
+                return false;
+            }
         }
 
         // Everything should match if we've managed to get here
@@ -176,6 +241,12 @@ public class StackUtils {
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
             if (instanceOne.getDamage() != instanceTwo.getDamage()) {
+                return true;
+            }
+        }
+
+        if (metaOne instanceof Repairable instanceOne && metaTwo instanceof Repairable instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
                 return true;
             }
         }
@@ -197,6 +268,20 @@ public class StackUtils {
         // Banner
         if (metaOne instanceof BannerMeta instanceOne && metaTwo instanceof BannerMeta instanceTwo) {
             if (!instanceOne.getPatterns().equals(instanceTwo.getPatterns())) {
+                return true;
+            }
+        }
+
+        // BlockData
+        if (metaOne instanceof BlockDataMeta instanceOne && metaTwo instanceof BlockDataMeta instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
+                return true;
+            }
+        }
+
+        // BlockState
+        if (metaOne instanceof BlockStateMeta instanceOne && metaTwo instanceof BlockStateMeta instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
                 return true;
             }
         }
@@ -305,7 +390,7 @@ public class StackUtils {
 
         // Potion
         if (metaOne instanceof PotionMeta instanceOne && metaTwo instanceof PotionMeta instanceTwo) {
-            if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
                 if (instanceOne.getBasePotionType() != instanceTwo.getBasePotionType()) {
                     return true;
                 }
@@ -358,6 +443,58 @@ public class StackUtils {
             }
             if (!instanceOne.getPatternColor().equals(instanceTwo.getPatternColor())) {
                 return true;
+            }
+        }
+
+        // Knowledge Book
+        if (metaOne instanceof KnowledgeBookMeta instanceOne && metaTwo instanceof KnowledgeBookMeta instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
+                return true;
+            }
+        }
+
+        // Music Instrument
+        if (metaOne instanceof MusicInstrumentMeta instanceOne && metaTwo instanceof MusicInstrumentMeta instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
+                return true;
+            }
+        }
+
+        // Shield
+        if (metaOne instanceof ShieldMeta instanceOne && metaTwo instanceof ShieldMeta instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
+                return true;
+            }
+        }
+
+        // Spawn Egg
+        if (metaOne instanceof SpawnEggMeta instanceOne && metaTwo instanceof SpawnEggMeta instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
+                return true;
+            }
+        }
+
+        // Writable Book
+        if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
+            if (!instanceOne.equals(instanceTwo)) {
+                return true;
+            }
+        }
+
+        if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+            // Armor
+            if (metaOne instanceof ArmorMeta instanceOne && metaTwo instanceof ArmorMeta instanceTwo) {
+                if (!instanceOne.equals(instanceTwo)) {
+                    return true;
+                }
+            }
+            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
+                // Ominous Bottle
+                if (metaOne instanceof OminousBottleMeta instanceOne && metaTwo instanceof OminousBottleMeta instanceTwo) {
+                    if (!instanceOne.equals(instanceTwo)) {
+                        return true;
+                    }
+                }
             }
         }
 
