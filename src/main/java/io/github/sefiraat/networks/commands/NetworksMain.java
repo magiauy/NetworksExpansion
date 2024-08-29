@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.commands;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.data.ItemContainer;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
@@ -12,10 +13,10 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
-import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentCraftingBlueprintType;
@@ -48,120 +49,16 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 
 //!TODO 调整过于复杂的逻辑，需要重构
 
 public class NetworksMain implements TabExecutor {
 
-    private static final Map<Integer, NetworkQuantumStorage> QUANTUM_REPLACEMENT_MAP = new HashMap<>();
-    private static final Map<String, String> ID_UPDATE_MAP = new HashMap<>();
     private static Location POS1 = null;
     private static Location POS2 = null;
-
-    static {
-        QUANTUM_REPLACEMENT_MAP.put(4096, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_1);
-        QUANTUM_REPLACEMENT_MAP.put(32768, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_2);
-        QUANTUM_REPLACEMENT_MAP.put(262144, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_3);
-        QUANTUM_REPLACEMENT_MAP.put(2097152, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_4);
-        QUANTUM_REPLACEMENT_MAP.put(16777216, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_5);
-        QUANTUM_REPLACEMENT_MAP.put(134217728, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_6);
-        QUANTUM_REPLACEMENT_MAP.put(1073741824, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_7);
-        QUANTUM_REPLACEMENT_MAP.put(Integer.MAX_VALUE, NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_8);
-    }
-
-    static {
-        ID_UPDATE_MAP.put("NE_EXPANSION_WORKBENCH", "NTW_EXPANSION_WORKBENCH");
-        ID_UPDATE_MAP.put("NE_COORDINATE_CONFIGURATOR", "NTW_EXPANSION_COORDINATE_CONFIGURATOR");
-        ID_UPDATE_MAP.put("NEA_IMPORT", "NTW_EXPANSION_ADVANCED_IMPORT");
-        ID_UPDATE_MAP.put("NEA_EXPORT", "NTW_EXPANSION_ADVANCED_EXPORT");
-        ID_UPDATE_MAP.put("NEA_PURGER", "NTW_EXPANSION_ADVANCED_PURGER");
-        ID_UPDATE_MAP.put("NEA_GREEDY_BLOCK", "NTW_EXPANSION_ADVANCED_GREEDY_BLOCK");
-        ID_UPDATE_MAP.put("NE_ADVANCED_IMPORT", "NTW_EXPANSION_ADVANCED_IMPORT");
-        ID_UPDATE_MAP.put("NE_ADVANCED_EXPORT", "NTW_EXPANSION_ADVANCED_EXPORT");
-        ID_UPDATE_MAP.put("NE_ADVANCED_PURGER", "NTW_EXPANSION_ADVANCED_PURGER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_GREEDY_BLOCK", "NTW_EXPANSION_ADVANCED_GREEDY_BLOCK");
-        ID_UPDATE_MAP.put("NTW_CAPACITOR_5", "NTW_EXPANSION_CAPACITOR_5");
-        ID_UPDATE_MAP.put("NE_ADVANCED_QUANTUM_STORAGE", "NTW_EXPANSION_ADVANCED_QUANTUM_STORAGE");
-        ID_UPDATE_MAP.put("NE_CHAING_PUSHER", "NTW_EXPANSION_LINE_TRANSFER_PUSHER");
-        ID_UPDATE_MAP.put("NE_EXPANSION_GRABBER_1", "NTW_EXPANSION_LINE_TRANSFER_GRABBER");
-        ID_UPDATE_MAP.put("NE_CHAIN_DISPATCHER", "NTW_EXPANSION_LINE_TRANSFER");
-        ID_UPDATE_MAP.put("NE_CHAIN_PUSHER_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER");
-        ID_UPDATE_MAP.put("NE_EXPANSION_GRABBER_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER");
-        ID_UPDATE_MAP.put("NE_CHAIN_DISPATCHER_PLUS", "NTW_EXPANSION_LINE_TRANSFER_PLUS");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_PUSHER", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_GRABBER", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_DISPATCHER", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_PUSHER_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_GRABBER_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER");
-        ID_UPDATE_MAP.put("NE_ADVANCED_CHAIN_DISPATCHER_PLUS", "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS");
-
-        /*4
-        ID_UPDATE_MAP.put("NE_MAGIC_WORKBENCH_BLUEPRINT", "NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT");
-        ID_UPDATE_MAP.put("NE_ARMOR_FORGE_BLUEPRINT", "NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT");
-        ID_UPDATE_MAP.put("NE_SMELTERY_BLUEPRINT", "NTW_EXPANSION_SMELTERY_BLUEPRINT");
-        ID_UPDATE_MAP.put("NE_QUANTUM_WORKBENCH_BLUEPRINT", "NTW_EXPANSION_QUANTUM_WORKBENCH_BLUEPRINT");
-        ID_UPDATE_MAP.put("NE_ANCIENT_ALTAR_BLUEPRINT", "NTW_EXPANSION_ANCIENT_ALTAR_BLUEPRINT");
-        ID_UPDATE_MAP.put("NE_EXPANSION_WORKBENCH_BLUEPRINT", "NTW_EXPANSION_WORKBENCH_BLUEPRINT");
-        */
-
-        ID_UPDATE_MAP.put("NE_MAGIC_WORKBENCH_RECIPE_ENCODER", "NTW_EXPANSION_MAGIC_WORKBENCH_RECIPE_ENCODER");
-        ID_UPDATE_MAP.put("NE_ARMOR_FORGE_RECIPE_ENCODER", "NTW_EXPANSION_ARMOR_FORGE_RECIPE_ENCODER");
-        ID_UPDATE_MAP.put("NE_SMELTERY_RECIPE_ENCODER", "NTW_EXPANSION_SMELTERY_RECIPE_ENCODER");
-        ID_UPDATE_MAP.put("NE_QUANTUM_WORKBENCH_RECIPE_ENCODER", "NTW_EXPANSION_QUANTUM_WORKBENCH_RECIPE_ENCODER");
-        ID_UPDATE_MAP.put("NE_ANCIENT_ALTAR_RECIPE_ENCODER", "NTW_EXPANSION_ANCIENT_ALTAR_RECIPE_ENCODER");
-        ID_UPDATE_MAP.put("NE_EXPANSION_WORKBENCH_RECIPE_ENCODER", "NTW_EXPANSION_WORKBENCH_RECIPE_ENCODER");
-
-        ID_UPDATE_MAP.put("NE_AUTO_MAGIC_WORKBENCH", "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH");
-        ID_UPDATE_MAP.put("NE_AUTO_ARMOR_FORGE", "NTW_EXPANSION_AUTO_ARMOR_FORGE");
-        ID_UPDATE_MAP.put("NE_AUTO_SMELTERY", "NTW_EXPANSION_AUTO_SMELTERY");
-        ID_UPDATE_MAP.put("NE_AUTO_QUANTUM_WORKBENCH", "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH");
-        ID_UPDATE_MAP.put("NE_AUTO_ANCIENT_ALTAR", "NTW_EXPANSION_AUTO_ANCIENT_ALTAR");
-        ID_UPDATE_MAP.put("NE_AUTO_EXPANSION_WORKBENCH", "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH");
-
-        ID_UPDATE_MAP.put("NE_AUTO_MAGIC_WORKBENCH_WITHHOLDING", "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH_WITHHOLDING");
-        ID_UPDATE_MAP.put("NE_AUTO_ARMOR_FORGE_WITHHOLDING", "NTW_EXPANSION_AUTO_ARMOR_FORGE_WITHHOLDING");
-        ID_UPDATE_MAP.put("NE_AUTO_SMELTERY_WITHHOLDING", "NTW_EXPANSION_AUTO_SMELTERY_WITHHOLDING");
-        ID_UPDATE_MAP.put("NE_AUTO_QUANTUM_WORKBENCH_WITHHOLDING", "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH_WITHHOLDING");
-        ID_UPDATE_MAP.put("NE_AUTO_ANCIENT_ALTAR_WITHHOLDING", "NTW_EXPANSION_AUTO_ANCIENT_ALTAR_WITHHOLDING");
-        ID_UPDATE_MAP.put("NE_AUTO_EXPANSION_WORKBENCH_WITHHOLDING", "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH_WITHHOLDING");
-
-        ID_UPDATE_MAP.put("NEA_AUTO_MAGIC_WORKBENCH", "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH");
-        ID_UPDATE_MAP.put("NEA_AUTO_ARMOR_FORGE", "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE");
-        ID_UPDATE_MAP.put("NEA_AUTO_SMELTERY", "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY");
-        ID_UPDATE_MAP.put("NEA_AUTO_QUANTUM_WORKBENCH", "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH");
-        ID_UPDATE_MAP.put("NEA_AUTO_ANCIENT_ALTAR", "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR");
-        ID_UPDATE_MAP.put("NEA_AUTO_EXPANSION_WORKBENCH", "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH");
-
-        ID_UPDATE_MAP.put("NEA_AUTO_MAGIC_WORKBENCH_WITHHOLDING", "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING");
-        ID_UPDATE_MAP.put("NEA_AUTO_ARMOR_FORGE_WITHHOLDING", "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING");
-        ID_UPDATE_MAP.put("NEA_AUTO_SMELTERY_WITHHOLDING", "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY_WITHHOLDING");
-        ID_UPDATE_MAP.put("NEA_AUTO_QUANTUM_WORKBENCH_WITHHOLDING", "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING");
-        ID_UPDATE_MAP.put("NEA_AUTO_ANCIENT_ALTAR_WITHHOLDING", "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING");
-        ID_UPDATE_MAP.put("NEA_AUTO_EXPANSION_WORKBENCH_WITHHOLDING", "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING");
-
-        ID_UPDATE_MAP.put("NE_BRIDGE_WHITE", "NTW_EXPANSION_BRIDGE_WHITE");
-        ID_UPDATE_MAP.put("NE_BRIDGE_ORANGE", "NTW_EXPANSION_BRIDGE_ORANGE");
-        ID_UPDATE_MAP.put("NE_BRIDGE_MAGENTA", "NTW_EXPANSION_BRIDGE_MAGENTA");
-        ID_UPDATE_MAP.put("NE_BRIDGE_LIGHT_BLUE", "NTW_EXPANSION_BRIDGE_LIGHT_BLUE");
-        ID_UPDATE_MAP.put("NE_BRIDGE_YELLOW", "NTW_EXPANSION_BRIDGE_YELLOW");
-        ID_UPDATE_MAP.put("NE_BRIDGE_LIME", "NTW_EXPANSION_BRIDGE_LIME");
-        ID_UPDATE_MAP.put("NE_BRIDGE_PINK", "NTW_EXPANSION_BRIDGE_PINK");
-        ID_UPDATE_MAP.put("NE_BRIDGE_GRAY", "NTW_EXPANSION_BRIDGE_GRAY");
-        ID_UPDATE_MAP.put("NE_BRIDGE_LIGHT_GRAY", "NTW_EXPANSION_BRIDGE_LIGHT_GRAY");
-        ID_UPDATE_MAP.put("NE_BRIDGE_CYAN", "NTW_EXPANSION_BRIDGE_CYAN");
-        ID_UPDATE_MAP.put("NE_BRIDGE_PURPLE", "NTW_EXPANSION_BRIDGE_PURPLE");
-        ID_UPDATE_MAP.put("NE_BRIDGE_BLUE", "NTW_EXPANSION_BRIDGE_BLUE");
-        ID_UPDATE_MAP.put("NE_BRIDGE_BROWN", "NTW_EXPANSION_BRIDGE_BROWN");
-        ID_UPDATE_MAP.put("NE_BRIDGE_GREEN", "NTW_EXPANSION_BRIDGE_GREEN");
-        ID_UPDATE_MAP.put("NE_BRIDGE_RED", "NTW_EXPANSION_BRIDGE_RED");
-        ID_UPDATE_MAP.put("NE_BRIDGE_BLACK", "NTW_EXPANSION_BRIDGE_BLACK");
-
-    }
 
     public static void restore(Player p) {
         Block target = p.getTargetBlockExact(5);
@@ -198,12 +95,12 @@ public class NetworksMain implements TabExecutor {
     public static void setQuantum(Player player, int amount) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
-        if (itemInHand.getType() == Material.AIR) {
+        if (itemInHand.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
             return;
         }
 
-        if (targetBlock == null || targetBlock.getType() == Material.AIR) {
+        if (targetBlock == null || targetBlock.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络存储才能执行该指令!");
             return;
         }
@@ -247,12 +144,12 @@ public class NetworksMain implements TabExecutor {
     private static void addStorageItem(Player player, int amount) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
-        if (itemInHand.getType() == Material.AIR) {
+        if (itemInHand.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
             return;
         }
 
-        if (targetBlock == null || targetBlock.getType() == Material.AIR) {
+        if (targetBlock == null || targetBlock.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
             return;
         }
@@ -292,12 +189,12 @@ public class NetworksMain implements TabExecutor {
     private static void reduceStorageItem(Player player, int amount) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
-        if (itemInHand.getType() == Material.AIR) {
+        if (itemInHand.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
             return;
         }
 
-        if (targetBlock == null || targetBlock.getType() == Material.AIR) {
+        if (targetBlock == null || targetBlock.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
             return;
         }
@@ -336,7 +233,7 @@ public class NetworksMain implements TabExecutor {
 
     public static void setContainerId(Player player, int containerId) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
-        if (targetBlock == null || targetBlock.getType() == Material.AIR) {
+        if (targetBlock == null || targetBlock.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
             return;
         }
@@ -461,7 +358,7 @@ public class NetworksMain implements TabExecutor {
         player.sendMessage("Paste " + count + " blocks done in " + (System.currentTimeMillis() - currentMillSeconds) + "ms");
     }
 
-    public static void worldeditClear(Player player) {
+    public static void worldeditClear(Player player, boolean callHandler) {
         if (POS1 == null || POS2 == null) {
             player.sendMessage(ChatColor.RED + "请先选中一个区域！");
             return;
@@ -489,13 +386,15 @@ public class NetworksMain implements TabExecutor {
                     Block targetBlock = POS1.getWorld().getBlockAt(x, y, z);
                     if (BlockStorage.hasBlockInfo(targetBlock)) {
                         SlimefunItem item = BlockStorage.check(targetBlock);
-                        item.callItemHandler(BlockBreakHandler.class, h -> {
-                            h.onPlayerBreak(
-                                    new BlockBreakEvent(targetBlock, player),
-                                    new ItemStack(Material.AIR),
-                                    new ArrayList<>()
-                            );
-                        });
+                        if (callHandler) {
+                            item.callItemHandler(BlockBreakHandler.class, handler -> {
+                                handler.onPlayerBreak(
+                                        new BlockBreakEvent(targetBlock, player),
+                                        new ItemStack(Material.AIR),
+                                        new ArrayList<>()
+                                );
+                            });
+                        }
                     }
                     BlockStorage.deleteLocationInfoUnsafely(targetBlock.getLocation(), true);
                     targetBlock.setType(Material.AIR);
@@ -629,7 +528,10 @@ public class NetworksMain implements TabExecutor {
         }
 
         String currentId = slimefunItem.getId();
-        if (slimefunItem instanceof NetworkQuantumStorage) {
+        if (slimefunItem instanceof CargoStorageUnit) {
+            player.sendMessage(ChatColor.RED + "暂不支持此物品的更新");
+            return;
+        } else if (slimefunItem instanceof NetworkQuantumStorage) {
             ItemMeta meta = itemInHand.getItemMeta();
             final QuantumCache quantumCache = DataTypeMethods.getCustom(
                     meta,
@@ -644,28 +546,19 @@ public class NetworksMain implements TabExecutor {
             }
 
             ItemStack stored = quantumCache.getItemStack();
-            String quantumStoredId = SlimefunItem.getByItem(stored).getId();
-            if (ID_UPDATE_MAP.get(quantumStoredId) != null) {
-                player.sendMessage(ChatColor.GREEN + "Items in storage have been updated!");
-                stored.setItemMeta(SlimefunItem.getById(ID_UPDATE_MAP.get(quantumStoredId)).getItem().getItemMeta());
+            SlimefunItem sfi = SlimefunItem.getByItem(stored);
+            if (sfi != null) {
+                String quantumStoredId = sfi.getId();
+                stored.setItemMeta(SlimefunItem.getById(quantumStoredId).getItem().getItemMeta());
+                player.sendMessage(ChatColor.GREEN + "已更新存储内的物品！");
             }
             DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
             quantumCache.updateMetaLore(meta);
             itemInHand.setItemMeta(meta);
-            player.sendMessage(ChatColor.GREEN + "Item has been updated!");
-        }
-
-        if (slimefunItem instanceof CargoStorageUnit) {
-            player.sendMessage(ChatColor.RED + "Updates for this item are not supported at this time");
-            return;
-        }
-
-        if (ID_UPDATE_MAP.get(currentId) != null) {
-            itemInHand.setItemMeta(SlimefunItem.getById(ID_UPDATE_MAP.get(currentId)).getItem().getItemMeta());
-            player.sendMessage(ChatColor.GREEN + "Item has been updated!");
+            player.sendMessage(ChatColor.GREEN + "已更新物品！");
         } else {
-            player.sendMessage(ChatColor.RED + "Updates for other items are not supported");
-            return;
+            itemInHand.setItemMeta(SlimefunItem.getById(currentId).getItem().getItemMeta());
+            player.sendMessage(ChatColor.GREEN + "已更新物品！");
         }
     }
 
@@ -691,7 +584,53 @@ public class NetworksMain implements TabExecutor {
                 sender.sendMessage(ChatColor.RED + "Unloaded id: " + data.getId());
             }
         }
+    }
 
+    public static void getStorageItem(Player player, int slot) {
+        Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
+        if (targetBlock == null || targetBlock.getType().isAir()) {
+            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            return;
+        }
+
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
+        if (blockData == null) {
+            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            return;
+        }
+
+        SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
+        if (slimefunItem == null) {
+            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            return;
+        }
+
+        if (slimefunItem instanceof CargoStorageUnit) {
+            Location targetLocation = targetBlock.getLocation();
+            StorageUnitData data = CargoStorageUnit.getStorageData(targetLocation);
+
+            if (data == null) {
+                player.sendMessage(Theme.ERROR + "该网络抽屉不存在或已损坏!");
+                return;
+            }
+
+            List<ItemContainer> stored = data.getStoredItems();
+            if (slot >= stored.size()) {
+                player.sendMessage(Theme.ERROR + "槽位号必须在0-" + (stored.size() - 1) + "之间!");
+                return;
+            } else {
+                ItemStack stack = stored.get(slot).getSample();
+                if (stack == null || stack.getType().isAir()) {
+                    player.sendMessage(Theme.ERROR + "该槽位没有物品!");
+                    return;
+                } else {
+                    player.getInventory().addItem(StackUtils.getAsQuantity(stack, 1));
+                }
+            }
+        } else {
+            player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
+            return;
+        }
     }
 
     public static void help(CommandSender sender, String mainCommand) {
@@ -747,6 +686,10 @@ public class NetworksMain implements TabExecutor {
                 sender.sendMessage(ChatColor.GOLD + "/networks findCachedStorages <playerName> - 查找指定玩家放置的货运存储单元.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks findCachedStorages Notch");
             }
+            case "getstorageitem" -> {
+                sender.sendMessage(ChatColor.GOLD + "/networks getStorageItem <slot> - 获取指向的货运存储指定槽位的物品.");
+                sender.sendMessage(ChatColor.GOLD + "ex: /networks getStorageItem 0");
+            }
             case "worldedit" -> {
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit <subCommand> - 粘液创世神功能.");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit pos1 - 选择第一个位置");
@@ -754,7 +697,7 @@ public class NetworksMain implements TabExecutor {
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> - 粘贴粘液方块");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> override - 覆盖原本的数据");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> keep - 保留原本的数据");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit clear - 清除粘液方块");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit clear <callHandler> - 清除粘液方块");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockMenu setSlot <slot> - 修改选中区域的粘液方法的菜单的对应槽位为手上物品");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo add <key> <value> - 增加粘液方块信息");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo remove <value> - 移除粘液方块信息");
@@ -928,7 +871,16 @@ public class NetworksMain implements TabExecutor {
                             worldeditPos2(player);
                         }
                         case "clear" -> {
-                            worldeditClear(player);
+                            if (args.length == 3) {
+                                try {
+                                    boolean callHandler = Boolean.parseBoolean(args[2]);
+                                    worldeditClear(player, callHandler);
+                                } catch (NumberFormatException e) {
+                                    player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "callHandler"));
+                                }
+                            } else {
+                                worldeditClear(player, true);
+                            }
                         }
                         case "paste" -> {
                             if (args.length >= 4) {
@@ -1010,6 +962,19 @@ public class NetworksMain implements TabExecutor {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.updateitem"))) {
                     updateItem(player);
                 }
+            } else if (args[0].equalsIgnoreCase("getstorageitem")) {
+                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.getstorageitem"))) {
+                    if (args.length >= 2) {
+                        try {
+                            int slot = Integer.parseInt(args[1]);
+                            getStorageItem(player, slot);
+                        } catch (NumberFormatException e) {
+                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "slot"));
+                        }
+                    } else {
+                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "slot"));
+                    }
+                }
             } else {
                 help(sender, null);
             }
@@ -1022,7 +987,7 @@ public class NetworksMain implements TabExecutor {
 
     public void fillQuantum(Player player, int amount) {
         final ItemStack itemStack = player.getInventory().getItemInMainHand();
-        if (itemStack.getType() == Material.AIR) {
+        if (itemStack.getType().isAir()) {
             player.sendMessage(Theme.ERROR + "你必须手持量子存储");
             return;
         }
@@ -1055,7 +1020,7 @@ public class NetworksMain implements TabExecutor {
 
     public void fixBlueprint(Player player, String before) {
         ItemStack blueprint = player.getInventory().getItemInMainHand();
-        if (blueprint == null || blueprint.getType() == Material.AIR) {
+        if (blueprint == null || blueprint.getType().isAir()) {
             player.sendMessage(Theme.ERROR + "你必须手持合成蓝图");
             return;
         }
@@ -1106,6 +1071,7 @@ public class NetworksMain implements TabExecutor {
                     "findCachedStorages",
                     "fillQuantum",
                     "fixBlueprint",
+                    "getStorageItem",
                     "help",
                     "reduceStorageItem",
                     "restore",
@@ -1116,7 +1082,8 @@ public class NetworksMain implements TabExecutor {
             );
         } else if (args.length == 2) {
             return switch (args[0].toLowerCase(Locale.ROOT)) {
-                case "help", "restore", "updateItem" -> List.of();
+                case "help", "restore", "updateitem" -> List.of();
+                case "getstorageitem" -> List.of("<slot>");
                 case "fillquantum" -> List.of("<amount>");
                 case "fixblueprint" -> List.of("<keyInMeta>");
                 case "addstorageitem" -> List.of("<amount>");
@@ -1138,6 +1105,7 @@ public class NetworksMain implements TabExecutor {
                             .toList();
                     case "blockinfo" -> List.of("add", "remove", "set");
                     case "blockmenu" -> List.of("setSlot");
+                    case "clear" -> List.of("true", "false");
                     default -> List.of();
                 };
             } else {

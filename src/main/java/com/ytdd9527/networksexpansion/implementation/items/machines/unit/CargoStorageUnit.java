@@ -423,14 +423,12 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
                         }
 
                         ItemStack requestedItemStack = data.requestItem(itemRequest);
-                        if (action.isRightClicked()) {
-                            // 如果是右键
-                            if (requestedItemStack != null) {
+                        if (requestedItemStack != null) {
+                            if (action.isRightClicked()) {
+                                // 如果是右键
                                 player.setItemOnCursor(requestedItemStack.clone());
-                            }
-                        } else {
-                            // 如果是左键
-                            if (requestedItemStack != null) {
+                            } else {
+                                // 如果是左键
                                 HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(requestedItemStack);
                                 remnant.values().stream().findFirst().ifPresent(leftOver ->
                                         data.depositItemStack(leftOver, false)
