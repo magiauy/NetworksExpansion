@@ -489,8 +489,10 @@ public class StackUtils {
 
         // Spawn Egg
         if (metaOne instanceof SpawnEggMeta instanceOne && metaTwo instanceof SpawnEggMeta instanceTwo) {
-            if (!Objects.equals(instanceOne.getSpawnedEntity(), instanceTwo.getSpawnedEntity())) {
-                return true;
+            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
+                if (!Objects.equals(instanceOne.getSpawnedEntity(), instanceTwo.getSpawnedEntity())) {
+                    return true;
+                }
             }
         }
 
