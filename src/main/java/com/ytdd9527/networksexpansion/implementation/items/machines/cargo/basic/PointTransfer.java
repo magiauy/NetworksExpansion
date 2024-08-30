@@ -321,9 +321,8 @@ public class PointTransfer extends NetworkDirectional implements RecipeDisplayIt
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩Function⇩",
+                "&aFeature",
                 "",
-                "&eLogic&f:",
                 "&f-&7[&aPush items&7]&f:&7Push the set push item into the input slot of the machine",
                 "&f-&7[&aGrab item&7]&f:&7Grab all the items on the output slot into the network"
         ));
