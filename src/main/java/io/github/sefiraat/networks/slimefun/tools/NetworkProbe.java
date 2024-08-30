@@ -101,49 +101,50 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final ChatColor p = Theme.SUCCESS.getColor();
 
             player.sendMessage("------------------------------");
-            player.sendMessage("         网络 - 组件统计        ");
+            player.sendMessage("       Network Summary        ");
             player.sendMessage("------------------------------");
 
-            player.sendMessage(formatter("网桥", bridges));
-            player.sendMessage(formatter("网络监测器", monitors));
-            player.sendMessage(formatter("网络入口", importers));
-            player.sendMessage(formatter("网络出口", exporters));
-            player.sendMessage(formatter("网格", grids));
-            player.sendMessage(formatter("网络单元", cells));
-            player.sendMessage(formatter("网络清除器", wipers));
-            player.sendMessage(formatter("网络抓取器", grabbers));
-            player.sendMessage(formatter("网络推送器", pushers));
-            player.sendMessage(formatter("网络清除器", purgers));
-            player.sendMessage(formatter("网络自动合成机", crafters));
-            player.sendMessage(formatter("网络能源节点", powerNodes));
-            player.sendMessage(formatter("网络电表", powerDisplays));
-            player.sendMessage(formatter("网络配方编码器", encoders));
-            player.sendMessage(formatter("网络剪切器", cutters));
-            player.sendMessage(formatter("网络粘贴器", pasters));
-            player.sendMessage(formatter("网络吸尘器", vacuums));
-            player.sendMessage(formatter("网络无线发射器", wirelessTransmitters));
-            player.sendMessage(formatter("网络无线接收器", wirelessReceivers));
-            player.sendMessage(formatter("网络插口", powerOutlets));
-            player.sendMessage(formatter("网络阻断器", greedyBlocks));
-            player.sendMessage("------------------------------");
-            player.sendMessage("        网络拓展 - 组件统计      ");
-            player.sendMessage("------------------------------");
-            player.sendMessage(formatter("链式传输器 [推送]", chainPushers));
-            player.sendMessage(formatter("链式传输器 [抓取]", chainGrabbers));
-            player.sendMessage(formatter("链式传输器", chainDispatchers));
-            player.sendMessage(formatter("链式原版传输器 [推送]", chainVanillaPushers));
-            player.sendMessage(formatter("链式传输器 [抓取]", chainVanillaGrabbers));
-            player.sendMessage(formatter("高级网络入口", advancedImporters));
-            player.sendMessage(formatter("高级网络出口", advancedExporters));
-            player.sendMessage("------------------------------");
-            player.sendMessage(formatter("物品类型数量", distinctItems));
-            player.sendMessage(formatter("累计物品数量", totalItems));
-            player.sendMessage("------------------------------");
-            player.sendMessage(formatter("累计节点", nodeCount + "/" + root.getMaxNodes()));
+            player.sendMessage(formatter("Bridges", bridges));
+            player.sendMessage(formatter("Monitors", monitors));
+            player.sendMessage(formatter("Importers", importers));
+            player.sendMessage(formatter("Exporters", exporters));
+            player.sendMessage(formatter("Grids", grids));
+            player.sendMessage(formatter("Cells", cells));
+            player.sendMessage(formatter("Wipers", wipers));
+            player.sendMessage(formatter("Grabbers", grabbers));
+            player.sendMessage(formatter("Pushers", pushers));
+            player.sendMessage(formatter("Purgers", purgers));
+            player.sendMessage(formatter("Crafters", crafters));
+            player.sendMessage(formatter("Power Nodes", powerNodes));
+            player.sendMessage(formatter("Power Displays", powerDisplays));
+            player.sendMessage(formatter("Encoders", encoders));
+            player.sendMessage(formatter("Cutters", cutters));
+            player.sendMessage(formatter("Pasters", pasters));
+            player.sendMessage(formatter("Vacuums", vacuums));
+            player.sendMessage(formatter("Wireless Transmitters", wirelessTransmitters));
+            player.sendMessage(formatter("Wireless Receivers", wirelessReceivers));
+            player.sendMessage(formatter("Power Outlets", powerOutlets));
+            player.sendMessage(formatter("Greedy Blocks", greedyBlocks));
+            player.sendMessage("-----------------------------------------");
+            player.sendMessage("        Network Expansion - Summary      ");
+            player.sendMessage("-----------------------------------------");
+            player.sendMessage(formatter("Line Pusher", chainPushers));
+            player.sendMessage(formatter("Line Grabber", chainGrabbers));
+            player.sendMessage(formatter("Line Transfer", chainDispatchers));
+            player.sendMessage(formatter("Vanilla Line Pusher", chainVanillaPushers));
+            player.sendMessage(formatter("Vanilla Line Grabber", chainVanillaGrabbers));
+            player.sendMessage(formatter("Advanced Importers", advancedImporters));
+            player.sendMessage(formatter("Advanced Exporters", advancedExporters));
+            player.sendMessage("-----------------------------------------");
+            player.sendMessage(formatter("Distinct Items", distinctItems));
+            player.sendMessage(formatter("Total Items", totalItems));
+            player.sendMessage("-----------------------------------------");
+            player.sendMessage(formatter("Total Nodes", nodeCount + "/" + root.getMaxNodes()));
             if (root.isOverburdened()) {
-                player.sendMessage(Theme.ERROR + "警告: " + Theme.PASSIVE +
-                        "该网络已达到最大节点数量限制，部分节点可能会无法正常工作。请减少网络节点的数量。"
-                );
+                player.sendMessage(Theme.ERROR + "Warning: " + Theme.PASSIVE +
+                                        "Your network has reached or exceeded the maximum node limit. " +
+                                       "Nodes beyond the limit will not function, which nodes these are " +
+                                       "may not always be the same. Reduce your total nodes."                );
             }
         }
     }
