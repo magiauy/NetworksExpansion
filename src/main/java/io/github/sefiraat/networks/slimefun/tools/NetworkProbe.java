@@ -132,7 +132,7 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             player.sendMessage(formatter("链式传输器 [抓取]", chainGrabbers));
             player.sendMessage(formatter("链式传输器", chainDispatchers));
             player.sendMessage(formatter("链式原版传输器 [推送]", chainVanillaPushers));
-            player.sendMessage(formatter("链式传输器 [抓取]", chainVanillaGrabbers));
+            player.sendMessage(formatter("链式原版传输器 [抓取]", chainVanillaGrabbers));
             player.sendMessage(formatter("高级网络入口", advancedImporters));
             player.sendMessage(formatter("高级网络出口", advancedExporters));
             player.sendMessage("------------------------------");

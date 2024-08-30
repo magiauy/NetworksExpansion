@@ -86,7 +86,11 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
                     @Override
                     public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                        performCraftAsync(block, data);
+                        BlockMenu blockMenu = data.getBlockMenu();
+                        if (blockMenu != null) {
+                            addToRegistry(block);
+                            craftPreFlight(blockMenu);
+                        }
                     }
                 }
         );
@@ -98,19 +102,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         }
     }
 
-    protected void performCraftAsync(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
-        craftTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                BlockMenu blockMenu = data.getBlockMenu();
-                if (blockMenu != null) {
-                    addToRegistry(block);
-                    craftPreFlight(blockMenu);
-                }
-            }
-        }.runTaskAsynchronously(Networks.getInstance());
-    }
-
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {
 
         releaseCache(blockMenu);
@@ -118,6 +109,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
+            sendDebugMessage(blockMenu.getLocation(), "No network found");
             return;
         }
 
@@ -133,6 +125,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         final ItemStack blueprint = blockMenu.getItemInSlot(BLUEPRINT_SLOT);
 
         if (blueprint == null || blueprint.getType().isAir()) {
+            sendDebugMessage(blockMenu.getLocation(), "No blueprint found");
             return;
         }
 
@@ -142,6 +135,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             final SlimefunItem item = SlimefunItem.getByItem(blueprint);
 
             if (!isValidBlueprint(item)) {
+                sendDebugMessage(blockMenu.getLocation(), "Invalid blueprint");
                 return;
             }
 
@@ -161,6 +155,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
                 }
 
                 if (optional.isEmpty()) {
+                    sendDebugMessage(blockMenu.getLocation(), "No blueprint instance found");
                     return;
                 }
 
@@ -173,6 +168,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             if (output != null
                     && !output.getType().isAir()
                     && (output.getAmount() + instance.getItemStack().getAmount() > output.getMaxStackSize() || !StackUtils.itemsMatch(instance, output, true))) {
+                sendDebugMessage(blockMenu.getLocation(), "Output slot is full");
                 return;
             }
 
@@ -200,6 +196,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
         for (Map.Entry<ItemStack, Integer> entry : requiredItems.entrySet()) {
             if (!root.contains(new ItemRequest(entry.getKey(), entry.getValue()))) {
+                sendDebugMessage(blockMenu.getLocation(), "Network does not have required items");
                 return false;
             }
         }
@@ -226,10 +223,12 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         }
 
         if (crafted == null && canTestVanillaRecipe()) {
+            sendDebugMessage(blockMenu.getLocation(), "No slimefun recipe found, trying vanilla");
             // If no slimefun recipe found, try a vanilla one
             instance.generateVanillaRecipe(blockMenu.getLocation().getWorld());
             if (instance.getRecipe() == null) {
                 returnItems(root, inputs);
+                sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
                 return false;
             } else if (Arrays.equals(instance.getRecipeItems(), inputs)) {
                 setCache(blockMenu, instance);
@@ -240,6 +239,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         // If no item crafted OR result doesn't fit, escape
         if (crafted == null || crafted.getType().isAir()) {
             returnItems(root, inputs);
+            sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
             return false;
         }
 

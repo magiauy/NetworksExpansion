@@ -54,24 +54,48 @@ public class StackUtils {
         return clone;
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, true, false, true);
-    }
-
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
+    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, checkDistinctive);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, true);
     }
 
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
-        return itemsMatch(cache, itemStack, true, false, true);
+    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
+    }
+
+    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false, true);
+    }
+
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
+        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
     }
 
     public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
         return itemsMatch(cache, itemStack, checkLore, false, true);
+    }
+
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
+        return itemsMatch(cache, itemStack, false, false, true);
+    }
+
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
+        return itemsMatch(cache, itemStack, checkLore, checkAmount, checkDistinctive);
+    }
+
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
+        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
+    }
+
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore) {
+        return itemsMatch(cache, itemStack, checkLore, false, true);
+    }
+
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache) {
+        return itemsMatch(cache, itemStack, false, false, true);
     }
 
     /**

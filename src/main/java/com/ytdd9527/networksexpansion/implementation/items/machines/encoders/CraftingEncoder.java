@@ -29,9 +29,11 @@ public class CraftingEncoder extends AbstractEncoder {
         return SupportedCraftingTableRecipes.getRecipes().entrySet();
     }
 
-    ;
-
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedCraftingTableRecipes.testRecipe(inputs, recipe);
+    }
+
+    public boolean canTestVanillaRecipe(ItemStack[] inputs) {
+        return true;
     }
 }
