@@ -199,12 +199,14 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("███████╗██╔╝ ██╗██║     ██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║ ");
         getLogger().info("╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ");
         getLogger().info("                                                                         ");
-        getLogger().info("                        Network Author: Sefiraat                          ");
-        getLogger().info("             NetworksExpansion Author: yitoudaidai, tinalness            ");
+        getLogger().info("                               Networks                                  ");
+        getLogger().info("                            Author: Sefiraat                             ");
+        getLogger().info("                           Networks Expansion                            ");
         getLogger().info("                       Chineseization: ybw0014                           ");
-        getLogger().info("                  Internationalization: Magiauy, Sky                     ");
+        getLogger().info("                     Author: yitoudaidai, tinalness                      ");
+        getLogger().info("                   Internationalization: Magiauy, Sky                    ");
         getLogger().info("              If you encounter any bug, please feedback at:              ");
-        getLogger().info("   Github (Global): https://github.com/magiauy/NetworksExpansion/issues   ");
+        getLogger().info("   Github (Global): https://github.com/magiauy/NetworksExpansion/issues  ");
         getLogger().info("  Github (Chinese): https://github.com/ytdd9527/NetworksExpansion/issues ");
         getLogger().info("                   Discord: https://discord.gg/M2yRf7VV3X                ");
         getLogger().info("     When using this plugin, please do not fork the project directly.    ");

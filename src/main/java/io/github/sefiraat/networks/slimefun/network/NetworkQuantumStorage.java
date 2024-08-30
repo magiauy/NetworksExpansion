@@ -97,14 +97,14 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             Material.LIME_STAINED_GLASS_PANE,
             Theme.SUCCESS + "Set Item",
             Theme.PASSIVE + "Drag an item on top of this pane to register it.",
-            Theme.CLICK_INFO + "WithholdingShift+Click" + Theme.PASSIVE + " to change voiding");
+            Theme.CLICK_INFO + "Shift+Click" + Theme.PASSIVE + " to change voiding");
 
     private static final ItemStack SET_ITEM_SUPPORTING_CUSTOM_MAX = new CustomItemStack(
             Material.LIME_STAINED_GLASS_PANE,
             Theme.SUCCESS + "Set Up",
             Theme.PASSIVE + "Pick up the item and click here to set the item",
             Theme.PASSIVE + "Click here to set change capacity",
-            Theme.CLICK_INFO + "WithholdingShift+Click" + Theme.PASSIVE + " to change voiding");
+            Theme.CLICK_INFO + "Shift+Click" + Theme.PASSIVE + " to change voiding");
 
     private static final ItemStack TRASH_ON_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3Void mode &a(ON)",
             "&7Turned on to void items that can't be stored");
