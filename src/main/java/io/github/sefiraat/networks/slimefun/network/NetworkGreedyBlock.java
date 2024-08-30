@@ -34,12 +34,12 @@ public class NetworkGreedyBlock extends NetworkObject {
 
     private static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "需要阻断的物品"
+            Theme.SUCCESS + "Held item filter"
     );
 
     private static final CustomItemStack STORAGE_BACKGROUND_STACK = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "物品存储"
+            Theme.SUCCESS + "Items held"
     );
 
     public NetworkGreedyBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

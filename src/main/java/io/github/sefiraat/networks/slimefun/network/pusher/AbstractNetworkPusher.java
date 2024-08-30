@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 public abstract class AbstractNetworkPusher extends NetworkDirectional {
 
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Push Item Matching"
     );
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;

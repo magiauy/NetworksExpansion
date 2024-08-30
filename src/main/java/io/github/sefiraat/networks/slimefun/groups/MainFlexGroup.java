@@ -30,8 +30,8 @@ public class MainFlexGroup extends FlexItemGroup {
     private static final ItemStack DOCS_ITEM_STACK = Theme.themedItemStack(
             Material.BOOK,
             Theme.GUIDE,
-            "附属 Wiki",
-            "点击获取网络的 Wiki 链接"
+            "Documentation Wiki",
+            "Click to get the wiki link."
     );
 
     private static final int GUIDE_BACK = 1;
@@ -103,9 +103,9 @@ public class MainFlexGroup extends FlexItemGroup {
         // Docs
         menu.replaceExistingItem(DOCS, DOCS_ITEM_STACK);
         menu.addMenuClickHandler(DOCS, (player1, i1, itemStack1, clickAction) -> {
-            final TextComponent link = new TextComponent("单击此处访问Wiki");
+            final TextComponent link = new TextComponent("Click here to get to the wiki");
             link.setColor(ChatColor.YELLOW);
-            link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://slimefun-addons-wiki.guizhanss.cn/networks/"));
+            link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://docs.sefiraat.dev"));
             player.spigot().sendMessage(link);
             return false;
         });

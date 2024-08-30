@@ -56,11 +56,11 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     private static final int[] OUTPUT_ITEM_BACKDROP = {49};
     private static final CustomItemStack TEST_BACKDROP_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "Exports filtered items"
+            Theme.SUCCESS + "Export Item Matching"
     );
     private static final CustomItemStack OUTPUT_BACKDROP_STACK = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "Output area"
+            Theme.SUCCESS + "Output Slot"
     );
     private final int lockModeSlot = 26;
     private final ItemSetting<Integer> tickRate;

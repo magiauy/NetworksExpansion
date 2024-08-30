@@ -35,12 +35,12 @@ public class AdvancedGreedyBlock extends NetworkObject {
 
     private static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "Blocked item filter"
+            Theme.SUCCESS + "Held item filter"
     );
 
     private static final CustomItemStack STORAGE_BACKGROUND_STACK = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "Item stored"
+            Theme.SUCCESS + "Items held"
     );
 
     public AdvancedGreedyBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
