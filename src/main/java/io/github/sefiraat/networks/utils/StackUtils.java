@@ -106,6 +106,10 @@ public class StackUtils {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemMeta cachedMeta = cache.getItemMeta();
 
+        if (itemMeta == null || cachedMeta == null) {
+            return itemMeta == cachedMeta;
+        }
+
         // ItemMetas are different types and cannot match
         if (!itemMeta.getClass().equals(cachedMeta.getClass())) {
             return false;
@@ -182,22 +186,22 @@ public class StackUtils {
             return false;
         }
 
-        // Check if fire resistant
-        if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
-            return false;
-        }
-
-        // Check if unbreakable
-        if (itemMeta.isUnbreakable() != cachedMeta.isUnbreakable()) {
-            return false;
-        }
-
-        // Check if hide tooltip
-        if (itemMeta.isHideTooltip() != cachedMeta.isHideTooltip()) {
-            return false;
-        }
-
         if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+            // Check if fire resistant
+            if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
+                return false;
+            }
+
+            // Check if unbreakable
+            if (itemMeta.isUnbreakable() != cachedMeta.isUnbreakable()) {
+                return false;
+            }
+
+            // Check if hide tooltip
+            if (itemMeta.isHideTooltip() != cachedMeta.isHideTooltip()) {
+                return false;
+            }
+
             // Check rarity
             if (!Objects.equals(itemMeta.getRarity(), cachedMeta.getRarity())) {
                 return false;
@@ -447,28 +451,28 @@ public class StackUtils {
 
         // Knowledge Book
         if (metaOne instanceof KnowledgeBookMeta instanceOne && metaTwo instanceof KnowledgeBookMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
+            if (!Objects.equals(instanceOne.getRecipes(), instanceTwo.getRecipes())) {
                 return true;
             }
         }
 
         // Music Instrument
         if (metaOne instanceof MusicInstrumentMeta instanceOne && metaTwo instanceof MusicInstrumentMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
+            if (!Objects.equals(instanceOne.getInstrument(), instanceTwo.getInstrument())) {
                 return true;
             }
         }
 
         // Spawn Egg
         if (metaOne instanceof SpawnEggMeta instanceOne && metaTwo instanceof SpawnEggMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
+            if (!Objects.equals(instanceOne.getSpawnedEntity(), instanceTwo.getSpawnedEntity())) {
                 return true;
             }
         }
 
         // Armor
         if (metaOne instanceof ArmorMeta instanceOne && metaTwo instanceof ArmorMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
+            if (!Objects.equals(instanceOne.getTrim(), instanceTwo.getTrim())) {
                 return true;
             }
         }
@@ -476,20 +480,23 @@ public class StackUtils {
         if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
             // Writable Book
             if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
-                if (!instanceOne.equals(instanceTwo)) {
+                if (instanceOne.getPageCount() != instanceTwo.getPageCount()) {
+                    return true;
+                }
+                if (!Objects.equals(instanceOne.getPages(), instanceTwo.getPages())) {
                     return true;
                 }
             }
             if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
                 // Ominous Bottle
                 if (metaOne instanceof OminousBottleMeta instanceOne && metaTwo instanceof OminousBottleMeta instanceTwo) {
-                    if (!instanceOne.equals(instanceTwo)) {
+                    if (instanceOne.getAmplifier() != instanceTwo.getAmplifier()) {
                         return true;
                     }
                 }
                 // Shield
                 if (metaOne instanceof ShieldMeta instanceOne && metaTwo instanceof ShieldMeta instanceTwo) {
-                    if (!instanceOne.equals(instanceTwo)) {
+                    if (Objects.equals(instanceOne.getBaseColor(), instanceTwo.getBaseColor())) {
                         return true;
                     }
                 }

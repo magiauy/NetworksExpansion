@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -108,7 +109,10 @@ public class NetworkRemote extends SlimefunItem {
         StorageCacheUtils.executeAfterLoad(blockData, () -> {
             if ((item instanceof NetworkGrid || item instanceof NetworkCraftingGrid || item instanceof NetworkGridNewStyle)
                     && (player.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK))) {
-                blockData.getBlockMenu().open(player);
+                BlockMenu blockMenu = blockData.getBlockMenu();
+                if (blockMenu != null) {
+                    blockMenu.open(player);
+                }
             } else {
                 player.sendMessage(Theme.ERROR + "Unable to find the bound Grid.");
             }
