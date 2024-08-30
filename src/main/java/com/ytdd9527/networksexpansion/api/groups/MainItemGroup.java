@@ -94,7 +94,7 @@ public class MainItemGroup extends FlexItemGroup {
 
     @Nonnull
     private ChestMenu generateMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode) {
-        ChestMenu chestMenu = new ChestMenu(TextUtil.colorRandomString("网络拓展 - Expansion"));
+        ChestMenu chestMenu = new ChestMenu(TextUtil.colorRandomString("Networks - Expansion"));
 
         chestMenu.setEmptySlotsClickable(false);
         chestMenu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));

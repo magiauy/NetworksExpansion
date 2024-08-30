@@ -461,11 +461,11 @@ public class StackUtils {
         }
 
         // Shield
-        if (metaOne instanceof ShieldMeta instanceOne && metaTwo instanceof ShieldMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
-                return true;
-            }
-        }
+        // if (metaOne instanceof ShieldMeta instanceOne && metaTwo instanceof ShieldMeta instanceTwo) {
+        //     if (!instanceOne.equals(instanceTwo)) {
+        //         return true;
+        //     }
+        // }
 
         // Spawn Egg
         if (metaOne instanceof SpawnEggMeta instanceOne && metaTwo instanceof SpawnEggMeta instanceTwo) {
@@ -474,12 +474,12 @@ public class StackUtils {
             }
         }
 
-        // Writable Book
-        if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
-                return true;
-            }
-        }
+        // // Writable Book
+        // if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
+        //     if (!instanceOne.equals(instanceTwo)) {
+        //         return true;
+        //     }
+        // }
 
         if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
             // Armor
