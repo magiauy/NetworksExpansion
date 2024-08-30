@@ -42,7 +42,7 @@ import java.util.function.Function;
 public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem {
 
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Push Item Matching"
     );
     private static final ItemStack AIR = new ItemStack(Material.AIR);
     private static final int[] BACKGROUND_SLOTS = new int[]{

@@ -44,7 +44,7 @@ import java.util.function.Function;
 // TODO: 需要重构
 public class AdvancedLineTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Specify the items to be pushed"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Push Item Matching"
     );
     private static final String KEY_UUID = "display-uuid";
     private static final int TRANSPORT_LIMIT = 3456;

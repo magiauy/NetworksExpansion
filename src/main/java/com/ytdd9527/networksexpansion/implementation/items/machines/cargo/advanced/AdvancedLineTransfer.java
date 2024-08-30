@@ -44,7 +44,7 @@ import java.util.function.Function;
 // TODO: 需要重构
 public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
-            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Specify items to be pushed"
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Push Item Matching"
     );
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
