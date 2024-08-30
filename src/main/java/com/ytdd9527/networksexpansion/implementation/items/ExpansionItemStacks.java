@@ -296,7 +296,7 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme
         "&6Max distance: &e64 blocks",
         "&6Default quantity per SF tick: &e64",
         "Line pusher will push items through",
-        "&aa line of machines it facing.",
+        "a line of machines it facing.",
         "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
