@@ -159,8 +159,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
         Theme.MACHINE,
         "Network Line Pusher",
         "Only supports Slimefun Machine",
-        "&6Max distance: 32 blocks",
-        "&6Default quantity per SF tick: 64",
+        "&6Max distance: &e32 blocks",
+        "&6Default quantity per SF tick: &e64",
         "Line pusher will push an item through",
         "a line of machines it facing."
 );
@@ -170,8 +170,8 @@ public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
         Theme.MACHINE,
         "Network Line Grabber",
         "Only supports Slimefun Machine",
-        "&6Max distance: 32 blocks",
-        "&6Default quantity per SF tick: 64",
+        "&6Max distance: &e32 blocks",
+        "&6Default quantity per SF tick: &e64",
         "Line pusher will grab items through",
         "a line of machines it facing."
 
@@ -182,8 +182,8 @@ public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
         Theme.MACHINE,
         "Network Line Transfer",
         "Only supports Slimefun Machine",
-        "&6Max distance: 32 blocks",
-        "&6Default quantity per SF tick: 64",
+        "&6Max distance: &e32 blocks",
+        "&6Default quantity per SF tick: &e64",
         "Line transfer will grab and push items",
         "a through line of machines it facing."
 
@@ -196,8 +196,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
                 Theme.MACHINE,
                 "Network Line Pusher Plus",
                 "Only supports Slimefun Machine",
-                "&6Max distance: 64 blocks",
-                "&6Default quantity per SF tick: 64",
+                "&6Max distance: &e64 blocks",
+                "&6Default quantity per SF tick: &e64",
                 "Line pusher will push an item through",
                 "a line of machines it facing."
 );
@@ -207,8 +207,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
                 Theme.MACHINE,
                 "Network Line Grabber Plus",
                 "Only supports Slimefun Machine",
-                "&6Max distance: 64 blocks",
-                "&6Default quantity per SF tick: 64",
+                "&6Max distance: &e64 blocks",
+                "&6Default quantity per SF tick: &e64",
                 "Line pusher will grab items through",
                 "a line of machines it facing."
 );
@@ -218,8 +218,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
                 Theme.MACHINE,
                 "Network Line Transfer Plus",
                 "Only supports Slimefun Machine",
-                "&6Max distance: 64 blocks",
-                "&6Default quantity per SF tick: 64",
+                "&6Max distance: &e64 blocks",
+                "&6Default quantity per SF tick: &e64",
                 "Line pusher will grab and push items",
                 "a through line of machines it facing."
 );
@@ -230,8 +230,8 @@ public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Rando
                 Theme.MACHINE,
                 "Vanilla Line Pusher",
                 "Only supports Vanilla Machine",
-                "&6Max distance: 32 blocks",
-                "&6Default quantity per SF tick: 64",
+                "&6Max distance: &e32 blocks",
+                "&6Default quantity per SF tick: &e64",
                 "Line pusher will push an item through",
                 "a line of machines it facing."
 
@@ -243,8 +243,8 @@ public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Rand
                 Theme.MACHINE,
                 "Vanilla Line Grabber",
                 "Only supports Vanilla Machine",
-                "&6Max distance: 32 blocks",
-                "&6Default quantity per SF tick: 64",
+                "&6Max distance: &e32 blocks",
+                "&6Default quantity per SF tick: &e64",
                 "Line pusher will grab items through",
                 "a line of machines it facing."
 );
