@@ -97,30 +97,30 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         instance = this;
 
         superHead();
-        getLogger().info("正在获取配置信息...");
+        getLogger().info("Obtaining configuration...");
         saveDefaultConfig();
 
-        getLogger().info("尝试自动更新...");
+        getLogger().info("Trying to automatically update...");
         this.configManager = new ConfigManager();
         // tryUpdate();
 
         this.supportedPluginManager = new SupportedPluginManager();
 
         // Try connect database
-        getLogger().info("正在连接数据库文件...");
+        getLogger().info("Connecting to database files...");
         try {
             dataSource = new DataSource();
         } catch (ClassNotFoundException | SQLException e) {
-            getLogger().warning("数据库文件连接失败！");
+            getLogger().warning("Database files connection failed!");
             e.printStackTrace();
             onDisable();
         }
 
-        getLogger().info("正在创建队列...");
+        getLogger().info("Queuing...");
         queryQueue = new QueryQueue();
         queryQueue.startThread();
 
-        getLogger().info("正在创建自动保存线程...");
+        getLogger().info("Creating auto save threads...");
         autoSaveThread = new BukkitRunnable() {
             @Override
             public void run() {
@@ -131,10 +131,10 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         long period = 5 * 60 * 20;
         autoSaveThread.runTaskTimerAsynchronously(this, 2 * period, period);
 
-        getLogger().info("正在注册物品...");
+        getLogger().info("Registering items...");
         SetupUtil.setupAll();
 
-        getLogger().info("正在注册指令...");
+        getLogger().info("Registering instruction...");
         this.listenerManager = new ListenerManager();
         this.getCommand("networks").setExecutor(new NetworksMain());
 
@@ -147,21 +147,21 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                         1,
                         Slimefun.getTickerTask().getTickRate());
 
-        getLogger().info("已启用附属！");
+        getLogger().info("Dependencies enabled!");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("正在保存配置信息...");
+        getLogger().info("Saving configuration...");
         this.configManager.saveAll();
-        getLogger().info("正在保存数据库信息，请不要结束进程！");
+        getLogger().info("Saving database, do not end the process!");
         if (autoSaveThread != null) {
             autoSaveThread.cancel();
         }
         DataStorage.saveAmountChange();
         if (queryQueue != null) {
             while (!queryQueue.isAllDone()) {
-                getLogger().info("当前队列: " + queryQueue.getTaskAmount());
+                getLogger().info("Active queue: " + queryQueue.getTaskAmount());
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -170,8 +170,8 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             }
             queryQueue.scheduleAbort();
         }
-        getLogger().info("已保存数据库信息！");
-        getLogger().info("正在结束任务...");
+        getLogger().info("Database saved!");
+        getLogger().info("Closing tasks...");
         AbstractAutoCrafter.cancelCraftTask();
         AbstractAdvancedAutoCrafter.cancelCraftTask();
         AdvancedImport.cancelTransferTask();
@@ -179,8 +179,8 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         AdvancedLineTransfer.cancelTransferTask();
         LineTransferGrabber.cancelTransferTask();
         AdvancedLineTransferGrabber.cancelTransferTask();
-        getLogger().info("已结束任务！");
-        getLogger().info("已安全禁用附属！");
+        getLogger().info("Tasks closed!");
+        getLogger().info("Dependencies safely disabled!");
     }
 
     public void superHead() {
@@ -198,14 +198,16 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info("███████╗██╔╝ ██╗██║     ██║  ██║██║ ╚████║███████║██║╚██████╔╝██║ ╚████║ ");
         getLogger().info("╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ");
         getLogger().info("                                                                         ");
-        getLogger().info("                           Networks - 网络                                ");
-        getLogger().info("                      作者: Sefiraat 汉化: ybw0014                         ");
-        getLogger().info("                      NetworksExpansion - 网络拓展                         ");
-        getLogger().info("                      作者: yitoudaidai, tinalness                        ");
-        getLogger().info("                       如遇bug请优先反馈至改版仓库:                           ");
-        getLogger().info("         https://github.com/ytdd9527/NetworksExpansion/issues            ");
-        getLogger().info("                      使用本附属时，请不要直接叉掉进程                         ");
-        getLogger().info("                      而是应该正常/stop以避免数据丢失                         ");
+        getLogger().info("                        Network Author: Sefiraat                          ");
+        getLogger().info("             NetworksExpansion Author: yitoudaidai, tinalness            ");
+        getLogger().info("                       Chineseization: ybw0014                           ");
+        getLogger().info("                  Internationalization: Magiauy, Sky                     ");
+        getLogger().info("              If you encounter any bug, please feedback at:              ");
+        getLogger().info("   Github (Global): https://github.com/magiauy/NetworksExpansion/issues   ");
+        getLogger().info("  Github (Chinese): https://github.com/ytdd9527/NetworksExpansion/issues ");
+        getLogger().info("                   Discord: https://discord.gg/M2yRf7VV3X                ");
+        getLogger().info("     When using this plugin, please do not fork the project directly.    ");
+        getLogger().info("                    Use /stop to avoid any data lost                     ");
         getLogger().info("#########################################################################");
     }
 
@@ -213,19 +215,19 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
     public void setupIntegrations() {
         if (supportedPluginManager.isSlimeHud()) {
-            getLogger().info("检测到安装了 SlimeHUD，注册相关功能！");
+            getLogger().info("SlimeHUD was installed, registering related function！");
             try {
                 HudCallbacks.setup();
             } catch (NoClassDefFoundError e) {
-                getLogger().severe("你必须更新 SlimeHUD 才能让网络添加相关功能。");
+                getLogger().severe("You must update SlimeHUD to enable network functions.");
             }
         }
         if (supportedPluginManager.isNetheopoiesis()) {
-            getLogger().info("检测到安装了下界乌托邦，注册相关物品！");
+            getLogger().info("Netheopoiesis was installed, registering related function!");
             try {
                 NetheoPlants.setup();
             } catch (NoClassDefFoundError e) {
-                getLogger().warning("你必须安装下界乌托邦才能让相关物品注册。");
+                getLogger().warning("You must update Netheoposiesis to enable network functions.");
             }
         }
     }
