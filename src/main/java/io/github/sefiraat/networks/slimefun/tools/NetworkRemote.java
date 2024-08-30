@@ -58,7 +58,7 @@ public class NetworkRemote extends SlimefunItem {
                             )) {
                                 setGrid(e.getItem(), block, player);
                             } else {
-                                player.sendMessage(Theme.ERROR + "必须连接到一个网格");
+                                player.sendMessage(Theme.ERROR + "Must be set to a Network Grid.");
                             }
                         }
                     } else {
@@ -73,7 +73,7 @@ public class NetworkRemote extends SlimefunItem {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         DataTypeMethods.setCustom(itemMeta, KEY, DataType.LOCATION, block.getLocation());
         itemStack.setItemMeta(itemMeta);
-        player.sendMessage(Theme.SUCCESS + "网格已绑定至远程访问器");
+        player.sendMessage(Theme.SUCCESS + "Grid has been bound to the remote.");
     }
 
     public static void tryOpenGrid(@Nonnull ItemStack itemStack, @Nonnull Player player, int range) {
@@ -83,7 +83,7 @@ public class NetworkRemote extends SlimefunItem {
         if (location != null) {
 
             if (!location.getWorld().isChunkLoaded(location.getBlockX() / 16, location.getBlockZ() / 16)) {
-                player.sendMessage(Theme.ERROR + "绑定的网格所在区块没有加载");
+                player.sendMessage(Theme.ERROR + "The bound is not loaded.");
                 return;
             }
 
@@ -95,10 +95,10 @@ public class NetworkRemote extends SlimefunItem {
             ) {
                 openGrid(location, player);
             } else {
-                player.sendMessage(Theme.ERROR + "绑定的网格不在范围内");
+                player.sendMessage(Theme.ERROR + "The bound grid is not within range.");
             }
         } else {
-            player.sendMessage(Theme.ERROR + "该远程访问器没有绑定网格");
+            player.sendMessage(Theme.ERROR + "Remote is not bound to a grid.");
         }
     }
 
@@ -110,7 +110,7 @@ public class NetworkRemote extends SlimefunItem {
                     && (player.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(player, location, Interaction.INTERACT_BLOCK))) {
                 blockData.getBlockMenu().open(player);
             } else {
-                player.sendMessage(Theme.ERROR + "无法找到绑定的网格");
+                player.sendMessage(Theme.ERROR + "Unable to find the bound Grid.");
             }
         }, false);
     }
