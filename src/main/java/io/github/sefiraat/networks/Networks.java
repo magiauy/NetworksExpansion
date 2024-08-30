@@ -18,6 +18,7 @@ import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
@@ -223,6 +224,13 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
             getServer().getPluginManager().disablePlugin(this);
             return;
+        }
+        try {
+            MinecraftVersion envTest = MinecraftVersion.MINECRAFT_1_21;
+        } catch (NoClassDefFoundError | NoSuchFieldError e) {
+            for (int i = 0; i < 10; i++) {
+                getLogger().severe("你需要更新 Slimefun4 才能正常运行本插件！");
+            }
         }
     }
 
