@@ -182,22 +182,22 @@ public class StackUtils {
             return false;
         }
 
-        // Check if fire resistant
-        if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
-            return false;
-        }
-
-        // Check if unbreakable
-        if (itemMeta.isUnbreakable() != cachedMeta.isUnbreakable()) {
-            return false;
-        }
-
-        // Check if hide tooltip
-        if (itemMeta.isHideTooltip() != cachedMeta.isHideTooltip()) {
-            return false;
-        }
-
         if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+            // Check if fire resistant
+            if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
+                return false;
+            }
+
+            // Check if unbreakable
+            if (itemMeta.isUnbreakable() != cachedMeta.isUnbreakable()) {
+                return false;
+            }
+
+            // Check if hide tooltip
+            if (itemMeta.isHideTooltip() != cachedMeta.isHideTooltip()) {
+                return false;
+            }
+
             // Check rarity
             if (!Objects.equals(itemMeta.getRarity(), cachedMeta.getRarity())) {
                 return false;
