@@ -56,11 +56,11 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     private static final int[] OUTPUT_ITEM_BACKDROP = {49};
     private static final CustomItemStack TEST_BACKDROP_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "指定输出物品"
+            Theme.SUCCESS + "Exports filtered items"
     );
     private static final CustomItemStack OUTPUT_BACKDROP_STACK = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "输出栏"
+            Theme.SUCCESS + "Output area"
     );
     private final int lockModeSlot = 26;
     private final ItemSetting<Integer> tickRate;
@@ -286,17 +286,17 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a ⇩运输机制⇩",
+                "&a Transporting mechanism",
                 "",
-                "&e主要特性&f:",
-                "&f-&7 精确控制：根据指定输出物品",
-                "&f-&7 高效传输：物品按1:1比例从网络中输出",
-                "&f-&7 智能分配：自动填满输出槽直到达到最大堆叠或槽位已满",
+                "&eMain feature&f:",
+                "&f-&7 Precise control: output items as filtered",
+                "&f-&7 Effective transport: items exported at a 1:1 ratio",
+                "&f-&7 Smart allocation: fills output slots until its full",
                 "",
-                "&e使用方法&f:",
-                "&f-&7 放置物品到传输槽以指定输出物品类型和数量",
-                "&f-&7 通过设置调整传输频率，优化您的自动化需求同时考虑服务器性能",
-                "&f-&7 高级出口将自动处理指定输出物品，无需手动干预，降低玩家操作负担"));
+                "&eUsage&f:",
+                "&f-&7 Put item on the filter slot to filter the output item type and quantity",
+                "&f-&7 Optimize your automation, adjusting the transmission frequency through the settings to set the delay",
+                "&f-&7 Advance Export will automatically process without much manual operation from players"));
         return displayRecipes;
     }
 }

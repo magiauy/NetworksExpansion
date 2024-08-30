@@ -159,8 +159,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
         Theme.MACHINE,
         "Network Line Pusher",
         "Only supports Slimefun Machine",
-        "Max distance: 32 blocks",
-        "Default quantity per SF tick: 64",
+        "&6Max distance: 32 blocks",
+        "&6Default quantity per SF tick: 64",
         "Line pusher will push an item through",
         "a line of machines it facing."
 );
@@ -170,8 +170,8 @@ public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
         Theme.MACHINE,
         "Network Line Grabber",
         "Only supports Slimefun Machine",
-        "Max distance: 32 blocks",
-        "Default quantity per SF tick: 64",
+        "&6Max distance: 32 blocks",
+        "&6Default quantity per SF tick: 64",
         "Line pusher will grab items through",
         "a line of machines it facing."
 
@@ -182,8 +182,8 @@ public static final SlimefunItemStack LINE_TRANSFER = Theme.Random(
         Theme.MACHINE,
         "Network Line Transfer",
         "Only supports Slimefun Machine",
-        "Max distance: 32 blocks",
-        "Default quantity per SF tick: 64",
+        "&6Max distance: 32 blocks",
+        "&6Default quantity per SF tick: 64",
         "Line transfer will grab and push items",
         "a through line of machines it facing."
 
@@ -196,8 +196,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
                 Theme.MACHINE,
                 "Network Line Pusher Plus",
                 "Only supports Slimefun Machine",
-                "Max distance: 64 blocks",
-                "Default quantity per SF tick: 64",
+                "&6Max distance: 64 blocks",
+                "&6Default quantity per SF tick: 64",
                 "Line pusher will push an item through",
                 "a line of machines it facing."
 );
@@ -207,8 +207,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
                 Theme.MACHINE,
                 "Network Line Grabber Plus",
                 "Only supports Slimefun Machine",
-                "Max distance: 64 blocks",
-                "Default quantity per SF tick: 64",
+                "&6Max distance: 64 blocks",
+                "&6Default quantity per SF tick: 64",
                 "Line pusher will grab items through",
                 "a line of machines it facing."
 );
@@ -218,8 +218,8 @@ public static final SlimefunItemStack LINE_TRANSFER_PLUS = Theme.Random(
                 Theme.MACHINE,
                 "Network Line Transfer Plus",
                 "Only supports Slimefun Machine",
-                "Max distance: 64 blocks",
-                "Default quantity per SF tick: 64",
+                "&6Max distance: 64 blocks",
+                "&6Default quantity per SF tick: 64",
                 "Line pusher will grab and push items",
                 "a through line of machines it facing."
 );
@@ -230,8 +230,8 @@ public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER = Theme.Rando
                 Theme.MACHINE,
                 "Vanilla Line Pusher",
                 "Only supports Vanilla Machine",
-                "Max distance: 32 blocks",
-                "Default quantity per SF tick: 64",
+                "&6Max distance: 32 blocks",
+                "&6Default quantity per SF tick: 64",
                 "Line pusher will push an item through",
                 "a line of machines it facing."
 
@@ -243,12 +243,10 @@ public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Rand
                 Theme.MACHINE,
                 "Vanilla Line Grabber",
                 "Only supports Vanilla Machine",
-                "Max distance: 32 blocks",
-                "Default quantity per SF tick: 64",
+                "&6Max distance: 32 blocks",
+                "&6Default quantity per SF tick: 64",
                 "Line pusher will grab items through",
-                "a line of machines it facing.",
-                "First stop mode: Grabs the slot",
-                "that has items in the machine."
+                "a line of machines it facing."
 );
 
     //高级链式传输
@@ -257,11 +255,11 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Rand
                 Enchanted(Material.OBSERVER),
                 Theme.MACHINE,
                 "Advance Network Line Pusher",
-                "&aOnly supports Slimefun Machine",
+                "Only supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
                 "&6Default quantity per SF tick: &e64",
-                "&aLine pusher will push items through",
-                "&aa line of machines it facing.",
+                "Line pusher will push items through",
+                "a line of machines it facing.",
                 "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
@@ -269,11 +267,11 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Ran
                 Enchanted(Material.TARGET),
                 Theme.MACHINE,
                 "Advance Network Line Grabber",
-                "&aOnly supports Slimefun Machine",
+                "Only supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
                 "&6Default quantity per SF tick: &e64",
-                "&aLine pusher will grab items through",
-                "&aa line of machines it facing.",
+                "Line pusher will grab items through",
+                "a line of machines it facing.",
                 "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
@@ -281,11 +279,11 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
                 Enchanted(Material.PISTON),
                 Theme.MACHINE,
                 "Advance Network Line Transfer",
-                "&aOnly supports Slimefun Machine",
+                "Only supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
                 "&6Default quantity per SF tick: &e64",
-                "&aLine pusher will grab and push items through",
-                "&aa line of machines it facing.",
+                "Line pusher will grab and push items through",
+                "a line of machines it facing.",
                 "&66 Changable Modes"
 );
 //高级链式传输Plus
@@ -294,10 +292,10 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme
         Enchanted(Material.OBSERVER),
         Theme.MACHINE,
         "Advance Network Line Pusher Plus",
-        "&aOnly supports Slimefun Machine",
+        "Only supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
         "&6Default quantity per SF tick: &e64",
-        "&aLine pusher will push items through",
+        "Line pusher will push items through",
         "&aa line of machines it facing.",
         "&66 Changable Modes"
 );
@@ -306,11 +304,11 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Them
         Enchanted(Material.TARGET),
         Theme.MACHINE,
         "Advance Network Line Grabber Plus",
-        "&aOnly supports Slimefun Machine",
+        "Only supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
         "&6Default quantity per SF tick: &e64",
-        "&aLine pusher will grab items through",
-        "&aa line of machines it facing.",
+        "Line pusher will grab items through",
+        "a line of machines it facing.",
         "&66 Changable Modes"
 );
 public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random(
@@ -318,11 +316,11 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random
         Enchanted(Material.STICKY_PISTON),
         Theme.MACHINE,
         "Advance Network Line Transfer Plus",
-        "&aOnly supports Slimefun Machine",
+        "Only supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
         "&6Default quantity per SF tick: &e64",
-        "&aLine pusher will grab and push items through",
-        "&aa line of machines it facing.",
+        "Line pusher will grab and push items through",
+        "a line of machines it facing.",
         "&66 Changable Modes"
 );
 

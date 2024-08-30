@@ -59,7 +59,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
     private static final int[] TEST_ITEM_BACKDROP = {8, 17, 26, 35, 44, 53};
     private static final CustomItemStack TEST_BACKDROP_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "指定需要清除的物品"
+            Theme.SUCCESS + "Purges filtered items"
     );
     private final ItemSetting<Integer> tickRate;
     private boolean useSpecialModel = false;
@@ -233,12 +233,12 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a ⇩清理机制⇩",
+                "&a Clearing Mechanism",
                 "",
-                "&e&f功能描述:",
-                "&f-&7 网络高级清除器会从网络中",
-                "&f-&7 不断地移除指定物品(需要按顺序放置)",
-                "&f-&7 清除的物品会立即消失，谨慎使用!"
+                "&e&fFeature Description:",
+                "&f-&7 The advance network purger will remove items from the network",
+                "&f-&7 Constanly purges filtered items (in order)",
+                "&f-&7 Instantly voids items, use with great care!"
         ));
         return displayRecipes;
     }

@@ -495,8 +495,8 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                 menu.replaceExistingItem(EXTRACT_SLOT,
                         new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "&6Quick WithDraw",
                                 "&7> [Left-click] Click to withdraw the item to your inventory.",
-                                "&7> [Right-click]Click to withdraw 1 item",
-                                "&7> [Shift+Right-click]Click to withdraw 64 item"
+                                "&7> [Right-click] Click to withdraw 1 item",
+                                "&7> [Shift+Right-click] Click to withdraw 64 item"
                         ));
                 menu.addMenuClickHandler(EXTRACT_SLOT, (pl, slot, item, action) -> {
                     extract(pl, menu, block, action);
