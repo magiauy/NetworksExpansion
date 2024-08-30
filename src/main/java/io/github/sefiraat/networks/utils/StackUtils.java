@@ -151,18 +151,6 @@ public class StackUtils {
             return false;
         }
 
-        // Check the lore
-        if (itemMeta.hasLore() && cachedMeta.hasLore()) {
-            if ((checkLore
-                    || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
-                    || itemStack.getType() == Material.FLINT // Fix Dupe card in FinalTech | FinalTECH
-            ) && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
-                return false;
-            }
-        } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
-            return false;
-        }
-
         // Slimefun ID check no need to worry about distinction, covered in PDC + lore
         final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(itemMeta);
         final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(cachedMeta);
@@ -175,6 +163,17 @@ public class StackUtils {
 
         // Check the display name
         if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
+            return false;
+        }
+
+        // Check the lore
+        if (itemMeta.hasLore() && cachedMeta.hasLore()) {
+            if ((checkLore
+                    || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
+            ) && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+                return false;
+            }
+        } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
             return false;
         }
 
