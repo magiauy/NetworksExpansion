@@ -59,7 +59,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
     private static final int[] TEST_ITEM_BACKDROP = {8, 17, 26, 35, 44, 53};
     private static final CustomItemStack TEST_BACKDROP_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "Purges filtered items"
+            Theme.SUCCESS + "Void Item Matching"
     );
     private final ItemSetting<Integer> tickRate;
     private boolean useSpecialModel = false;

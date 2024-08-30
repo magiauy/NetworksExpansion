@@ -43,7 +43,7 @@ public class NetworkPurger extends NetworkObject {
 
     private static final CustomItemStack TEST_BACKDROP_STACK = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
-            Theme.SUCCESS + "指定需要清除的物品"
+            Theme.SUCCESS + "Void Item Matching"
     );
 
     private final ItemSetting<Integer> tickRate;
