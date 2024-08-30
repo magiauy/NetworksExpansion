@@ -107,19 +107,19 @@ items:
   # ↓ 正在使用 ↓
   # 链式传输器[推送]
   NTW_EXPANSION_LINE_TRANSFER_PUSHER:
-    max-distance: 32
+    max-distance: 16
     pushitem-tick: 1
     use-special-model:
       enable: false
   # 链式传输器[抓取]
   NTW_EXPANSION_LINE_TRANSFER_GRABBER:
-    max-distance: 32
+    max-distance: 16
     grabitem-tick: 1
     use-special-model:
       enable: false
   # 链式传输器
   NTW_EXPANSION_LINE_TRANSFER:
-    max-distance: 32
+    max-distance: 16
     pushitem-tick: 1
     grabitem-tick: 1
     use-special-model:
@@ -152,13 +152,13 @@ items:
       enable: false
   # 高级链式传输器[抓取]
   NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER:
-    max-distance: 32
+    max-distance: 16
     grabitem-tick: 1
     use-special-model:
       enable: false
   # 高级链式传输器
   NTW_EXPANSION_ADVANCED_LINE_TRANSFER:
-    max-distance: 32
+    max-distance: 16
     pushitem-tick: 1
     grabitem-tick: 1
     use-special-model:
@@ -185,13 +185,13 @@ items:
       enable: false
   # 原版链式传输器[推送]
   NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER:
-    max-distance: 32
+    max-distance: 16
     pushitem-tick: 1
     use-special-model:
       enable: false
   # 原版链式传输器[抓取]
   NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER:
-    max-distance: 32
+    max-distance: 16
     grabitem-tick: 1
     use-special-model:
       enable: false
