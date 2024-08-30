@@ -265,14 +265,14 @@ public class PointTransferGrabber extends NetworkDirectional implements RecipeDi
                 "&a⇩运行频率⇩",
                 "",
                 "&e执行频率&f:",
-                "&f-&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
+                "&f-&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once",
                 "&f-&7[&a1 SfTick=0.5s]",
                 "",
                 "&f-&7 简而言之，链式推送器不会频繁操作，从而保持服务器流畅"
         ));
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩功能⇩",
+                "&aFeature",
                 "",
                 "&e抓取逻辑&f:",
                 "&f-&7[&a抓取物品&7]&f:&7将输出槽上的物品全部抓取进网络中",

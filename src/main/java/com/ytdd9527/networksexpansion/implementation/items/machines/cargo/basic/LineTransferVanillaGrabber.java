@@ -251,23 +251,23 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩传输数据⇩",
+                "&aTransferring data",
                 "",
-                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
-                "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次"
+                "&7[&aMaximum distance&7]&f: &6" + maxDistance + " blocks",
+                "&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩参数⇩",
-                "&7默认运输模式: &6首位阻断",
-                "&c不可调整运输模式",
-                "&7默认运输数量: &664",
-                "&c不可调整运输数量"
+                "&aParameter",
+                "&7Default mode: &6First Stop",
+                "&cUnchangable mode",
+                "&7Default quantity: &664",
+                "&cUnchangable mode"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩功能⇩",
+                "&aFeature",
                 "",
-                "&e与链式不同的是，此机器&c只有连续抓取原版容器的功能",
-                "&c而不是连续转移物品！"
+                "&eLine grabber will grab an item through",
+                "&ea line of machines it facing."
         ));
         return displayRecipes;
     }

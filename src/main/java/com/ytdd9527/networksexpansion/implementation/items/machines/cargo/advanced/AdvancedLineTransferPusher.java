@@ -533,23 +533,23 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩Transfer data⇩",
+                "&aTransferring data",
                 "",
-                "&7[&aMaximum distance&7]&f:&6" + maxDistance + "Block",
+                "&7[&aMaximum distance&7]&f: &6" + maxDistance + " blocks",
                 "&7[&aPush Rate&7]&f:&7 Every &6" + pushItemTick + " SfTick &7Push once"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩Parameters ⇩",
-                "&7Default Transportation modes : &6Frist Slot Blocking",
-                "&aAdjustable Transportation modes",
-                "&7Default transport quantity: &63456",
-                "&aAdjustable transport quantities"
+                "&aParameter",
+                "&7Default mode: &6Frist Stop",
+                "&aChangable mode",
+                "&7Default quantity: &63456",
+                "&aChangable quantity"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-        "&a⇩Feature⇩",
+        "&aFeature",
         "",
-        "&eUnlike the chain type, this machine &conly continuously pushes",
-        "&cInstead of transferring items consecutively！"
+        "&eLine pusher will push an item through",
+        "&ea line of machines it facing."
         ));
         return displayRecipes;
     }

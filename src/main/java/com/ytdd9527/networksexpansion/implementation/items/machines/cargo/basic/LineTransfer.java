@@ -395,25 +395,25 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩传输数据⇩",
+                "&aTransferring data",
                 "",
-                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
-                "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次",
-                "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
-                "&7[&a运输耗电&7]&f:&7 每次运输消耗 &6" + requiredPower + " J 网络电力"
+                "&7[&aMaximum distance&7]&f: &6" + maxDistance + " blocks",
+                "&7[&aPush rate&7]&f:&7 Every &6" + pushItemTick + " SfTick &7Push once",
+                "&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once",
+                "&7[&aPower needed&7]&f:&7 Per transport &6" + requiredPower + " J Network Power"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩参数⇩",
-                "&7默认运输模式: &6首位阻断",
-                "&c不可调整运输模式",
-                "&7默认运输数量: &664",
-                "&c不可调整运输数量"
+                "&aParameter",
+                "&7Default mode: &6First Stop",
+                "&cUnchangable mode",
+                "&7Default quantity: &664",
+                "&cUnchangable quantity"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩功能⇩",
+                "&aFeature",
                 "",
-                "&e与链式不同的是，此机器&c只有连续推送和抓取的功能",
-                "&c而不是连续转移物品！"
+                "&eLine transfer will grab and push items",
+                "&ethrough a line of machines it facing."
         ));
         return displayRecipes;
     }

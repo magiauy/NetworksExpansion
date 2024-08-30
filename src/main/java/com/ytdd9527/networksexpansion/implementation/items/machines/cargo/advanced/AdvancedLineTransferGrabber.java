@@ -349,23 +349,23 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩Transfer data⇩",
+                "&aTransferring data",
                 "",
-                "&7[&aMaximum distance&7]&f:&6" + maxDistance + "Block",
+                "&7[&aMaximum distance&7]&f: &6" + maxDistance + " blocks",
                 "&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩Parameters ⇩",
-                "&7Default Transportation modes : &6Unlimited",
-                "&aAdjustable Transportation modes",
-                "&7Default transport quantity: &63456",
-                "&aAdjustable transport quantities"
+                "&aParameter",
+                "&7Default mode: &6Unlimited",
+                "&aChangable mode",
+                "&7Default quantity: &63456",
+                "&aChangable quantity"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩Feature⇩",
+                "&aFeature",
                 "",
-                "&eUnlike the chain type, this machine &conly continuously grabs",
-                "&cInstead of transferring items consecutively！"
+                "&eLine grabber will grab items through",
+                "&ea line of machines it facing."
         ));
         return displayRecipes;
     }
