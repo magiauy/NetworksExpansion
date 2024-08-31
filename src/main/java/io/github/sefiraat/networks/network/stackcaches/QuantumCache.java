@@ -104,7 +104,9 @@ public class QuantumCache extends ItemStackCache {
             itemName = this.getItemStack().getItemMeta().getDisplayName();
         }
         lore.add("");
-        lore.add(Theme.CLICK_INFO + "Item: " + itemName);
+        lore.add(Theme.CLICK_INFO + "Holding: " +
+                     (this.getItemMeta() != null && this.getItemMeta().hasDisplayName() ? this.getItemMeta().getDisplayName() : this.getItemStack().getType().name())
+        );
         lore.add(Theme.CLICK_INFO + "Amount: " + Theme.WHITE + this.getAmount());
         if (this.supportsCustomMaxAmount) {
             lore.add(Theme.CLICK_INFO + "Current Capacity Limit: " + Theme.ERROR + this.getLimit());
@@ -120,8 +122,9 @@ public class QuantumCache extends ItemStackCache {
             itemName = this.getItemStack().getItemMeta().getDisplayName();
         }
         final int loreIndexModifier = this.supportsCustomMaxAmount ? 1 : 0;
-        lore.set(lore.size() - 2 - loreIndexModifier, Theme.CLICK_INFO + "Item: " + itemName);
-        lore.set(lore.size() - 1 - loreIndexModifier, Theme.CLICK_INFO + "Amount: " + Theme.WHITE + this.getAmount());
+        lore.set(lore.size() - 2,Theme.CLICK_INFO + "Holding: " +
+                     (this.getItemMeta() != null && this.getItemMeta().hasDisplayName() ? this.getItemMeta().getDisplayName() : this.getItemStack().getType().name())
+        );        lore.set(lore.size() - 1 - loreIndexModifier, Theme.CLICK_INFO + "Amount: " + Theme.WHITE + this.getAmount());
         if (this.supportsCustomMaxAmount) {
             lore.set(lore.size() - loreIndexModifier, Theme.CLICK_INFO + "Current Capacity Limit: " + Theme.ERROR + this.getLimit());
         }

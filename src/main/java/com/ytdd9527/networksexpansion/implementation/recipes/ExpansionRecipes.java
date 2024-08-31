@@ -26,26 +26,26 @@ public class ExpansionRecipes {
     // Point Transfers
     public static final ItemStack[] POINT_TRANSFER = new ItemStack[]{
             NETWORK_GRABBER.getItem(), NETWORK_PUSHER.getItem(), NETWORK_GRABBER.getItem(),
-            NETWORK_PUSHER.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), NETWORK_PUSHER.getItem(),
+            NETWORK_PUSHER.getItem(), AI_CORE.getItem(), NETWORK_PUSHER.getItem(),
             NETWORK_GRABBER.getItem(), NETWORK_PUSHER.getItem(), NETWORK_GRABBER.getItem()
     };
     public static final ItemStack[] POINT_TRANSFER_GRABBER = new ItemStack[]{
             NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(),
-            OPTIC_CABLE.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), OPTIC_CABLE.getItem(),
+            OPTIC_CABLE.getItem(), AI_CORE.getItem(), OPTIC_CABLE.getItem(),
             NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem(), NETWORK_GRABBER.getItem()
     };
 
     // Line Transfers
     public static final ItemStack[] LINE_TRANSFER_PUSHER = new ItemStack[]{
-            NETWORK_PUSHER.getItem(), NETWORK_EXPORT.getItem(), AI_CORE.getItem(),
+            NETWORK_PUSHER.getItem(), NETWORK_EXPORT.getItem(), EMPOWERED_AI_CORE.getItem(),
             NETWORK_EXPORT.getItem(), NETWORK_MONITOR.getItem(), NETWORK_EXPORT.getItem(),
-            AI_CORE.getItem(), NETWORK_EXPORT.getItem(), NETWORK_PUSHER.getItem()
+            EMPOWERED_AI_CORE.getItem(), NETWORK_EXPORT.getItem(), NETWORK_PUSHER.getItem()
     };
 
     public static final ItemStack[] LINE_TRANSFER_PLUS_PUSHER = new ItemStack[]{
-            SHRINKING_BASE.getItem(), OPTIC_CABLE.getItem(), SHRINKING_BASE.getItem(),
-            OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, OPTIC_CABLE.getItem(),
-            SHRINKING_BASE.getItem(), OPTIC_CABLE.getItem(), SHRINKING_BASE.getItem()
+        ExpansionItemStacks.LINE_TRANSFER_PUSHER, OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER,
+            OPTIC_CABLE.getItem(), INTERDIMENSIONAL_PRESENCE.getItem(), OPTIC_CABLE.getItem(),
+            ExpansionItemStacks.LINE_TRANSFER_PUSHER, OPTIC_CABLE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PUSHER = new ItemStack[]{
             NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_BRIDGE.getItem(),
