@@ -267,16 +267,16 @@ public class PointTransferGrabber extends NetworkDirectional implements RecipeDi
                 "&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once",
                 "&7[&a1 SfTick=0.5s]",
                 "",
-                "&7 Simply put, it works like a normal grabber"
+                "&7Simply put, it works like a normal grabber"
         ));
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&aFeature",
                 "",
                 "&7[&aGrabber&7]&f:&7 Will grab all the item on the output slot",
-                "&7 If there is no findable machine it faced, or ",
-                "&7 no more item to grab, out of network space,",
-                "&7 The Point Grabber will stop"
+                "&7If there is no findable machine it faced, or ",
+                "&7no more item to grab, out of network space,",
+                "&7The Point Grabber will stop"
         ));
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
