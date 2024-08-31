@@ -654,7 +654,7 @@ public class NetworkRoot extends NetworkNode {
         final ItemStack output = blockMenu.getItemInSlot(NetworkQuantumStorage.OUTPUT_SLOT);
         final ItemStack itemStack = cache.getItemStack();
         long storedInt = cache.getAmount();
-        if (output != null && !output.getType().isAir() && StackUtils.itemsMatch(cache, output, false)) {
+        if (output != null && !output.getType().isAir() && StackUtils.itemsMatch(cache, output)) {
             storedInt = storedInt + output.getAmount();
         }
 
@@ -771,7 +771,7 @@ public class NetworkRoot extends NetworkNode {
 
             final ItemStack itemStack = barrelIdentity.getItemStack();
 
-            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack, false)) {
+            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
                 continue;
             }
 
@@ -826,7 +826,7 @@ public class NetworkRoot extends NetworkNode {
             for (ItemStack itemStack : blockMenu.getContents()) {
                 if (itemStack == null
                         || itemStack.getType().isAir()
-                        || !StackUtils.itemsMatch(request, itemStack, false)
+                        || !StackUtils.itemsMatch(request, itemStack)
                 ) {
                     continue;
                 }
@@ -863,8 +863,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType().isAir() || !StackUtils.itemsMatch(
                         request,
-                        itemStack,
-                        false
+                        itemStack
                 )) {
                     continue;
                 }
@@ -895,8 +894,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType().isAir() || !StackUtils.itemsMatch(
                         request,
-                        itemStack,
-                        false
+                        itemStack
                 )) {
                     continue;
                 }
@@ -927,7 +925,7 @@ public class NetworkRoot extends NetworkNode {
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null
                     || itemStack.getType().isAir()
-                    || !StackUtils.itemsMatch(request, itemStack, false)
+                    || !StackUtils.itemsMatch(request, itemStack)
             ) {
                 continue;
             }
@@ -980,7 +978,7 @@ public class NetworkRoot extends NetworkNode {
 
             final ItemStack itemStack = barrelIdentity.getItemStack();
 
-            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack, false)) {
+            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
                 continue;
             }
 
@@ -1033,7 +1031,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
                         || itemStack.getType().isAir()
-                        || !StackUtils.itemsMatch(request, itemStack, false)
+                        || !StackUtils.itemsMatch(request, itemStack)
                 ) {
                     continue;
                 }
@@ -1068,8 +1066,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType().isAir() || !StackUtils.itemsMatch(
                         request,
-                        itemStack,
-                        false
+                        itemStack
                 )) {
                     continue;
                 }
@@ -1098,8 +1095,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null || itemStack.getType().isAir() || !StackUtils.itemsMatch(
                         request,
-                        itemStack,
-                        false
+                        itemStack
                 )) {
                     continue;
                 }
@@ -1128,7 +1124,7 @@ public class NetworkRoot extends NetworkNode {
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null
                     || itemStack.getType().isAir()
-                    || !StackUtils.itemsMatch(request, itemStack, false)
+                    || !StackUtils.itemsMatch(request, itemStack)
             ) {
                 continue;
             }
@@ -1170,7 +1166,7 @@ public class NetworkRoot extends NetworkNode {
         for (BarrelIdentity barrelIdentity : getBarrels()) {
             final ItemStack itemStack = barrelIdentity.getItemStack();
 
-            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack, false)) {
+            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
                 continue;
             }
 
@@ -1195,7 +1191,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
                         || itemStack.getType().isAir()
-                        || !StackUtils.itemsMatch(request, itemStack, false)
+                        || !StackUtils.itemsMatch(request, itemStack)
                 ) {
                     continue;
                 }
@@ -1216,7 +1212,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = itemContainer.getSample();
                 if (itemStack == null
                         || itemStack.getType().isAir()
-                        || !StackUtils.itemsMatch(request, itemStack, false)
+                        || !StackUtils.itemsMatch(request, itemStack)
                 ) {
                     continue;
                 }
@@ -1238,7 +1234,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
                         || itemStack.getType().isAir()
-                        || !StackUtils.itemsMatch(request, itemStack, false)
+                        || !StackUtils.itemsMatch(request, itemStack)
                 ) {
                     continue;
                 }
@@ -1258,7 +1254,7 @@ public class NetworkRoot extends NetworkNode {
             final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
             if (itemStack == null
                     || itemStack.getType().isAir()
-                    || !StackUtils.itemsMatch(request, itemStack, false)
+                    || !StackUtils.itemsMatch(request, itemStack)
             ) {
                 continue;
             }
@@ -1278,7 +1274,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                 if (itemStack == null
                         || itemStack.getType().isAir()
-                        || !StackUtils.itemsMatch(request, itemStack, false)
+                        || !StackUtils.itemsMatch(request, itemStack)
                 ) {
                     continue;
                 }
@@ -1357,7 +1353,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack inputSlotItem = menu.getItemInSlot(slot);
                 if (inputSlotItem != null) {
                     for (ItemStack itemStack : itemStacks) {
-                        if (StackUtils.itemsMatch(inputSlotItem, itemStack, false)) {
+                        if (StackUtils.itemsMatch(inputSlotItem, itemStack)) {
                             totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + inputSlotItem.getAmount());
                         }
                     }
@@ -1370,7 +1366,7 @@ public class NetworkRoot extends NetworkNode {
             ItemStack inputSlotItem = blockMenu.getItemInSlot(slots[0]);
             if (inputSlotItem != null) {
                 for (ItemStack itemStack : itemStacks) {
-                    if (StackUtils.itemsMatch(inputSlotItem, itemStack, false)) {
+                    if (StackUtils.itemsMatch(inputSlotItem, itemStack)) {
                         totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + inputSlotItem.getAmount());
                     }
                 }
@@ -1379,7 +1375,7 @@ public class NetworkRoot extends NetworkNode {
         // 遍历所有桶
         for (BarrelIdentity barrelIdentity : getBarrels()) {
             for (ItemStack itemStack : itemStacks) {
-                if (StackUtils.itemsMatch(barrelIdentity.getItemStack(), itemStack, false)) {
+                if (StackUtils.itemsMatch(barrelIdentity.getItemStack(), itemStack)) {
                     long totalAmount = barrelIdentity.getAmount();
                     if (barrelIdentity instanceof InfinityBarrel) {
                         totalAmount -= 2;
@@ -1393,7 +1389,7 @@ public class NetworkRoot extends NetworkNode {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
                 for (ItemStack itemStack : itemStacks) {
-                    if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack, false)) {
+                    if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack)) {
                         long totalAmount = itemContainer.getAmount();
                         totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + totalAmount);
                     }
@@ -1407,7 +1403,7 @@ public class NetworkRoot extends NetworkNode {
                 final ItemStack cellItem = blockMenu.getItemInSlot(slot);
                 if (cellItem != null) {
                     for (ItemStack itemStack : itemStacks) {
-                        if (StackUtils.itemsMatch(cellItem, itemStack, false)) {
+                        if (StackUtils.itemsMatch(cellItem, itemStack)) {
                             totalAmounts.put(itemStack, totalAmounts.getOrDefault(itemStack, 0L) + cellItem.getAmount());
                         }
                     }
@@ -1422,7 +1418,7 @@ public class NetworkRoot extends NetworkNode {
         BlockMenu fallbackBlockMenu = null;
         int fallBackSlot = 0;
         for (BlockMenu menu : getAdvancedGreedyBlockMenus()) {
-            if (StackUtils.itemsMatch(menu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT), incoming, false)) {
+            if (StackUtils.itemsMatch(menu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT), incoming)) {
                 for (int slot : ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS) {
                     final ItemStack itemStack = menu.getItemInSlot(slot);
                     // If this is an empty slot - move on, if it's our first, store it for later.
@@ -1436,7 +1432,7 @@ public class NetworkRoot extends NetworkNode {
 
                     final int itemStackAmount = itemStack.getAmount();
                     final int incomingStackAmount = incoming.getAmount();
-                    if (itemStackAmount < itemStack.getMaxStackSize() && StackUtils.itemsMatch(incoming, itemStack, false)) {
+                    if (itemStackAmount < itemStack.getMaxStackSize() && StackUtils.itemsMatch(incoming, itemStack)) {
                         final int maxCanAdd = itemStack.getMaxStackSize() - itemStackAmount;
                         final int amountToAdd = Math.min(maxCanAdd, incomingStackAmount);
 
@@ -1466,7 +1462,7 @@ public class NetworkRoot extends NetworkNode {
         for (BlockMenu blockMenu : getGreedyBlockMenus()) {
             final ItemStack template = blockMenu.getItemInSlot(NetworkGreedyBlock.TEMPLATE_SLOT);
 
-            if (template == null || template.getType().isAir() || !StackUtils.itemsMatch(incoming, template, false)) {
+            if (template == null || template.getType().isAir() || !StackUtils.itemsMatch(incoming, template)) {
                 continue;
             }
 
@@ -1480,7 +1476,7 @@ public class NetworkRoot extends NetworkNode {
 
             final int itemStackAmount = itemStack.getAmount();
             final int incomingStackAmount = incoming.getAmount();
-            if (itemStackAmount < itemStack.getMaxStackSize() && StackUtils.itemsMatch(itemStack, incoming, false)) {
+            if (itemStackAmount < itemStack.getMaxStackSize() && StackUtils.itemsMatch(itemStack, incoming)) {
                 final int maxCanAdd = itemStack.getMaxStackSize() - itemStackAmount;
                 final int amountToAdd = Math.min(maxCanAdd, incomingStackAmount);
 
@@ -1494,7 +1490,7 @@ public class NetworkRoot extends NetworkNode {
 
         // Run for matching barrels
         for (BarrelIdentity barrelIdentity : getBarrels()) {
-            if (StackUtils.itemsMatch(barrelIdentity, incoming, false)) {
+            if (StackUtils.itemsMatch(barrelIdentity, incoming)) {
                 barrelIdentity.depositItemStack(incoming);
 
                 // All distributed, can escape

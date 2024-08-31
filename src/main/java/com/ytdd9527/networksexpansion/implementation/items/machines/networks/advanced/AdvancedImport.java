@@ -3,7 +3,6 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.networks.ad
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -26,11 +25,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +39,6 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
             36, 37, 38, 39, 40, 41, 42, 43, 44,
             45, 46, 47, 48, 49, 50, 51, 52, 53
     };
-    private static BukkitTask transferTask;
     private final ItemSetting<Integer> tickRate;
 
     public AdvancedImport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -72,7 +67,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
                         if (tick <= 1) {
                             final BlockMenu blockMenu = data.getBlockMenu();
                             addToRegistry(block);
-                            performAddItemOperationAsync(blockMenu);
+                            tryAddItem(blockMenu);
                         }
                     }
 
@@ -82,23 +77,6 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
                     }
                 }
         );
-    }
-
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
-    }
-
-    private void performAddItemOperationAsync(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            transferTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    tryAddItem(blockMenu);
-                }
-            }.runTaskAsynchronously(Networks.getInstance());
-        }
     }
 
     private void tryAddItem(@Nonnull BlockMenu blockMenu) {

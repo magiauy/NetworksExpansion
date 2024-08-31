@@ -50,7 +50,7 @@ public final class SupportedPressureChamberRecipes implements HasRecipes, CanTes
 
     public static boolean testRecipe(@Nonnull ItemStack[] input, @Nonnull ItemStack[] recipe) {
         for (int test = 0; test < recipe.length; test++) {
-            if (!StackUtils.itemsMatch(input[test], recipe[test], false)) {
+            if (!StackUtils.itemsMatch(input[test], recipe[test])) {
                 return false;
             }
         }

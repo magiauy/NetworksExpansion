@@ -1,13 +1,6 @@
 package io.github.sefiraat.networks;
 
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
 import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransfer;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced.AdvancedLineTransferGrabber;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransfer;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferGrabber;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.setup.SetupUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
@@ -174,15 +167,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             queryQueue.scheduleAbort();
         }
         getLogger().info("已保存数据库信息！");
-        getLogger().info("正在结束任务...");
-        AbstractAutoCrafter.cancelCraftTask();
-        AbstractAdvancedAutoCrafter.cancelCraftTask();
-        AdvancedImport.cancelTransferTask();
-        LineTransfer.cancelTransferTask();
-        AdvancedLineTransfer.cancelTransferTask();
-        LineTransferGrabber.cancelTransferTask();
-        AdvancedLineTransferGrabber.cancelTransferTask();
-        getLogger().info("已结束任务！");
         getLogger().info("已安全禁用附属！");
     }
 

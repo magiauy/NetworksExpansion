@@ -35,4 +35,8 @@ public class AutoCraftingTableCrafter extends AbstractAutoCrafter {
     public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof CraftingBlueprint;
     }
+
+    public boolean canTestVanillaRecipe() {
+        return true;
+    }
 }

@@ -1,3 +1,7 @@
+## 特别鸣谢
+
+感谢 [m1919810 / matl114](https://github.com/m1919810) — 帮助我找到了一些网络拓展的 bug
+
 ## 在哪里下载
 
 [GitHub 仓库](https://github.com/ytdd9527/NetworksExpansion/tree/master) 的 jar 文件夹内
@@ -7,7 +11,7 @@
 - [ ] **0**.添加新的工作台 36个槽位的配方 将网络抽屉配方重写 大概就是
   32*256 就是 32个256的量子存储 在添加一下没有用的材料合成 以此类推
 - [ ] **1**.网络合成机可以优化一下
-- [ ] **2**.射电桩配方链式传输使用 32 64 传输能源电力
+- [ ] **2**.链式网络插口 32 64 传输能源电力
 - [ ] **3**.添加网络工坊比如
   [点击查看]
   https://github.com/ytdd9527/NetworksExpansion/blob/master/images/wiki/gongfan.png
