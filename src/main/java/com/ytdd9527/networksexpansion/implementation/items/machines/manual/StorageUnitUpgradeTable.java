@@ -57,7 +57,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem {
                 for (int slot : border) {
                     addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 }
-                ItemStack innerBorderItem = new CustomItemStack(Material.LIME_STAINED_GLASS_PANE, "", " ");
+                ItemStack innerBorderItem = new CustomItemStack(Material.LIME_STAINED_GLASS_PANE, " ", "");
                 for (int slot : innerBorder) {
                     addItem(slot, innerBorderItem, ChestMenuUtils.getEmptyClickHandler());
                 }
