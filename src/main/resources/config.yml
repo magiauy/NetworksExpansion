@@ -2,7 +2,7 @@
 auto-update: false
 
 # 不要修改这个内容
-config-version: 206
+config-version: 209-Alpha-10
 
 # max-distance最大距离限制 100
 # pushitem-tick 1 Tick=0.5秒 推送物品的时间
@@ -11,99 +11,6 @@ config-version: 206
 # enable 是否启用模型 false true
 # type 指定模型的类型 错误类型enable将会启用false
 items:
-  # ↓ 已废弃 ↓
-
-  #网络链式推送器
-  NE_CHAIN_PUSHER:
-    max-distance: 32
-    pushitem-tick: 1
-    grabitem-tick: 1
-    use-special-model:
-      enable: false
-  #网络链式推送器Plus
-  NE_CHAIN_PUSHER_PLUS:
-    max-distance: 64
-    pushitem-tick: 1
-    grabitem-tick: 1
-    use-special-model:
-      enable: false
-  #网络链式抓取器
-  NE_CHAIN_GRABBER:
-    max-distance: 32
-    pushitem-tick: 1
-    grabitem-tick: 1
-    use-special-model:
-      enable: false
-  #网络链式抓取器Plus
-  NE_CHAIN_GRABBER_PLUS:
-    max-distance: 64
-    pushitem-tick: 1
-    grabitem-tick: 1
-    use-special-model:
-      enable: false
-  #网链调度器
-  CHAIN_DISPATCHER:
-    max-distance: 32
-    pushitem-tick: 1
-    grabitem-tick: 1
-    required-power: 5000
-    use-special-model:
-      enable: false
-  #网链调度器Plus
-  CHAIN_DISPATCHER_PLUS:
-    max-distance: 64
-    pushitem-tick: 1
-    grabitem-tick: 1
-    required-power: 5000
-    use-special-model:
-      enable: false
-  #高级网络链式推送器
-  NE_ADVANCED_CHAING_PUSHER:
-    max-distance: 32
-    pushitem-tick: 1
-    grabitem-tick: 1
-  # 对点传输器
-  NTW_EXPANSION_POINT_TRANSFER:
-    use-special-model:
-      enable: false
-  # 对点传输器[抓取]
-  NTW_EXPANSION_POINT_TRANSFER_GRABBER:
-    grabitem-tick: 1
-    use-special-model:
-      enable: false
-  #高级网络链式抓取器
-  NE_ADVANCED_CHAING_GRABBER:
-    max-distance: 32
-    pushitem-tick: 1
-    grabitem-tick: 1
-    use-special-model:
-      enable: false
-  #高级网络链式抓取器Plus
-  NE_ADVANCED_CHAING_GRABBER_PLUS:
-    max-distance: 64
-    pushitem-tick: 1
-    grabitem-tick: 1
-    use-special-model:
-      enable: false
-  #高级网链调度器
-  NE_ADVANCED_CHAIN_DISPATCHER:
-    max-distance: 32
-    pushitem-tick: 1
-    grabitem-tick: 1
-    required-power: 5000
-    use-special-model:
-      enable: false
-  #高级网链调度器Plus
-  NE_ADVANCED_CHAING_DISPATCHER_PLUS:
-    max-distance: 64
-    pushitem-tick: 1
-    grabitem-tick: 1
-    required-power: 5000
-    use-special-model:
-      enable: false
-
-  # ↑ 已废弃 ↑
-
   # ↓ 正在使用 ↓
   # 链式传输器[推送]
   NTW_EXPANSION_LINE_TRANSFER_PUSHER:
