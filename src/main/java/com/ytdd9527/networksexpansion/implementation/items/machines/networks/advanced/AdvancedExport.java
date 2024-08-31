@@ -3,7 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.networks.ad
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
-import io.github.bakedlibs.dough.items.ItemUtils;
+import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -24,8 +24,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -122,7 +120,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
 
     private void tryFetchItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-        if (definition.getNode() == null) {
+        if (definition == null || definition.getNode() == null) {
             return;
         }
         NetworkRoot networkRoot = definition.getNode().getRoot();
@@ -149,7 +147,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
         // for each every slot, then make itemRequests
         for (int testItemSlot : getTestSlots()) {
             ItemStack currentStack = blockMenu.getItemInSlot(testItemSlot);
-            if (currentStack != null && currentStack.getType() != Material.AIR) {
+            if (currentStack != null && !currentStack.getType().isAir()) {
                 itemRequests.add(new ItemRequest(StackUtils.getAsQuantity(currentStack, 1), currentStack.getAmount()));
             }
         }
@@ -171,20 +169,15 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     }
 
     private void placeItems(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nonnull ItemStack itemStack, @Nonnull int itemAmount, int[] outputSlots) {
-        if (blockMenu != null && itemStack != null) {
-            // 没有空槽时，pushItem 会自动填充物品，然后把剩余的数量回设 itemStack
-            pushItem(blockMenu, itemStack, outputSlots);
+        BlockMenuUtil.pushItem(blockMenu, itemStack, outputSlots);
 
-            if (itemStack.getAmount() > 0) {
-                returnItems(root, itemStack.clone());
-            }
+        if (itemStack.getAmount() > 0) {
+            returnItems(root, itemStack.clone());
         }
     }
 
     private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack itemStack) {
-        if (itemStack != null) {
-            root.addItemStack(itemStack);
-        }
+        root.addItemStack(itemStack);
     }
 
     @Override
@@ -228,59 +221,6 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
         return OUTPUT_ITEM_SLOTS;
     }
 
-    public ItemStack pushItem(BlockMenu blockMenu, ItemStack item, int... slots) {
-        if (item == null || item.getType() == Material.AIR) {
-            throw new IllegalArgumentException("Cannot push null or AIR");
-        }
-
-        ItemStackWrapper wrapper = null;
-        int amount = item.getAmount();
-
-        for (int slot : slots) {
-            if (amount <= 0) {
-                break;
-            }
-
-            ItemStack stack = blockMenu.getItemInSlot(slot);
-
-            if (stack == null) {
-                blockMenu.replaceExistingItem(slot, item);
-                item.setAmount(0);
-                return null;
-            } else {
-                int maxStackSize =
-                        Math.min(stack.getMaxStackSize(), blockMenu.toInventory().getMaxStackSize());
-                if (stack.getAmount() < maxStackSize) {
-                    if (wrapper == null) {
-                        wrapper = ItemStackWrapper.wrap(item);
-                    }
-
-                    if (SlimefunItem.getByItem(item) != null) {
-                        // Patch: use sf item check
-                        if (!SlimefunUtils.isItemSimilar(stack, wrapper, true, false)) {
-                            continue;
-                        }
-                    } else {
-                        // Use original check
-                        if (!ItemUtils.canStack(wrapper, stack)) {
-                            continue;
-                        }
-                    }
-
-                    amount -= (maxStackSize - stack.getAmount());
-                    stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), maxStackSize));
-                    item.setAmount(amount);
-                }
-            }
-        }
-
-        if (amount > 0) {
-            return new CustomItemStack(item, amount);
-        } else {
-            return null;
-        }
-    }
-
     @NotNull
     @Override
     public List<ItemStack> getDisplayRecipes() {
@@ -288,15 +228,8 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a ⇩运输机制⇩",
                 "",
-                "&e主要特性&f:",
-                "&f-&7 精确控制：根据指定输出物品",
-                "&f-&7 高效传输：物品按1:1比例从网络中输出",
-                "&f-&7 智能分配：自动填满输出槽直到达到最大堆叠或槽位已满",
-                "",
-                "&e使用方法&f:",
-                "&f-&7 放置物品到传输槽以指定输出物品类型和数量",
-                "&f-&7 通过设置调整传输频率，优化您的自动化需求同时考虑服务器性能",
-                "&f-&7 高级出口将自动处理指定输出物品，无需手动干预，降低玩家操作负担"));
+                "&e每 SF tick 尝试从网络中获取指定数量的输入槽内的所有物品并输出到输出槽"
+        ));
         return displayRecipes;
     }
 }
