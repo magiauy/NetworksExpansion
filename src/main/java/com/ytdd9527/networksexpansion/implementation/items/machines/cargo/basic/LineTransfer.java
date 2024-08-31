@@ -44,7 +44,6 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
-    private static final ItemStack AIR = new ItemStack(Material.AIR);
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
             10,
@@ -76,7 +75,6 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     private static final int UP_SLOT = 2;
     private static final int DOWN_SLOT = 20;
     private static final String KEY_UUID = "display-uuid";
-    private static BukkitTask transferTask;
     private final HashMap<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
     private final HashMap<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
     private int maxDistance;
@@ -92,12 +90,6 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
             this.getSlotsToDrop().add(slot);
         }
         loadConfigurations(itemId);
-    }
-
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
     }
 
     private void loadConfigurations(String itemId) {
@@ -132,36 +124,36 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         }
     }
 
-    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryPushItem(blockMenu);
-        }
-    }
-
-    private void performGrabItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryGrabItem(blockMenu);
-        }
-    }
-
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
+        final Location location = block.getLocation();
 
-        final Location location = blockMenu.getLocation();
-        int tryPushItemtick = getPushTickCounter(location);
-        if (tryPushItemtick == 0) {
-            performPushItemOperation(blockMenu);
+        if (blockMenu == null) {
+            return;
         }
-        tryPushItemtick = (tryPushItemtick + 1) % pushItemTick;
-        updatePushTickCounter(location, tryPushItemtick);
 
-        int tryGrabItemtick = getGrabTickCounter(location);
-        if (tryGrabItemtick == 0) {
-            performGrabItemOperation(blockMenu);
+        if (pushItemTick != 1) {
+            int currentPushTick = getPushTickCounter(location);
+            if (currentPushTick == 0) {
+                tryPushItem(blockMenu);
+            }
+            currentPushTick = (currentPushTick + 1) % pushItemTick;
+            updatePushTickCounter(location, currentPushTick);
+        } else {
+            tryPushItem(blockMenu);
         }
-        tryGrabItemtick = (tryGrabItemtick + 1) % grabItemTick;
-        updateGrabTickCounter(location, tryGrabItemtick);
+
+        if (grabItemTick != 1) {
+            int currentGrabTick = getGrabTickCounter(location);
+            if (currentGrabTick == 0) {
+                tryGrabItem(blockMenu);
+            }
+            currentGrabTick = (currentGrabTick + 1) % grabItemTick;
+            updateGrabTickCounter(location, currentGrabTick);
+        } else {
+            tryGrabItem(blockMenu);
+        }
     }
 
     private int getPushTickCounter(Location location) {

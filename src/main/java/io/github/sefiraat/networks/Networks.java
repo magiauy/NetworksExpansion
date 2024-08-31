@@ -174,15 +174,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             queryQueue.scheduleAbort();
         }
         getLogger().info("已保存数据库信息！");
-        getLogger().info("正在结束任务...");
-        AbstractAutoCrafter.cancelCraftTask();
-        AbstractAdvancedAutoCrafter.cancelCraftTask();
-        AdvancedImport.cancelTransferTask();
-        LineTransfer.cancelTransferTask();
-        AdvancedLineTransfer.cancelTransferTask();
-        LineTransferGrabber.cancelTransferTask();
-        AdvancedLineTransferGrabber.cancelTransferTask();
-        getLogger().info("已结束任务！");
         getLogger().info("已安全禁用附属！");
     }
 

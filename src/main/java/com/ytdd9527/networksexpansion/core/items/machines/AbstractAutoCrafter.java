@@ -55,7 +55,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
     private static final int BLUEPRINT_SLOT = 10;
     private static final int OUTPUT_SLOT = 16;
     private static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
-    private static BukkitTask craftTask;
     private final int chargePerCraft;
     private final boolean withholding;
 
@@ -92,12 +91,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
                     }
                 }
         );
-    }
-
-    public static void cancelCraftTask() {
-        if (craftTask != null && !craftTask.isCancelled()) {
-            craftTask.cancel();
-        }
     }
 
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {

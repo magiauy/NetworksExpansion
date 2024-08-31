@@ -40,8 +40,6 @@ import java.util.function.Function;
 
 public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
     private static final String KEY_UUID = "display-uuid";
-    private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-    private static BukkitTask transferTask;
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
@@ -52,13 +50,6 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(itemId);
     }
-
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
-    }
-
     private void loadConfigurations(String itemId) {
         FileConfiguration config = Networks.getInstance().getConfig();
 
