@@ -166,13 +166,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         }
         getLogger().info("Database saved!");
         getLogger().info("Closing tasks...");
-        AbstractAutoCrafter.cancelCraftTask();
-        AbstractAdvancedAutoCrafter.cancelCraftTask();
-        AdvancedImport.cancelTransferTask();
-        LineTransfer.cancelTransferTask();
-        AdvancedLineTransfer.cancelTransferTask();
-        LineTransferGrabber.cancelTransferTask();
-        AdvancedLineTransferGrabber.cancelTransferTask();
         getLogger().info("Tasks closed!");
         getLogger().info("Dependencies safely disabled!");
     }
