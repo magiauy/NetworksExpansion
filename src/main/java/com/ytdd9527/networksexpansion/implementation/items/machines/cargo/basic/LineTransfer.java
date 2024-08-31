@@ -230,7 +230,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                     } else {
                         Boolean isMatch = cacheCompareResults.get(itemStack);
                         if (isMatch == null) {
-                            isMatch = StackUtils.itemsMatch(itemRequest, itemStack, true);
+                            isMatch = StackUtils.itemsMatch(itemRequest, itemStack);
                             cacheCompareResults.put(itemStack, isMatch);
                         }
                         if (isMatch) {

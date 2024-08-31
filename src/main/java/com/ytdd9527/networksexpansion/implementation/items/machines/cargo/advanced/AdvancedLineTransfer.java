@@ -262,7 +262,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                                 if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                     continue;
                                 }
-                                if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                     final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                     if (availableSpace > 0) {
                                         freeSpace += availableSpace;
@@ -313,7 +313,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                 continue;
                             }
-                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                 final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                                 if (space > 0) {
                                     itemRequest.setAmount(space);
@@ -348,7 +348,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                 continue;
                             }
-                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                 final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                                 if (space > 0) {
                                     itemRequest.setAmount(space);
@@ -383,7 +383,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                 continue;
                             }
-                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                 final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                                 if (space > 0) {
                                     itemRequest.setAmount(space);
@@ -416,7 +416,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                                 if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                     continue;
                                 }
-                                if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                     final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                     if (availableSpace > 0) {
                                         freeSpace += availableSpace;
@@ -448,7 +448,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                                         if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                             continue;
                                         }
-                                        if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                        if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                             final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                             if (availableSpace > 0) {
                                                 freeSpace += availableSpace;

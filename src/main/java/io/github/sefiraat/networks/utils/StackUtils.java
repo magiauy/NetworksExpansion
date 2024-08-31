@@ -47,6 +47,7 @@ import java.util.Optional;
 // @SuppressWarnings("deprecation")
 public class StackUtils {
     MinecraftVersion MC_VERSION = Slimefun.getMinecraftVersion();
+
     @Nonnull
     public static ItemStack getAsQuantity(@Nonnull ItemStack itemStack, int amount) {
         ItemStack clone = itemStack.clone();
@@ -179,30 +180,22 @@ public class StackUtils {
             return false;
         }
 
-        // Slimefun ID check no need to worry about distinction, covered in PDC + lore
-        final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(itemMeta);
-        final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(cachedMeta);
-        if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
-            return false;
-        }
-        if (optionalStackId1.isPresent()) {
-            return optionalStackId1.get().equals(optionalStackId2.get());
-        }
-
         // Check the display name
         if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
             return false;
         }
 
         // Check the lore
-        if (itemMeta.hasLore() && cachedMeta.hasLore()) {
-            if ((checkLore
-                    || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
-            ) && !Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+        if (checkLore
+                || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
+        ) {
+            if (itemMeta.hasLore() && cachedMeta.hasLore()) {
+                if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+                    return false;
+                }
+            } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
                 return false;
             }
-        } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
-            return false;
         }
 
         // Check the attribute modifiers
@@ -211,7 +204,7 @@ public class StackUtils {
         }
 
         if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
-            // Check if fire resistant
+            // Check if fire-resistant
             if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
                 return false;
             }
@@ -259,6 +252,16 @@ public class StackUtils {
             }
         }
 
+        // Slimefun ID check no need to worry about distinction, covered in PDC + lore
+        final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(itemMeta);
+        final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(cachedMeta);
+        if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
+            return false;
+        }
+        if (optionalStackId1.isPresent()) {
+            return optionalStackId1.get().equals(optionalStackId2.get());
+        }
+
         // Everything should match if we've managed to get here
         return true;
     }
@@ -267,13 +270,21 @@ public class StackUtils {
 
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
+            if (instanceOne.hasDamage() != instanceTwo.hasDamage()) {
+                return true;
+            }
+
             if (instanceOne.getDamage() != instanceTwo.getDamage()) {
                 return true;
             }
         }
 
         if (metaOne instanceof Repairable instanceOne && metaTwo instanceof Repairable instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
+            if (instanceOne.hasRepairCost() != instanceTwo.hasRepairCost()) {
+                return true;
+            }
+
+            if (instanceOne.getRepairCost() != instanceTwo.getRepairCost()) {
                 return true;
             }
         }
@@ -284,8 +295,9 @@ public class StackUtils {
                 return true;
             }
 
-            if (!instanceOne.hasVariant() || !instanceTwo.hasVariant())
+            if (!instanceOne.hasVariant() || !instanceTwo.hasVariant()) {
                 return true;
+            }
 
             if (instanceOne.getVariant() != instanceTwo.getVariant()) {
                 return true;
@@ -294,6 +306,10 @@ public class StackUtils {
 
         // Banner
         if (metaOne instanceof BannerMeta instanceOne && metaTwo instanceof BannerMeta instanceTwo) {
+            if (instanceOne.numberOfPatterns() != instanceTwo.numberOfPatterns()) {
+                return true;
+            }
+
             if (!instanceOne.getPatterns().equals(instanceTwo.getPatterns())) {
                 return true;
             }
@@ -301,14 +317,18 @@ public class StackUtils {
 
         // BlockData
         if (metaOne instanceof BlockDataMeta instanceOne && metaTwo instanceof BlockDataMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
+            if (instanceOne.hasBlockData() != instanceTwo.hasBlockData()) {
                 return true;
             }
         }
 
         // BlockState
         if (metaOne instanceof BlockStateMeta instanceOne && metaTwo instanceof BlockStateMeta instanceTwo) {
-            if (!instanceOne.equals(instanceTwo)) {
+            if (instanceOne.hasBlockState() != instanceTwo.hasBlockState()) {
+                return true;
+            }
+
+            if (!instanceOne.getBlockState().equals(instanceTwo.getBlockState())) {
                 return true;
             }
         }
@@ -452,6 +472,10 @@ public class StackUtils {
 
         // Stew
         if (metaOne instanceof SuspiciousStewMeta instanceOne && metaTwo instanceof SuspiciousStewMeta instanceTwo) {
+            if (instanceOne.hasCustomEffects() != instanceTwo.hasCustomEffects()) {
+                return true;
+            }
+
             if (!Objects.equals(instanceOne.getCustomEffects(), instanceTwo.getCustomEffects())) {
                 return true;
             }
@@ -475,6 +499,10 @@ public class StackUtils {
 
         // Knowledge Book
         if (metaOne instanceof KnowledgeBookMeta instanceOne && metaTwo instanceof KnowledgeBookMeta instanceTwo) {
+            if (instanceOne.hasRecipes() != instanceTwo.hasRecipes()) {
+                return true;
+            }
+
             if (!Objects.equals(instanceOne.getRecipes(), instanceTwo.getRecipes())) {
                 return true;
             }
@@ -491,6 +519,10 @@ public class StackUtils {
         if (metaOne instanceof SpawnEggMeta instanceOne && metaTwo instanceof SpawnEggMeta instanceTwo) {
             if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
                 if (!Objects.equals(instanceOne.getSpawnedEntity(), instanceTwo.getSpawnedEntity())) {
+                    return true;
+                }
+            } else {
+                if (!instanceOne.getSpawnedType().equals(instanceTwo.getSpawnedType())) {
                     return true;
                 }
             }
@@ -516,6 +548,10 @@ public class StackUtils {
             if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
                 // Ominous Bottle
                 if (metaOne instanceof OminousBottleMeta instanceOne && metaTwo instanceof OminousBottleMeta instanceTwo) {
+                    if (instanceOne.hasAmplifier() != instanceTwo.hasAmplifier()) {
+                        return true;
+                    }
+
                     if (instanceOne.getAmplifier() != instanceTwo.getAmplifier()) {
                         return true;
                     }
