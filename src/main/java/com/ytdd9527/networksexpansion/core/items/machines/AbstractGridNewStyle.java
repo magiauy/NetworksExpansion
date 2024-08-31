@@ -473,7 +473,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         return !action.isRightClicked()
                 && request.getAmount() == 1
                 && cursor.getAmount() < cursor.getMaxStackSize()
-                && StackUtils.itemsMatch(request, cursor, true);
+                && StackUtils.itemsMatch(request, cursor);
     }
 
     @Override

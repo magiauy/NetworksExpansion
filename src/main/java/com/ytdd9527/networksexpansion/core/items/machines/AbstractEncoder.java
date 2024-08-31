@@ -95,6 +95,7 @@ public abstract class AbstractEncoder extends NetworkObject {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
+            sendDebugMessage(blockMenu.getLocation(), "No network found");
             return;
         }
 
@@ -103,6 +104,7 @@ public abstract class AbstractEncoder extends NetworkObject {
 
         if (networkCharge < CHARGE_COST) {
             player.sendMessage(Theme.WARNING + "Not enough power in the network to complete ");
+            sendDebugMessage(blockMenu.getLocation(), "Network charge is not enough");
             return;
         }
 
@@ -110,6 +112,7 @@ public abstract class AbstractEncoder extends NetworkObject {
 
         if (!isValidBlueprint(blueprint)) {
             player.sendMessage(Theme.WARNING + "You need to provide a blueprint for the right blanks ");
+            sendDebugMessage(blockMenu.getLocation(), "Invalid blueprint");
             return;
         }
 
@@ -125,46 +128,53 @@ public abstract class AbstractEncoder extends NetworkObject {
         }
 
         ItemStack crafted = null;
+        ItemStack[] inp = inputs.clone();
 
-        Map.Entry<ItemStack[], ItemStack> lastEntry = null;
         for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
             if (getRecipeTester(inputs, entry.getKey())) {
                 crafted = new ItemStack(entry.getValue().clone());
-                lastEntry = entry;
+                inp = entry.getKey().clone();
                 break;
             }
         }
 
         if (crafted == null && canTestVanillaRecipe(inputs)) {
             crafted = Bukkit.craftItem(inputs.clone(), player.getWorld(), player);
+            for (int k = 0; k < RECIPE_SLOTS.length; k++) {
+                if (inputs[k] != null) {
+                    inp[k] = StackUtils.getAsQuantity(inputs[k], 1);
+                }
+            }
         }
 
         if (crafted == null || crafted.getType().isAir()) {
             player.sendMessage(Theme.WARNING + "This does not seem to be an active recipe ");
+            sendDebugMessage(blockMenu.getLocation(), "Invalid recipe");
             return;
         }
 
-        // 确保crafted不是AIR，避免NullPointerException
         if (crafted.getType().isAir()) {
             player.sendMessage(Theme.WARNING + "Doesn't look like this is a valid recipe.");
+            sendDebugMessage(blockMenu.getLocation(), "Encoded result is air");
             return;
         }
         final ItemStack blueprintClone = StackUtils.getAsQuantity(blueprint, 1);
 
-        blueprintSetter(blueprintClone, lastEntry.getKey(), crafted);
+        blueprintSetter(blueprintClone, inp, crafted);
         if (blockMenu.fits(blueprintClone, OUTPUT_SLOT)) {
             blueprint.setAmount(blueprint.getAmount() - 1);
             int j = 0;
             for (int recipeSlot : RECIPE_SLOTS) {
                 ItemStack slotItem = blockMenu.getItemInSlot(recipeSlot);
                 if (slotItem != null) {
-                    slotItem.setAmount(slotItem.getAmount() - lastEntry.getKey()[j].getAmount());
+                    slotItem.setAmount(slotItem.getAmount() - inp[j].getAmount());
                 }
                 j++;
             }
             blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
         } else {
             player.sendMessage(Theme.WARNING + "The output slot must be empty");
+            sendDebugMessage(blockMenu.getLocation(), "Output slot is full");
             return;
         }
 

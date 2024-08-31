@@ -168,7 +168,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                     if (itemStack == null || itemStack.getType().isAir()) {
                         freeSpace += clone.getMaxStackSize();
                     } else {
-                        if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                        if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                             final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                             if (availableSpace > 0) {
                                 freeSpace += availableSpace;

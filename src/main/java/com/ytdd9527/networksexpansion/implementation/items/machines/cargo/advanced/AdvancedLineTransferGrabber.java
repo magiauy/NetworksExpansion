@@ -28,7 +28,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -51,7 +50,6 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private static final int SHOW_SLOT = 37;
     private static final int ADD_SLOT = 38;
     private static final Map<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
-    private static BukkitTask transferTask;
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private int grabItemTick;
@@ -60,12 +58,6 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(configKey);
-    }
-
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
     }
 
     @Override

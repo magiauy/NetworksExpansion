@@ -83,7 +83,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
 
                 if (itemStack != null && itemStack.getType() != Material.AIR) {
                     final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
-                    if (space > 0 && StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                    if (space > 0 && StackUtils.itemsMatch(itemRequest, itemStack)) {
                         itemRequest.setAmount(space);
                     } else {
                         continue;

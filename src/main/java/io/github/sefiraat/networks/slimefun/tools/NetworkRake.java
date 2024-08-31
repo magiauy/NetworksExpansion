@@ -1,29 +1,8 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractEncoder;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedExport;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
-import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedPurger;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
-import io.github.sefiraat.networks.slimefun.network.NetworkCell;
-import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
-import io.github.sefiraat.networks.slimefun.network.NetworkExport;
-import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
-import io.github.sefiraat.networks.slimefun.network.NetworkImport;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
-import io.github.sefiraat.networks.slimefun.network.NetworkPowerDisplay;
-import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
-import io.github.sefiraat.networks.slimefun.network.NetworkVacuum;
-import io.github.sefiraat.networks.slimefun.network.NetworkWirelessReceiver;
-import io.github.sefiraat.networks.slimefun.network.NetworkWirelessTransmitter;
-import io.github.sefiraat.networks.slimefun.network.grid.AbstractGrid;
-import io.github.sefiraat.networks.slimefun.network.pusher.AbstractNetworkPusher;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -43,9 +22,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 public class NetworkRake extends LimitedUseItem {
 
@@ -53,32 +30,9 @@ public class NetworkRake extends LimitedUseItem {
 
     private static final NamespacedKey key = Keys.newKey("uses");
 
-    private final Set<Class<? extends NetworkObject>> viableObjects = new HashSet<>();
-
     public NetworkRake(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int amount) {
         super(itemGroup, item, recipeType, recipe);
         setMaxUseCount(amount);
-        viableObjects.add(NetworkBridge.class);
-        viableObjects.add(NetworkImport.class);
-        viableObjects.add(NetworkExport.class);
-        viableObjects.add(NetworkWirelessTransmitter.class);
-        viableObjects.add(NetworkWirelessReceiver.class);
-        viableObjects.add(NetworkCell.class);
-        viableObjects.add(NetworkGreedyBlock.class);
-        viableObjects.add(NetworkPowerDisplay.class);
-        viableObjects.add(NetworkPowerNode.class);
-        viableObjects.add(NetworkVacuum.class);
-        viableObjects.add(AdvancedExport.class);
-        viableObjects.add(AdvancedImport.class);
-        viableObjects.add(AdvancedGreedyBlock.class);
-        viableObjects.add(AdvancedPurger.class);
-        viableObjects.add(NetworkDirectional.class);
-        viableObjects.add(AbstractNetworkPusher.class);
-        viableObjects.add(AbstractAutoCrafter.class);
-        viableObjects.add(AbstractAdvancedAutoCrafter.class);
-        viableObjects.add(AbstractEncoder.class);
-        viableObjects.add(AbstractGrid.class);
-        viableObjects.add(AbstractGridNewStyle.class);
     }
 
     @Override
@@ -105,7 +59,7 @@ public class NetworkRake extends LimitedUseItem {
             final Player player = e.getPlayer();
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             if (slimefunItem != null
-                    && viableObjects.contains(slimefunItem.getClass())
+                    && slimefunItem instanceof NetworkObject
                     && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)
             ) {
                 final BlockBreakEvent event = new BlockBreakEvent(block, player);

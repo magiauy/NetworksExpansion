@@ -166,7 +166,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             if (isBlacklisted(itemStack)) {
                 continue;
             }
-            if (StackUtils.itemsMatch(cache, itemStack, false)) {
+            if (StackUtils.itemsMatch(cache, itemStack)) {
                 int leftover = cache.increaseAmount(itemStack.getAmount());
                 itemStack.setAmount(leftover);
             }
@@ -200,7 +200,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
             if (output != null
                     && !output.getType().isAir()
-                    && StackUtils.itemsMatch(cache, output, true)
+                    && StackUtils.itemsMatch(cache, output)
             ) {
                 // We have an output item we can use also
                 if (fetched == null || fetched.getType().isAir()) {
@@ -248,8 +248,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             itemStack.setItemMeta(itemMeta);
             itemStack.setAmount(1);
             menu.replaceExistingItem(ITEM_SLOT, itemStack);
-            //menu.setPlayerInventoryClickable(false);
-            //此代码不可交换在设置后
         }
     }
 
@@ -331,7 +329,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         if (output == null || output.getType().isAir()) {
             // No item in output, try output
             fetched = cache.withdrawItem();
-        } else if (StackUtils.itemsMatch(cache, output, true) && output.getAmount() < output.getMaxStackSize()) {
+        } else if (StackUtils.itemsMatch(cache, output) && output.getAmount() < output.getMaxStackSize()) {
             // There is an item, but it's not filled so lets top it up if we can
             final int requestAmount = output.getMaxStackSize() - output.getAmount();
             fetched = cache.withdrawItem(requestAmount);
@@ -531,7 +529,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             ItemStackCache storedItemCache = new ItemStackCache(storedItem);
 
 
-            if (StackUtils.itemsMatch(storedItemCache, item, true)) {
+            if (StackUtils.itemsMatch(storedItemCache, item)) {
                 int toAdd = Math.toIntExact(Math.min(item.getAmount(), capacity - cache.getAmount()));
                 if (toAdd > 0) {
 

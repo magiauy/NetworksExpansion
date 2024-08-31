@@ -26,7 +26,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,8 +39,6 @@ import java.util.function.Function;
 
 public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
     private static final String KEY_UUID = "display-uuid";
-    private static final ItemStack AIR = new CustomItemStack(Material.AIR);
-    private static BukkitTask transferTask;
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
@@ -51,12 +48,6 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     public LineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(itemId);
-    }
-
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
     }
 
     private void loadConfigurations(String itemId) {

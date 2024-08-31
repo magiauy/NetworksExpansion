@@ -29,7 +29,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -83,7 +82,6 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     private static final int TRANSPORT_LIMIT = 3456;
     private static final HashMap<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
     private static final HashMap<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
-    private static BukkitTask transferTask;
     private int maxDistance;
     private int pushItemTick;
     private int grabItemTick;
@@ -97,12 +95,6 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             this.getSlotsToDrop().add(slot);
         }
         loadConfigurations(configKey);
-    }
-
-    public static void cancelTransferTask() {
-        if (transferTask != null && !transferTask.isCancelled()) {
-            transferTask.cancel();
-        }
     }
 
     @Override
@@ -148,43 +140,35 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         }
     }
 
-    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryPushItem(blockMenu);
-        }
-    }
-
-    private void performGrabItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryGrabItem(blockMenu);
-        }
-    }
-
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
         final Location location = block.getLocation();
 
+        if (blockMenu == null) {
+            return;
+        }
+
         if (pushItemTick != 1) {
             int currentPushTick = getPushTickCounter(location);
             if (currentPushTick == 0) {
-                performPushItemOperation(blockMenu);
+                tryPushItem(blockMenu);
             }
             currentPushTick = (currentPushTick + 1) % pushItemTick;
             updatePushTickCounter(location, currentPushTick);
         } else {
-            performPushItemOperation(blockMenu);
+            tryPushItem(blockMenu);
         }
 
         if (grabItemTick != 1) {
             int currentGrabTick = getGrabTickCounter(location);
             if (currentGrabTick == 0) {
-                performGrabItemOperation(blockMenu);
+                tryGrabItem(blockMenu);
             }
             currentGrabTick = (currentGrabTick + 1) % grabItemTick;
             updateGrabTickCounter(location, currentGrabTick);
         } else {
-            performGrabItemOperation(blockMenu);
+            tryGrabItem(blockMenu);
         }
     }
 
@@ -262,7 +246,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                                 if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                     continue;
                                 }
-                                if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                     final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                     if (availableSpace > 0) {
                                         freeSpace += availableSpace;
@@ -313,7 +297,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                 continue;
                             }
-                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                 final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                                 if (space > 0) {
                                     itemRequest.setAmount(space);
@@ -348,7 +332,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                 continue;
                             }
-                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                 final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                                 if (space > 0) {
                                     itemRequest.setAmount(space);
@@ -383,7 +367,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                             if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                 continue;
                             }
-                            if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                            if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                 final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                                 if (space > 0) {
                                     itemRequest.setAmount(space);
@@ -416,7 +400,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                                 if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                     continue;
                                 }
-                                if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                     final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                     if (availableSpace > 0) {
                                         freeSpace += availableSpace;
@@ -448,7 +432,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                                         if (itemStack.getAmount() >= clone.getMaxStackSize()) {
                                             continue;
                                         }
-                                        if (StackUtils.itemsMatch(itemRequest, itemStack, true)) {
+                                        if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                                             final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
                                             if (availableSpace > 0) {
                                                 freeSpace += availableSpace;
