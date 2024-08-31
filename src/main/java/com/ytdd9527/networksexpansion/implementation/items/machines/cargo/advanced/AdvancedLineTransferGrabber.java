@@ -28,7 +28,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -60,6 +59,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(configKey);
     }
+
     @Override
     public boolean comeMaxLimit(int currentNumber) {
         return currentNumber > TRANSPORT_LIMIT;

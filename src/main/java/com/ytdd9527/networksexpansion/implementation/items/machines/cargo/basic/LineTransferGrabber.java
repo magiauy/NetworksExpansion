@@ -26,7 +26,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,6 +49,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
         loadConfigurations(itemId);
     }
+
     private void loadConfigurations(String itemId) {
         FileConfiguration config = Networks.getInstance().getConfig();
 
