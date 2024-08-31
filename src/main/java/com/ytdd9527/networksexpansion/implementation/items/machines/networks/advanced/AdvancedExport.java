@@ -286,17 +286,20 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a Transporting mechanism",
+                "&aTransporting mechanism",
                 "",
                 "&eMain feature&f:",
-                "&f-&7 Precise control: output items as filtered",
-                "&f-&7 Effective transport: items exported at a 1:1 ratio",
-                "&f-&7 Smart allocation: fills output slots until its full",
+                "&7Precise control: output items as filtered",
+                "&7Effective transport: items exported at a 1:1 ratio",
+                "&7Smart allocation: fills output slots until its full",
                 "",
                 "&eUsage&f:",
-                "&f-&7 Put item on the filter slot to filter the output item type and quantity",
-                "&f-&7 Optimize your automation, adjusting the transmission frequency through the settings to set the delay",
-                "&f-&7 Advance Export will automatically process without much manual operation from players"));
+                "&7Put item on the filter slot to filter the output",
+                "&7item type and quantity",
+                "&7Optimize your automation, adjusting the transportation",
+                "&7frequency through the settings to set the delay",
+                "&7Advance Export will automatically process without",
+                "&7much manual operation from players"));
         return displayRecipes;
     }
 }

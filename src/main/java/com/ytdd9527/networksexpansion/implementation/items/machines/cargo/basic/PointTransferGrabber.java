@@ -262,35 +262,33 @@ public class PointTransferGrabber extends NetworkDirectional implements RecipeDi
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩运行频率⇩",
+                "&aTransfer rate",
                 "",
-                "&e执行频率&f:",
-                "&f-&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once",
-                "&f-&7[&a1 SfTick=0.5s]",
+                "&7[&aGrab rate&7]&f:&7 Every &6" + grabItemTick + " SfTick &7Grab once",
+                "&7[&a1 SfTick=0.5s]",
                 "",
-                "&f-&7 简而言之，链式推送器不会频繁操作，从而保持服务器流畅"
+                "&7 Simply put, it works like a normal grabber"
         ));
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&aFeature",
                 "",
-                "&e抓取逻辑&f:",
-                "&f-&7[&a抓取物品&7]&f:&7将输出槽上的物品全部抓取进网络中",
-                "&f-&7 遇到的方块为空，或者",
-                "&f-&7 没有更多可抓取的物品,或没有足够网络空间",
-                "&f-&7 抓取将停止操作"
+                "&7[&aGrabber&7]&f:&7 Will grab all the item on the output slot",
+                "&7 If there is no findable machine it faced, or ",
+                "&7 no more item to grab, out of network space,",
+                "&7 The Point Grabber will stop"
         ));
         displayRecipes.add(AIR);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a⇩使用指南⇩",
+                "&aGuide",
                 "",
-                "&7对点传输器 [抓取] 效率最大化建议：",
+                "&7Point Grabber effeciency recommendation：",
                 "",
-                "&f-&7 请不要给输出物品少的机器使用",
-                "&f-&7 建议给一次性大量生产的机器使用 对点传输器 [抓取] ",
+                "&7Please do not use it for machines with small output items",
+                "&7Recommend to use it for large quantity output ",
                 "",
-                "&f-&7请遵循这些建议，您将能够最大化的工作效能，",
-                "&f-&7同时保持也可以服务器流畅运行"
+                "&7Follow these tips and you will be able to maximize your",
+                "&7performance while keep the server running smoothly."
         ));
         return displayRecipes;
     }

@@ -146,9 +146,9 @@ public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
                 "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
                 new ItemStack(Material.END_ROD),
                 Theme.MACHINE,
-                "Point Transfer Grabber",
+                "Point Grabber",
                 "Only supports Slimefun Machine",
-                "The point transfer will grab items ",
+                "The point grabber will grab items ",
                 "from a selected machine."
 );
 
@@ -254,10 +254,10 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Rand
                 "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER",
                 Enchanted(Material.OBSERVER),
                 Theme.MACHINE,
-                "Advance Network Line Pusher",
+                "Advanced Network Line Pusher",
                 "Only supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
-                "&6Default quantity per SF tick: &e64",
+                "&6Default quantity per SF tick: &e3456",
                 "Line pusher will push items through",
                 "a line of machines it facing.",
                 "&66 Changable Modes"
@@ -266,10 +266,10 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Ran
                 "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
                 Enchanted(Material.TARGET),
                 Theme.MACHINE,
-                "Advance Network Line Grabber",
+                "Advanced Network Line Grabber",
                 "Only supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
-                "&6Default quantity per SF tick: &e64",
+                "&6Default quantity per SF tick: &e3456",
                 "Line grabber will grab items through",
                 "a line of machines it facing.",
                 "&66 Changable Modes"
@@ -278,10 +278,10 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
                 "NTW_EXPANSION_ADVANCED_LINE_TRANSFER",
                 Enchanted(Material.PISTON),
                 Theme.MACHINE,
-                "Advance Network Line Transfer",
+                "Advanced Network Line Transfer",
                 "Only supports Slimefun Machine",
                 "&6Max distance: &e32 blocks",
-                "&6Default quantity per SF tick: &e64",
+                "&6Default quantity per SF tick: &e3456",
                 "Line transfer will grab and push items ",
                 "through a line of machines it facing.",
                 "&66 Changable Modes"
@@ -291,10 +291,10 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme
         "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER",
         Enchanted(Material.OBSERVER),
         Theme.MACHINE,
-        "Advance Network Line Pusher Plus",
+        "Advanced Network Line Pusher Plus",
         "Only supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
-        "&6Default quantity per SF tick: &e64",
+        "&6Default quantity per SF tick: &e3456",
         "Line pusher will push items through",
         "a line of machines it facing.",
         "&66 Changable Modes"
@@ -303,10 +303,10 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Them
         "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER",
         Enchanted(Material.TARGET),
         Theme.MACHINE,
-        "Advance Network Line Grabber Plus",
+        "Advanced Network Line Grabber Plus",
         "Only supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
-        "&6Default quantity per SF tick: &e64",
+        "&6Default quantity per SF tick: &e3456",
         "Line grabber will grab items through",
         "a line of machines it facing.",
         "&66 Changable Modes"
@@ -315,10 +315,10 @@ public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random
         "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS",
         Enchanted(Material.STICKY_PISTON),
         Theme.MACHINE,
-        "Advance Network Line Transfer Plus",
+        "Advanced Network Line Transfer Plus",
         "Only supports Slimefun Machine",
         "&6Max distance: &e64 blocks",
-        "&6Default quantity per SF tick: &e64",
+        "&6Default quantity per SF tick: &e3456",
         "Line transfer will grab and push items",
         "through a line of machines it facing.",
         "&66 Changable Modes"
@@ -635,6 +635,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.Rand
                 "a magic workbench to fabricate items",
                 "using magics and electricity",
                 "",
+                "Advanced auto crafter will craft items at a 1:1 ratio,",
+                "but dont try to exceed the vanilla stack limit.",
+                "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
 public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
@@ -650,6 +653,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING 
                 "a stack of the item in the output",
                 "slot and stop crafting.",
                 "",
+                "Advanced auto crafter will craft items at a 1:1 ratio,",
+                "but dont try to exceed the vanilla stack limit.",
+                "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
 public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.Random(
@@ -660,6 +666,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.Random(
                 "The Advanced Auto Armor Forge uses",
                 "an armor forge blueprint to create",
                 "slimefun armors.",
+                "",
+                "Advanced auto crafter will craft items at a 1:1 ratio,",
+                "but dont try to exceed the vanilla stack limit.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -676,6 +685,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = Th
                 "a stack of the item in the output",
                 "slot and stop crafting.",
                 "",
+                "Advanced auto crafter will craft items at a 1:1 ratio,",
+                "but dont try to exceed the vanilla stack limit.",
+                "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
 public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.Random(
@@ -686,6 +698,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.Random(
                 "The Advanced Auto Smeltery uses",
                 "a smeltery blueprint to cast a",
                 "metal ingot or an alloy.",
+                "",
+                "Advanced auto crafter will craft items at a 1:1 ratio,",
+                "but dont try to exceed the vanilla stack limit.",
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -702,6 +717,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY_WITHHOLDING = Theme
                 "a stack of the item in the output",
                 "slot and stop crafting.",
                 "",
+                "Advanced auto crafter will craft items at a 1:1 ratio,",
+                "but dont try to exceed the vanilla stack limit.",
+                "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
 public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Random(
@@ -712,6 +730,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Ra
         "The Advanced Auto Quantum Workbench uses",
         "a quantum worckbench blueprint to form",
         "quantum storages.",
+        "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -728,6 +749,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDIN
         "a stack of the item in the output",
         "slot and stop crafting.",
         "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
+        "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
 public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random(
@@ -738,6 +762,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random
         "The Advanced Auto Ancient Altar uses",
         "an ancient altar blueprint to compound",
         "the items.",
+        "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -754,6 +781,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = 
         "a stack of the item in the output",
         "slot and stop crafting.",
         "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
+        "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
 public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.Random(
@@ -764,6 +794,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.
         "The Advanced Auto Network Expansion Workbench",
         "uses a network expansion workbench blueprint",
         "to assemble the network items.",
+        "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -780,6 +813,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLD
         "a stack of the item in the output",
         "slot and stop crafting.",
         "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
+        "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );
 
@@ -791,6 +827,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE = Theme.Rando
         "The Advanced Auto Crafting Table uses",
         "a crafting blueprint to construct",
         "the items.",
+        "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
 );
@@ -806,6 +845,9 @@ public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING =
         "A Withholding Crafter will keep",
         "a stack of the item in the output",
         "slot and stop crafting.",
+        "",
+        "Advanced auto crafter will craft items at a 1:1 ratio,",
+        "but dont try to exceed the vanilla stack limit.",
         "",
         MessageFormat.format("{0}Network Power Consumption: {1}{2} per crafting", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
 );

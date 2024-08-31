@@ -233,12 +233,12 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                "&a Clearing Mechanism",
+                "&aClearing Mechanism",
                 "",
                 "&e&fFeature Description:",
-                "&f-&7 The advance network purger will remove items from the network",
-                "&f-&7 Constanly purges filtered items (in order)",
-                "&f-&7 Instantly voids items, use with great care!"
+                "&7The advance network purger will remove items from the network",
+                "&7Constanly purges filtered items (in order)",
+                "&7Instantly voids items, use with great care!"
         ));
         return displayRecipes;
     }
