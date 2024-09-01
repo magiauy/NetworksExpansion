@@ -67,7 +67,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
 
         GuideHistory guideHistory = playerProfile.getGuideHistory();
 
-        this.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(player));
+        this.addItem(BACK_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackButton(player)));
         this.addMenuClickHandler(BACK_SLOT, (pl, s, is, action) -> {
             if (action.isShiftClicked()) {
                 SlimefunGuide.openMainMenu(playerProfile, slimefunGuideMode, guideHistory.getMainMenuPage());
@@ -77,14 +77,14 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
             return false;
         });
 
-        this.addItem(RECIPE_TYPE, ItemStackUtil.cloneWithoutNBT(slimefunItem.getRecipeType().toItem()));
+        this.addItem(RECIPE_TYPE, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getRecipeType().toItem())));
         this.addMenuClickHandler(RECIPE_TYPE, (p, slot, item, action) -> {
             TypeItemGroup typeItemGroup = TypeItemGroup.getByRecipeType(slimefunItem.getRecipeType());
             typeItemGroup.open(player, playerProfile, slimefunGuideMode);
             return false;
         });
 
-        this.addItem(RECIPE_RESULT, ItemStackUtil.cloneWithoutNBT(slimefunItem.getRecipeOutput()));
+        this.addItem(RECIPE_RESULT, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getRecipeOutput())));
         this.addMenuClickHandler(RECIPE_RESULT, (p, slot, item, action) -> {
             CraftItemGroup craftItemGroup = CraftItemGroup.getBySlimefunItem(slimefunItem);
             craftItemGroup.open(player, playerProfile, slimefunGuideMode);
@@ -98,7 +98,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
             if (sfItem != null && !this.playerProfile.hasUnlocked(sfItem.getResearch())) {
                 icon = ChestMenuUtils.getNotResearchedItem();
             }
-            this.addItem(RECIPE_CONTENT[i], ItemStackUtil.cloneWithoutNBT(icon));
+            this.addItem(RECIPE_CONTENT[i], ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(icon)));
             this.addMenuClickHandler(RECIPE_CONTENT[i], (p, slot, item, action) -> {
                 RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(player, playerProfile, slimefunGuideMode, itemStack);
                 if (recipeItemGroup != null) {
@@ -112,12 +112,12 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
         this.addMenuClickHandler(INFO_SLOT, ChestMenuUtils.getEmptyClickHandler());
 
         for (int slot : BORDER) {
-            this.addItem(slot, ChestMenuUtils.getBackground());
+            this.addItem(slot, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackground()));
             this.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         }
 
         if (slimefunItem instanceof RecipeDisplayItem recipeDisplayItem && recipeDisplayItem.getDisplayRecipes().size() > 0) {
-            this.addItem(this.WORK_BUTTON, Icon.RECIPE_ICON);
+            this.addItem(this.WORK_BUTTON, ItemStackUtil.getCleanItem(Icon.RECIPE_ICON));
             this.addMenuClickHandler(this.WORK_BUTTON, (p, slot, item, action) -> {
                 ChestMenu chestMenu = this.setupWorkContent(page);
                 if (chestMenu != null) {
@@ -126,7 +126,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                 return false;
             });
         } else {
-            this.addItem(this.WORK_BUTTON, ChestMenuUtils.getBackground());
+            this.addItem(this.WORK_BUTTON, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackground()));
             this.addMenuClickHandler(this.WORK_BUTTON, ChestMenuUtils.getEmptyClickHandler());
         }
     }
@@ -137,13 +137,13 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
             ChestMenu chestMenu = new ChestMenu(this.slimefunItem.getItemName());
 
             for (int slot : WORK_BORDER) {
-                chestMenu.addItem(slot, ChestMenuUtils.getBackground());
+                chestMenu.addItem(slot, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackground()));
                 chestMenu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
             }
 
             List<ItemStack> displayRecipes = recipeDisplayItem.getDisplayRecipes();
 
-            chestMenu.addItem(WORK_BACK_SLOT, ChestMenuUtils.getBackButton(player));
+            chestMenu.addItem(WORK_BACK_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackButton(player)));
             chestMenu.addMenuClickHandler(WORK_BACK_SLOT, (p, slot, item, action) -> {
                 GuideHistory guideHistory = playerProfile.getGuideHistory();
                 GuideUtil.removeLastEntry(guideHistory);
@@ -153,7 +153,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                 return false;
             });
 
-            chestMenu.addItem(WORK_PREVIOUS_SLOT, ChestMenuUtils.getPreviousButton(this.player, page, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1));
+            chestMenu.addItem(WORK_PREVIOUS_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getPreviousButton(this.player, page, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1)));
             chestMenu.addMenuClickHandler(WORK_PREVIOUS_SLOT, (p, slot, item, action) -> {
                 ChestMenu menu = this.setupWorkContent(Math.max(page - 1, 1));
                 if (menu != null) {
@@ -162,7 +162,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                 return false;
             });
 
-            chestMenu.addItem(WORK_NEXT_SLOT, ChestMenuUtils.getNextButton(this.player, page, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1));
+            chestMenu.addItem(WORK_NEXT_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getNextButton(this.player, page, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1)));
             chestMenu.addMenuClickHandler(WORK_NEXT_SLOT, (p, slot, item, action) -> {
                 ChestMenu menu = this.setupWorkContent(Math.min(page + 1, (displayRecipes.size() - 1) / WORK_CONTENT.length + 1));
                 if (menu != null) {
@@ -181,7 +181,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                     if (slimefunItem != null && !this.playerProfile.hasUnlocked(slimefunItem.getResearch())) {
                         icon = ChestMenuUtils.getNotResearchedItem();
                     }
-                    chestMenu.addItem(WORK_CONTENT[i], ItemStackUtil.cloneWithoutNBT(icon));
+                    chestMenu.addItem(WORK_CONTENT[i], ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(icon)));
                     chestMenu.addMenuClickHandler(WORK_CONTENT[i], (p, slot, item, action) -> {
                         RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(this.player, this.playerProfile, this.slimefunGuideMode, itemStack);
                         if (recipeItemGroup != null) {
@@ -190,7 +190,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                         return false;
                     });
                 } else {
-                    chestMenu.addItem(WORK_CONTENT[i], null);
+                    chestMenu.addItem(WORK_CONTENT[i], ItemStackUtil.getCleanItem(null));
                     chestMenu.addMenuClickHandler(WORK_CONTENT[i], ChestMenuUtils.getEmptyClickHandler());
                 }
             }
