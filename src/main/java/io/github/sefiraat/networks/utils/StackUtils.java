@@ -162,7 +162,7 @@ public class StackUtils {
                 return false;
             }
         } else if (hasCustomTwo) {
-            return false;
+           return false;
         }
 
         // PDCs don't match
@@ -199,7 +199,13 @@ public class StackUtils {
         }
 
         // Check the attribute modifiers
-        if (!Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
+        final boolean hasAttributeOne = itemMeta.hasAttributeModifiers();
+        final boolean hasAttributeTwo = cachedMeta.hasAttributeModifiers();
+        if (hasAttributeOne) {
+            if (!hasAttributeTwo ||!Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
+                return false;
+            }
+        } else if (hasAttributeTwo) {
             return false;
         }
 
@@ -220,7 +226,13 @@ public class StackUtils {
             }
 
             // Check rarity
-            if (!Objects.equals(itemMeta.getRarity(), cachedMeta.getRarity())) {
+            final boolean hasRarityOne = itemMeta.hasRarity();
+            final boolean hasRarityTwo = cachedMeta.hasRarity();
+            if (hasRarityOne) {
+                if (!hasRarityTwo || itemMeta.getRarity() != cachedMeta.getRarity()) {
+                    return false;
+                }
+            } else if (hasRarityTwo) {
                 return false;
             }
 

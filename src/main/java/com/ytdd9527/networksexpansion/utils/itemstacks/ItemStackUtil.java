@@ -970,7 +970,6 @@ public final class ItemStackUtil {
         p.sendMessage(color("&7[&6NetworksExpansion&7] &r" + message));
     }
 
-    // TODO: package to a utility class
     public static ItemStack getPreEnchantedItemStack(Material material) {
         return getPreEnchantedItemStack(material, true);
     }
