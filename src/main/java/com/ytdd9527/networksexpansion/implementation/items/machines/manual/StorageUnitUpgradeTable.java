@@ -125,7 +125,12 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem {
                     }
                     out = CargoStorageUnit.bindId(out, id);
                 }
-                if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
+                SlimefunItemStack sfis = (SlimefunItemStack) out;
+                SlimefunItem sfi = SlimefunItem.getById(sfis.getItemId());
+                if (sfi != null && sfi.isDisabled()) {
+                    return;
+                }
+                if (itemInSlot == null || itemInSlot.getType().isAir()) {
                     menu.replaceExistingItem(outputSlot, out);
                 } else if (StackUtils.itemsMatch(itemInSlot, out)) {
                     if (itemInSlot.getAmount() + out.getAmount() <= itemInSlot.getMaxStackSize()) {

@@ -8,6 +8,7 @@ import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -116,6 +117,14 @@ public abstract class AbstractEncoder extends NetworkObject {
             return;
         }
 
+        SlimefunItemStack sfis = (SlimefunItemStack) blueprint;
+        SlimefunItem sfi = SlimefunItem.getById(sfis.getItemId());
+        if (sfi != null && sfi.isDisabled()) {
+            player.sendMessage(Theme.WARNING + "该蓝图已被禁用");
+            sendDebugMessage(blockMenu.getLocation(), "Blueprint is disabled");
+            return;
+        }
+
         // Get the recipe input
         final ItemStack[] inputs = new ItemStack[RECIPE_SLOTS.length];
         int i = 0;
@@ -135,6 +144,15 @@ public abstract class AbstractEncoder extends NetworkObject {
                 crafted = new ItemStack(entry.getValue().clone());
                 inp = entry.getKey().clone();
                 break;
+            }
+        }
+
+        if (crafted != null) {
+            final SlimefunItem sfi2 = SlimefunItem.getByItem(crafted);
+            if (sfi2 != null && sfi2.isDisabled()) {
+                player.sendMessage(Theme.WARNING + "该配方的输出已被禁用");
+                sendDebugMessage(blockMenu.getLocation(), "Output is disabled");
+                return;
             }
         }
 
