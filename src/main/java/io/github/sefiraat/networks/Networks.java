@@ -91,14 +91,15 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         instance = this;
 
-        environmentCheck();
         superHead();
+        environmentCheck();
         getLogger().info("正在获取配置信息...");
         saveDefaultConfig();
 
+        getLogger().info(Bukkit.getVersion());
         getLogger().info("尝试自动更新...");
         this.configManager = new ConfigManager();
-        // tryUpdate();
+        tryUpdate();
 
         this.supportedPluginManager = new SupportedPluginManager();
 
@@ -212,9 +213,11 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         try {
             MinecraftVersion envTest = MinecraftVersion.MINECRAFT_1_21;
         } catch (NoClassDefFoundError | NoSuchFieldError e) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 getLogger().severe("你需要更新 Slimefun4 才能正常运行本插件！");
             }
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
     }
 
