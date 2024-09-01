@@ -3,8 +3,10 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.manual;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -98,14 +100,14 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 menu.addMenuClickHandler(CRAFT_SLOT, (p, slot, item, action) -> {
-                    craft(menu);
+                    craft(p, menu);
                     return false;
                 });
             }
         };
     }
 
-    public void craft(@Nonnull BlockMenu menu) {
+    public void craft(@Nonnull Player player, @Nonnull BlockMenu menu) {
         final ItemStack[] inputs = new ItemStack[RECIPE_SLOTS.length];
         int i = 0;
 
@@ -116,30 +118,38 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
             i++;
         }
 
+        Map.Entry<ItemStack[], ItemStack> matchedEntry = null;
         ItemStack crafted = null;
 
         // Go through each recipe, test and set the ItemStack if found
         for (Map.Entry<ItemStack[], ItemStack> entry : RECIPES.entrySet()) {
             if (testRecipe(inputs, entry.getKey())) {
                 crafted = entry.getValue().clone();
+                matchedEntry = entry;
                 break;
             }
         }
 
         if (crafted != null) {
+            SlimefunItem sfi = SlimefunItem.getByItem(crafted);
+            if (sfi != null && sfi.isDisabled()) {
+                player.sendMessage(Theme.WARNING + "该物品已被禁用");
+                return;
+            }
             ItemStack itemInOutputSlot = menu.getItemInSlot(OUTPUT_SLOT);
             if (itemInOutputSlot != null && itemInOutputSlot.getType() != crafted.getType()) {
                 // Output slot is occupied by a different type of item
-                Block block = menu.getBlock();
-                Player player = (Player) block.getWorld().getPlayers().toArray()[0]; // Assume only one player is interacting
                 player.sendMessage(Theme.WARNING + "需要清空输出栏");
                 return;
             }
-            if (itemInOutputSlot != null && itemInOutputSlot.getType() == crafted.getType()) {
+            if (itemInOutputSlot != null && !itemInOutputSlot.getType().isAir()) {
+                if (!StackUtils.itemsMatch(itemInOutputSlot, crafted)) {
+                    player.sendMessage(Theme.WARNING + "输出槽位已有物品，请清空以继续制作");
+                    return;
+                }
+
                 int maxStackSize = crafted.getMaxStackSize();
                 if (itemInOutputSlot.getAmount() >= maxStackSize) {
-                    Block block = menu.getBlock();
-                    Player player = (Player) block.getWorld().getPlayers().toArray()[0];
                     player.sendMessage(Theme.WARNING + "输出槽位已满，请清空以继续制作");
                     return;
                 }
@@ -148,9 +158,10 @@ public class ExpansionWorkbench extends SpecialSlimefunItem {
             menu.pushItem(crafted, OUTPUT_SLOT);
 
             // Consume all the items in the recipe slots
-            for (int recipeSlot : RECIPE_SLOTS) {
+            for (int j = 0; j < 9; j++) {
+                int recipeSlot = RECIPE_SLOTS[j];
                 if (menu.getItemInSlot(recipeSlot) != null) {
-                    menu.consumeItem(recipeSlot, 1, true);
+                    menu.consumeItem(recipeSlot, matchedEntry.getKey()[j].getAmount(), true);
                 }
             }
         }
