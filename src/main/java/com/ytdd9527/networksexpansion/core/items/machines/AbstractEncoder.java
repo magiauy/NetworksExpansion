@@ -117,8 +117,7 @@ public abstract class AbstractEncoder extends NetworkObject {
             return;
         }
 
-        SlimefunItemStack sfis = (SlimefunItemStack) blueprint;
-        SlimefunItem sfi = SlimefunItem.getById(sfis.getItemId());
+        SlimefunItem sfi = SlimefunItem.getByItem(blueprint);
         if (sfi != null && sfi.isDisabled()) {
             player.sendMessage(Theme.WARNING + "该蓝图已被禁用");
             sendDebugMessage(blockMenu.getLocation(), "Blueprint is disabled");
