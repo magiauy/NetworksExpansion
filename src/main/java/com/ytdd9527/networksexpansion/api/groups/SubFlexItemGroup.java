@@ -159,7 +159,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         chestMenu.setEmptySlotsClickable(false);
         chestMenu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));
 
-        chestMenu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(player));
+        chestMenu.addItem(BACK_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackButton(player)));
         chestMenu.addMenuClickHandler(1, (pl, s, is, action) -> {
             GuideHistory guideHistory = playerProfile.getGuideHistory();
             if (action.isShiftClicked()) {
@@ -170,7 +170,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(PREVIOUS_SLOT, ChestMenuUtils.getPreviousButton(player, this.page, (slimefunItemList.size() - 1) / MAIN_CONTENT_L.length + 1));
+        chestMenu.addItem(PREVIOUS_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getPreviousButton(player, this.page, (slimefunItemList.size() - 1) / MAIN_CONTENT_L.length + 1)));
         chestMenu.addMenuClickHandler(PREVIOUS_SLOT, (p, slot, item, action) -> {
             GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
             SubFlexItemGroup subFlexItemGroup = this.getByPage(Math.max(this.page - 1, 1));
@@ -178,7 +178,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(NEXT_SLOT, ChestMenuUtils.getNextButton(player, this.page, (slimefunItemList.size() - 1) / MAIN_CONTENT_L.length + 1));
+        chestMenu.addItem(NEXT_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getNextButton(player, this.page, (slimefunItemList.size() - 1) / MAIN_CONTENT_L.length + 1)));
         chestMenu.addMenuClickHandler(NEXT_SLOT, (p, slot, item, action) -> {
             GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
             SubFlexItemGroup subFlexItemGroup = this.getByPage(Math.min(this.page + 1, (slimefunItemList.size() - 1) / MAIN_CONTENT_L.length + 1));
@@ -186,11 +186,11 @@ public class SubFlexItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(ICON_SLOT, super.item);
+        chestMenu.addItem(ICON_SLOT, ItemStackUtil.getCleanItem(super.item));
         chestMenu.addMenuClickHandler(ICON_SLOT, ChestMenuUtils.getEmptyClickHandler());
 
         for (int slot : BORDER) {
-            chestMenu.addItem(slot, ChestMenuUtils.getBackground());
+            chestMenu.addItem(slot, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackground()));
             chestMenu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         }
 
@@ -204,7 +204,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
                     if (playerProfile.hasUnlocked(research)) {
                         ItemStack itemStack = ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem());
                         ItemStackUtil.addLoreToFirst(itemStack, "§7" + slimefunItem.getId());
-                        chestMenu.addItem(MAIN_CONTENT_L[i][j], itemStack);
+                        chestMenu.addItem(MAIN_CONTENT_L[i][j], ItemStackUtil.getCleanItem(itemStack));
                         chestMenu.addMenuClickHandler(MAIN_CONTENT_L[i][j], (p, slot, item, action) -> {
                             RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(player, playerProfile, slimefunGuideMode, slimefunItem.getItem());
                             if (recipeItemGroup != null) {
@@ -221,7 +221,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
                                 "§a> 点击解锁",
                                 "",
                                 "§7花费: §b" + research.getCost() + " 等级经验");
-                        chestMenu.addItem(MAIN_CONTENT_L[i][j], icon);
+                        chestMenu.addItem(MAIN_CONTENT_L[i][j], ItemStackUtil.getCleanItem(icon));
                         chestMenu.addMenuClickHandler(MAIN_CONTENT_L[i][j], (p, slot, item, action) -> {
                             PlayerPreResearchEvent event = new PlayerPreResearchEvent(player, research, slimefunItem);
                             Bukkit.getPluginManager().callEvent(event);

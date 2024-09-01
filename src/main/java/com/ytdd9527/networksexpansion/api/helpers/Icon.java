@@ -12,6 +12,6 @@ import org.bukkit.inventory.ItemStack;
  */
 public class Icon {
     public static final ItemStack BORDER_ICON = ChestMenuUtils.getBackground();
-    public static final ItemStack ERROR_ICON = new CustomItemStack(Material.BARRIER);
-    public static final ItemStack RECIPE_ICON = new CustomItemStack(Material.PAPER);
+    public static final ItemStack ERROR_ICON = new ItemStack(Material.BARRIER);
+    public static final ItemStack RECIPE_ICON = new ItemStack(Material.PAPER);
 }
