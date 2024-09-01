@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.api.groups;
 
 import com.ytdd9527.networksexpansion.utils.GuideUtil;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -99,7 +100,7 @@ public class MainItemGroup extends FlexItemGroup {
         chestMenu.setEmptySlotsClickable(false);
         chestMenu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));
 
-        chestMenu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(player));
+        chestMenu.addItem(BACK_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackButton(player)));
         chestMenu.addMenuClickHandler(BACK_SLOT, (pl, s, is, action) -> {
             GuideHistory guideHistory = playerProfile.getGuideHistory();
             if (action.isShiftClicked()) {
@@ -110,7 +111,7 @@ public class MainItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(PREVIOUS_SLOT, ChestMenuUtils.getPreviousButton(player, this.page, (this.fatherItemGroupList.size() - 1) / MAIN_CONTENT.length + 1));
+        chestMenu.addItem(PREVIOUS_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getPreviousButton(player, this.page, (this.fatherItemGroupList.size() - 1) / MAIN_CONTENT.length + 1)));
         chestMenu.addMenuClickHandler(PREVIOUS_SLOT, (p, slot, item, action) -> {
             GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
             MainItemGroup mainItemGroup = this.getByPage(Math.max(this.page - 1, 1));
@@ -118,7 +119,7 @@ public class MainItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(NEXT_SLOT, ChestMenuUtils.getNextButton(player, this.page, (this.fatherItemGroupList.size() - 1) / MAIN_CONTENT.length + 1));
+        chestMenu.addItem(NEXT_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getNextButton(player, this.page, (this.fatherItemGroupList.size() - 1) / MAIN_CONTENT.length + 1)));
         chestMenu.addMenuClickHandler(NEXT_SLOT, (p, slot, item, action) -> {
             GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
             MainItemGroup mainItemGroup = this.getByPage(Math.min(this.page + 1, (this.fatherItemGroupList.size() - 1) / MAIN_CONTENT.length + 1));
@@ -126,17 +127,17 @@ public class MainItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(ICON_SLOT, super.item);
+        chestMenu.addItem(ICON_SLOT, ItemStackUtil.getCleanItem(super.item));
         chestMenu.addMenuClickHandler(ICON_SLOT, ChestMenuUtils.getEmptyClickHandler());
 
         for (int slot : BORDER) {
-            chestMenu.addItem(slot, ChestMenuUtils.getBackground());
+            chestMenu.addItem(slot, ItemStackUtil.getCleanItem(ChestMenuUtils.getBackground()));
             chestMenu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i = this.page * MAIN_CONTENT.length - MAIN_CONTENT.length; i < this.page * MAIN_CONTENT.length; i++) {
             if (i < this.fatherItemGroupList.size() && i < this.sonItemGroupList.size()) {
-                chestMenu.addItem(MAIN_CONTENT[i % MAIN_CONTENT.length], this.fatherItemGroupList.get(i).getItem(player));
+                chestMenu.addItem(MAIN_CONTENT[i % MAIN_CONTENT.length], ItemStackUtil.getCleanItem(this.fatherItemGroupList.get(i).getItem(player)));
                 final int index = i;
                 chestMenu.addMenuClickHandler(MAIN_CONTENT[i % MAIN_CONTENT.length], (p, slot, item, action) -> {
                     ItemGroup itemGroup = this.fatherItemGroupList.get(index);
@@ -148,7 +149,7 @@ public class MainItemGroup extends FlexItemGroup {
 
                 List<ItemGroup> subItemGroupList = this.sonItemGroupList.get(i);
                 for (int j = 0; j < subItemGroupList.size(); j++) {
-                    chestMenu.addItem(SUB_CONTENT[i % MAIN_CONTENT.length][j], subItemGroupList.get(j).getItem(player));
+                    chestMenu.addItem(SUB_CONTENT[i % MAIN_CONTENT.length][j], ItemStackUtil.getCleanItem(subItemGroupList.get(j).getItem(player)));
                     final int subIndex = j;
                     chestMenu.addMenuClickHandler(SUB_CONTENT[i % MAIN_CONTENT.length][j], (p, slot, item, action) -> {
                         ItemGroup itemGroup = subItemGroupList.get(subIndex);

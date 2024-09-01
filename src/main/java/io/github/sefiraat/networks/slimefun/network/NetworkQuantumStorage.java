@@ -618,7 +618,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     private QuantumCache createCache(@Nullable ItemStack itemStack, @Nonnull BlockMenu menu, int amount, int maxAmount, boolean voidExcess, boolean supportsCustomMaxAmount) {
         if (itemStack == null || itemStack.getType().isAir() || isDisplayItem(itemStack)) {
-            menu.addItem(ITEM_SLOT, NO_ITEM);
+            menu.addItem(ITEM_SLOT, ItemStackUtil.getCleanItem(NO_ITEM));
             return new QuantumCache(null, 0, maxAmount, true, this.supportsCustomMaxAmount);
         } else {
             final ItemStack clone = itemStack.clone();

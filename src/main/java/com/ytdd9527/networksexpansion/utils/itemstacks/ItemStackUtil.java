@@ -49,6 +49,20 @@ public final class ItemStackUtil {
         return item instanceof ItemStackWrapper ? new ItemStack(item) : item.clone();
     }
 
+    public static ItemStack getCleanItem(@Nullable ItemStack item) {
+        if (item == null) {
+            return new ItemStack(Material.AIR);
+        }
+
+        ItemStack cleanItem = new ItemStack(item.getType());
+        cleanItem.setAmount(item.getAmount());
+        if (item.hasItemMeta()) {
+            cleanItem.setItemMeta(item.getItemMeta());
+        }
+
+        return cleanItem;
+    }
+
     /**
      * Clone an #{@link ItemStack}
      *
@@ -956,7 +970,6 @@ public final class ItemStackUtil {
         p.sendMessage(color("&7[&6NetworksExpansion&7] &r" + message));
     }
 
-    // TODO: package to a utility class
     public static ItemStack getPreEnchantedItemStack(Material material) {
         return getPreEnchantedItemStack(material, true);
     }

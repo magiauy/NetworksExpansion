@@ -96,7 +96,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
         getLogger().info("Trying to automatically update...");
         this.configManager = new ConfigManager();
-        // tryUpdate();
+        tryUpdate();
 
         this.supportedPluginManager = new SupportedPluginManager();
 
