@@ -67,6 +67,11 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
     public StorageUnitUpgradeTableModel(
             ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
+        for (int slot : inputSlots) {
+            this.getSlotsToDrop().add(slot);
+        }
+
+        this.getSlotsToDrop().add(outputSlot);
 
         new BlockMenuPreset(this.getId(), this.getItemName()) {
 
@@ -83,7 +88,7 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
                     @Override
                     public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
                         ItemStack itemInSlot = e.getInventory().getItem(slot);
-                        return (cursor == null || cursor.getType() == Material.AIR) && (itemInSlot == null || itemInSlot.getType() != Material.BARRIER);
+                        return (cursor == null || cursor.getType().isAir()) && (itemInSlot == null || itemInSlot.getType() != Material.BARRIER);
                     }
 
                     @Override
@@ -96,14 +101,14 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
             @Override
             public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(actionBtnSlot, ((p, slot, item, action) -> {
-                    craft(menu);
+                    craft(p, menu);
                     return false;
                 }));
                 menu.replaceExistingItem(actionBtnSlot, actionBtn);
             }
 
             @Override
-            public boolean canOpen(Block b, Player p) {
+            public boolean canOpen(@NotNull Block b, @NotNull Player p) {
                 return p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
             }
 
@@ -143,7 +148,7 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
 
     }
 
-    private void craft(BlockMenu menu) {
+    private void craft(Player p, BlockMenu menu) {
         for (Map.Entry<ItemStack[], ItemStack> each : recipes.entrySet()) {
             if (match(menu, each.getKey())) {
                 ItemStack itemInSlot = menu.getItemInSlot(outputSlot);
@@ -171,6 +176,7 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
                 SlimefunItemStack sfis = (SlimefunItemStack) out;
                 SlimefunItem sfi = SlimefunItem.getById(sfis.getItemId());
                 if (sfi != null && sfi.isDisabled()) {
+                    sendDebugMessage(menu.getLocation(), "Output item is disabled");
                     return;
                 }
                 if (itemInSlot == null || itemInSlot.getType().isAir()) {
@@ -179,16 +185,23 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
                     if (itemInSlot.getAmount() + out.getAmount() <= itemInSlot.getMaxStackSize()) {
                         itemInSlot.setAmount(itemInSlot.getAmount() + out.getAmount());
                     } else {
+                        sendDebugMessage(menu.getLocation(), "Output slot is full");
                         return;
                     }
                 } else {
+                    sendDebugMessage(menu.getLocation(), "Output slot already contains different item");
                     return;
                 }
                 for (int slot : inputSlots) {
                     menu.consumeItem(slot);
                 }
+
+                return;
             }
         }
+
+        p.sendMessage("&c没有合适的配方");
+        sendDebugMessage(menu.getLocation(), "No matching recipe found");
     }
 
     private boolean match(BlockMenu menu, ItemStack[] recipe) {
