@@ -59,7 +59,7 @@ public final class ExpansionItemsMenus {
 
     // trophy
     public static final SubFlexItemGroup MAIN_MENU_TROPHY = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_MAIN_MENU_TROPHY", Material.RAW_GOLD_BLOCK, TextUtil.colorRandomString("Contribute"));
-    public static final SubFlexItemGroup SUB_MENU_AUTHOR = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_AUTHOR", Material.PLAYER_HEAD, TextUtil.colorRandomString("Author"));
+    public static final SubFlexItemGroup SUB_MENU_AUTHOR = GroupConfigUtil.getSubFlexItemGroup("NET_EXPANSION_SUB_MENU_AUTHOR", Material.NAME_TAG, TextUtil.colorRandomString("Author"));
 
     private static NamespacedKey getKey(String key) {
         return Keys.newKey(key);

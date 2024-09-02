@@ -20,7 +20,7 @@ public enum TransportMode {
             case NONE -> "Unlimited";
             case NULL_ONLY -> "Null Only";
             case NONNULL_ONLY -> "Non-Null Only";
-            case FIRST_ONLY -> "Frist Only";
+            case FIRST_ONLY -> "First Only";
             case LAST_ONLY -> "Last Only";
             case FIRST_STOP -> "First Stop";
             case LAZY -> "Lazy";
