@@ -32,7 +32,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.ShieldMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.inventory.meta.WritableBookMeta;
@@ -524,19 +523,6 @@ public class StackUtils {
         if (metaOne instanceof MusicInstrumentMeta instanceOne && metaTwo instanceof MusicInstrumentMeta instanceTwo) {
             if (!Objects.equals(instanceOne.getInstrument(), instanceTwo.getInstrument())) {
                 return true;
-            }
-        }
-
-        // Spawn Egg
-        if (metaOne instanceof SpawnEggMeta instanceOne && metaTwo instanceof SpawnEggMeta instanceTwo) {
-            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
-                if (!Objects.equals(instanceOne.getSpawnedEntity(), instanceTwo.getSpawnedEntity())) {
-                    return true;
-                }
-            } else {
-                if (!instanceOne.getSpawnedType().equals(instanceTwo.getSpawnedType())) {
-                    return true;
-                }
             }
         }
 
