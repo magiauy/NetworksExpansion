@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.core.items.unusable;
 
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.StringUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentCraftingBlueprintType;
@@ -36,14 +37,23 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
                 lore.add(Theme.PASSIVE + "Nothing");
                 continue;
             }
-            lore.add(Theme.PASSIVE + ChatColor.stripColor(item.getItemMeta().getDisplayName()));
+            ItemMeta recipeItemMeta = item.getItemMeta();
+            if (recipeItemMeta.hasDisplayName()) {
+                lore.add(Theme.PASSIVE + ChatColor.stripColor(recipeItemMeta.getDisplayName()));
+            } else {
+                lore.add(Theme.PASSIVE + StringUtils.toTitleCase(item.getType().name()));
+            }        
         }
 
         lore.add("");
         lore.add(Theme.CLICK_INFO + "Outputting");
 
-        lore.add(Theme.PASSIVE + ChatColor.stripColor(output.getItemMeta().getDisplayName()));
-
+        final ItemMeta outputMeta = output.getItemMeta();
+        if (outputMeta.hasDisplayName()) {
+            lore.add(Theme.PASSIVE + ChatColor.stripColor(outputMeta.getDisplayName()));
+        } else {
+            lore.add(Theme.PASSIVE + StringUtils.toTitleCase(output.getType().name()));
+        }
         itemMeta.setLore(lore);
 
         blueprint.setItemMeta(itemMeta);

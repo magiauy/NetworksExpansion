@@ -52,10 +52,10 @@ public class NetworkConfigurator extends SlimefunItem {
                                         ItemMeta itemMeta = e.getItem().getItemMeta();
                                         int amount = advancedDirectional.getCurrentNumber(blockMenu.getLocation());
                                         DataTypeMethods.setCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER, amount);
-                                        player.sendMessage(Theme.SUCCESS + "已保存传输数量为 " + amount);
+                                        player.sendMessage(Theme.SUCCESS + "The amount of saved transmission is " + amount);
                                         TransportMode transportMode = advancedDirectional.getCurrentTransportMode(blockMenu.getLocation());
                                         DataTypeMethods.setCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING, String.valueOf(transportMode));
-                                        player.sendMessage(Theme.SUCCESS + "已保存传输模式为 " + transportMode);
+                                        player.sendMessage(Theme.SUCCESS + "The transmission mode has been saved as " + transportMode);
                                         e.getItem().setItemMeta(itemMeta);
                                     }
                                     setConfigurator(directional, e.getItem(), blockMenu, player);
@@ -65,18 +65,18 @@ public class NetworkConfigurator extends SlimefunItem {
                                         Integer amount = DataTypeMethods.getCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER);
                                         if (amount != null) {
                                             advancedDirectional.setCurrentNumber(blockMenu.getLocation(), amount);
-                                            player.sendMessage(Theme.SUCCESS + "已设置传输数量为 " + amount);
+                                            player.sendMessage(Theme.SUCCESS + "The amount of transmission has been set to " + amount);
                                         }
                                         String transportMode = DataTypeMethods.getCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING);
                                         if (transportMode != null) {
                                             advancedDirectional.setTransportMode(blockMenu.getLocation(), TransportMode.valueOf(transportMode));
-                                            player.sendMessage(Theme.SUCCESS + "已设置传输模式为 " + transportMode);
+                                            player.sendMessage(Theme.SUCCESS + "The transmission mode has been set to " + transportMode);
                                         }
                                     }
                                     NetworkUtils.applyConfig(directional, e.getItem(), blockMenu, player);
                                 }
                             } else {
-                                player.sendMessage(Theme.ERROR + "你必须指向一个带方向选择的网络方块");
+                                player.sendMessage(Theme.ERROR + "Must target a directional Networks interface.");
                             }
                         }
                     }
@@ -91,7 +91,7 @@ public class NetworkConfigurator extends SlimefunItem {
             blockFace = AdvancedDirectional.getSelectedFace(blockMenu.getLocation());
         }
         if (blockFace == null) {
-            player.sendMessage(Theme.ERROR + "该方块没有指定朝向");
+            player.sendMessage(Theme.ERROR + "This directional does not yet have a direction set");
             return;
         }
 
@@ -115,6 +115,6 @@ public class NetworkConfigurator extends SlimefunItem {
 
         DataTypeMethods.setCustom(itemMeta, Keys.FACE, DataType.STRING, blockFace.name());
         itemStack.setItemMeta(itemMeta);
-        player.sendMessage(Theme.SUCCESS + "已复制设置");
+        player.sendMessage(Theme.SUCCESS + "Configuration copied.");
     }
 }

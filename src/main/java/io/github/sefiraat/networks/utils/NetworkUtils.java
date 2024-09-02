@@ -33,12 +33,12 @@ public class NetworkUtils {
         final String string = DataTypeMethods.getCustom(itemMeta, Keys.FACE, DataType.STRING);
 
         if (string == null) {
-            player.sendMessage(Theme.ERROR + "方向: " + Theme.PASSIVE + "未提供");
+            player.sendMessage(Theme.ERROR + "Direction: " + Theme.PASSIVE + "Not supplied");
             return;
         }
 
         directional.setDirection(blockMenu, BlockFace.valueOf(string));
-        player.sendMessage(Theme.ERROR + "方向: " + Theme.PASSIVE + "成功应用");
+        player.sendMessage(Theme.ERROR + "Direction: " + Theme.PASSIVE + "Successfully applied");
 
 
         if (directional.getItemSlots().length > 0) {
@@ -61,21 +61,21 @@ public class NetworkUtils {
                             final ItemStack stackClone = StackUtils.getAsQuantity(stack, 1);
                             stack.setAmount(stack.getAmount() - 1);
                             blockMenu.replaceExistingItem(directional.getItemSlots()[i], stackClone);
-                            player.sendMessage(Theme.SUCCESS + "物品 [" + i + "]: " + Theme.PASSIVE + "已添加到过滤器");
+                            player.sendMessage(Theme.SUCCESS + "Item [" + i + "]: " + Theme.PASSIVE + "Item added into filter");
                             worked = true;
                             break;
                         }
                     }
                     if (!worked) {
-                        player.sendMessage(Theme.WARNING + "物品 [" + i + "]: " + Theme.PASSIVE + "没有足够的物品填充过滤器");
+                        player.sendMessage(Theme.WARNING + "Item [" + i + "]: " + Theme.PASSIVE + "Not enough items to fill filter");
                     }
                 } else if (directional instanceof NetworkPusher) {
-                    player.sendMessage(Theme.WARNING + "物品 [" + i + "]: " + Theme.PASSIVE + "存储的配置中没有物品");
+                    player.sendMessage(Theme.WARNING + "Item [" + i + "]: " + Theme.PASSIVE + "No item in stored config");
                 }
                 i++;
             }
         } else {
-            player.sendMessage(Theme.WARNING + "物品: " + Theme.PASSIVE + "存储的配置中没有物品");
+            player.sendMessage(Theme.WARNING + "Item: " + Theme.PASSIVE + "No items in stored config");
         }
     }
 }

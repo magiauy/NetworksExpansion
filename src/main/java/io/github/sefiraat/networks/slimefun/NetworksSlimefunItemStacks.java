@@ -496,7 +496,7 @@ public class NetworksSlimefunItemStacks {
             new ItemStack(Material.WHITE_TERRACOTTA),
             Theme.STORAGE,
             "Network Quantum Storage (4K)",
-            "Stores " + NetworkQuantumStorage.getSizes()[0] + " items",
+            "Stores " + NetworkQuantumStorage.getSizes()[3] + " items",
             "",
             "Stores items in mass quantities within",
             "a quantum singularity."
@@ -507,7 +507,7 @@ public class NetworksSlimefunItemStacks {
             new ItemStack(Material.LIGHT_GRAY_TERRACOTTA),
             Theme.STORAGE,
             "Network Quantum Storage (32K)",
-            "Stores " + NetworkQuantumStorage.getSizes()[1] + " items",
+            "Stores " + NetworkQuantumStorage.getSizes()[4] + " items",
             "",
             "Stores items in mass quantities within",
             "a quantum singularity."
@@ -518,7 +518,7 @@ public class NetworksSlimefunItemStacks {
             new ItemStack(Material.GRAY_TERRACOTTA),
             Theme.STORAGE,
             "Network Quantum Storage (262K)",
-            "Stores " + NetworkQuantumStorage.getSizes()[2] + " items",
+            "Stores " + NetworkQuantumStorage.getSizes()[5] + " items",
             "",
             "Stores items in mass quantities within",
             "a quantum singularity."
@@ -529,7 +529,7 @@ public class NetworksSlimefunItemStacks {
             new ItemStack(Material.BROWN_TERRACOTTA),
             Theme.STORAGE,
             "Network Quantum Storage (2M)",
-            "Stores " + NetworkQuantumStorage.getSizes()[3] + " items",
+            "Stores " + NetworkQuantumStorage.getSizes()[6] + " items",
             "",
             "Stores items in mass quantities within",
             "a quantum singularity."
@@ -540,7 +540,7 @@ public class NetworksSlimefunItemStacks {
             new ItemStack(Material.BLACK_TERRACOTTA),
             Theme.STORAGE,
             "Network Quantum Storage (16M)",
-            "Stores " + NetworkQuantumStorage.getSizes()[4] + " items",
+            "Stores " + NetworkQuantumStorage.getSizes()[7] + " items",
             "",
             "Stores items in mass quantities within",
             "a quantum singularity."
@@ -551,7 +551,7 @@ public class NetworksSlimefunItemStacks {
             new ItemStack(Material.PURPLE_TERRACOTTA),
             Theme.STORAGE,
             "Network Quantum Storage (134M)",
-            "Stores " + NetworkQuantumStorage.getSizes()[5] + " items",
+            "Stores " + NetworkQuantumStorage.getSizes()[8] + " items",
             "",
             "Stores items in mass quantities within",
             "a quantum singularity."
@@ -562,7 +562,7 @@ public class NetworksSlimefunItemStacks {
             new ItemStack(Material.MAGENTA_TERRACOTTA),
             Theme.STORAGE,
             "Network Quantum Storage (1B)",
-            "Stores " + NetworkQuantumStorage.getSizes()[6] + " items",
+            "Stores " + NetworkQuantumStorage.getSizes()[9] + " items",
             "",
             "Stores items in mass quantities within",
             "a quantum singularity."
