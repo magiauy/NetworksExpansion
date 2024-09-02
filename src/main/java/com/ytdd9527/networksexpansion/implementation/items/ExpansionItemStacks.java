@@ -1388,7 +1388,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
     public static ItemStack SEFIRAAT_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_SEFIRAAT = Theme.Random(
             "NETWORKS_AUTHOR_SEFIRAAT",
-            SEFIRAAT_ITEMSTACK,
+            new ItemStack(Material.NAME_TAG),
             Theme.GUIDE,
             "Sefiraat",
             "Networks' author"
@@ -1396,7 +1396,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
     public static ItemStack YBW0014_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_YBW0014 = Theme.Random(
             "NETWORKS_CHINESE_LOCALIZATION_AUTHOR_YBW0014",
-            YBW0014_ITEMSTACK,
+            new ItemStack(Material.NAME_TAG),
             Theme.GUIDE,
             "ybw0014",
             "Networks Chinese Localization's author"
@@ -1404,7 +1404,7 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
     public static ItemStack YITOUDAIDAI_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_YITOUDAIDAI = Theme.Random(
             "NETWORKS_EXPANSION_AUTHOR_YITOUDAIDAI",
-            YITOUDAIDAI_ITEMSTACK,
+            new ItemStack(Material.NAME_TAG),
             Theme.GUIDE,
             "yitoudaidai",
             "Networks Expansion's author"
@@ -1412,12 +1412,25 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
     public static ItemStack TINALNESS_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_TINALNESS = Theme.Random(
             "NETWORKS_EXPANSION_AUTHOR_TINALNESS",
-            TINALNESS_ITEMSTACK,
+            new ItemStack(Material.NAME_TAG),
             Theme.GUIDE,
             "tinalness",
             "Networks Expansion's author"
     );
-
+    public static final SlimefunItemStack MODIFIER_MAGIAUY = Theme.Random(
+            "NETWORKS_EXPANSION_MODIFIER_MAGIAUY",
+            new ItemStack(Material.NAME_TAG),
+            Theme.GUIDE,
+            "Magiauy_VN",
+            "Networks Expansion's modifier for MeowSMP"
+    );
+    public static final SlimefunItemStack TRANSLATOR_SKYFATORY = Theme.Random(
+        "NETWORKS_EXPANSION_TRANSLATOR_SKYFATORY",
+        new ItemStack(Material.NAME_TAG),
+        Theme.GUIDE,
+        "Skyfatori",
+        "Networks Expansion's translator for MeowSMP"
+);
     static {
         try {
             SEFIRAAT_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACaeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgU2VmaXJhYXQifV0sInRleHQiOiIifXNxAH4ADgAAAANzcQB+AABzcQB+AAN1cQB+AAYAAAAEcQB+AAh0AAh1bmlxdWVJZHQABG5hbWV0AApwcm9wZXJ0aWVzdXEAfgAGAAAABHQADVBsYXllclByb2ZpbGV0ACQ0ZDY1MDllMi1kYTEyLTQyYTctOTk2YS01NjhiYWU0MTdmN2J0AAhTZWZpcmFhdHNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAABc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAADcQB+ACJ0AAh0ZXh0dXJlc3QABXZhbHVldAGcZXdvZ0lDSjBhVzFsYzNSaGJYQWlJRG9nTVRjeU1qTTBNRE16TmpFeU1Dd0tJQ0FpY0hKdlptbHNaVWxrSWlBNklDSTBaRFkxTURsbE1tUmhNVEkwTW1FM09UazJZVFUyT0dKaFpUUXhOMlkzWWlJc0NpQWdJbkJ5YjJacGJHVk9ZVzFsSWlBNklDSlRaV1pwY21GaGRDSXNDaUFnSW5OcFoyNWhkSFZ5WlZKbGNYVnBjbVZrSWlBNklIUnlkV1VzQ2lBZ0luUmxlSFIxY21WeklpQTZJSHNLSUNBZ0lDSlRTMGxPSWlBNklIc0tJQ0FnSUNBZ0luVnliQ0lnT2lBaWFIUjBjRG92TDNSbGVIUjFjbVZ6TG0xcGJtVmpjbUZtZEM1dVpYUXZkR1Y0ZEhWeVpTOWlZakkzTWpVNU1qUmxNRGxrTm1Jd1ltUm1OV0ZpT0RZMFpUWXpaamd3WldJNE9EQmlabUUyWm1VeFptRXhOMlk1Wm1SaU5qRmlZekZoWlRFeE1HUmlJZ29nSUNBZ2ZRb2dJSDBLZlE9PXQACXNpZ25hdHVyZXQCrHcraU9VYmpKUUxZRG9rTlU3YVkreVk1cStxMEZodWNoNEI0eW00Y1RqWGJHeEtPUUlaODFaUnhzTDdDR0dCVlVxampJMjFZbDRJaSs3aVBScjFPM1FMbXNlMGN4Tk1iVmxsV3UyZFg4TDlNTEhPUmZSbUp2M0FrVFdKZTlvNXZQb1JvVmtSOHhqbTRNQWJWQ3Rray80eVNKYlZ0UFJPaW96d2NtYm12UWpCRmFSbHIrV3pjeVhxdzkvOVBaL3NYd0hMQXlKRmZRWWdKcklla09JaUR4V1FXeDRDQmNnQUwrQ1NPaTkyRkRUazgyR3JYb01EaUJSRmhuaGdJQnFONSt2TW1leGVsRTJlSk1Pbi80L3FXV2dFY0FKZ2Jja1lQaDRublNoRkFLWnBVdmtwd1k2QS9DWG02bnRmTHcrOStuS3NmaUpRcWtpY0FXckExb21ZVEpPYjR2SmVEcG5EeUZuMVJLb3dnNWdHbjlOMzBRN1ZhRzkrMytReTRHRVh4SjVseTNoWVJzZjkxdFYrRm1GRkpmWTJjZWdVc0h5K0VVOWlBU1pqQ2hSY2tTQVNocmpyR1gxMkJQc2xaemx2Znk2WlNzWFhxNmYzOVhlVm5GbXZENmcyMk9takhLbWc4LzZja1FidkRaSkVoeFlYN0FLanNqaTdQcDl5RU4wRGE4aTFOR0hBdWNVS0hmcVNuNkZ0RTFjNlBmckhOWUVmT3c2eCtCRDJIejlnOFFvSElSRllPekZ3cGJBWkp5NWE4bkNxUWR6Y2hMTGpueG9sU0REZVEzZ1JWUVZPT3ltcFFBMUlXa3lyd3h0ZjFPTndBMVQxSXpGazUwUjdoNkNoWU1ZblRNNGVuakJvWFFtOUxkZEVHZVM3emtiTzZSK2VDVmZ3bmNyQXdnSTJNPXgAeA==");

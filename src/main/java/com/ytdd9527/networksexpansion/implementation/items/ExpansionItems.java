@@ -962,4 +962,17 @@ public class ExpansionItems {
             RecipeType.NULL,
             ExpansionRecipes.NULL
     );
+    public static final SpecialSlimefunItem MODIFIER_MAGIAUY = new AuthorHead(
+            ExpansionItemsMenus.MENU_TROPHY,
+            ExpansionItemStacks.MODIFIER_MAGIAUY,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL
+    );
+
+    public static final SpecialSlimefunItem TRANSLATOR_SKYFATORY = new AuthorHead(
+            ExpansionItemsMenus.MENU_TROPHY,
+            ExpansionItemStacks.TRANSLATOR_SKYFATORY,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL
+    );
 }
