@@ -988,8 +988,8 @@ public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
         new ItemStack(Material.BONE),
         Theme.TOOL,
         "Cargo Node Quick Tool",
-        "&aRight-click: Set the configuration of the cargo node it points to",
-        "&eSneak + Right-click: Load the configuration from the pointed cargo node",
+        "&aRight-click: Paste the configuration it faces",
+        "&eSneak + Right-click: Load the configuration to the tool",
         "",
         thanks,
         ""
