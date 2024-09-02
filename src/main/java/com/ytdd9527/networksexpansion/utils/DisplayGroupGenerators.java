@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.utils;
 
 import com.ytdd9527.networksexpansion.api.enums.Skins;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.Transformations;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
@@ -32,7 +33,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnitUpgradeTable",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -45,7 +46,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_1",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_1_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_1_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -58,7 +59,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_2",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_2_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_2_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -71,7 +72,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_3",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_3_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_3_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -84,7 +85,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_4",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_4_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_4_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -97,7 +98,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_5",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_5_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_5_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -110,7 +111,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_6",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_6_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_6_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -123,7 +124,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_7",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_7_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_7_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -136,7 +137,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_8",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_8_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_8_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -149,7 +150,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_9",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_9_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_9_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -162,7 +163,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_10",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_10_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_10_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -175,7 +176,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_11",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_11_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_11_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -188,7 +189,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_12",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_12_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_12_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -201,7 +202,7 @@ public final class DisplayGroupGenerators {
                 "StorageUnit_13",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(ExpansionItemStacks.CARGO_STORAGE_UNIT_13_MODEL))
+                        .setItemStack(ItemStackUtil.getCleanItem(ExpansionItemStacks.CARGO_STORAGE_UNIT_13_MODEL))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -214,7 +215,7 @@ public final class DisplayGroupGenerators {
                 "purge",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(BRIDGE_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_STACK))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -227,7 +228,7 @@ public final class DisplayGroupGenerators {
                 "cell",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(BRIDGE_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_STACK))
                         .setTransformation(Transformations.TWO.getTransformation())
                         .build(displayGroup)
         );
@@ -240,7 +241,7 @@ public final class DisplayGroupGenerators {
                 "powernode",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 0, 0))
-                        .setItemStack(new ItemStack(BRIDGE_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_STACK))
                         .setTransformation(Transformations.NE_MODEL_CAPACITOR_5.getTransformation())
                         .build(displayGroup)
         );
@@ -254,7 +255,7 @@ public final class DisplayGroupGenerators {
                 "bridge_1",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 0.65, 0))
-                        .setItemStack(new ItemStack(BRIDGE_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_STACK))
                         .setTransformation(Transformations.BRIDGE_1.getTransformation())
                         .build(displayGroup)
         );
@@ -262,7 +263,7 @@ public final class DisplayGroupGenerators {
                 "bridge_3",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 0.9, 0.3))
-                        .setItemStack(new ItemStack(BRIDGE_CORNER_RIM_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_CORNER_RIM_STACK))
                         .setTransformation(Transformations.BRIDGE_3.getTransformation())
                         .build(displayGroup)
         );
@@ -276,7 +277,7 @@ public final class DisplayGroupGenerators {
                 "bridge_2",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0))
-                        .setItemStack(new ItemStack(BRIDGE_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_STACK))
                         .setTransformation(Transformations.BRIDGE_2.getTransformation())
                         .build(displayGroup)
         );
@@ -289,7 +290,7 @@ public final class DisplayGroupGenerators {
                 "bridge_3",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0.4))
-                        .setItemStack(new ItemStack(BRIDGE_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_STACK))
                         .setTransformation(Transformations.BRIDGE_3.getTransformation())
                         .build(displayGroup)
         );
@@ -302,7 +303,7 @@ public final class DisplayGroupGenerators {
                 "bridge_4",
                 new ItemDisplayBuilder()
                         .setGroupParentOffset(new Vector(0, 1, 0.25))
-                        .setItemStack(new ItemStack(BRIDGE_CORNER_RIM_STACK))
+                        .setItemStack(ItemStackUtil.getCleanItem(BRIDGE_CORNER_RIM_STACK))
                         .setTransformation(Transformations.BRIDGE_3.getTransformation())
                         .build(displayGroup)
         );
