@@ -989,7 +989,7 @@ public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
         Theme.TOOL,
         "Cargo Node Quick Tool",
         "&aRight-click: Apply config",
-        "&eSneak + Right-click: Stor config",
+        "&eSneak + Right-click: Store config",
         "",
         thanks,
         ""
