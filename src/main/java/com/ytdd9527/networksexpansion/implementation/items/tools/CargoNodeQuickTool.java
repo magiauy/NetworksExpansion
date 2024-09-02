@@ -87,23 +87,23 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                         container.set(configKey, PersistentDataType.STRING, gson.toJson(blockData.getAllData()));
                         //update lore
                         List<String> lore = meta.getLore();
-                        lore.set(lore.size() - 1, ChatColor.BLUE + "物品: " + SlimefunItem.getById(blockData.getSfId()).getItemName());
+                        lore.set(lore.size() - 1, ChatColor.BLUE + "Item: " + SlimefunItem.getById(blockData.getSfId()).getItemName());
                         meta.setLore(lore);
                         tool.setItemMeta(meta);
-                        p.sendMessage(ChatColor.GREEN + "加载成功");
+                        p.sendMessage(ChatColor.GREEN + "Loaded Successfully");
                         return;
                     default:
-                        p.sendMessage(ChatColor.RED + "请指向一个货运节点");
+                        p.sendMessage(ChatColor.RED + "Please look at a Cargo Node");
                 }
             } else {
                 //process to set config to target
                 String storedId = container.get(cargoKey, PersistentDataType.STRING);
                 if (storedId == null) {
-                    p.sendMessage(ChatColor.RED + "请先加载一个配置");
+                    p.sendMessage(ChatColor.RED + "Please add a configuration first");
                     return;
                 }
                 if (!storedId.equalsIgnoreCase(blockData.getSfId())) {
-                    p.sendMessage(ChatColor.RED + "储存的配置种类与目标不一致");
+                    p.sendMessage(ChatColor.RED + "Stored configuration doesnt match to the object");
                     return;
                 }
                 BlockMenu inv = blockData.getBlockMenu();
@@ -178,10 +178,10 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                         );
                         config.forEach(blockData::setData);
                         inv.getPreset().newInstance(inv, bLoc);
-                        p.sendMessage(ChatColor.GREEN + "设置成功！");
+                        p.sendMessage(ChatColor.GREEN + "The configuration was successful!");
                         return;
                     default:
-                        p.sendMessage(ChatColor.RED + "请指向一个货运节点");
+                        p.sendMessage(ChatColor.RED + "Please look at a Cargo Node");
                 }
             }
         });
