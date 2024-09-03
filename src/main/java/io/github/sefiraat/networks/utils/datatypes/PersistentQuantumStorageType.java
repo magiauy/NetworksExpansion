@@ -1,7 +1,6 @@
 package io.github.sefiraat.networks.utils.datatypes;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import de.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
