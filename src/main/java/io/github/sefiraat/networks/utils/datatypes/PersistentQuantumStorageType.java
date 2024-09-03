@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.utils.datatypes;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
+import de.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
@@ -48,7 +49,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
         container.set(ITEM, DataType.ITEM_STACK, complex.getItemStack());
-        container.set(AMOUNT, DataType.LONG, complex.getAmount());
+        container.set(AMOUNT, DataType.INTEGER, complex.getAmount() > Integer.MAX_VALUE? Integer.MAX_VALUE : (int) complex.getAmount());
         container.set(MAX_AMOUNT, DataType.INTEGER, complex.getLimit());
         container.set(VOID, DataType.BOOLEAN, complex.isVoidExcess());
         container.set(SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, complex.supportsCustomMaxAmount());
@@ -59,7 +60,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
     @Nonnull
     public QuantumCache fromPrimitive(@Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
         final ItemStack item = primitive.get(ITEM, DataType.ITEM_STACK);
-        final long amount = primitive.get(AMOUNT, DataType.LONG);
+        final long amount = primitive.get(AMOUNT, DataType.INTEGER);
         final int limit = primitive.get(MAX_AMOUNT, DataType.INTEGER);
         final boolean voidExcess = primitive.get(VOID, DataType.BOOLEAN);
         final boolean supportsCustomMaxAmount = primitive.get(SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN);
