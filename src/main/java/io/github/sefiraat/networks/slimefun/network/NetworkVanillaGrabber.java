@@ -6,6 +6,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -131,9 +132,15 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
                 final ItemStack stack = brewerInventory.getContents()[i];
                 if (stack != null && stack.getType() == Material.POTION) {
                     final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
-                    if (potionMeta.getBasePotionData().getType() != PotionType.WATER) {
-                        grabItem(blockMenu, stack);
-                        break;
+                    if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+                        if (potionMeta.getBasePotionType() == PotionType.WATER) {
+                            grabItem(blockMenu, stack);
+                        }
+                    } else {
+                        if (potionMeta.getBasePotionData().getType() != PotionType.WATER) {
+                            grabItem(blockMenu, stack);
+                            break;
+                        }
                     }
                 }
             }
