@@ -709,7 +709,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&aParameter",
-                "&7Default mode: &6Frist Stop",
+                "&7Default mode: &6First Stop",
                 "&aChangable mode",
                 "&7Default quantity: &63456",
                 "&aChangable quantity"
