@@ -1427,8 +1427,8 @@ public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
             "Magiauy_VN",
             "Networks Expansion's modifier for MeowSMP"
     );
-    public static final SlimefunItemStack TRANSLATOR_SKYFATORY = Theme.Random(
-        "NETWORKS_EXPANSION_TRANSLATOR_SKYFATORY",
+    public static final SlimefunItemStack TRANSLATOR_SKYFATORI = Theme.Random(
+        "NETWORKS_EXPANSION_TRANSLATOR_SKYFATORI",
         new ItemStack(Material.NAME_TAG),
         Theme.GUIDE,
         "Skyfatori",

@@ -164,7 +164,7 @@ public class SetupUtil {
                 ExpansionItems.AUTHOR_YITOUDAIDAI.registerThis(),
                 ExpansionItems.AUTHOR_TINALNESS.registerThis(),
                 ExpansionItems.MODIFIER_MAGIAUY.registerThis(),
-                ExpansionItems.TRANSLATOR_SKYFATORY.registerThis()
+                ExpansionItems.TRANSLATOR_SKYFATORI.registerThis()
                 
         );
     }

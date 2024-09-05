@@ -969,9 +969,9 @@ public class ExpansionItems {
             ExpansionRecipes.NULL
     );
 
-    public static final SpecialSlimefunItem TRANSLATOR_SKYFATORY = new AuthorHead(
+    public static final SpecialSlimefunItem TRANSLATOR_SKYFATORI = new AuthorHead(
             ExpansionItemsMenus.MENU_TROPHY,
-            ExpansionItemStacks.TRANSLATOR_SKYFATORY,
+            ExpansionItemStacks.TRANSLATOR_SKYFATORI,
             RecipeType.NULL,
             ExpansionRecipes.NULL
     );
