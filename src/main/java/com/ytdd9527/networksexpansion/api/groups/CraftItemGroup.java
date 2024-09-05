@@ -55,7 +55,7 @@ public class CraftItemGroup extends FlexItemGroup {
     private Map<Integer, CraftItemGroup> pageMap = new LinkedHashMap<>();
 
     protected CraftItemGroup(NamespacedKey key, SlimefunItem slimefunItem) {
-        super(key, ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem()));
+        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.page = 1;
         this.slimefunItem = slimefunItem;
         this.slimefunItemList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class CraftItemGroup extends FlexItemGroup {
     }
 
     protected CraftItemGroup(NamespacedKey key, SlimefunItem slimefunItem, int page) {
-        super(key, ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem()));
+        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.page = page;
         this.slimefunItem = slimefunItem;
         this.slimefunItemList = new ArrayList<>();

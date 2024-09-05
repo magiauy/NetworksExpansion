@@ -4,6 +4,7 @@ import com.ytdd9527.networksexpansion.api.data.ItemAmountWrapper;
 import com.ytdd9527.networksexpansion.api.data.ItemWrapper;
 import com.ytdd9527.networksexpansion.utils.NetworksVersionedEnchantment;
 import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.nms.ItemNameAdapter;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -991,5 +992,11 @@ public final class ItemStackUtil {
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+    public static void removeDisabledSlimefunItems(List<List<SlimefunItem>> items) {
+        items.forEach(ItemStackUtil::removeDisabledSlimefunItem);
+    }
+    public static void removeDisabledSlimefunItem(List<SlimefunItem> items) {
+        items.removeIf(SlimefunItem::isDisabled);
     }
 }

@@ -35,13 +35,13 @@ public class RecipeItemGroup extends FlexItemGroup {
     private final int page;
 
     public RecipeItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem) {
-        super(key, ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem()));
+        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.id = slimefunItem.getId();
         this.page = 1;
     }
 
     public RecipeItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem, int page) {
-        super(key, ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem()));
+        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.id = slimefunItem.getId();
         this.page = page;
     }
