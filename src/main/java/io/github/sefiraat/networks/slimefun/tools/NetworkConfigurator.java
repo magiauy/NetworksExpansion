@@ -72,6 +72,8 @@ public class NetworkConfigurator extends SlimefunItem {
                                             advancedDirectional.setTransportMode(blockMenu.getLocation(), TransportMode.valueOf(transportMode));
                                             player.sendMessage(Theme.SUCCESS + "已设置传输模式为 " + transportMode);
                                         }
+                                        advancedDirectional.updateShowIcon(blockMenu.getLocation());
+                                        advancedDirectional.updateTransportModeIcon(blockMenu.getLocation());
                                     }
                                     NetworkUtils.applyConfig(directional, e.getItem(), blockMenu, player);
                                 }
