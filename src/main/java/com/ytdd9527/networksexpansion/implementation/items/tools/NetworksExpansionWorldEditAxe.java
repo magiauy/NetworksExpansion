@@ -33,10 +33,10 @@ public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
                     if (optional.isPresent()) {
                         final Location location = optional.get().getLocation();
                         if (player.isSneaking()) {
-                            NetworksMain.worldeditPos2(location);
+                            NetworksMain.worldeditPos2(player, location);
                             player.sendMessage(ChatColor.GREEN + "Set Pos2 to [World(" + location.getWorld().getName() + "), X(" + location.getBlockX() + "), Y(" + location.getBlockY() + "), Z(" + location.getBlockZ() + ")]");
                         } else {
-                            NetworksMain.worldeditPos1(location);
+                            NetworksMain.worldeditPos1(player, location);
                             player.sendMessage(ChatColor.GREEN + "Set Pos1 to [World(" + location.getWorld().getName() + "), X(" + location.getBlockX() + "), Y(" + location.getBlockY() + "), Z(" + location.getBlockZ() + ")]");
                         }
                     }
