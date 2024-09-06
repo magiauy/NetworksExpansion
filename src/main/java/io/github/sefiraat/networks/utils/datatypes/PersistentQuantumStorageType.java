@@ -48,7 +48,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
         container.set(ITEM, DataType.ITEM_STACK, complex.getItemStack());
-        container.set(AMOUNT, DataType.INTEGER, complex.getAmount() > Integer.MAX_VALUE? Integer.MAX_VALUE : (int) complex.getAmount());
+        container.set(AMOUNT, DataType.INTEGER, complex.getAmount() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) complex.getAmount());
         container.set(MAX_AMOUNT, DataType.INTEGER, complex.getLimit());
         container.set(VOID, DataType.BOOLEAN, complex.isVoidExcess());
         container.set(SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, complex.supportsCustomMaxAmount());

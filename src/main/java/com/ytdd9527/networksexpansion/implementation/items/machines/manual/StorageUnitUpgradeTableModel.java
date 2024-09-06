@@ -3,14 +3,14 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.manual;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
+import com.ytdd9527.networksexpansion.api.interfaces.ModelledItem;
+import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -47,7 +47,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class StorageUnitUpgradeTableModel extends NetworkObject {
+public class StorageUnitUpgradeTableModel extends SpecialSlimefunItem implements ModelledItem {
     private static final Map<ItemStack[], ItemStack> recipes = new HashMap<>();
     public final static RecipeType TYPE = new RecipeType(
             Keys.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
@@ -66,12 +66,7 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
 
     public StorageUnitUpgradeTableModel(
             ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
-        for (int slot : inputSlots) {
-            this.getSlotsToDrop().add(slot);
-        }
-
-        this.getSlotsToDrop().add(outputSlot);
+        super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(this.getId(), this.getItemName()) {
 
@@ -176,7 +171,6 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
                 SlimefunItemStack sfis = (SlimefunItemStack) out;
                 SlimefunItem sfi = SlimefunItem.getById(sfis.getItemId());
                 if (sfi != null && sfi.isDisabled()) {
-                    sendDebugMessage(menu.getLocation(), "Output item is disabled");
                     return;
                 }
                 if (itemInSlot == null || itemInSlot.getType().isAir()) {
@@ -185,11 +179,9 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
                     if (itemInSlot.getAmount() + out.getAmount() <= itemInSlot.getMaxStackSize()) {
                         itemInSlot.setAmount(itemInSlot.getAmount() + out.getAmount());
                     } else {
-                        sendDebugMessage(menu.getLocation(), "Output slot is full");
                         return;
                     }
                 } else {
-                    sendDebugMessage(menu.getLocation(), "Output slot already contains different item");
                     return;
                 }
                 for (int slot : inputSlots) {
@@ -201,7 +193,6 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
         }
 
         p.sendMessage("&c没有合适的配方");
-        sendDebugMessage(menu.getLocation(), "No matching recipe found");
     }
 
     private boolean match(BlockMenu menu, ItemStack[] recipe) {
@@ -245,6 +236,9 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
             public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
                 Location location = e.getBlock().getLocation();
                 removeDisplay(location);
+                BlockMenu menu = StorageCacheUtils.getMenu(location);
+                menu.dropItems(menu.getLocation(), inputSlots);
+                menu.dropItems(menu.getLocation(), outputSlot);
                 e.getBlock().setType(Material.AIR);
             }
         });
@@ -280,5 +274,14 @@ public class StorageUnitUpgradeTableModel extends NetworkObject {
             return null;
         }
         return DisplayGroup.fromUUID(uuid);
+    }
+
+    private BlockBreakHandler getBlockBreakHandler() {
+        return new BlockBreakHandler(false, false) {
+            @Override
+            public void onPlayerBreak(BlockBreakEvent event, ItemStack itemStack, List<ItemStack> drops) {
+
+            }
+        };
     }
 }

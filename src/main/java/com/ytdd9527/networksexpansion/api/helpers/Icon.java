@@ -1,7 +1,6 @@
 package com.ytdd9527.networksexpansion.api.helpers;
 
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

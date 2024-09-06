@@ -7,14 +7,14 @@ import com.ytdd9527.networksexpansion.api.data.ItemContainer;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.api.enums.QuickTransferMode;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
+import com.ytdd9527.networksexpansion.api.interfaces.ModelledItem;
+import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
-import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -25,6 +25,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -48,6 +50,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -61,7 +64,8 @@ import java.util.UUID;
 import java.util.function.Function;
 
 //TODO 对于一些复杂的逻辑，需要重构
-public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
+@SuppressWarnings({"deprecation", "unused"})
+public class CargoStorageUnit extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem {
 
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
     private static final Map<Location, QuickTransferMode> quickTransferModes = new HashMap<>();
@@ -83,9 +87,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
     private boolean useSpecialModel;
 
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType) {
-        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
-        this.getSlotsToDrop().add(QUANTUM_SLOT);
-        this.getSlotsToDrop().add(ITEM_CHOOSE_SLOT);
+        super(itemGroup, item, recipeType, recipe);
 
         this.sizeType = sizeType;
 
@@ -172,9 +174,7 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
     }
 
     public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
-        this.getSlotsToDrop().add(QUANTUM_SLOT);
-        this.getSlotsToDrop().add(ITEM_CHOOSE_SLOT);
+        super(itemGroup, item, recipeType, recipe);
 
         this.sizeType = sizeType;
 
@@ -665,7 +665,6 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
     }
 
 
-    @Override
     public void onPlace(@Nonnull BlockPlaceEvent e) {
         Location l = e.getBlock().getLocation();
         ItemStack itemInHand = e.getItemInHand();
@@ -731,7 +730,6 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
         addBlockInfo(l, id, a, b);
     }
 
-    @Override
     public void onBreak(@Nonnull BlockBreakEvent e) {
         Block b = e.getBlock();
         Location l = b.getLocation();
@@ -743,7 +741,11 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
 
         // Fix display didn't remove when break
         e.setCancelled(true);
-        super.onBreak(e);
+        BlockMenu menu = StorageCacheUtils.getMenu(l);
+        if (menu != null) {
+            menu.dropItems(l, QUANTUM_SLOT);
+            menu.dropItems(l, ITEM_CHOOSE_SLOT);
+        }
 
         // Remove data cache
         StorageUnitData data = storages.remove(l);
@@ -773,6 +775,20 @@ public class CargoStorageUnit extends NetworkObject implements DistinctiveItem {
             @Override
             public void tick(Block block, SlimefunItem item, Config conf) {
                 onTick(block);
+            }
+        });
+
+        addItemHandler(new BlockPlaceHandler(false) {
+            @Override
+            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+                onPlace(blockPlaceEvent);
+            }
+        });
+
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            public void onPlayerBreak(@NotNull BlockBreakEvent blockBreakEvent, @NotNull ItemStack itemStack, @NotNull List<ItemStack> list) {
+                onBreak(blockBreakEvent);
             }
         });
 

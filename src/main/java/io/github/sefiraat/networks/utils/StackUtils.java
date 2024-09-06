@@ -161,7 +161,7 @@ public class StackUtils {
                 return false;
             }
         } else if (hasCustomTwo) {
-           return false;
+            return false;
         }
 
         // PDCs don't match
@@ -201,7 +201,7 @@ public class StackUtils {
         final boolean hasAttributeOne = itemMeta.hasAttributeModifiers();
         final boolean hasAttributeTwo = cachedMeta.hasAttributeModifiers();
         if (hasAttributeOne) {
-            if (!hasAttributeTwo ||!Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
+            if (!hasAttributeTwo || !Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
                 return false;
             }
         } else if (hasAttributeTwo) {

@@ -8,7 +8,6 @@ import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
