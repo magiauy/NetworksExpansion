@@ -261,6 +261,9 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditPos1(Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
+        if (targetBlock == null) {
+            targetBlock = player.getLocation().getBlock();
+        }
         POS1 = targetBlock.getLocation();
         player.sendMessage(ChatColor.GREEN + "Set Pos1 to [World(" + POS1.getWorld().getName() + "), X(" + POS1.getBlockX() + "), Y(" + POS1.getBlockY() + "), Z(" + POS1.getBlockZ() + ")]");
     }
@@ -275,6 +278,9 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditPos2(Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
+        if (targetBlock == null) {
+            targetBlock = player.getLocation().getBlock();
+        }
         POS2 = targetBlock.getLocation();
         player.sendMessage(ChatColor.GREEN + "Set Pos2 to [World(" + POS2.getWorld().getName() + "), X(" + POS2.getBlockX() + "), Y(" + POS2.getBlockY() + "), Z(" + POS2.getBlockZ() + ")]");
     }
@@ -356,7 +362,7 @@ public class NetworksMain implements TabExecutor {
         player.sendMessage("Paste " + count + " blocks done in " + (System.currentTimeMillis() - currentMillSeconds) + "ms");
     }
 
-    public static void worldeditClear(Player player, boolean callHandler) {
+    public static void worldeditClear(Player player, boolean callHandler, boolean skipVanilla) {
         if (POS1 == null || POS2 == null) {
             player.sendMessage(ChatColor.RED + "Please select an area first!");
             return;
@@ -393,9 +399,12 @@ public class NetworksMain implements TabExecutor {
                                 );
                             });
                         }
+                        targetBlock.setType(Material.AIR);
                     }
                     BlockStorage.deleteLocationInfoUnsafely(targetBlock.getLocation(), true);
-                    targetBlock.setType(Material.AIR);
+                    if (!skipVanilla) {
+                        targetBlock.setType(Material.AIR);
+                    }
                     count += 1;
                 }
             }
@@ -869,15 +878,23 @@ public class NetworksMain implements TabExecutor {
                             worldeditPos2(player);
                         }
                         case "clear" -> {
-                            if (args.length == 3) {
+                            if (args.length == 4) {
                                 try {
                                     boolean callHandler = Boolean.parseBoolean(args[2]);
-                                    worldeditClear(player, callHandler);
+                                    boolean skipVanilla = Boolean.parseBoolean(args[3]);
+                                    worldeditClear(player, callHandler, skipVanilla);
+                                } catch (NumberFormatException e) {
+                                    player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "callHandler / skipVanilla"));
+                                }
+                            } else if (args.length == 3) {
+                                try {
+                                    boolean callHandler = Boolean.parseBoolean(args[2]);
+                                    worldeditClear(player, callHandler, true);
                                 } catch (NumberFormatException e) {
                                     player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "callHandler"));
                                 }
                             } else {
-                                worldeditClear(player, true);
+                                worldeditClear(player, true, true);
                             }
                         }
                         case "paste" -> {
@@ -1115,6 +1132,7 @@ public class NetworksMain implements TabExecutor {
                                 List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53");
                         default -> List.of();
                     };
+                    case "clear" -> List.of("true", "false");
                     default -> List.of();
                 };
             }

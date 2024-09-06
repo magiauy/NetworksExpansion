@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.manual;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExpansionWorkbench extends SpecialSlimefunItem {
+public class ExpansionWorkbench extends SpecialSlimefunItem implements AdminDebuggable {
 
     public static final CustomItemStack BACKGROUND_STACK = new CustomItemStack(
             Material.WHITE_STAINED_GLASS_PANE, Theme.PASSIVE + " "

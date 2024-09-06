@@ -57,7 +57,7 @@ public class TypeItemGroup extends FlexItemGroup {
     private Map<Integer, TypeItemGroup> pageMap = new LinkedHashMap<>();
 
     protected TypeItemGroup(NamespacedKey key, RecipeType recipeType) {
-        super(key, ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem()));
+        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
         this.page = 1;
         this.recipeType = recipeType;
         this.slimefunItemList = new ArrayList<>();
@@ -74,7 +74,7 @@ public class TypeItemGroup extends FlexItemGroup {
     }
 
     protected TypeItemGroup(NamespacedKey key, RecipeType recipeType, int page) {
-        super(key, ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem()));
+        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
         this.page = page;
         this.recipeType = recipeType;
         this.slimefunItemList = new ArrayList<>();
