@@ -25,6 +25,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -155,7 +156,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
             }
         }
 
-        p.sendMessage("&c没有合适的配方");
+        p.sendMessage(ChatColor.RED + "没有合适的配方");
     }
 
     private boolean match(BlockMenu menu, ItemStack[] recipe) {
