@@ -1,7 +1,7 @@
 version: "1"
 rules:
   - base: master
-    upstream: Sefiraat:master
+    upstream: SlimefunGuguProject:master
     mergeMethod: merge
     assignees:
       - ytdd9527
