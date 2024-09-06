@@ -262,6 +262,9 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditPos1(Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
+        if (targetBlock == null) {
+            targetBlock = player.getLocation().getBlock();
+        }
         POS1 = targetBlock.getLocation();
         player.sendMessage(ChatColor.GREEN + "Set Pos1 to [World(" + POS1.getWorld().getName() + "), X(" + POS1.getBlockX() + "), Y(" + POS1.getBlockY() + "), Z(" + POS1.getBlockZ() + ")]");
     }
@@ -276,6 +279,9 @@ public class NetworksMain implements TabExecutor {
 
     public static void worldeditPos2(Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
+        if (targetBlock == null) {
+            targetBlock = player.getLocation().getBlock();
+        }
         POS2 = targetBlock.getLocation();
         player.sendMessage(ChatColor.GREEN + "Set Pos2 to [World(" + POS2.getWorld().getName() + "), X(" + POS2.getBlockX() + "), Y(" + POS2.getBlockY() + "), Z(" + POS2.getBlockZ() + ")]");
     }
