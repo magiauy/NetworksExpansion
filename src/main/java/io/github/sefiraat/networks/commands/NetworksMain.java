@@ -9,6 +9,7 @@ import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBl
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
+import io.github.bakedlibs.dough.collections.Pair;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
@@ -22,10 +23,10 @@ import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentCraftingBlueprintType;
 import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
@@ -44,20 +45,77 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 @SuppressWarnings("deprecation")
 public class NetworksMain implements TabExecutor {
+    private static final Map<String, Pair<Location, Location>> SELECTED_POS = new HashMap<>();
 
-    private static Location POS1 = null;
-    private static Location POS2 = null;
+    private static Location getPos1(Player p) {
+        return SELECTED_POS.get(p.getName()).getFirstValue();
+    }
+
+    private static Location getPos2(Player p) {
+        return SELECTED_POS.get(p.getName()).getSecondValue();
+    }
+
+    private static void setPos1(Player p, Location pos) {
+        SELECTED_POS.put(p.getName(), new Pair<>(pos, getPos2(p)));
+    }
+
+    private static void setPos2(Player p, Location pos) {
+        SELECTED_POS.put(p.getName(), new Pair<>(getPos1(p), pos));
+    }
+
+    private static String locationToString(Location l) {
+        if (l == null) {
+            return "Unknown";
+        }
+        if (l.getWorld() == null) {
+            return "Unknown";
+        }
+        return l.getWorld().getName() + "," + l.getBlockX() + "," + l.getBlockY() + "," + l.getBlockZ();
+    }
+
+    private static long locationRange(Location pos1, Location pos2) {
+        if (pos1 == null || pos2 == null) {
+            return 0;
+        }
+
+        int downX = Math.min(pos1.getBlockX(), pos2.getBlockX());
+        int upX = Math.max(pos1.getBlockX(), pos2.getBlockX());
+        int downY = Math.min(pos1.getBlockY(), pos2.getBlockY());
+        int upY = Math.max(pos1.getBlockY(), pos2.getBlockY());
+        int downZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
+        int upZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
+        return (long) Math.abs(upX - downX) * Math.abs(upY - downY) * Math.abs(upZ - downZ);
+    }
+
+    private static void doWorldEdit(Location pos1, Location pos2, Consumer<Location> consumer) {
+        int downX = Math.min(pos1.getBlockX(), pos2.getBlockX());
+        int upX = Math.max(pos1.getBlockX(), pos2.getBlockX());
+        int downY = Math.min(pos1.getBlockY(), pos2.getBlockY());
+        int upY = Math.max(pos1.getBlockY(), pos2.getBlockY());
+        int downZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
+        int upZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
+        for (int x = downX; x <= upX; x++) {
+            for (int y = downY; y <= upY; y++) {
+                for (int z = downZ; z <= upZ; z++) {
+                    consumer.accept(new Location(pos1.getWorld(), x, y, z));
+                }
+            }
+        }
+    }
 
     public static void restore(Player p) {
         Block target = p.getTargetBlockExact(5);
@@ -71,7 +129,6 @@ public class NetworksMain implements TabExecutor {
             String id = blockData.getData("containerId");
             if (id != null) {
                 p.sendMessage(ChatColor.RED + "该单元的数据正常，无需恢复。");
-                return;
             }
         } else {
             p.sendMessage(ChatColor.GREEN + "正在查询，请稍候...");
@@ -85,7 +142,6 @@ public class NetworksMain implements TabExecutor {
                     p.sendMessage(ChatColor.GREEN + "已成功恢复！");
                 } else {
                     p.sendMessage(ChatColor.RED + "未找到数据。");
-                    return;
                 }
             });
         }
@@ -136,7 +192,6 @@ public class NetworksMain implements TabExecutor {
             NetworkQuantumStorage.getCaches().put(blockMenu.getLocation(), cache);
         } else {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络存储才能执行该指令!");
-            return;
         }
     }
 
@@ -181,7 +236,6 @@ public class NetworksMain implements TabExecutor {
             player.sendMessage(ChatColor.GREEN + "已更新物品");
         } else {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
-            return;
         }
     }
 
@@ -226,7 +280,6 @@ public class NetworksMain implements TabExecutor {
             player.sendMessage(ChatColor.GREEN + "已更新物品");
         } else {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
-            return;
         }
     }
 
@@ -265,16 +318,12 @@ public class NetworksMain implements TabExecutor {
         if (targetBlock == null) {
             targetBlock = player.getLocation().getBlock();
         }
-        POS1 = targetBlock.getLocation();
-        player.sendMessage(ChatColor.GREEN + "Set Pos1 to [World(" + POS1.getWorld().getName() + "), X(" + POS1.getBlockX() + "), Y(" + POS1.getBlockY() + "), Z(" + POS1.getBlockZ() + ")]");
-    }
-
-    public static void worldeditPos1(Location l) {
-        POS1 = l;
-    }
-
-    public static void worldeditPos2(Location l) {
-        POS2 = l;
+        setPos1(player, targetBlock.getLocation());
+        if (getPos2(player) == null) {
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)));
+        } else {
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+        }
     }
 
     public static void worldeditPos2(Player player) {
@@ -282,16 +331,34 @@ public class NetworksMain implements TabExecutor {
         if (targetBlock == null) {
             targetBlock = player.getLocation().getBlock();
         }
-        POS2 = targetBlock.getLocation();
-        player.sendMessage(ChatColor.GREEN + "Set Pos2 to [World(" + POS2.getWorld().getName() + "), X(" + POS2.getBlockX() + "), Y(" + POS2.getBlockY() + "), Z(" + POS2.getBlockZ() + ")]");
+        setPos2(player, targetBlock.getLocation());
+        if (getPos1(player) == null) {
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)));
+        } else {
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+        }
     }
 
     public static void worldeditPaste(Player player, String sfid) {
-        worldeditPaste(player, sfid, false);
+        worldeditPaste(player, sfid, false, false);
     }
 
     public static void worldeditPaste(Player player, String sfid, boolean overrideData) {
+        worldeditPaste(player, sfid, overrideData, false);
+    }
+
+    public static void worldeditPaste(Player player, String sfid, boolean overrideData, boolean force) {
         SlimefunItem sfItem = SlimefunItem.getById(sfid);
+
+        if (getPos1(player) == null || getPos2(player) == null) {
+            player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+            return;
+        }
+
+        if (getPos1(player).getWorld() != getPos2(player).getWorld()) {
+            player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
+            return;
+        }
 
         if (sfItem == null) {
             player.sendMessage(ChatColor.RED + "这不是一个有效的粘液方块ID！");
@@ -308,118 +375,88 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (POS1 == null || POS2 == null) {
-            player.sendMessage(ChatColor.RED + "请先选中一个区域！");
+        if (!force && sfItem instanceof NotPlaceable) {
+            player.sendMessage(ChatColor.RED + "不可放置的粘液方块！");
             return;
         }
 
-        if (POS1.getWorld() != POS2.getWorld()) {
-            player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
-            return;
-        }
-
-        int upX = Math.max(POS1.getBlockX(), POS2.getBlockX());
-        int downX = Math.min(POS1.getBlockX(), POS2.getBlockX());
-        int upY = Math.max(POS1.getBlockY(), POS2.getBlockY());
-        int downY = Math.min(POS1.getBlockY(), POS2.getBlockY());
-        int upZ = Math.max(POS1.getBlockZ(), POS2.getBlockZ());
-        int downZ = Math.min(POS1.getBlockZ(), POS2.getBlockZ());
-
-        player.sendMessage(ChatColor.GREEN + "Pasting blocks from " + POS1.toString() + " to " + POS2.toString());
+        player.sendMessage(ChatColor.GREEN + "Pasting blocks from " + getPos1(player).toString() + " to " + getPos2(player).toString());
         long currentMillSeconds = System.currentTimeMillis();
 
-        int count = 0;
+        AtomicInteger count = new AtomicInteger();
         Material t = sfItem.getItem().getType();
         ItemStack itemStack = sfItem.getItem();
-        for (int x = downX; x <= upX; x++) {
-            for (int y = downY; y <= upY; y++) {
-                for (int z = downZ; z <= upZ; z++) {
-                    Block targetBlock = POS1.getWorld().getBlockAt(x, y, z);
-                    sfItem.callItemHandler(BlockPlaceHandler.class, h -> {
-                        h.onPlayerPlace(
-                                new BlockPlaceEvent(
-                                        targetBlock,
-                                        targetBlock.getState(),
-                                        targetBlock.getRelative(BlockFace.DOWN),
-                                        itemStack,
-                                        player,
-                                        true
-                                )
-                        );
-                    });
-                    if (overrideData) {
-                        targetBlock.setType(t);
-                        BlockStorage.deleteLocationInfoUnsafely(targetBlock.getLocation(), true);
-                    }
-                    if (!BlockStorage.hasBlockInfo(targetBlock)) {
-                        targetBlock.setType(t);
-                        BlockStorage.store(targetBlock, sfid);
-                    }
-                    count += 1;
-                }
+        doWorldEdit(getPos1(player), getPos2(player), (location -> {
+            Block targetBlock = getPos1(player).getWorld().getBlockAt(location);
+            sfItem.callItemHandler(BlockPlaceHandler.class, h -> h.onPlayerPlace(
+                    new BlockPlaceEvent(
+                            targetBlock,
+                            targetBlock.getState(),
+                            targetBlock.getRelative(BlockFace.DOWN),
+                            itemStack,
+                            player,
+                            true
+                    )
+            ));
+            if (overrideData) {
+                targetBlock.setType(t);
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             }
-        }
+            if (!StorageCacheUtils.hasBlock(location)) {
+                targetBlock.setType(t);
+                Slimefun.getDatabaseManager().getBlockDataController().createBlock(location, sfid);
+            }
+            count.addAndGet(1);
+        }));
 
         player.sendMessage("Paste " + count + " blocks done in " + (System.currentTimeMillis() - currentMillSeconds) + "ms");
     }
 
     public static void worldeditClear(Player player, boolean callHandler, boolean skipVanilla) {
-        if (POS1 == null || POS2 == null) {
+        if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(ChatColor.RED + "请先选中一个区域！");
             return;
         }
 
-        if (POS1.getWorld() != POS2.getWorld()) {
+        if (getPos1(player).getWorld() != getPos2(player).getWorld()) {
             player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
             return;
         }
 
-        int upX = Math.max(POS1.getBlockX(), POS2.getBlockX());
-        int downX = Math.min(POS1.getBlockX(), POS2.getBlockX());
-        int upY = Math.max(POS1.getBlockY(), POS2.getBlockY());
-        int downY = Math.min(POS1.getBlockY(), POS2.getBlockY());
-        int upZ = Math.max(POS1.getBlockZ(), POS2.getBlockZ());
-        int downZ = Math.min(POS1.getBlockZ(), POS2.getBlockZ());
-
-        player.sendMessage(ChatColor.GREEN + "Pasting blocks from " + POS1.toString() + " to " + POS2.toString());
+        player.sendMessage(ChatColor.GREEN + "Pasting blocks from " + getPos1(player).toString() + " to " + getPos2(player).toString());
         long currentMillSeconds = System.currentTimeMillis();
 
-        int count = 0;
-        for (int x = downX; x <= upX; x++) {
-            for (int y = downY; y <= upY; y++) {
-                for (int z = downZ; z <= upZ; z++) {
-                    Block targetBlock = POS1.getWorld().getBlockAt(x, y, z);
-                    if (BlockStorage.hasBlockInfo(targetBlock)) {
-                        SlimefunItem item = BlockStorage.check(targetBlock);
-                        if (callHandler) {
-                            item.callItemHandler(BlockBreakHandler.class, handler -> {
-                                handler.onPlayerBreak(
-                                        new BlockBreakEvent(targetBlock, player),
-                                        new ItemStack(Material.AIR),
-                                        new ArrayList<>()
-                                );
-                            });
-                        }
-                        targetBlock.setType(Material.AIR);
-                    }
-                    BlockStorage.deleteLocationInfoUnsafely(targetBlock.getLocation(), true);
-                    if (!skipVanilla) {
-                        targetBlock.setType(Material.AIR);
-                    }
-                    count += 1;
+        AtomicInteger count = new AtomicInteger();
+        doWorldEdit(getPos1(player), getPos2(player), (location -> {
+            Block targetBlock = getPos1(player).getWorld().getBlockAt(location);
+            if (StorageCacheUtils.hasBlock(location)) {
+                SlimefunItem item = StorageCacheUtils.getSfItem(location);
+                if (callHandler) {
+                    item.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(
+                            new BlockBreakEvent(targetBlock, player),
+                            new ItemStack(Material.AIR),
+                            new ArrayList<>()
+                    ));
                 }
+                targetBlock.setType(Material.AIR);
             }
-        }
+            Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
+            if (!skipVanilla) {
+                targetBlock.setType(Material.AIR);
+            }
+            count.addAndGet(1);
+        }));
+
         player.sendMessage("Clear " + count + " blocks done in " + (System.currentTimeMillis() - currentMillSeconds) + "ms");
     }
 
     public static void worldeditBlockMenuSetSlot(Player player, int slot) {
-        if (POS1 == null || POS2 == null) {
+        if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(ChatColor.RED + "请先选中一个区域！");
             return;
         }
 
-        if (POS1.getWorld() != POS2.getWorld()) {
+        if (getPos1(player).getWorld() != getPos2(player).getWorld()) {
             player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
             return;
         }
@@ -430,100 +467,67 @@ public class NetworksMain implements TabExecutor {
         }
         ItemStack hand = player.getInventory().getItemInMainHand();
 
-        int upX = Math.max(POS1.getBlockX(), POS2.getBlockX());
-        int downX = Math.min(POS1.getBlockX(), POS2.getBlockX());
-        int upY = Math.max(POS1.getBlockY(), POS2.getBlockY());
-        int downY = Math.min(POS1.getBlockY(), POS2.getBlockY());
-        int upZ = Math.max(POS1.getBlockZ(), POS2.getBlockZ());
-        int downZ = Math.min(POS1.getBlockZ(), POS2.getBlockZ());
-
         player.sendMessage(ChatColor.GREEN + "Setting slot " + slot + " to " + ItemStackHelper.getDisplayName(hand));
         long currentMillSeconds = System.currentTimeMillis();
 
-        int count = 0;
-        for (int x = downX; x <= upX; x++) {
-            for (int y = downY; y <= upY; y++) {
-                for (int z = downZ; z <= upZ; z++) {
-                    BlockMenu menu = StorageCacheUtils.getMenu(new Location(POS1.getWorld(), x, y, z));
-                    if (menu != null) {
-                        menu.replaceExistingItem(slot, hand);
-                    }
-                    count += 1;
-                }
+        AtomicInteger count = new AtomicInteger();
+        doWorldEdit(getPos1(player), getPos2(player), (location -> {
+            BlockMenu menu = StorageCacheUtils.getMenu(location);
+            if (menu != null) {
+                menu.replaceExistingItem(slot, hand);
             }
-        }
+            count.addAndGet(1);
+        }));
+
         player.sendMessage("Set slot " + slot + " done in " + (System.currentTimeMillis() - currentMillSeconds) + "ms");
     }
 
     public static void worldeditBlockInfoAdd(Player player, String key, String value) {
-        if (POS1 == null || POS2 == null) {
+        if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(ChatColor.RED + "请先选中一个区域！");
             return;
         }
 
-        if (POS1.getWorld() != POS2.getWorld()) {
+        if (getPos1(player).getWorld() != getPos2(player).getWorld()) {
             player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
             return;
         }
-
-        int upX = Math.max(POS1.getBlockX(), POS2.getBlockX());
-        int downX = Math.min(POS1.getBlockX(), POS2.getBlockX());
-        int upY = Math.max(POS1.getBlockY(), POS2.getBlockY());
-        int downY = Math.min(POS1.getBlockY(), POS2.getBlockY());
-        int upZ = Math.max(POS1.getBlockZ(), POS2.getBlockZ());
-        int downZ = Math.min(POS1.getBlockZ(), POS2.getBlockZ());
 
         player.sendMessage(ChatColor.GREEN + "Setting " + key + " to " + value);
         long currentMillSeconds = System.currentTimeMillis();
 
-        int count = 0;
-        for (int x = downX; x <= upX; x++) {
-            for (int y = downY; y <= upY; y++) {
-                for (int z = downZ; z <= upZ; z++) {
-                    Location location = new Location(POS1.getWorld(), x, y, z);
-                    if (StorageCacheUtils.getBlock(location) != null) {
-                        StorageCacheUtils.setData(location, key, value);
-                    }
-                    count += 1;
-                }
+        AtomicInteger count = new AtomicInteger();
+        doWorldEdit(getPos1(player), getPos2(player), (location -> {
+            if (StorageCacheUtils.getBlock(location) != null) {
+                StorageCacheUtils.setData(location, key, value);
+                count.addAndGet(1);
             }
-        }
+        }));
+
         player.sendMessage("Set " + key + " done in " + (System.currentTimeMillis() - currentMillSeconds) + "ms");
     }
 
     public static void worldeditBlockInfoRemove(Player player, String key) {
-        if (POS1 == null || POS2 == null) {
+        if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(ChatColor.RED + "请先选中一个区域！");
             return;
         }
 
-        if (POS1.getWorld() != POS2.getWorld()) {
+        if (getPos1(player).getWorld() != getPos2(player).getWorld()) {
             player.sendMessage(ChatColor.RED + "请选择同一世界的两个位置！");
             return;
         }
 
-        int upX = Math.max(POS1.getBlockX(), POS2.getBlockX());
-        int downX = Math.min(POS1.getBlockX(), POS2.getBlockX());
-        int upY = Math.max(POS1.getBlockY(), POS2.getBlockY());
-        int downY = Math.min(POS1.getBlockY(), POS2.getBlockY());
-        int upZ = Math.max(POS1.getBlockZ(), POS2.getBlockZ());
-        int downZ = Math.min(POS1.getBlockZ(), POS2.getBlockZ());
-
         player.sendMessage(ChatColor.GREEN + "Removing " + key);
         long currentMillSeconds = System.currentTimeMillis();
 
-        int count = 0;
-        for (int x = downX; x <= upX; x++) {
-            for (int y = downY; y <= upY; y++) {
-                for (int z = downZ; z <= upZ; z++) {
-                    Location location = new Location(POS1.getWorld(), x, y, z);
-                    if (StorageCacheUtils.getBlock(location) != null) {
-                        StorageCacheUtils.removeData(location, key);
-                    }
-                    count += 1;
-                }
+        AtomicInteger count = new AtomicInteger();
+        doWorldEdit(getPos1(player), getPos2(player), (location -> {
+            if (StorageCacheUtils.getBlock(location) != null) {
+                StorageCacheUtils.removeData(location, key);
+                count.addAndGet(1);
             }
-        }
+        }));
         player.sendMessage("Remove " + key + " done in " + (System.currentTimeMillis() - currentMillSeconds) + "ms");
     }
 
@@ -538,7 +542,6 @@ public class NetworksMain implements TabExecutor {
         String currentId = slimefunItem.getId();
         if (slimefunItem instanceof CargoStorageUnit) {
             player.sendMessage(ChatColor.RED + "暂不支持此物品的更新");
-            return;
         } else if (slimefunItem instanceof NetworkQuantumStorage) {
             ItemMeta meta = itemInHand.getItemMeta();
             final QuantumCache quantumCache = DataTypeMethods.getCustom(
@@ -625,19 +628,16 @@ public class NetworksMain implements TabExecutor {
             List<ItemContainer> stored = data.getStoredItems();
             if (slot >= stored.size()) {
                 player.sendMessage(Theme.ERROR + "槽位号必须在0-" + (stored.size() - 1) + "之间!");
-                return;
             } else {
                 ItemStack stack = stored.get(slot).getSample();
                 if (stack == null || stack.getType().isAir()) {
                     player.sendMessage(Theme.ERROR + "该槽位没有物品!");
-                    return;
                 } else {
                     player.getInventory().addItem(StackUtils.getAsQuantity(stack, 1));
                 }
             }
         } else {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
-            return;
         }
     }
 
@@ -703,9 +703,7 @@ public class NetworksMain implements TabExecutor {
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit <subCommand> - 粘液创世神功能.");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit pos1 - 选择第一个位置");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit pos2 - 选择第二个位置");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> - 粘贴粘液方块");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> override - 覆盖原本的数据");
-                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> keep - 保留原本的数据");
+                sender.sendMessage(ChatColor.GOLD + "/networks worldedit paste <sfid> <handler> <force> - 粘贴粘液方块");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit clear <callHandler> <skipVanilla> - 清除粘液方块");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockMenu setSlot <slot> - 修改选中区域的粘液方法的菜单的对应槽位为手上物品");
                 sender.sendMessage(ChatColor.GOLD + "/networks worldedit blockInfo add <key> <value> - 增加粘液方块信息");
@@ -900,7 +898,19 @@ public class NetworksMain implements TabExecutor {
                             }
                         }
                         case "paste" -> {
-                            if (args.length >= 4) {
+                            if (args.length >= 5) {
+                                switch (args[3].toLowerCase(Locale.ROOT)) {
+                                    case "override" -> {
+                                        worldeditPaste(player, args[2], true, Boolean.parseBoolean(args[4]));
+                                    }
+                                    case "keep" -> {
+                                        worldeditPaste(player, args[2], false, Boolean.parseBoolean(args[4]));
+                                    }
+                                    default -> {
+                                        worldeditPaste(player, args[2], false, Boolean.parseBoolean(args[4]));
+                                    }
+                                }
+                            } else if (args.length >= 4) {
                                 switch (args[3].toLowerCase(Locale.ROOT)) {
                                     case "override" -> {
                                         worldeditPaste(player, args[2], true);
@@ -1071,17 +1081,16 @@ public class NetworksMain implements TabExecutor {
 
         player.sendMessage(Theme.SUCCESS + "已修复蓝图");
 
-        return;
     }
 
     @Override
     public @Nullable List<String> onTabComplete(
-            @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+            @Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
         List<String> raw = onTabCompleteRaw(sender, args);
         return StringUtil.copyPartialMatches(args[args.length - 1], raw, new ArrayList<>());
     }
 
-    public @NotNull List<String> onTabCompleteRaw(@NotNull CommandSender sender, @NotNull String[] args) {
+    public @Nonnull List<String> onTabCompleteRaw(@Nonnull CommandSender sender, @Nonnull String[] args) {
         if (args.length == 1) {
             return List.of(
                     "addStorageItem",
@@ -1137,6 +1146,12 @@ public class NetworksMain implements TabExecutor {
                     case "clear" -> List.of("true", "false");
                     default -> List.of();
                 };
+            }
+        } else if (args.length == 5) {
+            if (args[0].equalsIgnoreCase("worldedit")) {
+                if (args[1].equalsIgnoreCase("paste")) {
+                    return List.of("true", "false");
+                }
             }
         }
         return new ArrayList<>();
