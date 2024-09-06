@@ -313,6 +313,7 @@ public class NetworksMain implements TabExecutor {
                 + " 的网络抽屉的容器ID为" + containerId + ".");
     }
 
+
     public static void worldeditPos1(Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null) {
@@ -326,12 +327,30 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
+    public static void worldeditPos1(Player player, Location location) {
+        setPos1(player, location);
+        if (getPos2(player) == null) {
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)));
+        } else {
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+        }
+    }
+
     public static void worldeditPos2(Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null) {
             targetBlock = player.getLocation().getBlock();
         }
         setPos2(player, targetBlock.getLocation());
+        if (getPos1(player) == null) {
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)));
+        } else {
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+        }
+    }
+
+    public static void worldeditPos2(Player player, Location location) {
+        setPos2(player, location);
         if (getPos1(player) == null) {
             player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)));
         } else {
