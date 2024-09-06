@@ -1050,16 +1050,6 @@ public class ExpansionItemStacks {
     );
     private static final String thanks = "&x&c&c&8&c&f&4&l魔&x&c&b&9&7&f&5&l芋&x&c&a&a&3&f&6&l粘&x&c&9&a&e&f&7&l液&x&c&8&b&9&f&8&l科&x&c&7&c&5&f&9&l技&x&c&5&d&0&f&9&l服&x&c&4&d&b&f&a&l务&x&c&3&e&6&f&b&l器&x&c&2&f&2&f&c&l提&x&c&1&f&d&f&d&l供";
     private static final Map<StorageUnitType, SlimefunItemStack> typeMap = new HashMap<>();
-    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE_MODEL = Theme.model(
-            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
-            Skins.STORAGE_UNIT_UPGRADE_TABLE_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉升级台",
-            "&e用于升级网络抽屉",
-            "",
-            thanks,
-            ""
-    );
     public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
             "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",
             new ItemStack(Material.BONE),
