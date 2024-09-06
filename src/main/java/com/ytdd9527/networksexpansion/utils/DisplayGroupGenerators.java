@@ -7,12 +7,14 @@ import com.ytdd9527.networksexpansion.utils.itemstacks.Transformations;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 
 
+@UtilityClass
 public final class DisplayGroupGenerators {
 
     public static final CustomItemStack BRIDGE_STACK = new CustomItemStack(
@@ -22,9 +24,6 @@ public final class DisplayGroupGenerators {
             Skins.BRIDGE2.getPlayerHead(), ""
     );
 
-    private DisplayGroupGenerators() {
-        throw new IllegalStateException("Utility class");
-    }
 
     public static DisplayGroup generateStorageUnit_1(@Nonnull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
