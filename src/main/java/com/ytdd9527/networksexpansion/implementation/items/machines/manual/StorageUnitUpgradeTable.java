@@ -8,6 +8,7 @@ import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -24,6 +25,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -36,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StorageUnitUpgradeTable extends SpecialSlimefunItem {
+public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<ItemStack[], ItemStack> recipes = new HashMap<>();
     public final static RecipeType TYPE = new RecipeType(
             Keys.STORAGE_UNIT_UPGRADE_TABLE,
@@ -189,9 +191,11 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem {
         return new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(BlockBreakEvent event, ItemStack itemStack, List<ItemStack> drops) {
-                BlockMenu menu = StorageCacheUtils.getMenu(event.getBlock().getLocation());
+                Location l = event.getBlock().getLocation();
+                BlockMenu menu = StorageCacheUtils.getMenu(l);
                 menu.dropItems(menu.getLocation(), inputSlots);
                 menu.dropItems(menu.getLocation(), outputSlot);
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
             }
         };
     }

@@ -11,6 +11,7 @@ import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -47,7 +48,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class StorageUnitUpgradeTableModel extends SpecialSlimefunItem implements ModelledItem {
+public class StorageUnitUpgradeTableModel extends SpecialSlimefunItem implements ModelledItem, AdminDebuggable {
     private static final Map<ItemStack[], ItemStack> recipes = new HashMap<>();
     public final static RecipeType TYPE = new RecipeType(
             Keys.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
@@ -240,6 +241,7 @@ public class StorageUnitUpgradeTableModel extends SpecialSlimefunItem implements
                 menu.dropItems(menu.getLocation(), inputSlots);
                 menu.dropItems(menu.getLocation(), outputSlot);
                 e.getBlock().setType(Material.AIR);
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             }
         });
     }

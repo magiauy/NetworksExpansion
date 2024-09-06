@@ -762,6 +762,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                 b.getWorld().dropItemNaturally(l, bindId(getItem(), id));
             }
         }
+        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
     }
 
     @Override
