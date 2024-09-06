@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.interfaces.ModelledItem;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.Keys;
@@ -59,7 +60,7 @@ public class NetworkRake extends LimitedUseItem {
             final Player player = e.getPlayer();
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             if (slimefunItem != null
-                    && slimefunItem instanceof NetworkObject
+                    && (slimefunItem instanceof NetworkObject || slimefunItem instanceof ModelledItem)
                     && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)
             ) {
                 final BlockBreakEvent event = new BlockBreakEvent(block, player);

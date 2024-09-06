@@ -58,14 +58,14 @@ public class SubFlexItemGroup extends FlexItemGroup {
     private Map<Integer, SubFlexItemGroup> pageMap = new LinkedHashMap<>();
 
     public SubFlexItemGroup(NamespacedKey key, ItemStack item, int tier) {
-        super(key, item, tier);
+        super(key, ItemStackUtil.getCleanItem(item), tier);
         this.item = item;
         this.page = 1;
         this.pageMap.put(1, this);
     }
 
     public SubFlexItemGroup(NamespacedKey key, ItemStack item, int tier, int page) {
-        super(key, item, tier);
+        super(key, ItemStackUtil.getCleanItem(item), tier);
         this.item = item;
         this.page = page;
     }
@@ -108,6 +108,8 @@ public class SubFlexItemGroup extends FlexItemGroup {
             }
             this.slimefunItemList.add(slimefunItemList);
         }
+
+        ItemStackUtil.removeDisabledSlimefunItems(this.slimefunItemList);
     }
 
     public void addTo(@Nonnull SlimefunItemStack... slimefunItemStacks) {
@@ -124,6 +126,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
             }
             this.slimefunItemList.add(slimefunItemList);
         }
+        ItemStackUtil.removeDisabledSlimefunItems(this.slimefunItemList);
     }
 
     public void addTo(@Nonnull List<SlimefunItem> slimefunItemList) {
@@ -136,12 +139,15 @@ public class SubFlexItemGroup extends FlexItemGroup {
             }
             this.slimefunItemList.add(aSlimefunItemList);
         }
+        ItemStackUtil.removeDisabledSlimefunItems(this.slimefunItemList);
     }
 
     public void addFrom(@Nonnull SubFlexItemGroup... subFlexItemGroups) {
         for (SubFlexItemGroup subFlexItemGroup : subFlexItemGroups) {
             this.slimefunItemList.addAll(subFlexItemGroup.slimefunItemList);
         }
+
+        ItemStackUtil.removeDisabledSlimefunItems(this.slimefunItemList);
     }
 
     public List<SlimefunItem> getSlimefunItems() {

@@ -40,7 +40,6 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.Qua
 import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.SmelteryEncoder;
 import com.ytdd9527.networksexpansion.implementation.items.machines.manual.ExpansionWorkbench;
 import com.ytdd9527.networksexpansion.implementation.items.machines.manual.StorageUnitUpgradeTable;
-import com.ytdd9527.networksexpansion.implementation.items.machines.manual.StorageUnitUpgradeTableModel;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedExport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
@@ -683,13 +682,6 @@ public class ExpansionItems {
             StorageUnitUpgradeTable.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_13,
             StorageUnitType.END_GAME_MAX
-    );
-    public static final StorageUnitUpgradeTableModel STORAGE_UNIT_UPGRADE_TABLE_MODEL = new StorageUnitUpgradeTableModel(
-            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
-            ExpansionItemStacks.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.STORAGE_UNIT_UPGRADE_TABLE_MODEL,
-            "STORAGE_UNIT_UPGRADE_TABLE_MODEL"
     );
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_1_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,

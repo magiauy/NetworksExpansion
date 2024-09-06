@@ -50,14 +50,14 @@ public class MainItemGroup extends FlexItemGroup {
     private Map<Integer, MainItemGroup> pageMap = new LinkedHashMap<>();
 
     public MainItemGroup(NamespacedKey key, ItemStack item, int tier) {
-        super(key, item, tier);
+        super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = 1;
         this.item = item;
         this.pageMap.put(1, this);
     }
 
     private MainItemGroup(NamespacedKey key, ItemStack item, int tier, int page) {
-        super(key, item, tier);
+        super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = page;
         this.item = item;
     }

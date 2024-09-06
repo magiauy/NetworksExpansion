@@ -84,8 +84,7 @@ public class SetupUtil {
         /* 功能机器 */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
                 ExpansionItems.NETWORK_EXPANSION_WORKBENCH.registerThis(),
-                ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis(),
-                ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE_MODEL.registerThis()
+                ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_ADVANCED_NET.addTo(
                 ExpansionItems.ADVANCED_IMPORT.registerThis(),

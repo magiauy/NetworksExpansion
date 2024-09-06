@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.manual;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
@@ -7,14 +8,14 @@ import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.network.NetworkObject;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -24,17 +25,21 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class StorageUnitUpgradeTable extends NetworkObject {
+public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<ItemStack[], ItemStack> recipes = new HashMap<>();
     public final static RecipeType TYPE = new RecipeType(
             Keys.STORAGE_UNIT_UPGRADE_TABLE,
@@ -50,12 +55,7 @@ public class StorageUnitUpgradeTable extends NetworkObject {
 
     public StorageUnitUpgradeTable(
             ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.MODEL);
-        for (int slot : inputSlots) {
-            this.getSlotsToDrop().add(slot);
-        }
-
-        this.getSlotsToDrop().add(outputSlot);
+        super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(this.getId(), this.getItemName()) {
 
@@ -135,7 +135,6 @@ public class StorageUnitUpgradeTable extends NetworkObject {
                 SlimefunItemStack sfis = (SlimefunItemStack) out;
                 SlimefunItem sfi = SlimefunItem.getById(sfis.getItemId());
                 if (sfi != null && sfi.isDisabled()) {
-                    sendDebugMessage(menu.getLocation(), "Output item is disabled");
                     return;
                 }
                 if (itemInSlot == null || itemInSlot.getType().isAir()) {
@@ -144,11 +143,9 @@ public class StorageUnitUpgradeTable extends NetworkObject {
                     if (itemInSlot.getAmount() + out.getAmount() <= itemInSlot.getMaxStackSize()) {
                         itemInSlot.setAmount(itemInSlot.getAmount() + out.getAmount());
                     } else {
-                        sendDebugMessage(menu.getLocation(), "Output slot is full");
                         return;
                     }
                 } else {
-                    sendDebugMessage(menu.getLocation(), "Output slot already contains different item");
                     return;
                 }
                 for (int slot : inputSlots) {
@@ -159,8 +156,7 @@ public class StorageUnitUpgradeTable extends NetworkObject {
             }
         }
 
-        p.sendMessage("&c没有合适的配方");
-        sendDebugMessage(menu.getLocation(), "No matching recipe found");
+        p.sendMessage(ChatColor.RED + "没有合适的配方");
     }
 
     private boolean match(BlockMenu menu, ItemStack[] recipe) {
@@ -185,5 +181,23 @@ public class StorageUnitUpgradeTable extends NetworkObject {
         if (next != null) {
             d.setSizeType(next);
         }
+    }
+
+    @Override
+    public void preRegister() {
+        addItemHandler(getBlockBreakHandler());
+    }
+
+    private BlockBreakHandler getBlockBreakHandler() {
+        return new BlockBreakHandler(false, false) {
+            @Override
+            public void onPlayerBreak(BlockBreakEvent event, ItemStack itemStack, List<ItemStack> drops) {
+                Location l = event.getBlock().getLocation();
+                BlockMenu menu = StorageCacheUtils.getMenu(l);
+                menu.dropItems(menu.getLocation(), inputSlots);
+                menu.dropItems(menu.getLocation(), outputSlot);
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
+            }
+        };
     }
 }
