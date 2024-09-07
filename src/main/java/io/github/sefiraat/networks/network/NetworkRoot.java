@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 // TODO: support fluffy barrels
+@SuppressWarnings("unused")
 public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> nodeLocations = new HashSet<>();
