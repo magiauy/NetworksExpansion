@@ -152,12 +152,12 @@ public abstract class AbstractGrid extends NetworkObject {
     protected void tryAddItem(@Nonnull BlockMenu blockMenu) {
         final ItemStack itemStack = blockMenu.getItemInSlot(getInputSlot());
 
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
+        if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }
 
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
-        if (definition.getNode() == null) {
+        if (definition == null || definition.getNode() == null) {
             return;
         }
 
@@ -283,7 +283,6 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @ParametersAreNonnullByDefault
     protected void retrieveItem(Player player, NodeDefinition definition, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
-        // Todo Item can be null here. No idea how - investigate later
         if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }

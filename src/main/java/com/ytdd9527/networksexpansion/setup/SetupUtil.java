@@ -14,7 +14,8 @@ public class SetupUtil {
         /* 物品 */
         ExpansionItemsMenus.SUB_MENU_TOOL.addTo(
                 ExpansionItems.CARGO_NODE_QUICK_TOOL.registerThis(),
-                ExpansionItems.WORLD_EDIT_AXE.registerThis()
+                ExpansionItems.WORLD_EDIT_AXE.registerThis(),
+                ExpansionItems.INFO_TOOL.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BLUEPRINT.addTo(
                 ExpansionItems.MAGIC_WORKBENCH_BLUEPRINT.registerThis(),
@@ -60,8 +61,8 @@ public class SetupUtil {
                 ExpansionItems.CARGO_STORAGE_UNIT_13_MODEL.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
-                ExpansionItems.POINT_TRANSFER_GRABBER.registerThis(),
-                ExpansionItems.POINT_TRANSFER.registerThis()
+                ExpansionItems.NETWORK_INPUT_ONLY_MONITOR.registerThis(),
+                ExpansionItems.NETWORK_OUTPUT_ONLY_MONITOR.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
                 ExpansionItems.LINE_TRANSFER.registerThis(),

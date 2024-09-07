@@ -139,6 +139,19 @@ public class ExpansionRecipes {
             SHRINKING_BASE.getItem(), NETWORK_GREEDY_BLOCK.getItem(), SHRINKING_BASE.getItem()
     };
 
+    public static final ItemStack[] NETWORK_INPUT_ONLY_MONITOR = new ItemStack[]{
+            OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(), NETWORK_MONITOR.getItem(), OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(), SlimefunItems.CARGO_INPUT_NODE, OPTIC_GLASS.getItem()
+    };
+
+
+    public static final ItemStack[] NETWORK_OUTPUT_ONLY_MONITOR = new ItemStack[]{
+            OPTIC_GLASS.getItem(), SlimefunItems.CARGO_OUTPUT_NODE_2, OPTIC_GLASS.getItem(),
+            OPTIC_CABLE.getItem(), NETWORK_MONITOR.getItem(), OPTIC_CABLE.getItem(),
+            OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem()
+    };
+
     public static final ItemStack[] NETWORK_CAPACITOR_5 = new ItemStack[]{
             NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(),
             NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(), NETWORK_CAPACITOR_4.getItem(),

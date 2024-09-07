@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items;
 
 import com.ytdd9527.networksexpansion.api.enums.Skins;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -43,15 +44,6 @@ public static final SlimefunItemStack NETWORK_COORDINATE_CONFIGURATOR = Theme.Ra
                 Theme.TOOL,
                 "Network Coordinate Configurator",
                 "Deprecated"
-);
-public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
-                "NTW_EXPANSION_WORLD_EDIT_AXE",
-                new ItemStack(Material.DIAMOND_AXE),
-                Theme.TOOL,
-                "Network Slimefun World Edit Axe",
-                "Only available for administrators",
-                "Right-click to select the first position",
-                "Shift + Right-click to select the second position."
 );
     //高级网络物品
 public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
@@ -465,6 +457,72 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
                 "",
                 MessageFormat.format("{0}Network Power Consumption: {1}{2} per encoding", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
 );
+    // Workbench
+    // Tools
+    public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
+            "NTW_EXPANSION_WORLD_EDIT_AXE",
+            new ItemStack(Material.DIAMOND_AXE),
+            Theme.TOOL,
+            "网络粘液创世神",
+            "仅管理员可用",
+            "右键选择第一个位置",
+            "Shift + 右键选择第二个位置"
+    );
+    public static final SlimefunItemStack INFO_TOOL = Theme.Random(
+            "NTW_EXPANSION_INFO_TOOL",
+            new ItemStack(Material.FEATHER),
+            Theme.TOOL,
+            "网络信息工具",
+            "仅管理员可用",
+            "右键查看网络中物品的详细信息"
+    );
+
+
+
+    public static final SlimefunItemStack NETWORK_INPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
+            "NTW_INPUT_ONLY_MONITOR",
+            new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
+            Theme.MACHINE,
+            "网络监视器（仅输入）",
+            "网络监视器可以与附近的方块交互",
+            "让指定方块可以接入网络",
+            "指定的方块只能被输入",
+            "",
+            "目前支持:",
+            "无尽科技 - 存储单元",
+            "网络 - 量子存储",
+            TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
+    );
+
+    public static final SlimefunItemStack NETWORK_OUTPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
+            "NTW_OUTPUT_ONLY_MONITOR",
+            new ItemStack(Material.GRAY_STAINED_GLASS),
+            Theme.MACHINE,
+            "网络监视器（仅输出）",
+            "网络监视器可以与附近的方块交互",
+            "让指定方块可以接入网络",
+            "指定的方块只能被输出",
+            "",
+            "目前支持:",
+            "无尽科技 - 存储单元",
+            "网络 - 量子存储",
+            TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
+    );
+    /*
+    // Points
+    public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
+            "NTW_EXPANSION_POINT_TRANSFER",
+            Enchanted(Material.END_ROD),
+            Theme.MACHINE,
+            "对点传输器"
+    );
+    public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
+            "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
+            new ItemStack(Material.END_ROD),
+            Theme.MACHINE,
+            "对点传输器 [抓取]"
+    );
+    */
 
 
 //网络合成机

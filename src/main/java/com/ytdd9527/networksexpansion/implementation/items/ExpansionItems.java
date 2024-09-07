@@ -45,9 +45,12 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedPurger;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkGridNewStyle;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkInputOnlyMonitor;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkOutputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.implementation.items.tools.CargoNodeQuickTool;
 import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksExpansionWorldEditAxe;
+import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksInfoTool;
 import com.ytdd9527.networksexpansion.implementation.menus.ExpansionItemsMenus;
 import com.ytdd9527.networksexpansion.implementation.recipes.ExpansionRecipes;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
@@ -107,6 +110,20 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.NETWORK_CAPACITOR_6,
             Integer.MAX_VALUE
+    );
+
+    public static final NetworkInputOnlyMonitor NETWORK_INPUT_ONLY_MONITOR = new NetworkInputOnlyMonitor(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.NETWORK_INPUT_ONLY_MONITOR,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.NETWORK_INPUT_ONLY_MONITOR
+    );
+
+    public static final NetworkOutputOnlyMonitor NETWORK_OUTPUT_ONLY_MONITOR = new NetworkOutputOnlyMonitor(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.NETWORK_OUTPUT_ONLY_MONITOR,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.NETWORK_OUTPUT_ONLY_MONITOR
     );
 
     public static final NetworkQuantumStorage ADVANCED_QUANTUM_STORAGE = new NetworkQuantumStorage(
@@ -444,6 +461,7 @@ public class ExpansionItems {
             12800,
             true
     );
+    /*
     public static final PointTransfer POINT_TRANSFER = new PointTransfer(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.POINT_TRANSFER,
@@ -458,6 +476,7 @@ public class ExpansionItems {
             ExpansionRecipes.POINT_TRANSFER_GRABBER,
             "NTW_EXPANSION_POINT_TRANSFER_GRABBER"
     );
+     */
     public static final LineTransferPusher LINE_TRANSFER_PUSHER = new LineTransferPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.LINE_TRANSFER_PUSHER,
@@ -574,6 +593,11 @@ public class ExpansionItems {
     public static final NetworksExpansionWorldEditAxe WORLD_EDIT_AXE = new NetworksExpansionWorldEditAxe(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.WORLD_EDIT_AXE
+    );
+
+    public static final NetworksInfoTool INFO_TOOL = new NetworksInfoTool(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.INFO_TOOL
     );
 
     public static final StorageUnitUpgradeTable STORAGE_UNIT_UPGRADE_TABLE = new StorageUnitUpgradeTable(
