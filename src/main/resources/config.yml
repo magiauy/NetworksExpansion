@@ -103,11 +103,6 @@ items:
     use-special-model:
       enable: false
 
-  # 货运存储单元升级台模型
-  STORAGE_UNIT_UPGRADE_TABLE_MODEL:
-    use-special-model:
-      enable: true
-      type: "StorageUnitUpgradeTable"
   # 货运存储单元1
   CARGO_STORAGE_UNIT_1_MODEL:
     use-special-model:
