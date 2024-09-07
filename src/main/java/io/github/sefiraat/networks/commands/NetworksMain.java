@@ -104,7 +104,7 @@ public class NetworksMain implements TabExecutor {
         int upY = Math.max(pos1.getBlockY(), pos2.getBlockY());
         int downZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
         int upZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
-        return (long) (Math.abs(upX - downX)+1) * (Math.abs(upY - downY)+1) * (Math.abs(upZ - downZ)+1);
+        return (long) (Math.abs(upX - downX) + 1) * (Math.abs(upY - downY) + 1) * (Math.abs(upZ - downZ) + 1);
     }
 
     private static void doWorldEdit(Location pos1, Location pos2, Consumer<Location> consumer) {
