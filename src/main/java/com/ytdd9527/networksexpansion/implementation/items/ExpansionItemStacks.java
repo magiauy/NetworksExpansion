@@ -45,6 +45,15 @@ public class ExpansionItemStacks {
             "右键选择第一个位置",
             "Shift + 右键选择第二个位置"
     );
+    public static final SlimefunItemStack INFO_TOOL = Theme.Random(
+            "NTW_EXPANSION_INFO_TOOL",
+            new ItemStack(Material.FEATHER),
+            Theme.TOOL,
+            "网络信息工具",
+            "仅管理员可用",
+            "右键查看网络中物品的详细信息"
+    );
+
     // Advanced Networks Machines
     public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
             "NTW_EXPANSION_ADVANCED_IMPORT",

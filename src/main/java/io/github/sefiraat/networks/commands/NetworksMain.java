@@ -61,23 +61,29 @@ import java.util.function.Consumer;
 public class NetworksMain implements TabExecutor {
     private static final Map<String, Pair<Location, Location>> SELECTED_POS = new HashMap<>();
 
-    private static Location getPos1(Player p) {
+    public static Location getPos1(Player p) {
+        if (SELECTED_POS.get(p.getName()) == null) {
+            return null;
+        }
         return SELECTED_POS.get(p.getName()).getFirstValue();
     }
 
-    private static Location getPos2(Player p) {
+    public static Location getPos2(Player p) {
+        if (SELECTED_POS.get(p.getName()) == null) {
+            return null;
+        }
         return SELECTED_POS.get(p.getName()).getSecondValue();
     }
 
-    private static void setPos1(Player p, Location pos) {
+    public static void setPos1(Player p, Location pos) {
         SELECTED_POS.put(p.getName(), new Pair<>(pos, getPos2(p)));
     }
 
-    private static void setPos2(Player p, Location pos) {
+    public static void setPos2(Player p, Location pos) {
         SELECTED_POS.put(p.getName(), new Pair<>(getPos1(p), pos));
     }
 
-    private static String locationToString(Location l) {
+    public static String locationToString(Location l) {
         if (l == null) {
             return "Unknown";
         }
@@ -87,7 +93,7 @@ public class NetworksMain implements TabExecutor {
         return l.getWorld().getName() + "," + l.getBlockX() + "," + l.getBlockY() + "," + l.getBlockZ();
     }
 
-    private static long locationRange(Location pos1, Location pos2) {
+    public static long locationRange(Location pos1, Location pos2) {
         if (pos1 == null || pos2 == null) {
             return 0;
         }
@@ -98,7 +104,7 @@ public class NetworksMain implements TabExecutor {
         int upY = Math.max(pos1.getBlockY(), pos2.getBlockY());
         int downZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
         int upZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
-        return (long) Math.abs(upX - downX) * Math.abs(upY - downY) * Math.abs(upZ - downZ);
+        return (long) (Math.abs(upX - downX)+1) * (Math.abs(upY - downY)+1) * (Math.abs(upZ - downZ)+1);
     }
 
     private static void doWorldEdit(Location pos1, Location pos2, Consumer<Location> consumer) {
@@ -321,18 +327,18 @@ public class NetworksMain implements TabExecutor {
         }
         setPos1(player, targetBlock.getLocation());
         if (getPos2(player) == null) {
-            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)));
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to " + locationToString(getPos1(player)));
         } else {
-            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to " + locationToString(getPos1(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
         }
     }
 
     public static void worldeditPos1(Player player, Location location) {
         setPos1(player, location);
         if (getPos2(player) == null) {
-            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)));
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to " + locationToString(getPos1(player)));
         } else {
-            player.sendMessage(ChatColor.GREEN + "Set Pos1 to" + locationToString(getPos1(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+            player.sendMessage(ChatColor.GREEN + "Set Pos1 to " + locationToString(getPos1(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
         }
     }
 
@@ -343,18 +349,18 @@ public class NetworksMain implements TabExecutor {
         }
         setPos2(player, targetBlock.getLocation());
         if (getPos1(player) == null) {
-            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)));
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to " + locationToString(getPos2(player)));
         } else {
-            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to " + locationToString(getPos2(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
         }
     }
 
     public static void worldeditPos2(Player player, Location location) {
         setPos2(player, location);
         if (getPos1(player) == null) {
-            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)));
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to " + locationToString(getPos2(player)));
         } else {
-            player.sendMessage(ChatColor.GREEN + "Set Pos2 to" + locationToString(getPos2(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
+            player.sendMessage(ChatColor.GREEN + "Set Pos2 to " + locationToString(getPos2(player)) + "(" + locationRange(getPos1(player), getPos2(player)) + " Blocks)");
         }
     }
 

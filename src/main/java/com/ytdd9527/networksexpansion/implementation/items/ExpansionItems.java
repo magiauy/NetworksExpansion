@@ -50,6 +50,7 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.implementation.items.tools.CargoNodeQuickTool;
 import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksExpansionWorldEditAxe;
+import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksInfoTool;
 import com.ytdd9527.networksexpansion.implementation.menus.ExpansionItemsMenus;
 import com.ytdd9527.networksexpansion.implementation.recipes.ExpansionRecipes;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
@@ -592,6 +593,11 @@ public class ExpansionItems {
     public static final NetworksExpansionWorldEditAxe WORLD_EDIT_AXE = new NetworksExpansionWorldEditAxe(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.WORLD_EDIT_AXE
+    );
+
+    public static final NetworksInfoTool INFO_TOOL = new NetworksInfoTool(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.INFO_TOOL
     );
 
     public static final StorageUnitUpgradeTable STORAGE_UNIT_UPGRADE_TABLE = new StorageUnitUpgradeTable(

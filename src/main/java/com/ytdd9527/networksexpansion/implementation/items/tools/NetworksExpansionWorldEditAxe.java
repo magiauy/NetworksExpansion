@@ -18,8 +18,6 @@ import java.util.Optional;
 
 public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
 
-    private static final NamespacedKey TARGET_LOCATION = Keys.newKey("target-location");
-
     public NetworksExpansionWorldEditAxe(ItemGroup itemGroup, SlimefunItemStack item) {
         super(itemGroup, item, RecipeType.NULL, new ItemStack[]{});
         addItemHandler(
@@ -32,12 +30,20 @@ public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
                     final Optional<Block> optional = e.getClickedBlock();
                     if (optional.isPresent()) {
                         final Location location = optional.get().getLocation();
-                        if (player.isSneaking()) {
-                            NetworksMain.worldeditPos2(player, location);
-                            player.sendMessage(ChatColor.GREEN + "Set Pos2 to [World(" + location.getWorld().getName() + "), X(" + location.getBlockX() + "), Y(" + location.getBlockY() + "), Z(" + location.getBlockZ() + ")]");
+                        if (!player.isSneaking()) {
+                            NetworksMain.setPos1(player, location);
+                            if (NetworksMain.getPos2(player) == null) {
+                                player.sendMessage(ChatColor.GREEN + "Set Pos1 to " + NetworksMain.locationToString(NetworksMain.getPos1(player)));
+                            } else {
+                                player.sendMessage(ChatColor.GREEN + "Set Pos1 to " + NetworksMain.locationToString(NetworksMain.getPos1(player)) + "(" + NetworksMain.locationRange(NetworksMain.getPos1(player), NetworksMain.getPos2(player)) + " Blocks)");
+                            }
                         } else {
-                            NetworksMain.worldeditPos1(player, location);
-                            player.sendMessage(ChatColor.GREEN + "Set Pos1 to [World(" + location.getWorld().getName() + "), X(" + location.getBlockX() + "), Y(" + location.getBlockY() + "), Z(" + location.getBlockZ() + ")]");
+                            NetworksMain.setPos2(player, location);
+                            if (NetworksMain.getPos1(player) == null) {
+                                player.sendMessage(ChatColor.GREEN + "Set Pos2 to " + NetworksMain.locationToString(NetworksMain.getPos2(player)));
+                            } else {
+                                player.sendMessage(ChatColor.GREEN + "Set Pos2 to " + NetworksMain.locationToString(NetworksMain.getPos2(player)) + "(" + NetworksMain.locationRange(NetworksMain.getPos1(player), NetworksMain.getPos2(player)) + " Blocks)");
+                            }
                         }
                     }
                     e.cancel();
