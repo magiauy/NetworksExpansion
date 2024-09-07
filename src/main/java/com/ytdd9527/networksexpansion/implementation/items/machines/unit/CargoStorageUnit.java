@@ -50,10 +50,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -781,14 +780,14 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
 
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
-            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
                 onPlace(blockPlaceEvent);
             }
         });
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(@NotNull BlockBreakEvent blockBreakEvent, @NotNull ItemStack itemStack, @NotNull List<ItemStack> list) {
+            public void onPlayerBreak(@Nonnull BlockBreakEvent blockBreakEvent, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> list) {
                 onBreak(blockBreakEvent);
             }
         });

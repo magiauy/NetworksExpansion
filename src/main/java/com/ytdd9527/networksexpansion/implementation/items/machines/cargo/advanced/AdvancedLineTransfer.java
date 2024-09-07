@@ -29,7 +29,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -695,7 +694,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         return DisplayGroup.fromUUID(uuid);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);

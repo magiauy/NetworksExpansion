@@ -28,7 +28,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -336,7 +335,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
 
 
-    @NotNull
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);

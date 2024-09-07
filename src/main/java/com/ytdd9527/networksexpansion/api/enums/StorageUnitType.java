@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.api.enums;
 
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public enum StorageUnitType {
 

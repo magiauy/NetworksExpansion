@@ -10,6 +10,8 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoSt
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.bakedlibs.dough.collections.Pair;
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
@@ -23,6 +25,7 @@ import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentCraftingBlueprintType;
 import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
@@ -45,9 +48,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,6 +111,9 @@ public class NetworksMain implements TabExecutor {
     }
 
     private static void doWorldEdit(Location pos1, Location pos2, Consumer<Location> consumer) {
+        if (pos1 == null || pos2 == null) {
+            return;
+        }
         int downX = Math.min(pos1.getBlockX(), pos2.getBlockX());
         int upX = Math.max(pos1.getBlockX(), pos2.getBlockX());
         int downY = Math.min(pos1.getBlockY(), pos2.getBlockY());
@@ -411,6 +417,27 @@ public class NetworksMain implements TabExecutor {
         AtomicInteger count = new AtomicInteger();
         Material t = sfItem.getItem().getType();
         ItemStack itemStack = sfItem.getItem();
+        final PlayerSkin skin;
+        final boolean isHead;
+        if (itemStack.getType() == Material.PLAYER_HEAD || itemStack.getType() == Material.PLAYER_WALL_HEAD) {
+            if (itemStack instanceof SlimefunItemStack sfis) {
+                Optional<String> texture = sfis.getSkullTexture();
+                if (texture.isPresent()) {
+                    skin = PlayerSkin.fromBase64(texture.get());
+                    isHead = true;
+                } else {
+                    skin = null;
+                    isHead = false;
+                }
+            } else {
+                skin = null;
+                isHead = false;
+            }
+        } else {
+            skin = null;
+            isHead = false;
+        }
+        // java's operation ↑
         doWorldEdit(getPos1(player), getPos2(player), (location -> {
             Block targetBlock = getPos1(player).getWorld().getBlockAt(location);
             sfItem.callItemHandler(BlockPlaceHandler.class, h -> h.onPlayerPlace(
@@ -424,11 +451,13 @@ public class NetworksMain implements TabExecutor {
                     )
             ));
             if (overrideData) {
-                targetBlock.setType(t);
                 Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             }
             if (!StorageCacheUtils.hasBlock(location)) {
                 targetBlock.setType(t);
+                if (isHead) {
+                    PlayerHead.setSkin(targetBlock, skin, false);
+                }
                 Slimefun.getDatabaseManager().getBlockDataController().createBlock(location, sfid);
             }
             count.addAndGet(1);

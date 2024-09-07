@@ -37,7 +37,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -175,7 +174,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         if (useSpecialModel) {
             addItemHandler(new BlockPlaceHandler(false) {
                 @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
+                public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                     // 放置方块时的逻辑
                     e.getBlock().setType(Material.BARRIER);
                     setupDisplay(e.getBlock().getLocation());
@@ -228,7 +227,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         return DisplayGroup.fromUUID(uuid);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
