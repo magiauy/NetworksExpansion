@@ -377,7 +377,6 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     @ParametersAreNonnullByDefault
     protected void retrieveItem(Player player, NodeDefinition definition, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
-        // Todo Item can be null here. No idea how - investigate later
         if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }

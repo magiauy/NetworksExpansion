@@ -17,12 +17,12 @@ import org.bukkit.event.block.BlockPlaceEvent;
  * Fix https://github.com/Sefiraat/Networks/issues/192
  */
 public class BlockListener implements Listener {
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         removeNetwork(e.getBlock().getLocation());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
         removeNetwork(e.getBlock().getLocation());
     }
