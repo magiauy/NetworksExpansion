@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>2.0.9-Alpha-21</version>
+    <version>2.0.9-Alpha-22</version>
 
     <distributionManagement>
         <repository>
@@ -91,24 +91,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.3.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <additionalOptions>
-                        <additionalOption>-Xdoclint:none</additionalOption>
-                    </additionalOptions>
-                </configuration>
             </plugin>
         </plugins>
         <defaultGoal>clean package</defaultGoal>
