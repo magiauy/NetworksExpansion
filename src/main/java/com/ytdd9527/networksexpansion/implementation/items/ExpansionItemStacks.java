@@ -463,18 +463,18 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
             "NTW_EXPANSION_WORLD_EDIT_AXE",
             new ItemStack(Material.DIAMOND_AXE),
             Theme.TOOL,
-            "网络粘液创世神",
-            "仅管理员可用",
-            "右键选择第一个位置",
-            "Shift + 右键选择第二个位置"
+            "Network Slimefun World Edit Axe",
+            "Only available for administrators",
+            "Right-click to select the first position",
+            "Shift + Right-click to select the second position."
     );
     public static final SlimefunItemStack INFO_TOOL = Theme.Random(
             "NTW_EXPANSION_INFO_TOOL",
             new ItemStack(Material.FEATHER),
             Theme.TOOL,
-            "网络信息工具",
-            "仅管理员可用",
-            "右键查看网络中物品的详细信息"
+            "Network Info Tool",
+            "Only available for administrators",
+            "Right-click to view details of the network items"
     );
 
 
@@ -483,30 +483,29 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
             "NTW_INPUT_ONLY_MONITOR",
             new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
             Theme.MACHINE,
-            "网络监视器（仅输入）",
-            "网络监视器可以与附近的方块交互",
-            "让指定方块可以接入网络",
-            "指定的方块只能被输入",
+            "Network Monitor (Input)",
+            "The Network Monitor allows simple",
+            "The Network Monitor allows simple",
+            "objects.",
             "",
-            "目前支持:",
-            "无尽科技 - 存储单元",
-            "网络 - 量子存储",
-            TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
+            "Currently Suport:",
+            "Infinity barrel - Storage Unit",
+            "Network Quantum Storage",
+            TextUtil.colorPseudorandomString("Network Expansion Drawer")
     );
 
     public static final SlimefunItemStack NETWORK_OUTPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
             "NTW_OUTPUT_ONLY_MONITOR",
             new ItemStack(Material.GRAY_STAINED_GLASS),
             Theme.MACHINE,
-            "网络监视器（仅输出）",
-            "网络监视器可以与附近的方块交互",
-            "让指定方块可以接入网络",
-            "指定的方块只能被输出",
+            "The Network Monitor allows simple",
+            "The Network Monitor allows simple",
+            "objects.",
             "",
-            "目前支持:",
-            "无尽科技 - 存储单元",
-            "网络 - 量子存储",
-            TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
+            "Currently Suport:",
+            "Infinity barrel - Storage Unit",
+            "Network Quantum Storage",
+            TextUtil.colorPseudorandomString("Network Expansion Drawer")
     );
     /*
     // Points

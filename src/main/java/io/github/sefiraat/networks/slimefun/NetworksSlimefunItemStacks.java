@@ -237,7 +237,7 @@ public class NetworksSlimefunItemStacks {
             "",
             "Currently Supports:",
             "Infinity Barrels",
-            "Network Shells"
+            "Network Quantum Storage"
         );
 
         NETWORK_IMPORT = Theme.themedSlimefunItemStack(
