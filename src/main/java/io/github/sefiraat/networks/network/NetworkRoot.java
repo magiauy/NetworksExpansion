@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+// TODO: support fluffy barrels
 public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> nodeLocations = new HashSet<>();
@@ -102,13 +103,21 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> inputOnlyMonitors = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> outputOnlyMonitors = ConcurrentHashMap.newKeySet();
     private boolean progressing = false;
     @Getter
     private int maxNodes;
     private boolean isOverburdened = false;
     private Set<BarrelIdentity> barrels = null;
+    private Set<BarrelIdentity> inputAbleBarrels = null;
+    private Set<BarrelIdentity> outputAbleBarrels = null;
 
     private Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
+    private Map<StorageUnitData, Location> inputAbleCargoStorageUnitDatas = null;
+    private Map<StorageUnitData, Location> outputAbleCargoStorageUnitDatas = null;
 
     @Getter
     private long rootPower = 0;
@@ -201,6 +210,8 @@ public class NetworkRoot extends NetworkNode {
             case LINE_TRANSMITTER -> chainDispatchers.add(location);
             case LINE_TRANSMITTER_VANILLA_GRABBER -> chainVanillaGrabbers.add(location);
             case LINE_TRANSMITTER_VANILLA_PUSHER -> chainVanillaPushers.add(location);
+            case INPUT_ONLY_MONITOR -> inputOnlyMonitors.add(location);
+            case OUTPUT_ONLY_MONITOR -> outputOnlyMonitors.add(location);
         }
     }
 
@@ -239,7 +250,7 @@ public class NetworkRoot extends NetworkNode {
         final Map<ItemStack, Long> itemStacks = new HashMap<>();
 
         // Barrels
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
             final Long currentAmount = itemStacks.get(barrelIdentity.getItemStack());
             final long newAmount;
             if (currentAmount == null) {
@@ -256,7 +267,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Cargo storage units
-        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        Map<StorageUnitData, Location> cacheMap = getOutputAbleCargoStorageUnitDatas();
         for (StorageUnitData cache : cacheMap.keySet()) {
             for (ItemContainer itemContainer : cache.getStoredItems()) {
                 final Long currentAmount = itemStacks.get(itemContainer.getSample());
@@ -379,7 +390,7 @@ public class NetworkRoot extends NetworkNode {
         final Map<ItemStack, Integer> itemStacks = new HashMap<>();
 
         // Barrels
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
             final Integer currentAmount = itemStacks.get(barrelIdentity.getItemStack());
             final long newAmount;
             if (currentAmount == null) {
@@ -493,7 +504,7 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        Map<StorageUnitData, Location> cacheMap = getOutputAbleCargoStorageUnitDatas();
         for (StorageUnitData cache : cacheMap.keySet()) {
             for (ItemContainer itemContainer : cache.getStoredItems()) {
                 final Integer currentAmount = itemStacks.get(itemContainer.getSample());
@@ -514,7 +525,6 @@ public class NetworkRoot extends NetworkNode {
         return itemStacks;
     }
 
-    // TODO: support fluffy barrels
     @Nonnull
     public Set<BarrelIdentity> getBarrels() {
 
@@ -767,7 +777,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Barrels first
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
 
             final ItemStack itemStack = barrelIdentity.getItemStack();
 
@@ -803,7 +813,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Units
-        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
+        for (StorageUnitData cache : getOutputAbleCargoStorageUnitDatas().keySet()) {
             ItemStack take = cache.requestItem(request);
             if (take != null) {
                 if (stackToReturn == null) {
@@ -974,7 +984,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Barrels first
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
 
             final ItemStack itemStack = barrelIdentity.getItemStack();
 
@@ -1008,7 +1018,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Units
-        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
+        for (StorageUnitData cache : getOutputAbleCargoStorageUnitDatas().keySet()) {
             ItemStack take = cache.requestItem(request);
             if (take != null) {
                 if (stackToReturn == null) {
@@ -1163,7 +1173,7 @@ public class NetworkRoot extends NetworkNode {
         long found = 0;
 
         // Barrels
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
             final ItemStack itemStack = barrelIdentity.getItemStack();
 
             if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
@@ -1205,7 +1215,7 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        Map<StorageUnitData, Location> cacheMap = getOutputAbleCargoStorageUnitDatas();
         for (StorageUnitData cache : cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
@@ -1311,7 +1321,7 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         // 遍历所有桶
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
             if (StackUtils.itemsMatch(barrelIdentity.getItemStack(), itemStack)) {
                 totalAmount += barrelIdentity.getAmount();
                 if (barrelIdentity instanceof InfinityBarrel) {
@@ -1319,7 +1329,7 @@ public class NetworkRoot extends NetworkNode {
                 }
             }
         }
-        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        Map<StorageUnitData, Location> cacheMap = getOutputAbleCargoStorageUnitDatas();
         for (StorageUnitData cache : cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
@@ -1373,7 +1383,7 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         // 遍历所有桶
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
             for (ItemStack itemStack : itemStacks) {
                 if (StackUtils.itemsMatch(barrelIdentity.getItemStack(), itemStack)) {
                     long totalAmount = barrelIdentity.getAmount();
@@ -1384,7 +1394,7 @@ public class NetworkRoot extends NetworkNode {
                 }
             }
         }
-        Map<StorageUnitData, Location> cacheMap = getCargoStorageUnitDatas();
+        Map<StorageUnitData, Location> cacheMap = getOutputAbleCargoStorageUnitDatas();
         for (StorageUnitData cache : cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
@@ -1489,7 +1499,7 @@ public class NetworkRoot extends NetworkNode {
 
 
         // Run for matching barrels
-        for (BarrelIdentity barrelIdentity : getBarrels()) {
+        for (BarrelIdentity barrelIdentity : getInputAbleBarrels()) {
             if (StackUtils.itemsMatch(barrelIdentity, incoming)) {
                 barrelIdentity.depositItemStack(incoming);
 
@@ -1500,7 +1510,7 @@ public class NetworkRoot extends NetworkNode {
             }
         }
 
-        for (StorageUnitData cache : getCargoStorageUnitDatas().keySet()) {
+        for (StorageUnitData cache : getInputAbleCargoStorageUnitDatas().keySet()) {
             cache.depositItemStack(incoming, true);
 
             // 填充完成
@@ -1602,5 +1612,205 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         return retrievedItems;
+    }
+
+    @Nonnull
+    public Set<BarrelIdentity> getInputAbleBarrels() {
+
+        if (this.inputAbleBarrels != null) {
+            return this.inputAbleBarrels;
+        }
+
+        final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
+        final Set<BarrelIdentity> barrelSet = ConcurrentHashMap.newKeySet();
+
+        final Set<Location> monitor = new HashSet<>();
+        monitor.addAll(this.inputOnlyMonitors);
+        monitor.addAll(this.monitors);
+        for (Location cellLocation : monitor) {
+            final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
+
+            if (face == null) {
+                continue;
+            }
+
+            final Location testLocation = cellLocation.clone().add(face.getDirection());
+
+            if (addedLocations.contains(testLocation)) {
+                continue;
+            } else {
+                addedLocations.add(testLocation);
+            }
+
+            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
+
+            if (Networks.getSupportedPluginManager()
+                    .isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
+                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
+                final InfinityBarrel infinityBarrel = getInfinityBarrel(menu, unit);
+                if (infinityBarrel != null) {
+                    barrelSet.add(infinityBarrel);
+                }
+                continue;
+            }
+
+            if (slimefunItem instanceof NetworkQuantumStorage) {
+                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
+                final NetworkStorage storage = getNetworkStorage(menu);
+                if (storage != null) {
+                    barrelSet.add(storage);
+                }
+            }
+        }
+
+        this.inputAbleBarrels = barrelSet;
+        return barrelSet;
+    }
+
+    @Nonnull
+    public Set<BarrelIdentity> getOutputAbleBarrels() {
+
+        if (this.outputAbleBarrels != null) {
+            return this.outputAbleBarrels;
+        }
+
+        final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
+        final Set<BarrelIdentity> barrelSet = ConcurrentHashMap.newKeySet();
+
+        final Set<Location> monitor = new HashSet<>();
+        monitor.addAll(this.outputOnlyMonitors);
+        monitor.addAll(this.monitors);
+        for (Location cellLocation : monitor) {
+            final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
+
+            if (face == null) {
+                continue;
+            }
+
+            final Location testLocation = cellLocation.clone().add(face.getDirection());
+
+            if (addedLocations.contains(testLocation)) {
+                continue;
+            } else {
+                addedLocations.add(testLocation);
+            }
+
+            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
+
+            if (Networks.getSupportedPluginManager()
+                    .isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
+                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
+                final InfinityBarrel infinityBarrel = getInfinityBarrel(menu, unit);
+                if (infinityBarrel != null) {
+                    barrelSet.add(infinityBarrel);
+                }
+                continue;
+            }
+
+            if (slimefunItem instanceof NetworkQuantumStorage) {
+                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
+                final NetworkStorage storage = getNetworkStorage(menu);
+                if (storage != null) {
+                    barrelSet.add(storage);
+                }
+            }
+        }
+
+        this.outputAbleBarrels = barrelSet;
+        return barrelSet;
+    }
+
+    @Nonnull
+    public Map<StorageUnitData, Location> getInputAbleCargoStorageUnitDatas() {
+        if (this.inputAbleCargoStorageUnitDatas != null) {
+            return this.inputAbleCargoStorageUnitDatas;
+        }
+
+        final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
+        final Map<StorageUnitData, Location> dataSet = new HashMap<>();
+
+        final Set<Location> monitor = new HashSet<>();
+        monitor.addAll(this.inputOnlyMonitors);
+        monitor.addAll(this.monitors);
+        for (Location cellLocation : monitor) {
+            final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
+
+            if (face == null) {
+                continue;
+            }
+
+            final Location testLocation = cellLocation.clone().add(face.getDirection());
+
+            if (addedLocations.contains(testLocation)) {
+                continue;
+            } else {
+                addedLocations.add(testLocation);
+            }
+
+            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
+
+            if (slimefunItem instanceof CargoStorageUnit) {
+                final StorageUnitData data = getCargoStorageUnitData(testLocation);
+                if (data != null) {
+                    dataSet.put(data, testLocation);
+                }
+            }
+        }
+
+        this.inputAbleCargoStorageUnitDatas = dataSet;
+        return dataSet;
+    }
+
+    @Nonnull
+    public Map<StorageUnitData, Location> getOutputAbleCargoStorageUnitDatas() {
+        if (this.outputAbleCargoStorageUnitDatas != null) {
+            return this.outputAbleCargoStorageUnitDatas;
+        }
+
+        final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
+        final Map<StorageUnitData, Location> dataSet = new HashMap<>();
+
+        final Set<Location> monitor = new HashSet<>();
+        monitor.addAll(this.outputOnlyMonitors);
+        monitor.addAll(this.monitors);
+        for (Location cellLocation : monitor) {
+            final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
+
+            if (face == null) {
+                continue;
+            }
+
+            final Location testLocation = cellLocation.clone().add(face.getDirection());
+
+            if (addedLocations.contains(testLocation)) {
+                continue;
+            } else {
+                addedLocations.add(testLocation);
+            }
+
+            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
+
+            if (slimefunItem instanceof CargoStorageUnit) {
+                final StorageUnitData data = getCargoStorageUnitData(testLocation);
+                if (data != null) {
+                    dataSet.put(data, testLocation);
+                }
+            }
+        }
+
+        this.outputAbleCargoStorageUnitDatas = dataSet;
+        return dataSet;
     }
 }

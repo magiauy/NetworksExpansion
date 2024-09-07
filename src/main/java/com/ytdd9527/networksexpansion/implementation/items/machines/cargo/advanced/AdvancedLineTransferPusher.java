@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-// TODO: 需要重构
 public class AdvancedLineTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"

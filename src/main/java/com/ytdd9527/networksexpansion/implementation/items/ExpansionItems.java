@@ -45,6 +45,8 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedPurger;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkGridNewStyle;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkInputOnlyMonitor;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkOutputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.implementation.items.tools.CargoNodeQuickTool;
 import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksExpansionWorldEditAxe;
@@ -107,6 +109,20 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.NETWORK_CAPACITOR_6,
             Integer.MAX_VALUE
+    );
+
+    public static final NetworkInputOnlyMonitor NETWORK_INPUT_ONLY_MONITOR = new NetworkInputOnlyMonitor(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.NETWORK_INPUT_ONLY_MONITOR,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.NETWORK_INPUT_ONLY_MONITOR
+    );
+
+    public static final NetworkOutputOnlyMonitor NETWORK_OUTPUT_ONLY_MONITOR = new NetworkOutputOnlyMonitor(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.NETWORK_OUTPUT_ONLY_MONITOR,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.NETWORK_OUTPUT_ONLY_MONITOR
     );
 
     public static final NetworkQuantumStorage ADVANCED_QUANTUM_STORAGE = new NetworkQuantumStorage(
@@ -444,6 +460,7 @@ public class ExpansionItems {
             12800,
             true
     );
+    /*
     public static final PointTransfer POINT_TRANSFER = new PointTransfer(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.POINT_TRANSFER,
@@ -458,6 +475,7 @@ public class ExpansionItems {
             ExpansionRecipes.POINT_TRANSFER_GRABBER,
             "NTW_EXPANSION_POINT_TRANSFER_GRABBER"
     );
+     */
     public static final LineTransferPusher LINE_TRANSFER_PUSHER = new LineTransferPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.LINE_TRANSFER_PUSHER,

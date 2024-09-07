@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items;
 
 import com.ytdd9527.networksexpansion.api.enums.Skins;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -105,6 +106,37 @@ public class ExpansionItemStacks {
             "",
             MessageFormat.format("{0}容量: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, Integer.MAX_VALUE)
     );
+
+    public static final SlimefunItemStack NETWORK_INPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
+            "NTW_INPUT_ONLY_MONITOR",
+            new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
+            Theme.MACHINE,
+            "网络监视器（仅输入）",
+            "网络监视器可以与附近的方块交互",
+            "让指定方块可以接入网络",
+            "指定的方块只能被输入",
+            "",
+            "目前支持:",
+            "无尽科技 - 存储单元",
+            "网络 - 量子存储",
+            TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
+    );
+
+    public static final SlimefunItemStack NETWORK_OUTPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
+            "NTW_OUTPUT_ONLY_MONITOR",
+            new ItemStack(Material.GRAY_STAINED_GLASS),
+            Theme.MACHINE,
+            "网络监视器（仅输出）",
+            "网络监视器可以与附近的方块交互",
+            "让指定方块可以接入网络",
+            "指定的方块只能被输出",
+            "",
+            "目前支持:",
+            "无尽科技 - 存储单元",
+            "网络 - 量子存储",
+            TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
+    );
+    /*
     // Points
     public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
             "NTW_EXPANSION_POINT_TRANSFER",
@@ -118,6 +150,7 @@ public class ExpansionItemStacks {
             Theme.MACHINE,
             "对点传输器 [抓取]"
     );
+    */
 
 
     // Transfers
