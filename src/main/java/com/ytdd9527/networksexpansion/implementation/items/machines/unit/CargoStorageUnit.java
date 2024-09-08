@@ -50,10 +50,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -399,46 +398,41 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             // 添加点击事件
             blockMenu.addMenuClickHandler(s, (player, slot, clickItem, action) -> {
                 ItemStack itemOnCursor = player.getItemOnCursor();
-                if (itemOnCursor.getType().isAir()) {
-                    // 手上无物品时
-                    if (StackUtils.itemsMatch(clickItem, ERROR_BORDER)) {
-                        // 点击的是空位
-                        // [ 无操作 ]
-                    } else {
-                        // 点击的是物品
-                        List<Integer> a = new ArrayList<>();
-                        for (int i : DISPLAY_SLOTS) {
-                            a.add(i);
-                        }
-                        int index = a.indexOf(slot);
-                        ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
+                if (StackUtils.itemsMatch(clickItem, ERROR_BORDER)) {
+                    if (!itemOnCursor.getType().isAir()) {
+                        data.depositItemStack(itemOnCursor, false, true);
+                    }
+                } else {
+                    List<Integer> a = new ArrayList<>();
+                    for (int i : DISPLAY_SLOTS) {
+                        a.add(i);
+                    }
+                    int index = a.indexOf(slot);
+                    ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
 
-                        ItemRequest itemRequest = new ItemRequest(take, take.getMaxStackSize());
-                        if (action.isShiftClicked()) {
-                            // 如果shift，取出1组物品
-                            itemRequest.setAmount(clickItem.getMaxStackSize());
-                        } else {
-                            // 否则，取出1个物品
-                            itemRequest.setAmount(1);
+                    ItemRequest itemRequest = new ItemRequest(take, 1);
+
+                    if (!action.isShiftClicked() || !action.isRightClicked()) {
+                        if (action.isRightClicked()) {
+                            itemRequest.setAmount(take.getMaxStackSize());
+                        } else if (action.isShiftClicked()) {
+                            itemRequest.setAmount(take.getMaxStackSize() * 36);
                         }
 
                         ItemStack requestedItemStack = data.requestItem(itemRequest);
                         if (requestedItemStack != null) {
-                            if (action.isRightClicked()) {
-                                // 如果是右键
-                                player.setItemOnCursor(requestedItemStack.clone());
-                            } else {
-                                // 如果是左键
-                                HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(requestedItemStack);
-                                remnant.values().stream().findFirst().ifPresent(leftOver ->
-                                        data.depositItemStack(leftOver, false)
-                                );
+                            HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(requestedItemStack);
+                            remnat.values().stream().findFirst().ifPresent(leftOver -> {
+                                data.depositItemStack(leftOver, false);
+                            });
+                        }
+                    } else {
+                        for (ItemStack each : player.getInventory().getStorageContents()) {
+                            if (StackUtils.itemsMatch(each, take)) {
+                                data.depositItemStack(each, true);
                             }
                         }
                     }
-                } else {
-                    // 手上有物品时
-                    data.depositItemStack(itemOnCursor, false, true);
                 }
                 return false;
             });
@@ -781,14 +775,14 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
 
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
-            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
                 onPlace(blockPlaceEvent);
             }
         });
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(@NotNull BlockBreakEvent blockBreakEvent, @NotNull ItemStack itemStack, @NotNull List<ItemStack> list) {
+            public void onPlayerBreak(@Nonnull BlockBreakEvent blockBreakEvent, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> list) {
                 onBreak(blockBreakEvent);
             }
         });

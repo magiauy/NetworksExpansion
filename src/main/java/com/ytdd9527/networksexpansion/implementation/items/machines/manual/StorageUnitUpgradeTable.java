@@ -33,8 +33,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +83,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
             }
 
             @Override
-            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
+            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 menu.addMenuClickHandler(actionBtnSlot, (p, slot, item, action) -> {
                     craft(p, menu);
                     return false;
@@ -92,7 +92,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
             }
 
             @Override
-            public boolean canOpen(@NotNull Block b, @NotNull Player p) {
+            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
                 return p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
             }
 
