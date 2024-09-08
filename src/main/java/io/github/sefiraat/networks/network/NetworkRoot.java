@@ -6,7 +6,6 @@ import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.utils.NetworksVersionedParticle;
-import io.github.mooy1.infinityexpansion.InfinityExpansion;
 import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.Networks;
@@ -24,7 +23,6 @@ import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.ncbpfluffybear.fluffymachines.items.Barrel;
-import io.ncbpfluffybear.fluffymachines.utils.Utils;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -32,8 +30,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -694,7 +690,7 @@ public class NetworkRoot extends NetworkNode {
         return new FluffyBarrel(
                 blockMenu.getLocation(),
                 clone,
-                stored + itemStack.getAmount(),
+                stored,
                 limit,
                 voidExcess
         );
@@ -1052,7 +1048,7 @@ public class NetworkRoot extends NetworkNode {
                 stackToReturn.setAmount(0);
             }
 
-            final int preserveAmount = (infinity || fluffy) ? fetched.getAmount() - 1 : fetched.getAmount();
+            final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
 
             if (request.getAmount() <= preserveAmount) {
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
@@ -1702,7 +1698,8 @@ public class NetworkRoot extends NetworkNode {
                     barrelSet.add(infinityBarrel);
                 }
                 continue;
-            } else if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
+            }
+            if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
@@ -1712,7 +1709,8 @@ public class NetworkRoot extends NetworkNode {
                     barrelSet.add(fluffyBarrel);
                 }
                 continue;
-            } else if (slimefunItem instanceof NetworkQuantumStorage) {
+            }
+            if (slimefunItem instanceof NetworkQuantumStorage) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
