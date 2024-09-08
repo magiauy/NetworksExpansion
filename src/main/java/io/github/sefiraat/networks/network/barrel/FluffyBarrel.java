@@ -4,10 +4,13 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.ncbpfluffybear.fluffymachines.items.Barrel;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -29,16 +32,25 @@ public class FluffyBarrel extends BarrelIdentity {
         if (menu == null) {
             return null;
         }
-        int total = 0;
-        for (int slot : getOutputSlot()) {
-            ItemStack itemInSlot = menu.getItemInSlot(slot);
-            if (StackUtils.itemsMatch(itemInSlot, itemRequest.getItemStack())) {
+        final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(getLocation());
+        if (slimefunItem instanceof Barrel barrel) {
+            Block block = getLocation().getBlock();
+            int stored = barrel.getStored(block);
+            if (stored <= 1) {
+                return null;
+            }
+            ItemStack storedItem = barrel.getStoredItem(block);
+            int total = 0;
+            if (StackUtils.itemsMatch(storedItem, itemRequest.getItemStack())) {
                 int need = itemRequest.getAmount();
-                int have = itemInSlot.getAmount();
+                int have = stored - 1;
                 int take = Math.min(need, have);
+                if (take <= 0) {
+                    return null;
+                }
                 total += take;
-                itemInSlot.setAmount(have - take);
                 itemRequest.receiveAmount(take);
+                barrel.setStored(block, stored - take);
                 if (itemRequest.getAmount() <= 0) {
                     return StackUtils.getAsQuantity(itemRequest.getItemStack(), total);
                 }

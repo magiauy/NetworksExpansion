@@ -654,14 +654,6 @@ public class NetworkRoot extends NetworkNode {
             return null;
         }
 
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null) {
-            return null;
-        }
-        PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
-        if (!pdc.has(InfinityExpansion.createKey("item"))) {
-            return null;
-        }
 
         final StorageCache cache = storageUnit.getCache(blockMenu.getLocation());
 
@@ -689,12 +681,13 @@ public class NetworkRoot extends NetworkNode {
             return null;
         }
 
-        ItemStack clone = StackUtils.getAsQuantity(itemStack, 1);
-        if (!StackUtils.itemsMatch(clone, Utils.keyItem(clone))) {
-            return null;
-        }
+        final ItemStack clone = itemStack.clone();
 
         int stored = barrel.getStored(block);
+
+        if (stored <= 0) {
+            return null;
+        }
         int limit = barrel.getCapacity(block);
         boolean voidExcess = Boolean.parseBoolean(StorageCacheUtils.getData(blockMenu.getLocation(), "trash"));
 
@@ -839,6 +832,7 @@ public class NetworkRoot extends NetworkNode {
             }
 
             boolean infinity = barrelIdentity instanceof InfinityBarrel;
+            boolean fluffy = barrelIdentity instanceof FluffyBarrel;
             final ItemStack fetched = barrelIdentity.requestItem(request);
             if (fetched == null || fetched.getType().isAir() || (infinity && fetched.getAmount() == 1)) {
                 continue;
@@ -850,7 +844,7 @@ public class NetworkRoot extends NetworkNode {
                 stackToReturn.setAmount(0);
             }
 
-            final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
+            final int preserveAmount = (infinity || fluffy) ? fetched.getAmount() - 1 : fetched.getAmount();
 
             if (request.getAmount() <= preserveAmount) {
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
@@ -1046,6 +1040,7 @@ public class NetworkRoot extends NetworkNode {
             }
 
             boolean infinity = barrelIdentity instanceof InfinityBarrel;
+            boolean fluffy = barrelIdentity instanceof FluffyBarrel;
             final ItemStack fetched = barrelIdentity.requestItem(request);
             if (fetched == null || fetched.getType().isAir() || (infinity && fetched.getAmount() == 1)) {
                 continue;
@@ -1057,7 +1052,7 @@ public class NetworkRoot extends NetworkNode {
                 stackToReturn.setAmount(0);
             }
 
-            final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
+            final int preserveAmount = (infinity || fluffy) ? fetched.getAmount() - 1 : fetched.getAmount();
 
             if (request.getAmount() <= preserveAmount) {
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
@@ -1697,8 +1692,7 @@ public class NetworkRoot extends NetworkNode {
 
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
 
-            if (Networks.getSupportedPluginManager()
-                    .isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
+            if (Networks.getSupportedPluginManager().isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
@@ -1764,8 +1758,7 @@ public class NetworkRoot extends NetworkNode {
 
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
 
-            if (Networks.getSupportedPluginManager()
-                    .isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
+            if (Networks.getSupportedPluginManager().isInfinityExpansion() && slimefunItem instanceof StorageUnit unit) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
@@ -1775,7 +1768,8 @@ public class NetworkRoot extends NetworkNode {
                     barrelSet.add(infinityBarrel);
                 }
                 continue;
-            } else if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
+            }
+            if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
@@ -1785,7 +1779,8 @@ public class NetworkRoot extends NetworkNode {
                     barrelSet.add(fluffyBarrel);
                 }
                 continue;
-            } else if (slimefunItem instanceof NetworkQuantumStorage) {
+            }
+            if (slimefunItem instanceof NetworkQuantumStorage) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
