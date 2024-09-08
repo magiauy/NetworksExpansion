@@ -416,7 +416,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         if (action.isRightClicked()) {
                             itemRequest.setAmount(take.getMaxStackSize());
                         } else if (action.isShiftClicked()) {
-                            itemRequest.setAmount(take.getMaxStackSize()*36);
+                            itemRequest.setAmount(take.getMaxStackSize() * 36);
                         }
 
                         ItemStack requestedItemStack = data.requestItem(itemRequest);
