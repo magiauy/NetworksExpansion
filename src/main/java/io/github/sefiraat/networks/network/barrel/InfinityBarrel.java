@@ -23,12 +23,11 @@ public class InfinityBarrel extends BarrelIdentity {
         this.cache = cache;
     }
 
-    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
         BlockMenu blockMenu = StorageCacheUtils.getMenu(this.getLocation());
-        return blockMenu == null ? null : blockMenu.getItemInSlot(this.getOutputSlot());
+        return blockMenu == null ? null : blockMenu.getItemInSlot(this.getOutputSlot()[0]);
     }
 
     @Override
@@ -37,12 +36,12 @@ public class InfinityBarrel extends BarrelIdentity {
     }
 
     @Override
-    public int getInputSlot() {
-        return 10;
+    public int[] getInputSlot() {
+        return new int[]{10};
     }
 
     @Override
-    public int getOutputSlot() {
-        return 16;
+    public int[] getOutputSlot() {
+        return new int[]{16};
     }
 }

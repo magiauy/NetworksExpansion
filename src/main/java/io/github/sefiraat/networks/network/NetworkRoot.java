@@ -6,8 +6,11 @@ import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.utils.NetworksVersionedParticle;
+import io.github.mooy1.infinityexpansion.InfinityExpansion;
+import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.barrel.FluffyBarrel;
 import io.github.sefiraat.networks.network.barrel.InfinityBarrel;
 import io.github.sefiraat.networks.network.barrel.NetworkStorage;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
@@ -20,12 +23,17 @@ import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.ncbpfluffybear.fluffymachines.items.Barrel;
+import io.ncbpfluffybear.fluffymachines.utils.Utils;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,7 +46,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-// TODO: support fluffy barrels
 @SuppressWarnings("unused")
 public class NetworkRoot extends NetworkNode {
     @Getter
@@ -564,9 +571,17 @@ public class NetworkRoot extends NetworkNode {
                     barrelSet.add(infinityBarrel);
                 }
                 continue;
-            }
-
-            if (slimefunItem instanceof NetworkQuantumStorage) {
+            } else if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
+                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
+                final FluffyBarrel fluffyBarrel = getFluffyBarrel(menu, barrel);
+                if (fluffyBarrel != null) {
+                    barrelSet.add(fluffyBarrel);
+                }
+                continue;
+            } else if (slimefunItem instanceof NetworkQuantumStorage) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
@@ -624,6 +639,9 @@ public class NetworkRoot extends NetworkNode {
     private InfinityBarrel getInfinityBarrel(@Nonnull BlockMenu blockMenu, @Nonnull StorageUnit storageUnit) {
         final ItemStack itemStack = blockMenu.getItemInSlot(16);
         final var data = StorageCacheUtils.getBlock(blockMenu.getLocation());
+        if (data == null) {
+            return null;
+        }
         final String storedString = data.getData("stored");
 
         if (storedString == null) {
@@ -636,7 +654,16 @@ public class NetworkRoot extends NetworkNode {
             return null;
         }
 
-        final io.github.mooy1.infinityexpansion.items.storage.StorageCache cache = storageUnit.getCache(blockMenu.getLocation());
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null) {
+            return null;
+        }
+        PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
+        if (!pdc.has(InfinityExpansion.createKey("item"))) {
+            return null;
+        }
+
+        final StorageCache cache = storageUnit.getCache(blockMenu.getLocation());
 
         if (cache == null) {
             return null;
@@ -650,6 +677,33 @@ public class NetworkRoot extends NetworkNode {
                 clone,
                 storedInt + itemStack.getAmount(),
                 cache
+        );
+    }
+
+    @Nullable
+    private FluffyBarrel getFluffyBarrel(@Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel) {
+        Block block = blockMenu.getBlock();
+        ItemStack itemStack = barrel.getStoredItem(block);
+
+        if (itemStack == null || itemStack.getType().isAir()) {
+            return null;
+        }
+
+        ItemStack clone = StackUtils.getAsQuantity(itemStack, 1);
+        if (!StackUtils.itemsMatch(clone, Utils.keyItem(clone))) {
+            return null;
+        }
+
+        int stored = barrel.getStored(block);
+        int limit = barrel.getCapacity(block);
+        boolean voidExcess = Boolean.parseBoolean(StorageCacheUtils.getData(blockMenu.getLocation(), "trash"));
+
+        return new FluffyBarrel(
+                blockMenu.getLocation(),
+                clone,
+                stored + itemStack.getAmount(),
+                limit,
+                voidExcess
         );
     }
 
@@ -770,8 +824,6 @@ public class NetworkRoot extends NetworkNode {
         ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
-            stackToReturn = request.getItemStack().clone();
-            stackToReturn.setAmount(request.getAmount());
             progressing = false;
             notifyAll();
             return stackToReturn;
@@ -1656,9 +1708,17 @@ public class NetworkRoot extends NetworkNode {
                     barrelSet.add(infinityBarrel);
                 }
                 continue;
-            }
-
-            if (slimefunItem instanceof NetworkQuantumStorage) {
+            } else if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
+                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
+                final FluffyBarrel fluffyBarrel = getFluffyBarrel(menu, barrel);
+                if (fluffyBarrel != null) {
+                    barrelSet.add(fluffyBarrel);
+                }
+                continue;
+            } else if (slimefunItem instanceof NetworkQuantumStorage) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;
@@ -1715,9 +1775,17 @@ public class NetworkRoot extends NetworkNode {
                     barrelSet.add(infinityBarrel);
                 }
                 continue;
-            }
-
-            if (slimefunItem instanceof NetworkQuantumStorage) {
+            } else if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
+                final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
+                if (menu == null) {
+                    continue;
+                }
+                final FluffyBarrel fluffyBarrel = getFluffyBarrel(menu, barrel);
+                if (fluffyBarrel != null) {
+                    barrelSet.add(fluffyBarrel);
+                }
+                continue;
+            } else if (slimefunItem instanceof NetworkQuantumStorage) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
                     continue;

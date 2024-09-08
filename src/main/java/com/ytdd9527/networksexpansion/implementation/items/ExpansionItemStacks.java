@@ -127,6 +127,7 @@ public class ExpansionItemStacks {
             "",
             "目前支持:",
             "无尽科技 - 存储单元",
+            "蓬松科技 - 蓬松桶",
             "网络 - 量子存储",
             TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
     );
@@ -142,6 +143,7 @@ public class ExpansionItemStacks {
             "",
             "目前支持:",
             "无尽科技 - 存储单元",
+            "蓬松科技 - 蓬松桶",
             "网络 - 量子存储",
             TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
     );

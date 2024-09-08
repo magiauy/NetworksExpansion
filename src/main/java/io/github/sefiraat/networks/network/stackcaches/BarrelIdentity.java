@@ -2,11 +2,13 @@ package io.github.sefiraat.networks.network.stackcaches;
 
 import io.github.sefiraat.networks.network.barrel.BarrelCore;
 import io.github.sefiraat.networks.network.barrel.BarrelType;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 public abstract class BarrelIdentity extends ItemStackCache implements BarrelCore {
 
     private final Location location;
@@ -19,17 +21,5 @@ public abstract class BarrelIdentity extends ItemStackCache implements BarrelCor
         this.location = location;
         this.amount = amount;
         this.type = type;
-    }
-
-    public Location getLocation() {
-        return this.location;
-    }
-
-    public long getAmount() {
-        return this.amount;
-    }
-
-    public BarrelType getType() {
-        return this.type;
     }
 }

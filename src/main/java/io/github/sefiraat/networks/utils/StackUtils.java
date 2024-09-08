@@ -43,12 +43,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 @UtilityClass
-// @SuppressWarnings("deprecation")
+@SuppressWarnings("deprecation")
 public class StackUtils {
     MinecraftVersion MC_VERSION = Slimefun.getMinecraftVersion();
 
     @Nonnull
-    public static ItemStack getAsQuantity(@Nonnull ItemStack itemStack, int amount) {
+    public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
+        if (itemStack == null) {
+            return new ItemStack(Material.AIR);
+        }
         ItemStack clone = itemStack.clone();
         clone.setAmount(amount);
         return clone;
