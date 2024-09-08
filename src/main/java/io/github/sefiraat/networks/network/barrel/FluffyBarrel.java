@@ -80,7 +80,12 @@ public class FluffyBarrel extends BarrelIdentity {
             }
         }
 
-        StorageCacheUtils.setData(getLocation(), "stored", String.valueOf(getAmount() + received));
+        setStored(getLocation(), (int) (getAmount() + received));
+        Barrel barrel = (Barrel) StorageCacheUtils.getSfItem(getLocation());
+        BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
+        if (barrel != null) {
+            barrel.updateMenu(getLocation().getBlock(), menu, true, getLimit());
+        }
     }
 
     @Override
