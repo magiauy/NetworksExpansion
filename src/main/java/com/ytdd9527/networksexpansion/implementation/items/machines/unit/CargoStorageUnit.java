@@ -421,16 +421,10 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
 
                         ItemStack requestedItemStack = data.requestItem(itemRequest);
                         if (requestedItemStack != null) {
-                            if (action.isRightClicked()) {
-                                // 如果是右键
-                                player.setItemOnCursor(requestedItemStack.clone());
-                            } else {
-                                // 如果是左键
-                                HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(requestedItemStack);
-                                remnant.values().stream().findFirst().ifPresent(leftOver ->
-                                        data.depositItemStack(leftOver, false)
-                                );
-                            }
+                            HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(requestedItemStack);
+                            remnat.values().stream().findFirst().ifPresent(leftOver -> {
+                                data.depositItemStack(leftOver, false)
+                            });
                         }
                     } else {
                         for (ItemStack each : player.getInventory().getStorageContents()) {
