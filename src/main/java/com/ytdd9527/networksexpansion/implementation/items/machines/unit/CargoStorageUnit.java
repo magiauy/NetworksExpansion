@@ -423,7 +423,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         if (requestedItemStack != null) {
                             HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(requestedItemStack);
                             remnat.values().stream().findFirst().ifPresent(leftOver -> {
-                                data.depositItemStack(leftOver, false)
+                                data.depositItemStack(leftOver, false);
                             });
                         }
                     } else {
