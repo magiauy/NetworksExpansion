@@ -434,7 +434,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         }
                     } else {
                         for (ItemStack each : player.getInventory().getStorageContents()) {
-                            if (StackUtils.itemsMatch(StackUtils.getAsQuantity(each, 1), take)) {
+                            if (StackUtils.itemsMatch(each, take)) {
                                 data.depositItemStack(each, true);
                             }
                         }
