@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.integrations;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import io.github.schntgaispock.slimehud.util.HudBuilder;
 import io.github.schntgaispock.slimehud.waila.HudController;
@@ -7,14 +8,15 @@ import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class HudCallbacks {
+
     private static final String EMPTY = "&7| 空";
+
     public static void setup() {
         HudController controller = SlimeHUD.getHudController();
 
@@ -30,7 +32,7 @@ public class HudCallbacks {
 
         controller.registerCustomHandler(NetworkGreedyBlock.class, request -> {
             Location location = request.getLocation();
-            BlockMenu menu = BlockStorage.getInventory(location);
+            BlockMenu menu = StorageCacheUtils.getMenu(location);
             if (menu == null) {
                 return EMPTY;
             }
@@ -51,8 +53,8 @@ public class HudCallbacks {
         String amountStr = HudBuilder.getAbbreviatedNumber(amount);
         String limitStr = HudBuilder.getAbbreviatedNumber(limit);
         String itemName = meta != null && meta.hasDisplayName()
-                ? meta.getDisplayName()
-                : ChatUtils.humanize(itemStack.getType().name());
+            ? meta.getDisplayName()
+            : ChatUtils.humanize(itemStack.getType().name());
 
         return "&7| &f" + itemName + " &7| " + amountStr + "/" + limitStr;
     }

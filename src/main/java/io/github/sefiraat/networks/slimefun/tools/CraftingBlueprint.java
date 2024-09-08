@@ -56,9 +56,4 @@ public class CraftingBlueprint extends UnplaceableBlock implements DistinctiveIt
 
         blueprint.setItemMeta(itemMeta);
     }
-
-    @Override
-    public boolean canStack(ItemMeta meta1, ItemMeta meta2) {
-        return meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer());
-    }
 }

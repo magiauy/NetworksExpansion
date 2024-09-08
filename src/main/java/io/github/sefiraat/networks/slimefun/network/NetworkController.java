@@ -88,7 +88,7 @@ public class NetworkController extends NetworkObject {
 
             for (BlockFace checkFace : CHECK_FACES) {
                 Block checkBlock = target.getRelative(checkFace);
-                SlimefunItem slimefunItem = BlockStorage.check(checkBlock);
+                SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(checkBlock.getLocation());
 
                 // For directly adjacent controllers
                 if (slimefunItem instanceof NetworkController) {
