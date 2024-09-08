@@ -398,27 +398,25 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             // 添加点击事件
             blockMenu.addMenuClickHandler(s, (player, slot, clickItem, action) -> {
                 ItemStack itemOnCursor = player.getItemOnCursor();
-                if (itemOnCursor.getType().isAir()) {
-                    // 手上无物品时
-                    if (StackUtils.itemsMatch(clickItem, ERROR_BORDER)) {
-                        // 点击的是空位
-                        // [ 无操作 ]
-                    } else {
-                        // 点击的是物品
-                        List<Integer> a = new ArrayList<>();
-                        for (int i : DISPLAY_SLOTS) {
-                            a.add(i);
-                        }
-                        int index = a.indexOf(slot);
-                        ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
+                if (StackUtils.itemsMatch(clickItem, ERROR_BORDER)) {
+                    if (!itemOnCursor.getType().isAir()) {
+                        data.depositItemStack(itemOnCursor, false, true);
+                    }
+                } else {
+                    List<Integer> a = new ArrayList<>();
+                    for (int i : DISPLAY_SLOTS) {
+                        a.add(i);
+                    }
+                    int index = a.indexOf(slot);
+                    ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
 
-                        ItemRequest itemRequest = new ItemRequest(take, take.getMaxStackSize());
-                        if (action.isShiftClicked()) {
-                            // 如果shift，取出1组物品
-                            itemRequest.setAmount(clickItem.getMaxStackSize());
-                        } else {
-                            // 否则，取出1个物品
-                            itemRequest.setAmount(1);
+                    ItemRequest itemRequest = new ItemRequest(take, 1);
+
+                    if (!action.isShiftClicked() || !action.isRightClicked()) {
+                        if (action.isRightClicked()) {
+                            itemRequest.setAmount(take.getMaxStackSize());
+                        } else if (action.isShiftClicked()) {
+                            itemRequest.setAmount(take.getMaxStackSize()*36);
                         }
 
                         ItemStack requestedItemStack = data.requestItem(itemRequest);
@@ -434,10 +432,13 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                                 );
                             }
                         }
+                    } else {
+                        for (ItemStack each : player.getInventory().getStorageContents()) {
+                            if (StackUtils.itemsMatch(StackUtils.getAsQuantity(each, 1), take)) {
+                                data.depositItemStack(each, true);
+                            }
+                        }
                     }
-                } else {
-                    // 手上有物品时
-                    data.depositItemStack(itemOnCursor, false, true);
                 }
                 return false;
             });
