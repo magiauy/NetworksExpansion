@@ -49,7 +49,7 @@ public class FluffyBarrel extends BarrelIdentity {
             if (barrel != null) {
                 barrel.updateMenu(getLocation().getBlock(), menu, true, getLimit());
             }
-            ;
+
             return StackUtils.getAsQuantity(getItemStack(), take);
         }
 
@@ -58,6 +58,7 @@ public class FluffyBarrel extends BarrelIdentity {
 
     public void setStored(Location location, int amount) {
         StorageCacheUtils.setData(location, "stored", String.valueOf(amount));
+        setAmount(amount);
     }
 
     @Override

@@ -671,7 +671,12 @@ public class NetworkRoot extends NetworkNode {
     @Nullable
     private FluffyBarrel getFluffyBarrel(@Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel) {
         Block block = blockMenu.getBlock();
-        ItemStack itemStack = barrel.getStoredItem(block);
+        ItemStack itemStack;
+        try {
+            itemStack = barrel.getStoredItem(block);
+        } catch (NullPointerException ignored) {
+            return null;
+        }
 
         if (itemStack == null || itemStack.getType().isAir()) {
             return null;
@@ -1036,7 +1041,6 @@ public class NetworkRoot extends NetworkNode {
             }
 
             boolean infinity = barrelIdentity instanceof InfinityBarrel;
-            boolean fluffy = barrelIdentity instanceof FluffyBarrel;
             final ItemStack fetched = barrelIdentity.requestItem(request);
             if (fetched == null || fetched.getType().isAir() || (infinity && fetched.getAmount() == 1)) {
                 continue;
