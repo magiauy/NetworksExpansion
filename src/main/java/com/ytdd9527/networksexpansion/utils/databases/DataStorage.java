@@ -7,8 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -50,7 +50,7 @@ public class DataStorage {
         }.runTaskAsynchronously(Networks.getInstance());
     }
 
-    @NotNull
+    @Nonnull
     public static Optional<StorageUnitData> getCachedStorageData(int id) {
         return cache.getOrDefault(id, Optional.empty());
     }

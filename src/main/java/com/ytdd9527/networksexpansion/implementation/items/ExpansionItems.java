@@ -30,8 +30,6 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferPusher;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferVanillaGrabber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.LineTransferVanillaPusher;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.PointTransfer;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic.PointTransferGrabber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.AncientAltarEncoder;
 import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.ArmorForgeEncoder;
 import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.ExpansionWorkbenchEncoder;

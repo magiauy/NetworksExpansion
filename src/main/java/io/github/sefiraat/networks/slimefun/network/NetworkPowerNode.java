@@ -17,7 +17,6 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,7 +54,7 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
         if (useSpecialModel) {
             addItemHandler(new BlockPlaceHandler(false) {
                 @Override
-                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
+                public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                     Block block = e.getBlock();
                     block.setType(Material.BARRIER);
                     Block aboveBlock = block.getWorld().getBlockAt(block.getLocation().add(0, 1, 0));

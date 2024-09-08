@@ -13,10 +13,10 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -251,7 +251,7 @@ public class DataSource {
         }
     }
 
-    @NotNull
+    @Nonnull
     private Map<Integer, ItemContainer> getStoredItem(int id) {
         Map<Integer, ItemContainer> re = new HashMap<>();
 
