@@ -517,9 +517,9 @@ public class ExpansionRecipes {
             OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem()
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[]{
-            new ItemStack(Material.TOTEM_OF_UNDYING), new ItemStack(Material.RED_NETHER_BRICK_STAIRS), new ItemStack(Material.MUD_BRICK_STAIRS),
-            new ItemStack(Material.WAXED_WEATHERED_CUT_COPPER_STAIRS), new ItemStack(Material.WAXED_EXPOSED_CUT_COPPER_STAIRS), new ItemStack(Material.SOUL_LANTERN),
-            new ItemStack(Material.POISONOUS_POTATO), new ItemStack(Material.GLISTERING_MELON_SLICE), new ItemStack(Material.NETHERITE_BLOCK)
+            OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(),
+            NETWORK_QUANTUM_STORAGE_1.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_QUANTUM_STORAGE_1.getItem(),
+            OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem()
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_2 = new ItemStack[]{
