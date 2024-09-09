@@ -491,6 +491,7 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
             "Currently Suport:",
             "Infinity barrel - Storage Unit",
             "Network Quantum Storage",
+            " Fluffy Barrel",
             TextUtil.colorPseudorandomString("Network Expansion Drawer")
     );
 
@@ -506,6 +507,7 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
             "Currently Suport:",
             "Infinity barrel - Storage Unit",
             "Network Quantum Storage",
+                " Fluffy Barrel",
             TextUtil.colorPseudorandomString("Network Expansion Drawer")
     );
     /*

@@ -7,7 +7,7 @@
 [GitHub 仓库](https://github.com/ytdd9527/NetworksExpansion/tree/master) 的 jar 文件夹内
 
 ## 网络拓展2.1版本更新计划:
-- [ ] **0**.链式网络插口 (32 64 256 1024... 同量子存储的大小)
+完成 issues 里的所有功能
 
 ## 网络拓展
 

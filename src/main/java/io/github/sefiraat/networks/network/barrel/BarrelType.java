@@ -4,6 +4,5 @@ public enum BarrelType {
     NETWORKS,
     INFINITY,
     FLUFFY,
-    STORAGE_UNIT,
     UNKNOWN
 }
