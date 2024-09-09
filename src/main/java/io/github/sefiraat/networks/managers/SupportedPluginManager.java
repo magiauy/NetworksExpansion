@@ -5,23 +5,26 @@ import com.google.common.base.Preconditions;
 import dev.rosewood.rosestacker.api.RoseStackerAPI;
 import dev.rosewood.rosestacker.stack.StackedItem;
 import io.github.sefiraat.networks.Networks;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 
 public class SupportedPluginManager {
 
+    @Getter
     private static SupportedPluginManager instance;
 
-    private final boolean infinityExpansion;
-    private final boolean netheopoiesis;
-    private final boolean slimeHud;
-    private final boolean roseStacker;
-    private final boolean wildStacker;
+    private final @Getter boolean infinityExpansion;
+    private final @Getter boolean fluffyMachines;
+    private final @Getter boolean netheopoiesis;
+    private final @Getter boolean slimeHud;
+    private final @Getter boolean roseStacker;
+    private final @Getter boolean wildStacker;
 
-    private RoseStackerAPI roseStackerAPI;
+    private @Getter RoseStackerAPI roseStackerAPI;
     // region First Tick Only Registrations
-    private boolean mcMMO;
-    private boolean wildChests;
+    private @Getter boolean mcMMO;
+    private @Getter boolean wildChests;
 
     // endregion
 
@@ -29,6 +32,7 @@ public class SupportedPluginManager {
         Preconditions.checkArgument(instance == null, "Cannot instantiate class");
         instance = this;
         this.infinityExpansion = Bukkit.getPluginManager().isPluginEnabled("InfinityExpansion");
+        this.fluffyMachines = Bukkit.getPluginManager().isPluginEnabled("FluffyMachines");
         this.netheopoiesis = Bukkit.getPluginManager().isPluginEnabled("Netheopoiesis");
         this.slimeHud = Bukkit.getPluginManager().isPluginEnabled("SlimeHUD");
 
@@ -42,10 +46,6 @@ public class SupportedPluginManager {
                 .getServer()
                 .getScheduler()
                 .runTaskLater(Networks.getInstance(), this::firstTickRegistrations, 1);
-    }
-
-    public static SupportedPluginManager getInstance() {
-        return instance;
     }
 
     public static int getStackAmount(Item item) {
@@ -75,37 +75,5 @@ public class SupportedPluginManager {
     private void firstTickRegistrations() {
         this.wildChests = Bukkit.getPluginManager().isPluginEnabled("WildChests");
         this.mcMMO = Bukkit.getPluginManager().isPluginEnabled("mcMMO");
-    }
-
-    public boolean isInfinityExpansion() {
-        return infinityExpansion;
-    }
-
-    public boolean isNetheopoiesis() {
-        return netheopoiesis;
-    }
-
-    public boolean isSlimeHud() {
-        return slimeHud;
-    }
-
-    public boolean isMcMMO() {
-        return mcMMO;
-    }
-
-    public boolean isWildChests() {
-        return wildChests;
-    }
-
-    public boolean isRoseStacker() {
-        return roseStacker;
-    }
-
-    public RoseStackerAPI getRoseStackerAPI() {
-        return roseStackerAPI;
-    }
-
-    public boolean isWildStacker() {
-        return wildStacker;
     }
 }

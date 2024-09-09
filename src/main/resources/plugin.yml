@@ -10,6 +10,7 @@ depend:
 softdepend:
   - GuizhanLibPlugin
   - InfinityExpansion
+  - FluffyMachines
   - Netheopoiesis
   - SlimeHUD
   - WildChests

@@ -47,6 +47,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -416,15 +417,20 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         if (action.isRightClicked()) {
                             itemRequest.setAmount(take.getMaxStackSize());
                         } else if (action.isShiftClicked()) {
-                            itemRequest.setAmount(take.getMaxStackSize() * 36);
+                            itemRequest.setAmount(take.getMaxStackSize()*36);
                         }
 
                         ItemStack requestedItemStack = data.requestItem(itemRequest);
                         if (requestedItemStack != null) {
-                            HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(requestedItemStack);
-                            remnat.values().stream().findFirst().ifPresent(leftOver -> {
-                                data.depositItemStack(leftOver, false);
-                            });
+                            do {
+                                int max = Math.min(requestedItemStack.getAmount(), requestedItemStack.getMaxStackSize());
+                                ItemStack clone = StackUtils.getAsQuantity(requestedItemStack, max);
+                                requestedItemStack.setAmount(requestedItemStack.getAmount() - max);
+                                HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(clone);
+                                remnat.values().stream().findFirst().ifPresent(leftOver -> {
+                                    data.depositItemStack(leftOver, false);
+                                });
+                            } while (requestedItemStack.getAmount() > 0);
                         }
                     } else {
                         for (ItemStack each : player.getInventory().getStorageContents()) {
