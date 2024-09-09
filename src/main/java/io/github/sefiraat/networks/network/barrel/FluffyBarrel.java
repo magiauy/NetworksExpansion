@@ -63,9 +63,6 @@ public class FluffyBarrel extends BarrelIdentity {
 
     @Override
     public void depositItemStack(ItemStack[] itemsToDeposit) {
-        if (getAmount() >= getLimit()) {
-            return;
-        }
         int received = 0;
         for (ItemStack item : itemsToDeposit) {
             if (StackUtils.itemsMatch(item, getItemStack())) {

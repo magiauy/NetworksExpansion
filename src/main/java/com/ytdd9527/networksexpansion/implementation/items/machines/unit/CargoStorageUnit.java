@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 //TODO 对于一些复杂的逻辑，需要重构
@@ -415,16 +416,37 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                     if (!action.isShiftClicked() || !action.isRightClicked()) {
                         if (action.isRightClicked()) {
                             itemRequest.setAmount(take.getMaxStackSize());
-                        } else if (action.isShiftClicked()) {
-                            itemRequest.setAmount(take.getMaxStackSize() * 36);
-                        }
 
-                        ItemStack requestedItemStack = data.requestItem(itemRequest);
-                        if (requestedItemStack != null) {
-                            HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(requestedItemStack);
-                            remnat.values().stream().findFirst().ifPresent(leftOver -> {
-                                data.depositItemStack(leftOver, false);
-                            });
+                            ItemStack requestedItemStack = data.requestItem(itemRequest);
+                            if (requestedItemStack != null) {
+                                HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(requestedItemStack);
+                                remnat.values().stream().findFirst().ifPresent(leftOver -> {
+                                    data.depositItemStack(leftOver, false);
+                                });
+                            }
+                        } else if (action.isShiftClicked()) {
+                            itemRequest.setAmount(take.getMaxStackSize());
+
+                            AtomicBoolean full = new AtomicBoolean(false);
+                            ItemStack requestedItemStack = data.requestItem(itemRequest);
+                            if (requestedItemStack != null) {
+                                for (int i = 0; i < 36; i++) {
+                                    int max = Math.min(requestedItemStack.getMaxStackSize(), requestedItemStack.getAmount());
+                                    if (max <= 0) {
+                                        break;
+                                    }
+                                    ItemStack clone = StackUtils.getAsQuantity(requestedItemStack, max);
+                                    requestedItemStack.setAmount(requestedItemStack.getAmount() - max);
+                                    HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(clone);
+                                    remnat.values().stream().findFirst().ifPresent(leftOver -> {
+                                        data.depositItemStack(leftOver, false);
+                                        full.set(true);
+                                    });
+                                    if (full.get()) {
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     } else {
                         for (ItemStack each : player.getInventory().getStorageContents()) {
