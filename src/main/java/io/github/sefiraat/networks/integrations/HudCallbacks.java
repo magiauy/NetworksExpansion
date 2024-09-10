@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class HudCallbacks {
+
     private static final String EMPTY = "&7| 空";
 
     public static void setup() {
@@ -52,8 +53,8 @@ public class HudCallbacks {
         String amountStr = HudBuilder.getAbbreviatedNumber(amount);
         String limitStr = HudBuilder.getAbbreviatedNumber(limit);
         String itemName = meta != null && meta.hasDisplayName()
-                ? meta.getDisplayName()
-                : ChatUtils.humanize(itemStack.getType().name());
+            ? meta.getDisplayName()
+            : ChatUtils.humanize(itemStack.getType().name());
 
         return "&7| &f" + itemName + " &7| " + amountStr + "/" + limitStr;
     }
