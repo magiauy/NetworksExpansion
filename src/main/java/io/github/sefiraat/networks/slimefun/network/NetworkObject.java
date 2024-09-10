@@ -87,13 +87,6 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                         onPlace(event);
                         postPlace(event);
                     }
-                },
-
-                new ItemUseHandler() {
-                    @Override
-                    public void onRightClick(PlayerRightClickEvent playerRightClickEvent) {
-                        rightClick(playerRightClickEvent);
-                    }
                 }
         );
     }
@@ -126,47 +119,36 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
     protected void postBreak(@Nonnull BlockBreakEvent event) {
 
     }
-
     protected void prePlace(@Nonnull BlockPlaceEvent event) {
-
-    }
-
-    protected void rightClick(@Nonnull PlayerRightClickEvent event) {
-        Optional<Block> blockOptional = event.getClickedBlock();
+        Block target = event.getBlock();
         Location controllerLocation = null;
 
-        if (blockOptional.isPresent()) {
-            Block block = blockOptional.get();
-            Block target = block.getRelative(event.getClickedFace());
+        for (BlockFace checkFace : CHECK_FACES) {
+            Block checkBlock = target.getRelative(checkFace);
 
-            addToRegistry(block);
-            for (BlockFace checkFace : CHECK_FACES) {
-                Block checkBlock = target.getRelative(checkFace);
+            // Check for node definitions. If there isn't one, we don't care
+            NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(checkBlock.getLocation());
+            if (definition == null) {
+                continue;
+            }
 
-                // Check for node definitions. If there isn't one, we don't care
-                NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(checkBlock.getLocation());
-                if (definition == null) {
-                    continue;
-                }
-
-                // There is a definition, if it has a node, then it's part of an active network.
-                if (definition.getNode() != null) {
-                    NetworkRoot networkRoot = definition.getNode().getRoot();
-                    if (controllerLocation == null) {
-                        // First network found, store root location
-                        controllerLocation = networkRoot.getController();
-                    } else if (!controllerLocation.equals(networkRoot.getController())) {
-                        // Location differs from that previously recorded, would result in two controllers
-                        cancelPlace(event);
-                    }
+            // There is a definition, if it has a node, then it's part of an active network.
+            if (definition.getNode() != null) {
+                NetworkRoot networkRoot = definition.getNode().getRoot();
+                if (controllerLocation == null) {
+                    // First network found, store root location
+                    controllerLocation = networkRoot.getController();
+                } else if (!controllerLocation.equals(networkRoot.getController())) {
+                    // Location differs from that previously recorded, would result in two controllers
+                    cancelPlace(event);
                 }
             }
         }
     }
 
-    protected void cancelPlace(PlayerRightClickEvent event) {
-        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This placement would connect two controllers!");
-        event.cancel();
+    protected void cancelPlace(BlockPlaceEvent event) {
+        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "你正在尝试连接两个不同的网络！");
+        event.setCancelled(true);
     }
 
     protected void onPlace(@Nonnull BlockPlaceEvent event) {

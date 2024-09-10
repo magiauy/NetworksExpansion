@@ -19,6 +19,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -108,43 +109,33 @@ public class NetworkController extends NetworkObject {
     }
 
     @Override
-    protected void rightClick(@Nonnull PlayerRightClickEvent event) {
-        Optional<Block> blockOptional = event.getClickedBlock();
+    protected void prePlace(@Nonnull BlockPlaceEvent event) {
+        Block target = event.getBlock();
 
-        if (blockOptional.isPresent()) {
-            Block block = blockOptional.get();
-            Block target = block.getRelative(event.getClickedFace());
+        for (BlockFace checkFace : CHECK_FACES) {
+            Block checkBlock = target.getRelative(checkFace);
+            SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(checkBlock.getLocation());
 
-            for (BlockFace checkFace : CHECK_FACES) {
-                Block checkBlock = target.getRelative(checkFace);
-                SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(checkBlock.getLocation());
+            // For directly adjacent controllers
+            if (slimefunItem instanceof NetworkController) {
+                cancelPlace(event);
+                return;
+            }
 
-                // For directly adjacent controllers
-                if (slimefunItem instanceof NetworkController) {
-                    cancelPlace(event);
-                    return;
-                }
+            // Check for node definitions. If there isn't one, we don't care
+            NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(checkBlock.getLocation());
+            if (definition == null) {
+                continue;
+            }
 
-                // Check for node definitions. If there isn't one, we don't care
-                NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(checkBlock.getLocation());
-                if (definition == null) {
-                    continue;
-                }
-
-                // There is a definition, if it has a node, then it's part of an active network.
-                if (definition.getNode() != null) {
-                    cancelPlace(event);
-                    return;
-                }
+            // There is a definition, if it has a node, then it's part of an active network.
+            if (definition.getNode() != null) {
+                cancelPlace(event);
+                return;
             }
         }
     }
 
-    @Override
-    protected void cancelPlace(PlayerRightClickEvent event) {
-        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This network already has a controller!");
-        event.cancel();
-    }
 
     private void onFirstTick(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
         final String crayon = data.getData(CRAYON);
