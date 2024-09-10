@@ -111,6 +111,8 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> inputOnlyMonitors = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> outputOnlyMonitors = ConcurrentHashMap.newKeySet();
+    @Getter
+    private Location controller = null;
     private boolean progressing = false;
     @Getter
     private int maxNodes;
@@ -133,9 +135,7 @@ public class NetworkRoot extends NetworkNode {
         super(location, type);
         this.maxNodes = maxNodes;
         this.root = this;
-        NetworkNode node = new NetworkNode(location, NodeType.CONTROLLER);
-
-        io.github.sefiraat.networks.NetworkStorage.getAllNetworkObjects().get(location).setNode(node);
+        registerNode(location, type);
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
@@ -146,9 +146,7 @@ public class NetworkRoot extends NetworkNode {
 
         nodeLocations.add(location);
         switch (type) {
-            case CONTROLLER -> {
-                // Nothing here guvnor
-            }
+            case CONTROLLER -> this.controller = location;
             case BRIDGE -> bridges.add(location);
             case STORAGE_MONITOR -> monitors.add(location);
             case IMPORT -> importers.add(location);
@@ -239,6 +237,15 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         this.isOverburdened = overburdened;
+    }
+
+    @Nullable
+    public Location getController() {
+        return controller;
+    }
+
+    public Set<Location> getBridges() {
+        return this.bridges;
     }
 
     public Set<Location> getAdvancedImports() {
