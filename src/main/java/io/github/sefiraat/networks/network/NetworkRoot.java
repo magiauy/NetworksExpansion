@@ -50,6 +50,8 @@ public class NetworkRoot extends NetworkNode {
     private final int[] GREEDY_BLOCK_AVAILABLE_SLOTS = new int[]{NetworkGreedyBlock.INPUT_SLOT};
     private final int[] ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS = AdvancedGreedyBlock.INPUT_SLOTS;
     @Getter
+    private Location controller = null;
+    @Getter
     private final Set<Location> bridges = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> monitors = ConcurrentHashMap.newKeySet();
@@ -133,9 +135,8 @@ public class NetworkRoot extends NetworkNode {
         super(location, type);
         this.maxNodes = maxNodes;
         this.root = this;
-        NetworkNode node = new NetworkNode(location, NodeType.CONTROLLER);
 
-        io.github.sefiraat.networks.NetworkStorage.getAllNetworkObjects().get(location).setNode(node);
+        registerNode(location, type);
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
@@ -146,9 +147,7 @@ public class NetworkRoot extends NetworkNode {
 
         nodeLocations.add(location);
         switch (type) {
-            case CONTROLLER -> {
-                // Nothing here guvnor
-            }
+            case CONTROLLER -> this.controller = location;
             case BRIDGE -> bridges.add(location);
             case STORAGE_MONITOR -> monitors.add(location);
             case IMPORT -> importers.add(location);
@@ -239,14 +238,6 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         this.isOverburdened = overburdened;
-    }
-
-    public Set<Location> getAdvancedImports() {
-        return this.advancedImporters;
-    }
-
-    public Set<Location> getAdvancedExports() {
-        return this.advancedExporters;
     }
 
     @Nonnull
