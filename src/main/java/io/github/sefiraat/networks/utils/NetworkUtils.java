@@ -13,7 +13,6 @@ import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;

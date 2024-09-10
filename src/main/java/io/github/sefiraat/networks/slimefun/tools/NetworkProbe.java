@@ -85,8 +85,8 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
 
             final int chainPushers = root.getChainPushers().size();
             final int chainGrabbers = root.getChainGrabbers().size();
-            final int advancedImporters = root.getAdvancedImports().size();
-            final int advancedExporters = root.getAdvancedExports().size();
+            final int advancedImporters = root.getAdvancedImporters().size();
+            final int advancedExporters = root.getAdvancedExporters().size();
             final int chainDispatchers = root.getChainDispatchers().size();
             final int chainVanillaPushers = root.getChainVanillaPushers().size();
             final int chainVanillaGrabbers = root.getChainVanillaGrabbers().size();

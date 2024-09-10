@@ -4,11 +4,9 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.utils.Theme;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -16,10 +14,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
-
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -34,24 +28,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Getter
 public abstract class NetworkObject extends SpecialSlimefunItem implements AdminDebuggable {
 
-    private final NodeType nodeType;
-
-    private final List<Integer> slotsToDrop = new ArrayList<>();
-
     protected static final Set<BlockFace> CHECK_FACES = Set.of(
-        BlockFace.UP,
-        BlockFace.DOWN,
-        BlockFace.NORTH,
-        BlockFace.SOUTH,
-        BlockFace.EAST,
-        BlockFace.WEST
+            BlockFace.UP,
+            BlockFace.DOWN,
+            BlockFace.NORTH,
+            BlockFace.SOUTH,
+            BlockFace.EAST,
+            BlockFace.WEST
     );
+    private final NodeType nodeType;
+    private final List<Integer> slotsToDrop = new ArrayList<>();
 
 
     protected NetworkObject(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
@@ -124,30 +115,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
     }
 
     protected void prePlace(@Nonnull BlockPlaceEvent event) {
-        Block target = event.getBlock();
-        Location controllerLocation = null;
 
-        for (BlockFace checkFace : CHECK_FACES) {
-            Block checkBlock = target.getRelative(checkFace);
-
-            // Check for node definitions. If there isn't one, we don't care
-            NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(checkBlock.getLocation());
-            if (definition == null) {
-                continue;
-            }
-
-            // There is a definition, if it has a node, then it's part of an active network.
-            if (definition.getNode() != null) {
-                NetworkRoot networkRoot = definition.getNode().getRoot();
-                if (controllerLocation == null) {
-                    // First network found, store root location
-                    controllerLocation = networkRoot.getController();
-                } else if (!controllerLocation.equals(networkRoot.getController())) {
-                    // Location differs from that previously recorded, would result in two controllers
-                    cancelPlace(event);
-                }
-            }
-        }
     }
 
     protected void cancelPlace(BlockPlaceEvent event) {

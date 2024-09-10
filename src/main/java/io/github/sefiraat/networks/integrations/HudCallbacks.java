@@ -53,8 +53,8 @@ public class HudCallbacks {
         String amountStr = HudBuilder.getAbbreviatedNumber(amount);
         String limitStr = HudBuilder.getAbbreviatedNumber(limit);
         String itemName = meta != null && meta.hasDisplayName()
-            ? meta.getDisplayName()
-            : ChatUtils.humanize(itemStack.getType().name());
+                ? meta.getDisplayName()
+                : ChatUtils.humanize(itemStack.getType().name());
 
         return "&7| &f" + itemName + " &7| " + amountStr + "/" + limitStr;
     }
