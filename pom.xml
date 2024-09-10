@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>2.0.9-Merge-upstream-1</version>
+    <version>2.0.9-Alpha-30</version>
 
     <distributionManagement>
         <repository>
@@ -119,8 +119,8 @@
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>jeffMediaPublic</id>
-            <url>https://repo.jeff-media.com/public</url>
+            <id>jeff-media-public</id>
+            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
         </repository>
         <repository>
             <id>mcmmo-repo</id>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>b39097e015</version>
+            <version>38953fe13a</version>
             <scope>provided</scope>
         </dependency>
 

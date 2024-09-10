@@ -47,6 +47,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -416,7 +417,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         if (action.isRightClicked()) {
                             itemRequest.setAmount(take.getMaxStackSize());
                         } else if (action.isShiftClicked()) {
-                            itemRequest.setAmount(take.getMaxStackSize() * 36);
+                            itemRequest.setAmount(take.getMaxStackSize()*36);
                         }
 
                         ItemStack requestedItemStack = data.requestItem(itemRequest);
