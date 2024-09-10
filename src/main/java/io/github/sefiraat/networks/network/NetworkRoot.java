@@ -50,8 +50,6 @@ public class NetworkRoot extends NetworkNode {
     private final int[] GREEDY_BLOCK_AVAILABLE_SLOTS = new int[]{NetworkGreedyBlock.INPUT_SLOT};
     private final int[] ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS = AdvancedGreedyBlock.INPUT_SLOTS;
     @Getter
-    private Location controller = null;
-    @Getter
     private final Set<Location> bridges = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> monitors = ConcurrentHashMap.newKeySet();
@@ -113,6 +111,8 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> inputOnlyMonitors = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> outputOnlyMonitors = ConcurrentHashMap.newKeySet();
+    @Getter
+    private Location controller = null;
     private boolean progressing = false;
     @Getter
     private int maxNodes;

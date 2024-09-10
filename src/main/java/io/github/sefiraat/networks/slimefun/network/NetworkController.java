@@ -8,7 +8,6 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.utils.Theme;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -18,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,7 +24,6 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 public class NetworkController extends NetworkObject {
@@ -77,39 +74,6 @@ public class NetworkController extends NetworkObject {
         );
     }
 
-    @Override
-    protected void prePlace(@Nonnull BlockPlaceEvent event) {
-        Block target = event.getBlock();
-            for (BlockFace checkFace : CHECK_FACES) {
-                Block checkBlock = target.getRelative(checkFace);
-                SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(checkBlock.getLocation());
-
-                // For directly adjacent controllers
-                if (slimefunItem instanceof NetworkController) {
-                    cancelPlace(event);
-                    return;
-                }
-
-                // Check for node definitions. If there isn't one, we don't care
-                NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(checkBlock.getLocation());
-                if (definition == null) {
-                    continue;
-                }
-
-                // There is a definition, if it has a node, then it's part of an active network.
-                if (definition.getNode() != null) {
-                    cancelPlace(event);
-                    return;
-                }
-        }
-    }
-
-    @Override
-    protected void cancelPlace(BlockPlaceEvent event) {
-        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This network already has a controller!");
-        event.setCancelled(true);
-    }
-
     public static Map<Location, NetworkRoot> getNetworks() {
         return NETWORKS;
     }
@@ -139,6 +103,12 @@ public class NetworkController extends NetworkObject {
                 NetworkStorage.removeNode(node.getNodePosition());
             }
         }
+    }
+
+    @Override
+    protected void cancelPlace(BlockPlaceEvent event) {
+        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This network already has a controller!");
+        event.setCancelled(true);
     }
 
     private void onFirstTick(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
