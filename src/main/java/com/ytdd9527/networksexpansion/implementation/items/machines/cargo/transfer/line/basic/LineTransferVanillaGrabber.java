@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.basic;
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -71,6 +71,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     }
 
     private void loadConfiguration(String itemId) {
+        itemId = itemId == null ? getId() : itemId;
         FileConfiguration config = Networks.getInstance().getConfig();
 
         int defaultMaxDistance = 32;

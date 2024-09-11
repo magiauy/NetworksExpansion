@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.point.basic;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class LineTransferPusher extends NetworkDirectional implements RecipeDisplayItem {
+public class TransferPusher extends NetworkDirectional implements RecipeDisplayItem {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
@@ -60,9 +60,8 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private int pushItemTick;
-    private int maxDistance;
 
-    public LineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
+    public TransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
@@ -71,13 +70,11 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     }
 
     private void loadConfigurations(String itemId) {
-        int defaultMaxDistance = 32;
         int defaultPushItemTick = 1;
         boolean defaultUseSpecialModel = false;
 
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
         this.pushItemTick = config.getInt("items." + itemId + ".pushitem-tick", defaultPushItemTick);
         this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
 
@@ -139,56 +136,51 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
-        Block targetBlock = blockMenu.getBlock().getRelative(direction);
+        final BlockMenu targetMenu = StorageCacheUtils.getMenu(blockMenu.getBlock().getRelative(direction).getLocation());
 
-        for (int i = 0; i <= maxDistance; i++) {
-            final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
+        if (targetMenu == null) {
+            return;
+        }
 
-            if (targetMenu == null) {
-                break;
+        for (int itemSlot : this.getItemSlots()) {
+
+            final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
+
+            if (testItem == null || testItem.getType().isAir()) {
+                continue;
             }
 
-            for (int itemSlot : this.getItemSlots()) {
+            final ItemStack clone = testItem.clone();
+            clone.setAmount(1);
+            final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
+            final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
 
-                final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
-
-                if (testItem == null || testItem.getType().isAir()) {
-                    continue;
-                }
-
-                final ItemStack clone = testItem.clone();
-                clone.setAmount(1);
-                final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
-                final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
-
-                int freeSpace = 0;
-                for (int slot : slots) {
-                    final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (itemStack == null || itemStack.getType().isAir()) {
-                        freeSpace += clone.getMaxStackSize();
-                    } else {
-                        if (StackUtils.itemsMatch(itemRequest, itemStack)) {
-                            final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
-                            if (availableSpace > 0) {
-                                freeSpace += availableSpace;
-                            }
+            int freeSpace = 0;
+            for (int slot : slots) {
+                final ItemStack itemStack = targetMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType().isAir()) {
+                    freeSpace += clone.getMaxStackSize();
+                } else {
+                    if (StackUtils.itemsMatch(itemRequest, itemStack)) {
+                        final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
+                        if (availableSpace > 0) {
+                            freeSpace += availableSpace;
                         }
                     }
-                    if (freeSpace > 0) {
-                        break;
-                    }
                 }
-                if (freeSpace <= 0) {
-                    continue;
-                }
-                itemRequest.setAmount(freeSpace);
-
-                ItemStack retrieved = root.getItemStack(itemRequest);
-                if (retrieved != null && !retrieved.getType().isAir()) {
-                    BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
+                if (freeSpace > 0) {
+                    break;
                 }
             }
-            targetBlock = targetBlock.getRelative(direction);
+            if (freeSpace <= 0) {
+                continue;
+            }
+            itemRequest.setAmount(freeSpace);
+
+            ItemStack retrieved = root.getItemStack(itemRequest);
+            if (retrieved != null && !retrieved.getType().isAir()) {
+                BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
+            }
         }
     }
 
@@ -306,7 +298,6 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩传输数据⇩",
                 "",
-                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
                 "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,

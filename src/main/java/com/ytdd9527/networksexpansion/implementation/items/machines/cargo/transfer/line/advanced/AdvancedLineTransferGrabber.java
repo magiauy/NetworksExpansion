@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
@@ -70,6 +70,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
 
     private void loadConfigurations(String configKey) {
+        configKey = configKey == null ? getId() : configKey;
         FileConfiguration config = Networks.getInstance().getConfig();
 
         int defaultMaxDistance = 64;

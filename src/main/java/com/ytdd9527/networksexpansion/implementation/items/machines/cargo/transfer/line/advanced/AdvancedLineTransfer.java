@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
@@ -21,10 +21,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,35 +39,57 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class AdvancedLineTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
+// TODO: 需要重构
+public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
+    private static final int[] BACKGROUND_SLOTS = new int[]{
+            0,
+            10,
+            18,
+            27, 28, 29,
+            36, 37, 38
+    };
+    private static final int[] TEMPLATE_BACKGROUND = new int[]{
+            3,
+            12,
+            21,
+            30,
+            39,
+            48
+    };
+    private static final int[] TEMPLATE_SLOTS = new int[]{
+            4, 5, 6, 7, 8,
+            13, 14, 15, 16, 17,
+            22, 23, 24, 25, 26,
+            31, 32, 33, 34, 35,
+            40, 41, 42, 43, 44,
+            49, 50, 51, 52, 53,
+    };
+    private static final int NORTH_SLOT = 1;
+    private static final int SOUTH_SLOT = 19;
+    private static final int EAST_SLOT = 11;
+    private static final int WEST_SLOT = 9;
+    private static final int UP_SLOT = 2;
+    private static final int DOWN_SLOT = 20;
+    private static final int MINUS_SLOT = 45;
+    private static final int SHOW_SLOT = 46;
+    private static final int ADD_SLOT = 47;
+    private static final int TRANSPORT_MODE_SLOT = 36;
     private static final String KEY_UUID = "display-uuid";
     private static final int TRANSPORT_LIMIT = 3456;
-    private static final int TRANSPORT_MODE_SLOT = 27;
-    private static final int MINUS_SLOT = 36;
-    private static final int SHOW_SLOT = 37;
-    private static final int ADD_SLOT = 38;
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 27, 28, 30, 31, 33, 34, 35, 39, 40, 41, 42, 43, 44
-    };
-    private static final int[] TEMPLATE_BACKGROUND = new int[]{16};
-    private static final int[] TEMPLATE_SLOTS = new int[]{24, 25, 26};
-    private static final int NORTH_SLOT = 11;
-    private static final int SOUTH_SLOT = 29;
-    private static final int EAST_SLOT = 21;
-    private static final int WEST_SLOT = 19;
-    private static final int UP_SLOT = 14;
-    private static final int DOWN_SLOT = 32;
-    private static final Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
+    private static final HashMap<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
+    private static final HashMap<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
+    private int maxDistance;
+    private int pushItemTick;
+    private int grabItemTick;
+    private int requiredPower;
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
-    private int pushItemTick;
-    private int maxDistance;
 
-    public AdvancedLineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_PUSHER);
+    public AdvancedLineTransfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
@@ -87,14 +107,20 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     }
 
     private void loadConfigurations(String configKey) {
+        configKey = configKey == null ? getId() : configKey;
         int defaultMaxDistance = 64;
         int defaultPushItemTick = 1;
+        int defaultGrabItemTick = 1;
+        int defaultRequiredPower = 5000;
         boolean defaultUseSpecialModel = false;
 
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        this.maxDistance = config.getInt("items." + configKey + ".max-distance", defaultMaxDistance);
+        // 读取配置值
+        this.maxDistance = config.getInt("items." + getId() + ".max-distance", defaultMaxDistance);
         this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", defaultPushItemTick);
+        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", defaultGrabItemTick);
+        this.requiredPower = config.getInt("items." + configKey + ".required-power", defaultRequiredPower);
         this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", defaultUseSpecialModel);
 
 
@@ -108,15 +134,9 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
             String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
-                Networks.getInstance().getLogger().warning("未知的展示组类型 '" + generatorKey + "', 特殊模型已禁用。");
+                Networks.getInstance().getLogger().warning("未知类型 '" + generatorKey + "', 模型已禁用。");
                 this.useSpecialModel = false;
             }
-        }
-    }
-
-    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryPushItem(blockMenu);
         }
     }
 
@@ -124,30 +144,60 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
         final Location location = block.getLocation();
+
+        if (blockMenu == null) {
+            return;
+        }
+
         if (pushItemTick != 1) {
-            int tickCounter = getTickCounter(location);
-            tickCounter = (tickCounter + 1) % pushItemTick;
-            if (tickCounter == 0) {
-                performPushItemOperation(blockMenu);
+            int currentPushTick = getPushTickCounter(location);
+            if (currentPushTick == 0) {
+                tryPushItem(blockMenu);
             }
-            updateTickCounter(location, tickCounter);
+            currentPushTick = (currentPushTick + 1) % pushItemTick;
+            updatePushTickCounter(location, currentPushTick);
         } else {
-            performPushItemOperation(blockMenu);
+            tryPushItem(blockMenu);
+        }
+
+        if (grabItemTick != 1) {
+            int currentGrabTick = getGrabTickCounter(location);
+            if (currentGrabTick == 0) {
+                tryGrabItem(blockMenu);
+            }
+            currentGrabTick = (currentGrabTick + 1) % grabItemTick;
+            updateGrabTickCounter(location, currentGrabTick);
+        } else {
+            tryGrabItem(blockMenu);
         }
     }
 
-    private int getTickCounter(Location location) {
-        final Integer tickCounter = PUSH_TICKER_MAP.get(location);
-        if (tickCounter == null) {
+    private int getPushTickCounter(Location location) {
+        final Integer ticker = PUSH_TICKER_MAP.get(location);
+        if (ticker != null) {
+            return ticker;
+        } else {
             PUSH_TICKER_MAP.put(location, 0);
             return 0;
-        } else {
-            return tickCounter;
         }
     }
 
-    private void updateTickCounter(Location location, int tickCounter) {
-        PUSH_TICKER_MAP.put(location, tickCounter);
+    private int getGrabTickCounter(Location location) {
+        final Integer ticker = GRAB_TICKER_MAP.get(location);
+        if (ticker != null) {
+            return ticker;
+        } else {
+            GRAB_TICKER_MAP.put(location, 0);
+            return 0;
+        }
+    }
+
+    private void updatePushTickCounter(Location location, int pushTick) {
+        PUSH_TICKER_MAP.put(location, pushTick);
+    }
+
+    private void updateGrabTickCounter(Location location, int grabTick) {
+        GRAB_TICKER_MAP.put(location, grabTick);
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
@@ -408,6 +458,141 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         }
     }
 
+    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+
+        if (definition == null || definition.getNode() == null) {
+            return;
+        }
+
+        final BlockFace direction = getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
+        final NetworkRoot root = definition.getNode().getRoot();
+        final int maxNumber = getCurrentNumber(blockMenu.getLocation());
+        final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
+
+        Block currentBlock = blockMenu.getBlock().getRelative(direction);
+        BlockMenu currentMenu;
+        for (int i = 0; i <= maxDistance; i++) {
+            currentMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
+
+            if (currentMenu == null) {
+                /*
+                 * It means we found a slimefun block that has no menu, so we just continue.
+                 */
+                continue;
+            }
+
+            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(currentMenu, ItemTransportFlow.WITHDRAW, null);
+
+            int limit = maxNumber;
+            switch (mode) {
+                case NONE, NONNULL_ONLY -> {
+                    /*
+                     * Grab all the items.
+                     */
+                    for (int slot : slots) {
+                        final ItemStack item = currentMenu.getItemInSlot(slot);
+                        if (item != null && !item.getType().isAir()) {
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
+                            if (limit <= 0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                case NULL_ONLY -> {
+                    /*
+                     * Nothing to do.
+                     */
+                }
+                case FIRST_ONLY -> {
+                    /*
+                     * Grab the first item only.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack item = currentMenu.getItemInSlot(slots[0]);
+                        if (item != null && !item.getType().isAir()) {
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
+                            if (limit <= 0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                case LAST_ONLY -> {
+                    /*
+                     * Grab the last item only.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack item = currentMenu.getItemInSlot(slots[slots.length - 1]);
+                        if (item != null && !item.getType().isAir()) {
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
+                            if (limit <= 0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                case FIRST_STOP -> {
+                    /*
+                     * Grab the first non-null item only.
+                     */
+                    for (int slot : slots) {
+                        final ItemStack item = currentMenu.getItemInSlot(slot);
+                        if (item != null && !item.getType().isAir()) {
+                            final int exceptedReceive = Math.min(item.getAmount(), limit);
+                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
+                            root.addItemStack(clone);
+                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                            limit -= exceptedReceive - clone.getAmount();
+                            break;
+                        }
+                    }
+                }
+                case LAZY -> {
+                    /*
+                     * When it's first item is non-null, we will grab all the items.
+                     */
+                    if (slots.length > 0) {
+                        final ItemStack delta = currentMenu.getItemInSlot(slots[0]);
+                        if (delta != null && !delta.getType().isAir()) {
+                            for (int slot : slots) {
+                                ItemStack item = currentMenu.getItemInSlot(slot);
+                                if (item != null && !item.getType().isAir()) {
+                                    final int exceptedReceive = Math.min(item.getAmount(), limit);
+                                    final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
+                                    root.addItemStack(clone);
+                                    item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
+                                    limit -= exceptedReceive - clone.getAmount();
+                                    if (limit <= 0) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            currentBlock = currentBlock.getRelative(direction);
+        }
+    }
+
     @Nonnull
     @Override
     protected int[] getBackgroundSlots() {
@@ -462,11 +647,6 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
-        return new Particle.DustOptions(Color.BLUE, 2);
-    }
-
-    @Override
     public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
@@ -515,18 +695,6 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         return DisplayGroup.fromUUID(uuid);
     }
 
-    protected int getMinusSlot() {
-        return MINUS_SLOT;
-    }
-
-    protected int getShowSlot() {
-        return SHOW_SLOT;
-    }
-
-    protected int getAddSlot() {
-        return ADD_SLOT;
-    }
-
     @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
@@ -535,7 +703,9 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
                 "&a⇩传输数据⇩",
                 "",
                 "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
-                "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次"
+                "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次",
+                "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次",
+                "&7[&a运输耗电&7]&f:&7 每次运输消耗 &6" + requiredPower + " J 网络电力"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩参数⇩",
@@ -547,10 +717,25 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",
-                "&e与链式不同的是，此机器&c只有连续推送的功能",
+                "&e与链式不同的是，此机器&c只有连续推送和抓取的功能",
                 "&c而不是连续转移物品！"
         ));
         return displayRecipes;
+    }
+
+    @Override
+    protected int getMinusSlot() {
+        return MINUS_SLOT;
+    }
+
+    @Override
+    protected int getShowSlot() {
+        return SHOW_SLOT;
+    }
+
+    @Override
+    protected int getAddSlot() {
+        return ADD_SLOT;
     }
 
     @Override

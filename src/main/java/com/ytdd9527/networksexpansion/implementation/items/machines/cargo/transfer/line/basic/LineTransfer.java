@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.basic;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
@@ -92,6 +92,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     }
 
     private void loadConfigurations(String itemId) {
+        itemId = itemId == null ? getId() : itemId;
         int defaultMaxDistance = 32;
         int defaultPushItemTick = 1;
         int defaultGrabItemTick = 1;
