@@ -39,6 +39,11 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem {
+    public static final int DEFAULT_MAX_DISTANCE = 32;
+    public static final int DEFAULT_PUSH_ITEM_TICK = 1;
+    public static final int DEFAULT_GRAB_ITEM_TICK = 1;
+    public static final int DEFAULT_REQUIRED_POWER = 5000;
+    public static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
 
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
@@ -88,24 +93,18 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
-        loadConfigurations(itemId);
+        loadConfigurations();
     }
 
-    private void loadConfigurations(String itemId) {
-        itemId = itemId == null ? getId() : itemId;
-        int defaultMaxDistance = 32;
-        int defaultPushItemTick = 1;
-        int defaultGrabItemTick = 1;
-        int defaultRequiredPower = 5000;
-        boolean defaultUseSpecialModel = false;
-
+    private void loadConfigurations() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
-        this.pushItemTick = config.getInt("items." + itemId + ".pushitem-tick", defaultPushItemTick);
-        this.grabItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
-        this.requiredPower = config.getInt("items." + itemId + ".required-power", defaultRequiredPower);
-        this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
+        this.maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
+        this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", DEFAULT_PUSH_ITEM_TICK);
+        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
+        this.requiredPower = config.getInt("items." + configKey + ".required-power", DEFAULT_REQUIRED_POWER);
+        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
@@ -115,7 +114,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         this.displayGroupGenerator = null;
 
         if (this.useSpecialModel) {
-            String generatorKey = config.getString("items." + itemId + ".use-special-model.type");
+            String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
                 Networks.getInstance().getLogger().warning("未知类型 '" + generatorKey + "', 模型已禁用。");

@@ -42,8 +42,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings("deprecation")
 public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem {
+    private static final int DEFAULT_MAX_DISTANCE = 32;
+    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final ItemStack AIR = new ItemStack(Material.AIR);
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -71,18 +72,15 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         for (int slot : getInputSlots()) {
             this.getSlotsToDrop().add(slot);
         }
-        loadConfiguration(configKey);
+        loadConfiguration();
     }
 
-    private void loadConfiguration(String itemId) {
-        itemId = itemId == null ? getId() : itemId;
+    private void loadConfiguration() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 32;
-        int defaultGrabItemTick = 1;
-
-        maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
-        pushItemTick = config.getInt("items." + itemId + ".pushitem-tick", defaultGrabItemTick);
+        maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
+        pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", DEFAULT_GRAB_ITEM_TICK);
     }
 
 

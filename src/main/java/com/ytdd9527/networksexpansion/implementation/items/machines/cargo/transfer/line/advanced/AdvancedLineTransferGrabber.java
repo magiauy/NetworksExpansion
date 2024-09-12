@@ -39,6 +39,10 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem {
+    private static final int DEFAULT_MAX_DISTANCE = 64;
+    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
+    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
+
     private static final String KEY_UUID = "display-uuid";
     private static final int TRANSPORT_LIMIT = 3456;
     private static final int[] BACKGROUND_SLOTS = {
@@ -56,7 +60,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
 
     public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
-        loadConfigurations(configKey);
+        loadConfigurations();
     }
 
     @Override
@@ -69,17 +73,13 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         return TRANSPORT_LIMIT;
     }
 
-    private void loadConfigurations(String configKey) {
-        configKey = configKey == null ? getId() : configKey;
+    private void loadConfigurations() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 64;
-        int defaultGrabItemTick = 1;
-        boolean defaultUseSpecialModel = false;
-
-        this.maxDistance = config.getInt("items." + configKey + ".max-distance", defaultMaxDistance);
-        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", defaultGrabItemTick);
-        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", defaultUseSpecialModel);
+        this.maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
+        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
+        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();

@@ -38,6 +38,9 @@ import java.util.function.Function;
 
 
 public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
+    private static final int DEFAULT_MAX_DISTANCE = 32;
+    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
+    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final String KEY_UUID = "display-uuid";
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
@@ -47,20 +50,16 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
 
     public LineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
-        loadConfigurations(itemId);
+        loadConfigurations();
     }
 
-    private void loadConfigurations(String itemId) {
-        itemId = itemId == null ? getId() : itemId;
+    private void loadConfigurations() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 32;
-        int defaultGrabItemTick = 1;
-        boolean defaultUseSpecialModel = false;
-
-        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
-        this.grabItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
-        this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
+        this.maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
+        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
+        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
@@ -69,7 +68,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         this.displayGroupGenerator = null;
 
         if (this.useSpecialModel) {
-            String generatorKey = config.getString("items." + itemId + ".use-special-model.type");
+            String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
                 Networks.getInstance().getLogger().warning("未知的展示组类型 '" + generatorKey + "', 特殊模型已禁用。");

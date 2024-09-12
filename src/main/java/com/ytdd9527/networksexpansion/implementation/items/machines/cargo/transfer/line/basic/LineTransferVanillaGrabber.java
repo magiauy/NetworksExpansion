@@ -43,6 +43,8 @@ import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem {
+    private static final int DEFAULT_MAX_DISTANCE = 32;
+    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final ItemStack AIR = new ItemStack(Material.AIR);
 
     private static final String TICK_COUNTER_KEY = "tick_rate";
@@ -67,18 +69,15 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
                                       String configKey
     ) {
         super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
-        loadConfiguration(configKey);
+        loadConfiguration();
     }
 
-    private void loadConfiguration(String itemId) {
-        itemId = itemId == null ? getId() : itemId;
+    private void loadConfiguration() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 32;
-        int defaultGrabItemTick = 1;
-
-        maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
-        grabItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
+        maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
+        grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
     }
 
     @Override

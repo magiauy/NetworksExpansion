@@ -41,6 +41,11 @@ import java.util.function.Function;
 
 // TODO: 需要重构
 public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem {
+    private static final int DEFAULT_MAX_DISTANCE = 64;
+    private static final int DEFAULT_PUSH_ITEM_TICK = 1;
+    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
+    private static final int DEFAULT_REQUIRED_POWER = 5000;
+    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
@@ -93,7 +98,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
-        loadConfigurations(configKey);
+        loadConfigurations();
     }
 
     @Override
@@ -106,22 +111,16 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         return TRANSPORT_LIMIT;
     }
 
-    private void loadConfigurations(String configKey) {
-        configKey = configKey == null ? getId() : configKey;
-        int defaultMaxDistance = 64;
-        int defaultPushItemTick = 1;
-        int defaultGrabItemTick = 1;
-        int defaultRequiredPower = 5000;
-        boolean defaultUseSpecialModel = false;
-
+    private void loadConfigurations() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
         // 读取配置值
-        this.maxDistance = config.getInt("items." + getId() + ".max-distance", defaultMaxDistance);
-        this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", defaultPushItemTick);
-        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", defaultGrabItemTick);
-        this.requiredPower = config.getInt("items." + configKey + ".required-power", defaultRequiredPower);
-        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", defaultUseSpecialModel);
+        this.maxDistance = config.getInt("items." + getId() + ".max-distance", DEFAULT_MAX_DISTANCE);
+        this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", DEFAULT_PUSH_ITEM_TICK);
+        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
+        this.requiredPower = config.getInt("items." + configKey + ".required-power", DEFAULT_REQUIRED_POWER);
+        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();

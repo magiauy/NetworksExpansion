@@ -42,6 +42,9 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class AdvancedTransferPusher extends AdvancedDirectional implements RecipeDisplayItem {
+    private static final int DEFAULT_PUSH_ITEM_TICK = 1;
+    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
+
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
@@ -72,7 +75,7 @@ public class AdvancedTransferPusher extends AdvancedDirectional implements Recip
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
-        loadConfigurations(configKey);
+        loadConfigurations();
     }
 
     @Override
@@ -85,14 +88,12 @@ public class AdvancedTransferPusher extends AdvancedDirectional implements Recip
         return TRANSPORT_LIMIT;
     }
 
-    private void loadConfigurations(String configKey) {
-        int defaultPushItemTick = 1;
-        boolean defaultUseSpecialModel = false;
-
+    private void loadConfigurations() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", defaultPushItemTick);
-        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", defaultUseSpecialModel);
+        this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", DEFAULT_PUSH_ITEM_TICK);
+        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
