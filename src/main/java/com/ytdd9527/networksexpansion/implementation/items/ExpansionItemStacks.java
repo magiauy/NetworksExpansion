@@ -26,6 +26,13 @@ import java.util.Map;
  * @since 2.0
  */
 public class ExpansionItemStacks {
+    public static final SlimefunItemStack NETWORK_EXPANSION_GUIDE = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_GUIDE",
+            new ItemStack(Material.ENCHANTED_BOOK),
+            Theme.GUIDE,
+            "网络拓展指南",
+            ""
+    );
     public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_WORKBENCH",
             new ItemStack(Material.BAMBOO_BLOCK),
