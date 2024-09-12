@@ -1,6 +1,8 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.point.basic;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -15,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,7 +49,7 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     private int grabItemTick;
 
     public TransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_GRABBER);
         loadConfigurations();
     }
 
@@ -86,17 +87,14 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        // 初始化Tick计数器
         final Location location = blockMenu.getLocation();
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
 
-        // 每10个Tick执行一次抓取操作
         if (tickCounter == 0) {
             performGrabbingOperation(blockMenu);
         }
 
-        // 更新Tick计数器
         updateTickCounter(location, tickCounter);
     }
 
@@ -122,26 +120,14 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
         final NetworkRoot root = definition.getNode().getRoot();
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
-        BlockMenu targetMenu = StorageCacheUtils.getMenu(blockMenu.getBlock().getRelative(direction).getLocation());
-        // 如果没有blockMenu，退出
-        if (targetMenu == null) {
-            return;
-        }
-        // 获取输出槽
-        final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-        for (int slot : slots) {
-            ItemStack itemStack = targetMenu.getItemInSlot(slot);
-            if (itemStack != null && !itemStack.getType().isAir()) {
-                root.addItemStack(itemStack);
-                break;
-            }
-        }
 
+        TransferUtil.doTransport(blockMenu.getLocation(), direction, 1, true, (targetMenu) -> {
+            TransferUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+        });
     }
 
     @Override
     protected Particle.DustOptions getDustOptions() {
-        // 返回一个Particle.DustOptions对象，设置为黄绿色粒子
         return new Particle.DustOptions(Color.LIME, 5);
     }
 

@@ -90,11 +90,13 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> wirelessReceivers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> chainPushers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> chainGrabbers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> lineTransferPushers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> chainDispatchers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> lineTransferGrabbers = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> lineTransfers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> advancedImporters = ConcurrentHashMap.newKeySet();
     @Getter
@@ -102,11 +104,11 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> advancedGreedyBlocks = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> chainVanillaPushers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> advancedPurgers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> lineTransferVanillaPushers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
+    private final Set<Location> lineTransferVanillaGrabbers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> inputOnlyMonitors = ConcurrentHashMap.newKeySet();
     @Getter
@@ -140,11 +142,6 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
-        // model just for network rake, so we don't need to register it
-        if (type == NodeType.MODEL) {
-            return;
-        }
-
         nodeLocations.add(location);
         switch (type) {
             case CONTROLLER -> this.controller = location;
@@ -192,10 +189,6 @@ public class NetworkRoot extends NetworkNode {
             case WIRELESS_RECEIVER -> wirelessReceivers.add(location);
             case POWER_OUTLET -> powerOutlets.add(location);
             // from networks expansion
-            case LINE_TRANSMITTER_PUSHER -> chainPushers.add(location);
-            case LINE_TRANSMITTER_PUSHER_PLUS -> chainPushers.add(location);
-            case LINE_TRANSMITTER_GRABBER -> chainGrabbers.add(location);
-            case LINE_TRANSMITTER_GRABBER_PLUS -> chainGrabbers.add(location);
             case ADVANCED_IMPORT -> advancedImporters.add(location);
             case ADVANCED_EXPORT -> advancedExporters.add(location);
             case ADVANCED_GREEDY_BLOCK -> {
@@ -210,9 +203,12 @@ public class NetworkRoot extends NetworkNode {
                     advancedGreedyBlocks.add(location);
                 }
             }
-            case LINE_TRANSMITTER -> chainDispatchers.add(location);
-            case LINE_TRANSMITTER_VANILLA_GRABBER -> chainVanillaGrabbers.add(location);
-            case LINE_TRANSMITTER_VANILLA_PUSHER -> chainVanillaPushers.add(location);
+            case ADVANCED_PURGER -> advancedPurgers.add(location);
+            case LINE_TRANSFER -> lineTransfers.add(location);
+            case LINE_TRANSFER_PUSHER -> lineTransferPushers.add(location);
+            case LINE_TRANSFER_GRABBER -> lineTransferGrabbers.add(location);
+            case LINE_TRANSFER_VANILLA_GRABBER -> lineTransferVanillaGrabbers.add(location);
+            case LINE_TRANSFER_VANILLA_PUSHER -> lineTransferVanillaPushers.add(location);
             case INPUT_ONLY_MONITOR -> inputOnlyMonitors.add(location);
             case OUTPUT_ONLY_MONITOR -> outputOnlyMonitors.add(location);
         }

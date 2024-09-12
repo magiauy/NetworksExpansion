@@ -84,17 +84,14 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        // 初始化Tick计数器
         final Location location = block.getLocation();
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
 
-        // 每10个Tick执行一次抓取操作
         if (tickCounter == 0) {
             performGrabbingOperation(blockMenu);
         }
 
-        // 更新Tick计数器
         updateTickCounter(location, tickCounter);
     }
 

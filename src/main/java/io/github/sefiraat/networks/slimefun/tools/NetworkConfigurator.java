@@ -50,7 +50,7 @@ public class NetworkConfigurator extends SlimefunItem {
                                 if (player.isSneaking()) {
                                     if (slimefunItem instanceof AdvancedDirectional advancedDirectional) {
                                         ItemMeta itemMeta = e.getItem().getItemMeta();
-                                        int amount = advancedDirectional.getCurrentNumber(blockMenu.getLocation());
+                                        int amount = advancedDirectional.getLimitQuantity(blockMenu.getLocation());
                                         DataTypeMethods.setCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER, amount);
                                         player.sendMessage(Theme.SUCCESS + "已保存传输数量为 " + amount);
                                         TransportMode transportMode = advancedDirectional.getCurrentTransportMode(blockMenu.getLocation());
@@ -64,7 +64,7 @@ public class NetworkConfigurator extends SlimefunItem {
                                         ItemMeta itemMeta = e.getItem().getItemMeta();
                                         Integer amount = DataTypeMethods.getCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER);
                                         if (amount != null) {
-                                            advancedDirectional.setCurrentNumber(blockMenu.getLocation(), amount);
+                                            advancedDirectional.setLimitQuantity(blockMenu.getLocation(), amount);
                                             player.sendMessage(Theme.SUCCESS + "已设置传输数量为 " + amount);
                                         }
                                         String transportMode = DataTypeMethods.getCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING);
