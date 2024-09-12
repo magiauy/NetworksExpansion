@@ -154,12 +154,13 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
+
         final BlockFace direction = this.getCurrentDirection(blockMenu);
         if (direction == BlockFace.SELF) {
             return;
         }
 
+        final NetworkRoot root = definition.getNode().getRoot();
         final TransportMode currentTransportMode = getCurrentTransportMode(blockMenu.getLocation());
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
 

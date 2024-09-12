@@ -186,8 +186,11 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
+
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
 
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
@@ -196,6 +199,8 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 templates.add(StackUtils.getAsQuantity(template, 1));
             }
         }
+
+        final NetworkRoot root = definition.getNode().getRoot();
 
         TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
             TransferUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
@@ -208,9 +213,14 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
+        final NetworkRoot root = definition.getNode().getRoot();
+
         TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
             TransferUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
         });

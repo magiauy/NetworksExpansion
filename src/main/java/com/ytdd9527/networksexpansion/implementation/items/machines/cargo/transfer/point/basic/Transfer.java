@@ -182,8 +182,10 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem {
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
 
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
@@ -192,6 +194,8 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem {
                 templates.add(StackUtils.getAsQuantity(template, 1));
             }
         }
+
+        final NetworkRoot root = definition.getNode().getRoot();
 
         TransferUtil.doTransport(blockMenu.getLocation(), direction, 1, false, (targetMenu) -> {
             TransferUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
@@ -204,9 +208,14 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem {
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
+        final NetworkRoot root = definition.getNode().getRoot();
+
         TransferUtil.doTransport(blockMenu.getLocation(), direction, 1, true, (targetMenu) -> {
             TransferUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
         });

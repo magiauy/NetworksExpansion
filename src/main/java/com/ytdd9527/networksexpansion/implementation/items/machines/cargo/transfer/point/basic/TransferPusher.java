@@ -132,8 +132,13 @@ public class TransferPusher extends NetworkDirectional implements RecipeDisplayI
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
+
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
+        final NetworkRoot root = definition.getNode().getRoot();
 
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {

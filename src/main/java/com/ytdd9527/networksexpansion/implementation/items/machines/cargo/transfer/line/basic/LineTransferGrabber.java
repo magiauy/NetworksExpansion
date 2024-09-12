@@ -119,9 +119,13 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
+        final NetworkRoot root = definition.getNode().getRoot();
 
         TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
             TransferUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);

@@ -135,8 +135,11 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
+
         final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
 
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
@@ -145,6 +148,8 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                 templates.add(StackUtils.getAsQuantity(template, 1));
             }
         }
+
+        final NetworkRoot root = definition.getNode().getRoot();
 
         TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
             TransferUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);

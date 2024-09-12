@@ -41,11 +41,11 @@ public class TransferUtil {
             @Nonnull NetworkRoot root,
             @Nonnull BlockMenu blockMenu,
             @Nonnull TransportMode transportMode,
-            int currentLimit
+            int limitQuantity
     ) {
         final int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.WITHDRAW, null);
 
-        int limit = currentLimit;
+        int limit = limitQuantity;
         switch (transportMode) {
             case NONE, NONNULL_ONLY -> {
                 /*
@@ -154,10 +154,10 @@ public class TransferUtil {
             @Nonnull BlockMenu blockMenu,
             @Nonnull List<ItemStack> clones,
             @Nonnull TransportMode transportMode,
-            int currentLimit
+            int limitQuantity
     ) {
         for (ItemStack clone : clones) {
-            pushItem(root, blockMenu, clone, transportMode, currentLimit);
+            pushItem(root, blockMenu, clone, transportMode, limitQuantity);
         }
     }
 
@@ -166,7 +166,7 @@ public class TransferUtil {
             @Nonnull BlockMenu blockMenu,
             @Nonnull ItemStack clone,
             @Nonnull TransportMode transportMode,
-            int currentLimit
+            int limitQuantity
     ) {
         final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
 
@@ -193,7 +193,7 @@ public class TransferUtil {
                 if (freeSpace <= 0) {
                     return TransportResult.CONTINUE;
                 }
-                itemRequest.setAmount(Math.min(freeSpace, currentLimit));
+                itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
                 final ItemStack retrieved = root.getItemStack(itemRequest);
                 if (retrieved != null && !retrieved.getType().isAir()) {
@@ -202,7 +202,7 @@ public class TransferUtil {
             }
 
             case NULL_ONLY -> {
-                int free = currentLimit;
+                int free = limitQuantity;
                 for (int slot : slots) {
                     final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                     if (itemStack == null || itemStack.getType().isAir()) {
@@ -224,7 +224,7 @@ public class TransferUtil {
             }
 
             case NONNULL_ONLY -> {
-                int free = currentLimit;
+                int free = limitQuantity;
                 for (int slot : slots) {
                     final ItemStack itemStack = blockMenu.getItemInSlot(slot);
                     if (itemStack == null || itemStack.getType().isAir()) {
@@ -256,7 +256,7 @@ public class TransferUtil {
                 }
             }
             case FIRST_ONLY -> {
-                int free = currentLimit;
+                int free = limitQuantity;
                 if (slots.length == 0) {
                     break;
                 }
@@ -291,7 +291,7 @@ public class TransferUtil {
                 }
             }
             case LAST_ONLY -> {
-                int free = currentLimit;
+                int free = limitQuantity;
                 if (slots.length == 0) {
                     break;
                 }
@@ -348,7 +348,7 @@ public class TransferUtil {
                 if (freeSpace <= 0) {
                     return TransportResult.CONTINUE;
                 }
-                itemRequest.setAmount(Math.min(freeSpace, currentLimit));
+                itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
                 final ItemStack retrieved = root.getItemStack(itemRequest);
                 if (retrieved != null && !retrieved.getType().isAir()) {
@@ -379,7 +379,7 @@ public class TransferUtil {
                         if (freeSpace <= 0) {
                             return TransportResult.CONTINUE;
                         }
-                        itemRequest.setAmount(Math.min(freeSpace, currentLimit));
+                        itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
                         final ItemStack retrieved = root.getItemStack(itemRequest);
                         if (retrieved != null && !retrieved.getType().isAir()) {
