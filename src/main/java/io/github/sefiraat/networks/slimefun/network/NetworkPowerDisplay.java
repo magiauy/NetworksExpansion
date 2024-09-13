@@ -35,8 +35,8 @@ public class NetworkPowerDisplay extends NetworkObject {
 
     private static final CustomItemStack EMPTY = new CustomItemStack(
             Material.RED_STAINED_GLASS_PANE,
-            Theme.CLICK_INFO + "状态",
-            Theme.PASSIVE + "未连接"
+            Theme.CLICK_INFO + "Status",
+            Theme.PASSIVE + "Disconnected"
     );
 
     public NetworkPowerDisplay(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -63,8 +63,8 @@ public class NetworkPowerDisplay extends NetworkObject {
     private static CustomItemStack getChargeStack(long charge) {
         return new CustomItemStack(
                 Material.GREEN_STAINED_GLASS_PANE,
-                Theme.CLICK_INFO + "状态",
-                Theme.PASSIVE + "网络电力: " + charge + "J"
+                Theme.CLICK_INFO + "Status",
+                Theme.PASSIVE + "Current Network Charge: " + charge + "j"
         );
     }
 
