@@ -154,25 +154,8 @@ public class ExpansionItemStacks {
             "网络 - 量子存储",
             TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
     );
-    /*
-    // Points
-    public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
-            "NTW_EXPANSION_POINT_TRANSFER",
-            Enchanted(Material.END_ROD),
-            Theme.MACHINE,
-            "对点传输器"
-    );
-    public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
-            "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
-            new ItemStack(Material.END_ROD),
-            Theme.MACHINE,
-            "对点传输器 [抓取]"
-    );
-    */
-
 
     // Transfers
-    // Lines
     public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_PUSHER",
             new ItemStack(Material.OBSERVER),
