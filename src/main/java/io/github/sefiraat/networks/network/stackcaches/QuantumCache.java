@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
 import io.github.sefiraat.networks.utils.Theme;
+import lombok.Getter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,8 +15,11 @@ public class QuantumCache extends ItemStackCache {
     @Nullable
     private final ItemMeta storedItemMeta;
     private final boolean supportsCustomMaxAmount;
+    @Getter
     private int limit;
+    @Getter
     private long amount;
+    @Getter
     private boolean voidExcess;
 
     public QuantumCache(@Nullable ItemStack storedItem, long amount, int limit, boolean voidExcess, boolean supportsCustomMaxAmount) {
@@ -33,10 +37,6 @@ public class QuantumCache extends ItemStackCache {
         return this.storedItemMeta;
     }
 
-    public long getAmount() {
-        return amount;
-    }
-
     public void setAmount(int amount) {
         this.amount = amount;
     }
@@ -46,7 +46,7 @@ public class QuantumCache extends ItemStackCache {
     }
 
     public int increaseAmount(int amount) {
-        long total = (long) this.amount + (long) amount;
+        long total = this.amount + (long) amount;
         if (total > this.limit) {
             this.amount = this.limit;
             if (!this.voidExcess) {
@@ -62,16 +62,8 @@ public class QuantumCache extends ItemStackCache {
         this.amount = this.amount - amount;
     }
 
-    public int getLimit() {
-        return limit;
-    }
-
     public void setLimit(int limit) {
         this.limit = limit;
-    }
-
-    public boolean isVoidExcess() {
-        return voidExcess;
     }
 
     public void setVoidExcess(boolean voidExcess) {

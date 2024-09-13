@@ -530,6 +530,22 @@ public class ExpansionItemStacks {
             "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
     );
 
+    public static final SlimefunItemStack SMART_GRABBER = Theme.Random(
+            "NTW_EXPANSION_SMART_GRABBER",
+            new ItemStack(Material.END_ROD),
+            Theme.MACHINE,
+            "智能抓取器",
+            "即放即用"
+    );
+
+    public static final SlimefunItemStack SMART_PUSHER = Theme.Random(
+            "NTW_EXPANSION_SMART_PUSHER",
+            new ItemStack(Material.LIGHTNING_ROD),
+            Theme.MACHINE,
+            "智能推送器",
+            "即放即用"
+    );
+
     // Grid
     public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE = Theme.Random(
             "NTW_EXPANSION_GRID_NEW_STYLE",

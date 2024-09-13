@@ -6,16 +6,12 @@ import io.github.sefiraat.networks.slimefun.groups.MainFlexGroup;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 
@@ -83,6 +79,7 @@ public final class NetworksItemGroups {
         NetworksItemGroups.DISABLED_ITEMS.register(plugin);
 
     }
+
     public static class HiddenItemGroup extends ItemGroup {
 
         public HiddenItemGroup(NamespacedKey key, ItemStack item) {

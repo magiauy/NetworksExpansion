@@ -51,6 +51,8 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkInputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkOutputOnlyMonitor;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.SmartGrabber;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.SmartPusher;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.implementation.items.tools.CargoNodeQuickTool;
 import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksExpansionWorldEditAxe;
@@ -69,7 +71,7 @@ public class ExpansionItems {
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.NETWORK_EXPANSION_WORKBENCH,
             RecipeType.ENHANCED_CRAFTING_TABLE,
-            ExpansionRecipes.NE_EXPANSION_WORKBENCH
+            ExpansionRecipes.NETWORKS_EXPANSION_WORKBENCH
     );
 
     public static final AdvancedImport ADVANCED_IMPORT = new AdvancedImport(
@@ -570,7 +572,7 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ADVANCED_LINE_TRANSFER_PLUS
     );
-    
+
     public static final TransferPusher TRANSFER_PUSHER = new TransferPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.TRANSFER_PUSHER,
@@ -591,7 +593,7 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.TRANSFER
     );
-    
+
     public static final AdvancedTransferPusher ADVANCED_TRANSFER_PUSHER = new AdvancedTransferPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.ADVANCED_TRANSFER_PUSHER,
@@ -611,6 +613,20 @@ public class ExpansionItems {
             ExpansionItemStacks.ADVANCED_TRANSFER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ADVANCED_TRANSFER
+    );
+
+    public static final SmartGrabber SMART_GRABBER = new SmartGrabber(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.SMART_GRABBER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.SMART_GRABBER
+    );
+
+    public static final SmartPusher SMART_PUSHER = new SmartPusher(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.SMART_PUSHER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.SMART_PUSHER
     );
 
     public static final CargoNodeQuickTool CARGO_NODE_QUICK_TOOL = new CargoNodeQuickTool(

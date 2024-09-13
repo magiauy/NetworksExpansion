@@ -90,6 +90,11 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_TRANSFER_GRABBER.registerThis(),
                 ExpansionItems.ADVANCED_TRANSFER_PUSHER.registerThis()
         );
+
+        ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
+                ExpansionItems.SMART_GRABBER.registerThis(),
+                ExpansionItems.SMART_PUSHER.registerThis()
+        );
         /* 功能机器 */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
                 ExpansionItems.NETWORK_EXPANSION_WORKBENCH.registerThis(),

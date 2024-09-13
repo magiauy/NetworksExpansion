@@ -97,8 +97,6 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int distinctItems = allNetworkItems.size();
 
 
-
-
             long totalItems = allNetworkItems.values().stream().mapToLong(integer -> integer).sum();
 
             final String nodeCount = root.getNodeCount() >= root.getMaxNodes()
