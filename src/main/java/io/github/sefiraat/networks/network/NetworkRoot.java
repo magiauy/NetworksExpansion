@@ -92,11 +92,11 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> lineTransferPushers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> transferPushers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> lineTransferGrabbers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> transferGrabbers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> lineTransfers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> transfers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> advancedImporters = ConcurrentHashMap.newKeySet();
     @Getter
@@ -204,9 +204,9 @@ public class NetworkRoot extends NetworkNode {
                 }
             }
             case ADVANCED_PURGER -> advancedPurgers.add(location);
-            case LINE_TRANSFER -> lineTransfers.add(location);
-            case LINE_TRANSFER_PUSHER -> lineTransferPushers.add(location);
-            case LINE_TRANSFER_GRABBER -> lineTransferGrabbers.add(location);
+            case TRANSFER -> transfers.add(location);
+            case TRANSFER_PUSHER -> transferPushers.add(location);
+            case TRANSFER_GRABBER -> transferGrabbers.add(location);
             case LINE_TRANSFER_VANILLA_GRABBER -> lineTransferVanillaGrabbers.add(location);
             case LINE_TRANSFER_VANILLA_PUSHER -> lineTransferVanillaPushers.add(location);
             case INPUT_ONLY_MONITOR -> inputOnlyMonitors.add(location);

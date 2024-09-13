@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -43,7 +44,7 @@ import java.util.List;
 import java.util.UUID;
 
 // TODO #114
-public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem {
+public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final ItemStack AIR = new ItemStack(Material.AIR);
@@ -66,17 +67,16 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     public LineTransferVanillaPusher(ItemGroup itemGroup,
                                      SlimefunItemStack item,
                                      RecipeType recipeType,
-                                     ItemStack[] recipe,
-                                     String configKey
+                                     ItemStack[] recipe
     ) {
-        super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
+        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_PUSHER);
         for (int slot : getInputSlots()) {
             this.getSlotsToDrop().add(slot);
         }
-        loadConfiguration();
+        loadConfigurations();
     }
 
-    private void loadConfiguration() {
+    public void loadConfigurations() {
         String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 

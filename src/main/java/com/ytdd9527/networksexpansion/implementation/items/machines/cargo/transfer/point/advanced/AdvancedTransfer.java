@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
@@ -38,7 +39,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 // TODO: 需要重构
-public class AdvancedTransfer extends AdvancedDirectional implements RecipeDisplayItem {
+public class AdvancedTransfer extends AdvancedDirectional implements RecipeDisplayItem, Configurable {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
@@ -89,8 +90,8 @@ public class AdvancedTransfer extends AdvancedDirectional implements RecipeDispl
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
 
-    public AdvancedTransfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER);
+    public AdvancedTransfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
@@ -107,7 +108,7 @@ public class AdvancedTransfer extends AdvancedDirectional implements RecipeDispl
         return TRANSPORT_LIMIT;
     }
 
-    private void loadConfigurations() {
+    public void loadConfigurations() {
         String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 

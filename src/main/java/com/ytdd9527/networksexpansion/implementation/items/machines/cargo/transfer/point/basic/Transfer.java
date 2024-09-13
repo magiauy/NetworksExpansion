@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -37,7 +38,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class Transfer extends NetworkDirectional implements RecipeDisplayItem {
+public class Transfer extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
@@ -84,15 +85,15 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem {
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
 
-    public Transfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER);
+    public Transfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
         }
         loadConfigurations();
     }
 
-    private void loadConfigurations() {
+    public void loadConfigurations() {
         String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 

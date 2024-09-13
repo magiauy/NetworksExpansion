@@ -82,6 +82,14 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_LINE_TRANSFER_PLUS_PUSHER.registerThis(),
                 ExpansionItems.ADVANCED_LINE_TRANSFER_PLUS_GRABBER.registerThis()
         );
+        ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
+                ExpansionItems.TRANSFER.registerThis(),
+                ExpansionItems.TRANSFER_GRABBER.registerThis(),
+                ExpansionItems.TRANSFER_PUSHER.registerThis(),
+                ExpansionItems.ADVANCED_TRANSFER.registerThis(),
+                ExpansionItems.ADVANCED_TRANSFER_GRABBER.registerThis(),
+                ExpansionItems.ADVANCED_TRANSFER_PUSHER.registerThis()
+        );
         /* 功能机器 */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
                 ExpansionItems.NETWORK_EXPANSION_WORKBENCH.registerThis(),

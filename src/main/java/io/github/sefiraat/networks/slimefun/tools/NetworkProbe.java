@@ -85,9 +85,9 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int advancedExporters = root.getAdvancedExporters().size();
             final int advancedGreedyBlocks = root.getAdvancedGreedyBlocks().size();
             final int advancedPurgers = root.getAdvancedPurgers().size();
-            final int lineTransferPushers = root.getLineTransferPushers().size();
-            final int lineTransferGrabbers = root.getLineTransferGrabbers().size();
-            final int lineTransfers = root.getLineTransfers().size();
+            final int transferPushers = root.getTransferPushers().size();
+            final int transferGrabbers = root.getTransferGrabbers().size();
+            final int transfers = root.getTransfers().size();
             final int lineTransferVanillaPushers = root.getLineTransferVanillaPushers().size();
             final int lineTransferVanillaGrabbers = root.getLineTransferVanillaGrabbers().size();
             final int inputOnlyMonitor = root.getInputOnlyMonitors().size();
@@ -140,9 +140,9 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             player.sendMessage(formatter("高级网络出口", advancedExporters));
             player.sendMessage(formatter("高级网络阻断器", advancedGreedyBlocks));
             player.sendMessage(formatter("高级网络清除器", advancedPurgers));
-            player.sendMessage(formatter("链式传输器", lineTransfers));
-            player.sendMessage(formatter("链式传输器 [抓取]", lineTransferGrabbers));
-            player.sendMessage(formatter("链式传输器 [推送]", lineTransferPushers));
+            player.sendMessage(formatter("传输器", transfers));
+            player.sendMessage(formatter("传输器 [抓取]", transferGrabbers));
+            player.sendMessage(formatter("传输器 [推送]", transferPushers));
             player.sendMessage(formatter("链式原版传输器 [推送]", lineTransferVanillaPushers));
             player.sendMessage(formatter("链式原版传输器 [抓取]", lineTransferVanillaGrabbers));
             player.sendMessage(formatter("网络监视器 (仅输入)", inputOnlyMonitor));

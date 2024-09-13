@@ -433,6 +433,103 @@ public class ExpansionItemStacks {
             "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位",
             "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
     );
+    public static final SlimefunItemStack TRANSFER_PUSHER = Theme.Random(
+            "NTW_EXPANSION_TRANSFER_PUSHER",
+            new ItemStack(Material.OBSERVER),
+            Theme.MACHINE,
+            "传输器 [推送]",
+            "&c仅支持粘液容器",
+            "&7默认运输模式: &6首位阻断",
+            "&c不可调整运输模式",
+            "&7默认运输数量: &664",
+            "&c不可调整运输数量",
+            "&7运输模式解释: ",
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位"
+    );
+    public static final SlimefunItemStack TRANSFER_GRABBER = Theme.Random(
+            "NTW_EXPANSION_TRANSFER_GRABBER",
+            new ItemStack(Material.TARGET),
+            Theme.MACHINE,
+            "传输器 [抓取]",
+            "&c仅支持粘液容器",
+            "&7默认运输模式: &6首位阻断",
+            "&c不可调整运输模式",
+            "&7默认运输数量: &664",
+            "&c不可调整运输数量",
+            "&7运输模式解释: ",
+            "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+    );
+    public static final SlimefunItemStack TRANSFER = Theme.Random(
+            "NTW_EXPANSION_TRANSFER",
+            new ItemStack(Material.PISTON),
+            Theme.MACHINE,
+            "传输器",
+            "&c仅支持粘液容器",
+            "&7默认运输模式: &6首位阻断",
+            "&c不可调整运输模式",
+            "&7默认运输数量: &664",
+            "&c不可调整运输数量",
+            "&7运输模式解释: ",
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
+    );
+    public static final SlimefunItemStack ADVANCED_TRANSFER_PUSHER = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_TRANSFER_PUSHER",
+            new ItemStack(Material.OBSERVER),
+            Theme.MACHINE,
+            "高级传输器 [推送]",
+            "&c仅支持粘液容器",
+            "&7默认运输模式: &6首位阻断",
+            "&a可调整运输模式",
+            "&7默认运输数量: &63456",
+            "&a可调整运输数量",
+            "&7运输模式解释: ",
+            "&6无限制&7: &e可推送至任何槽位",
+            "&6仅空&7: &e仅推送至空槽位",
+            "&6仅非空&7: &e仅推送至非空槽位",
+            "&6仅首位&7: &e仅推送至第一格",
+            "&6仅末位&7: &e仅推送至最后一格",
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位",
+            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位"
+    );
+    public static final SlimefunItemStack ADVANCED_TRANSFER_GRABBER = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_TRANSFER_GRABBER",
+            new ItemStack(Material.TARGET),
+            Theme.MACHINE,
+            "高级传输器 [抓取]",
+            "&c仅支持粘液容器",
+            "&7默认运输模式: &6首位阻断",
+            "&a可调整运输模式",
+            "&7默认运输数量: &63456",
+            "&a可调整运输数量",
+            "&7运输模式解释: ",
+            "&6无限制&7: &e可抓取任何槽位",
+            "&6仅空&7: &e仅抓取空槽位",
+            "&6仅非空&7: &e仅抓取非空槽位",
+            "&6仅首位&7: &e仅抓取第一格",
+            "&6仅末位&7: &e仅抓取最后一格",
+            "&6首位阻断&7: &e仅抓取第一个有物品的槽位",
+            "&6懒惰模式&7: &e当第一格存在物品时，抓取所有槽位"
+    );
+    public static final SlimefunItemStack ADVANCED_TRANSFER = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_TRANSFER",
+            new ItemStack(Material.PISTON),
+            Theme.MACHINE,
+            "高级传输器",
+            "&c仅支持粘液容器",
+            "&7默认运输模式: &6首位阻断",
+            "&a可调整运输模式",
+            "&7默认运输数量: &63456",
+            "&a可调整运输数量",
+            "&7运输模式解释: ",
+            "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位",
+            "&6仅空&7: &e仅推送至空槽位 / 仅抓取空槽位",
+            "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位",
+            "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格",
+            "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格",
+            "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位",
+            "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
+    );
+
     // Grid
     public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE = Theme.Random(
             "NTW_EXPANSION_GRID_NEW_STYLE",

@@ -103,6 +103,37 @@ public class ExpansionRecipes {
             AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS_GRABBER
     };
 
+    public static final ItemStack[] TRANSFER_PUSHER = new ItemStack[]{
+            null, null, null,
+            null, ExpansionItemStacks.LINE_TRANSFER_PUSHER, null,
+            null, null, null
+    };
+    public static final ItemStack[] TRANSFER_GRABBER = new ItemStack[]{
+            null, null, null,
+            null, ExpansionItemStacks.LINE_TRANSFER_GRABBER, null,
+            null, null, null
+    };
+    public static final ItemStack[] TRANSFER = new ItemStack[]{
+            null, null, null,
+            null, ExpansionItemStacks.LINE_TRANSFER, null,
+            null, null, null
+    };
+    public static final ItemStack[] ADVANCED_TRANSFER_PUSHER = new ItemStack[]{
+            null, null, null,
+            null, ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PUSHER, null,
+            null, null, null
+    };
+    public static final ItemStack[] ADVANCED_TRANSFER_GRABBER = new ItemStack[]{
+            null, null, null,
+            null, ExpansionItemStacks.ADVANCED_LINE_TRANSFER_GRABBER, null,
+            null, null, null
+    };
+    public static final ItemStack[] ADVANCED_TRANSFER = new ItemStack[]{
+            null, null, null,
+            null, ExpansionItemStacks.ADVANCED_LINE_TRANSFER, null,
+            null, null, null
+    };
+    
     public static final ItemStack[] LINE_TRANSFER_VANILLA_GRABBER = new ItemStack[]{
             NETWORK_VANILLA_GRABBER.getItem(), OPTIC_CABLE.getItem(), NETWORK_VANILLA_GRABBER.getItem(),
             AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),

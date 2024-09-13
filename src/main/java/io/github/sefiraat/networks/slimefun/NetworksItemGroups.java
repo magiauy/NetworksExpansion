@@ -83,22 +83,6 @@ public final class NetworksItemGroups {
         NetworksItemGroups.DISABLED_ITEMS.register(plugin);
 
     }
-
-    @Nonnull
-    @SafeVarargs
-    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide, @Nonnull Pair<Enchantment, Integer>... enchantments) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        for (Pair<Enchantment, Integer> pair : enchantments) {
-            itemMeta.addEnchant(pair.getFirstValue(), pair.getSecondValue(), true);
-        }
-        if (hide) {
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
-    }
-
     public static class HiddenItemGroup extends ItemGroup {
 
         public HiddenItemGroup(NamespacedKey key, ItemStack item) {

@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -38,7 +39,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 
-public class TransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
+public class TransferGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
 
@@ -48,12 +49,12 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     private Function<Location, DisplayGroup> displayGroupGenerator;
     private int grabItemTick;
 
-    public TransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_GRABBER);
+    public TransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_GRABBER);
         loadConfigurations();
     }
 
-    private void loadConfigurations() {
+    public void loadConfigurations() {
         String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 

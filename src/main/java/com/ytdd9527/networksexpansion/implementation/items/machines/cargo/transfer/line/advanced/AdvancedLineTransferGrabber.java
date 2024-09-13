@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
@@ -37,7 +38,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem {
+public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 64;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
@@ -57,8 +58,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private int grabItemTick;
     private int maxDistance;
 
-    public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_GRABBER);
+    public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_GRABBER);
         loadConfigurations();
     }
 
@@ -72,7 +73,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         return TRANSPORT_LIMIT;
     }
 
-    private void loadConfigurations() {
+    public void loadConfigurations() {
         String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
