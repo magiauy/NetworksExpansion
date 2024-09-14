@@ -5,6 +5,7 @@ import com.ytdd9527.networksexpansion.api.interfaces.UnCopiableItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,6 +26,7 @@ import java.util.Map;
 public class ReplaceableCard extends UnusableSlimefunItem implements RecipeItem, UnCopiableItem {
     private static final Map<Material, ReplaceableCard> MATERIAL_SLIMEFUN_ITEM_MAP = new EnumMap<>(Material.class);
 
+    @Getter
     private final Material targetMaterial;
     @Nullable
     private final Material extraSourceMaterial;
@@ -42,10 +44,6 @@ public class ReplaceableCard extends UnusableSlimefunItem implements RecipeItem,
     @Nullable
     public static ReplaceableCard getByMaterial(@Nonnull Material material) {
         return MATERIAL_SLIMEFUN_ITEM_MAP.get(material);
-    }
-
-    public Material getTargetMaterial() {
-        return targetMaterial;
     }
 
     @Nullable

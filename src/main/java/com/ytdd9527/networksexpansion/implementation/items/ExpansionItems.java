@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.core.items.unusable.AuthorHead;
+import com.ytdd9527.networksexpansion.core.items.unusable.NetworkExpansionGuide;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.AncientAltarBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.ArmorForgeBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.ExpansionWorkbenchBlueprint;
@@ -1005,6 +1006,13 @@ public class ExpansionItems {
     public static final SpecialSlimefunItem AUTHOR_TINALNESS = new AuthorHead(
             ExpansionItemsMenus.MENU_TROPHY,
             ExpansionItemStacks.AUTHOR_TINALNESS,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL
+    );
+
+    public static final SpecialSlimefunItem NETWORK_EXPANSION_GUIDE = new NetworkExpansionGuide(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.NETWORK_EXPANSION_GUIDE,
             RecipeType.NULL,
             ExpansionRecipes.NULL
     );

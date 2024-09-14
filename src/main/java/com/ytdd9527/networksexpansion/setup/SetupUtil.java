@@ -15,7 +15,8 @@ public class SetupUtil {
         ExpansionItemsMenus.SUB_MENU_TOOL.addTo(
                 ExpansionItems.CARGO_NODE_QUICK_TOOL.registerThis(),
                 ExpansionItems.WORLD_EDIT_AXE.registerThis(),
-                ExpansionItems.INFO_TOOL.registerThis()
+                ExpansionItems.INFO_TOOL.registerThis(),
+                ExpansionItems.NETWORK_EXPANSION_GUIDE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BLUEPRINT.addTo(
                 ExpansionItems.MAGIC_WORKBENCH_BLUEPRINT.registerThis(),
