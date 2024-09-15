@@ -26,11 +26,18 @@ import java.util.Map;
  * @since 2.0
  */
 public class ExpansionItemStacks {
-    public static final SlimefunItemStack NETWORK_EXPANSION_GUIDE = Theme.themedSlimefunItemStack(
-            "NTW_EXPANSION_GUIDE",
+    public static final SlimefunItemStack NETWORK_EXPANSION_SURVIVAL_GUIDE = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_SURVIVAL_GUIDE",
             new ItemStack(Material.ENCHANTED_BOOK),
             Theme.GUIDE,
-            "网络拓展指南",
+            "网络拓展指南 (生存模式)",
+            ""
+    );
+    public static final SlimefunItemStack NETWORK_EXPANSION_CHEAT_GUIDE = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_CREATIVE_GUIDE",
+            new ItemStack(Material.ENCHANTED_BOOK),
+            Theme.GUIDE,
+            "网络拓展指南 (作弊模式)",
             ""
     );
     public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(

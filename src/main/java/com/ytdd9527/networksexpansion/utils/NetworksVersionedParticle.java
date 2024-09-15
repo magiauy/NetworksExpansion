@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import com.ytdd9527.networksexpansion.api.enums.MCVersion;
+import io.github.sefiraat.networks.Networks;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Particle;
 
@@ -16,10 +16,10 @@ public class NetworksVersionedParticle {
     public static final Particle SMOKE;
 
     static {
-        MinecraftVersion version = Slimefun.getMinecraftVersion();
-        DUST = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5) ? Particle.DUST : getKey("REDSTONE");
-        EXPLOSION = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5) ? Particle.EXPLOSION : getKey("EXPLOSION_LARGE");
-        SMOKE = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5) ? Particle.SMOKE : getKey("SMOKE_NORMAL");
+        MCVersion version = Networks.getInstance().getMCVersion();
+        DUST = version.isAtLeast(MCVersion.MC1_20_5) ? Particle.DUST : getKey("REDSTONE");
+        EXPLOSION = version.isAtLeast(MCVersion.MC1_20_5) ? Particle.EXPLOSION : getKey("EXPLOSION_LARGE");
+        SMOKE = version.isAtLeast(MCVersion.MC1_20_5) ? Particle.SMOKE : getKey("SMOKE_NORMAL");
     }
 
     @Nullable

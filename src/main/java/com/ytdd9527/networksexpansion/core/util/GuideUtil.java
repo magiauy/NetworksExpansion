@@ -1,9 +1,11 @@
 package com.ytdd9527.networksexpansion.core.util;
 
+import com.ytdd9527.networksexpansion.core.guide.CheatGuideImpl;
 import com.ytdd9527.networksexpansion.core.guide.SurvivalGuideImpl;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 
@@ -11,18 +13,29 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @UtilityClass
 public class GuideUtil {
-    @Getter
-    private static final SurvivalGuideImpl guide = new SurvivalGuideImpl();
+    private static final SurvivalGuideImpl survivalGuide = new SurvivalGuideImpl();
+    private static final CheatGuideImpl cheatGuide = new CheatGuideImpl();
 
     @ParametersAreNonnullByDefault
-    public static void openMainMenuAsync(Player player, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, selectedPage)))) {
+    public static void openMainMenuAsync(Player player, SlimefunGuideMode mode, int selectedPage) {
+        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(player, profile, mode, selectedPage)))) {
             Slimefun.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 
     @ParametersAreNonnullByDefault
-    public static void openMainMenu(PlayerProfile profile, int selectedPage) {
-        getGuide().openMainMenu(profile, selectedPage);
+    public static void openMainMenu(Player player, PlayerProfile profile, SlimefunGuideMode mode, int selectedPage) {
+        getGuide(player, mode).openMainMenu(profile, selectedPage);
+    }
+
+    public static SlimefunGuideImplementation getGuide(Player player, SlimefunGuideMode mode) {
+        if (mode == SlimefunGuideMode.SURVIVAL_MODE) {
+            return survivalGuide;
+        }
+        if (player.isOp() && mode == SlimefunGuideMode.CHEAT_MODE) {
+            return cheatGuide;
+        }
+
+        return survivalGuide;
     }
 }

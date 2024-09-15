@@ -8,6 +8,7 @@ import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -54,21 +55,21 @@ import java.util.Optional;
 import java.util.logging.Level;
 
 @SuppressWarnings("deprecation")
-public class SurvivalGuideImpl implements SlimefunGuideImplementation {
+public class CheatGuideImpl implements SlimefunGuideImplementation {
 
     private static final int MAX_ITEM_GROUPS = 36;
 
     private final int[] recipeSlots = {3, 4, 5, 12, 13, 14, 21, 22, 23};
     private final ItemStack item;
 
-    public SurvivalGuideImpl() {
-        item = new SlimefunGuideItem(this, "&aSlimefun 指南 &7(箱子界面)");
+    public CheatGuideImpl() {
+        item = new SlimefunGuideItem(this, "&cSlimefun 指南 &4(作弊模式)");
     }
 
     // fallback
     @Deprecated
-    public SurvivalGuideImpl(boolean v1, boolean v2) {
-        item = new SlimefunGuideItem(this, "&aSlimefun 指南 &7(箱子界面)");
+    public CheatGuideImpl(boolean v1, boolean v2) {
+        item = new SlimefunGuideItem(this, "&cSlimefun 指南 &4(作弊模式)");
     }
 
     @ParametersAreNonnullByDefault
@@ -103,7 +104,7 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
 
     @Override
     public @Nonnull SlimefunGuideMode getMode() {
-        return SlimefunGuideMode.SURVIVAL_MODE;
+        return SlimefunGuideMode.CHEAT_MODE;
     }
 
     @Override
@@ -112,7 +113,7 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
     }
 
     protected final boolean isSurvivalMode() {
-        return getMode() != SlimefunGuideMode.CHEAT_MODE;
+        return true;
     }
 
     /**
@@ -128,7 +129,7 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
             try {
                 if (group instanceof FlexItemGroup flexItemGroup) {
-                    if (flexItemGroup.isVisible(p, profile, getMode())) {
+                    if (flexItemGroup.isVisible(p, profile, SlimefunGuideMode.SURVIVAL_MODE)) {
                         groups.add(group);
                     }
                 } else if (!group.isHidden(p)) {
@@ -252,7 +253,7 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
         }
 
         if (itemGroup instanceof FlexItemGroup flexItemGroup) {
-            flexItemGroup.open(p, profile, getMode());
+            flexItemGroup.open(p, profile, SlimefunGuideMode.SURVIVAL_MODE);
             return;
         }
 
@@ -358,9 +359,7 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
             menu.addItem(index, sfitem.getItem());
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 try {
-                    if (isSurvivalMode()) {
-                        displayItem(profile, sfitem, true);
-                    } else if (pl.hasPermission("slimefun.cheat.items")) {
+                    if (pl.isOp() || pl.hasPermission("slimefun.cheat.items")) {
                         if (sfitem instanceof MultiBlockMachine) {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
@@ -442,8 +441,14 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
             });
             menu.addItem(index, ItemStackUtil.getCleanItem(itemstack), (pl, slot, itm, action) -> {
                 try {
-                    if (!isSurvivalMode()) {
-                        pl.getInventory().addItem(slimefunItem.getItem().clone());
+                    if (pl.isOp()) {
+                        ItemStack clonedItem = ItemStackUtil.getCleanItem(slimefunItem.getItem());
+
+                        if (action.isShiftClicked()) {
+                            clonedItem.setAmount(clonedItem.getMaxStackSize());
+                        }
+
+                        pl.getInventory().addItem(StackUtils.getAsQuantity(clonedItem, 1));
                     } else {
                         displayItem(profile, slimefunItem, true);
                     }
@@ -862,7 +867,7 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
     }
 
     private @Nonnull ChestMenu create(@Nonnull Player p) {
-        ChestMenu menu = new ChestMenu("网络拓展指南 (生存模式)");
+        ChestMenu menu = new ChestMenu("网络拓展指南 (作弊模式)");
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);

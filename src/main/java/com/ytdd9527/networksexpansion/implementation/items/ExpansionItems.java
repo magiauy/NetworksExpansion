@@ -1010,9 +1010,16 @@ public class ExpansionItems {
             ExpansionRecipes.NULL
     );
 
-    public static final SpecialSlimefunItem NETWORK_EXPANSION_GUIDE = new NetworkExpansionGuide(
+    public static final SpecialSlimefunItem NETWORK_EXPANSION_SURVIVAL_GUIDE = new NetworkExpansionGuide(
             ExpansionItemsMenus.MENU_ITEMS,
-            ExpansionItemStacks.NETWORK_EXPANSION_GUIDE,
+            ExpansionItemStacks.NETWORK_EXPANSION_SURVIVAL_GUIDE,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL
+    );
+
+    public static final SpecialSlimefunItem NETWORK_EXPANSION_CHEAT_GUIDE = new NetworkExpansionGuide(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.NETWORK_EXPANSION_CHEAT_GUIDE,
             RecipeType.NULL,
             ExpansionRecipes.NULL
     );

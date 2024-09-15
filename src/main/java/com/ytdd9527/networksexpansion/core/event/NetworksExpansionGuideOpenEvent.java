@@ -1,26 +1,23 @@
 package com.ytdd9527.networksexpansion.core.event;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import lombok.Getter;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
 public class NetworksExpansionGuideOpenEvent extends PlayerEvent {
     @Getter
     private static final HandlerList handlerList = new HandlerList();
+    @Getter
+    private SlimefunGuideMode mode = SlimefunGuideMode.SURVIVAL_MODE;
     private Result state = Result.DEFAULT;
 
-    public NetworksExpansionGuideOpenEvent(@Nonnull Player who) {
+    public NetworksExpansionGuideOpenEvent(@Nonnull Player who, SlimefunGuideMode mode) {
         super(who);
+        this.mode = mode;
     }
 
     @Override
@@ -33,6 +30,6 @@ public class NetworksExpansionGuideOpenEvent extends PlayerEvent {
     }
 
     public void setCancelled(boolean cancel) {
-        state = cancel? Result.DENY : Result.DEFAULT;
+        state = cancel ? Result.DENY : Result.DEFAULT;
     }
 }
