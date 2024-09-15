@@ -6,6 +6,7 @@ import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -39,7 +40,7 @@ import java.util.Set;
  *
  * @author balugaq
  */
-public class SmartGrabber extends SpecialSlimefunItem {
+public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<Location, BlockFace> DIRECTIONS = new HashMap<>();
     private static final Set<BlockFace> VALID_FACES = EnumSet.of(
             BlockFace.UP,
@@ -81,13 +82,10 @@ public class SmartGrabber extends SpecialSlimefunItem {
                         final Location location = block.getLocation();
                         final BlockFace cachedFace = getDirection(location);
                         if (cachedFace != null && VALID_FACES.contains(cachedFace)) {
-                            final BlockMenu blockMenu = slimefunBlockData.getBlockMenu();
-                            if (blockMenu != null) {
-                                onTick(blockMenu, cachedFace);
-                            }
+                            onTick(block, cachedFace);
                         } else if (block.getBlockData() instanceof Directional directional) {
-                            final BlockFace face = directional.getFacing();
-                            setDirection(location, face);
+                            final BlockFace bridgeFace = directional.getFacing();
+                            setDirection(location, bridgeFace);
                         } else {
                             Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
                         }
@@ -112,20 +110,22 @@ public class SmartGrabber extends SpecialSlimefunItem {
         );
     }
 
-    public void onTick(@Nonnull BlockMenu blockMenu, BlockFace face) {
-        final Block opposite = blockMenu.getBlock().getRelative(face.getOppositeFace());
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(opposite.getLocation());
+    public void onTick(@Nonnull Block thisBlock, BlockFace bridgeFace) {
+        final BlockFace containerFace = bridgeFace.getOppositeFace();
+        final Block bridge = thisBlock.getRelative(bridgeFace);
+        final Block container = thisBlock.getRelative(containerFace);
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(bridge.getLocation());
         if (definition != null && definition.getNode() != null) {
-            final BlockMenu targetMenu = StorageCacheUtils.getMenu(blockMenu.getBlock().getRelative(face).getLocation());
+            final BlockMenu targetMenu = StorageCacheUtils.getMenu(container.getLocation());
             if (targetMenu != null) {
                 final NetworkRoot root = definition.getNode().getRoot();
                 final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
                 int limit = getLimitQuantity();
                 if (slots.length > 0) {
-                    final ItemStack delta = blockMenu.getItemInSlot(slots[0]);
+                    final ItemStack delta = targetMenu.getItemInSlot(slots[0]);
                     if (delta != null && !delta.getType().isAir()) {
                         for (int slot : slots) {
-                            ItemStack item = blockMenu.getItemInSlot(slot);
+                            ItemStack item = targetMenu.getItemInSlot(slot);
                             if (item != null && !item.getType().isAir()) {
                                 final int exceptedReceive = Math.min(item.getAmount(), limit);
                                 final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);

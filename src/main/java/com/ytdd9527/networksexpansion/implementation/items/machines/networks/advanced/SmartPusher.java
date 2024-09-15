@@ -8,6 +8,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -40,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SmartPusher extends SpecialSlimefunItem {
+public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<Location, BlockFace> DIRECTIONS = new HashMap<>();
     private static final Set<BlockFace> VALID_FACES = EnumSet.of(
             BlockFace.UP,
@@ -101,6 +102,11 @@ public class SmartPusher extends SpecialSlimefunItem {
                     @Override
                     public void onPlayerBreak(@Nonnull BlockBreakEvent blockBreakEvent, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> list) {
                         removeDirection(blockBreakEvent.getBlock().getLocation());
+                        final Location location = blockBreakEvent.getBlock().getLocation();
+                        final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+                        if (blockMenu != null) {
+                            blockMenu.dropItems(location, getTemplateSlots());
+                        }
                     }
                 },
 
@@ -146,24 +152,27 @@ public class SmartPusher extends SpecialSlimefunItem {
         };
     }
 
-    public void onTick(@Nonnull BlockMenu blockMenu, BlockFace face) {
-        final Block opposite = blockMenu.getBlock().getRelative(face.getOppositeFace());
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(opposite.getLocation());
+    public void onTick(@Nonnull BlockMenu blockMenu, BlockFace bridgeFace) {
+        final BlockFace containerFace = bridgeFace.getOppositeFace();
+        final Block thisBlock = blockMenu.getBlock();
+        final Block bridge = thisBlock.getRelative(bridgeFace);
+        final Block container = thisBlock.getRelative(containerFace);
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(bridge.getLocation());
         if (definition != null && definition.getNode() != null) {
-            final BlockMenu targetMenu = StorageCacheUtils.getMenu(blockMenu.getBlock().getRelative(face).getLocation());
+            final BlockMenu targetMenu = StorageCacheUtils.getMenu(container.getLocation());
             if (targetMenu != null) {
                 final NetworkRoot root = definition.getNode().getRoot();
-                final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+                final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, null);
                 for (ItemStack template : getTemplateItems(blockMenu)) {
-                    final ItemStack clone = template.clone();
+                    final ItemStack clone = StackUtils.getAsQuantity(template, 1);
                     final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
                     final int limitQuantity = getLimitQuantity();
                     if (slots.length > 0) {
-                        final ItemStack delta = blockMenu.getItemInSlot(slots[0]);
+                        final ItemStack delta = targetMenu.getItemInSlot(slots[0]);
                         if (delta == null || delta.getType().isAir()) {
                             int freeSpace = 0;
                             for (int slot : slots) {
-                                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                                final ItemStack itemStack = targetMenu.getItemInSlot(slot);
                                 if (itemStack == null || itemStack.getType().isAir()) {
                                     freeSpace += clone.getMaxStackSize();
                                 } else {
@@ -185,7 +194,7 @@ public class SmartPusher extends SpecialSlimefunItem {
 
                             final ItemStack retrieved = root.getItemStack(itemRequest);
                             if (retrieved != null && !retrieved.getType().isAir()) {
-                                BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
+                                BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
                             }
                         }
                     }

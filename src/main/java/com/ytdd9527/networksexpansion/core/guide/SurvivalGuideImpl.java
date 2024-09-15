@@ -1,6 +1,9 @@
 package com.ytdd9527.networksexpansion.core.guide;
 
 import city.norain.slimefun4.VaultIntegration;
+import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
+import com.github.houbb.pinyin.util.PinyinHelper;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
@@ -60,13 +63,13 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
     private final ItemStack item;
 
     public SurvivalGuideImpl() {
-        item = new SlimefunGuideItem(this, "网络拓展");
+        item = new SlimefunGuideItem(this, "网络拓展指南");
     }
 
     // fallback
     @Deprecated
     public SurvivalGuideImpl(boolean v1, boolean v2) {
-        item = new SlimefunGuideItem(this, "网络拓展");
+        item = new SlimefunGuideItem(this, "网络拓展指南");
     }
 
     @ParametersAreNonnullByDefault
@@ -390,14 +393,17 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
     @Override
     @ParametersAreNonnullByDefault
     public void openSearch(PlayerProfile profile, String input, boolean addToHistory) {
+        openSearch(profile, input, 0, addToHistory);
+    }
+    @ParametersAreNonnullByDefault
+    public void openSearch(PlayerProfile profile, String input, int page, boolean addToHistory) {
         Player p = profile.getPlayer();
 
         if (p == null) {
             return;
         }
 
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization()
-                .getMessage(p, "guide.search.inventory")
+        ChestMenu menu = new ChestMenu("你正在搜索: %item%"
                 .replace("%item%", ChatUtils.crop(ChatColor.WHITE, input)));
         String searchTerm = ChatColor.stripColor(input.toLowerCase(Locale.ROOT));
 
@@ -409,46 +415,73 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
         createHeader(p, profile, menu);
         addBackButton(menu, 1, p, profile);
 
+        List<SlimefunItem> items = getAllMatchedItems(p, searchTerm, true);
+
+        int size = items.size();
+        List<SlimefunItem> showed = items.subList(page*36, Math.min(size, (page+1)*36));
+
         int index = 9;
-        // Find items and add them
-        for (SlimefunItem slimefunItem : Slimefun.getRegistry().getEnabledSlimefunItems()) {
-            if (index == 44) {
-                break;
-            }
+        for (int i = 0; i < 36 && i < showed.size(); i++) {
 
-            if (!slimefunItem.isHidden()
-                    && isItemGroupAccessible(p, slimefunItem)
-                    && isSearchFilterApplicable(slimefunItem, searchTerm)) {
-                ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
-                    ItemGroup itemGroup = slimefunItem.getItemGroup();
-                    meta.setLore(Arrays.asList(
-                            "", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
-                    meta.addItemFlags(
-                            ItemFlag.HIDE_ATTRIBUTES,
-                            ItemFlag.HIDE_ENCHANTS,
-                            VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-                });
+            SlimefunItem slimefunItem = showed.get(i);
+            ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
+                ItemGroup itemGroup = slimefunItem.getItemGroup();
+                List<String> additionLore = List.of("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + (itemGroup.getAddon() == null ? "Slimefun" : itemGroup.getAddon().getName()) + itemGroup.getDisplayName(p));
+                if (meta.hasLore() && meta.getLore() != null) {
+                    List<String> lore = meta.getLore();
+                    lore.addAll(additionLore);
+                    meta.setLore(lore);
+                } else {
+                    meta.setLore(additionLore);
+                }
 
-                menu.addItem(index, itemstack);
-                menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
-                    try {
-                        if (!isSurvivalMode()) {
-                            pl.getInventory().addItem(slimefunItem.getItem().clone());
-                        } else {
-                            displayItem(profile, slimefunItem, true);
-                        }
-                    } catch (Exception | LinkageError x) {
-                        printErrorMessage(pl, slimefunItem, x);
+                meta.addItemFlags(
+                        ItemFlag.HIDE_ATTRIBUTES,
+                        ItemFlag.HIDE_ENCHANTS,
+                        VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            });
+            menu.addItem(index, ItemStackUtil.getCleanItem(itemstack), (pl, slot, itm, action) -> {
+                try {
+                    if (!isSurvivalMode()) {
+                        pl.getInventory().addItem(slimefunItem.getItem().clone());
+                    } else {
+                        displayItem(profile, slimefunItem, true);
                     }
+                } catch (Exception | LinkageError x) {
+                    printErrorMessage(pl, slimefunItem, x);
+                }
 
-                    return false;
-                });
-
-                index++;
-            }
+                return false;
+            });
+            index++;
         }
 
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page + 1, size / 36 + 1), (pl, slot, action, stack) -> {
+            if (page > 0) {
+                openSearch(profile, input, page - 1, true);
+            }
+            return false;
+        });
+
+        menu.addItem(52, ChestMenuUtils.getNextButton(p, page + 1, size / 36 + 1), (pl, slot, action, stack) -> {
+            if (page < size / 36) {
+                openSearch(profile, input, page + 1, true);
+            }
+            return false;
+        });
+
         menu.open(p);
+    }
+
+    private List<SlimefunItem> getAllMatchedItems(Player p, String searchTerm, boolean pinyin) {
+        return Slimefun.getRegistry().getEnabledSlimefunItems()
+                .stream()
+                .filter(slimefunItem -> {
+                    return !slimefunItem.isHidden()
+                            && isItemGroupAccessible(p, slimefunItem)
+                            && isSearchFilterApplicable(slimefunItem, searchTerm, pinyin);
+                })
+                .toList();
     }
 
     @ParametersAreNonnullByDefault
@@ -458,9 +491,18 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
     }
 
     @ParametersAreNonnullByDefault
-    private boolean isSearchFilterApplicable(SlimefunItem slimefunItem, String searchTerm) {
+    private boolean isSearchFilterApplicable(SlimefunItem slimefunItem, String searchTerm, boolean pinyin) {
         String itemName = ChatColor.stripColor(slimefunItem.getItemName()).toLowerCase(Locale.ROOT);
-        return !itemName.isEmpty() && (itemName.equals(searchTerm) || itemName.contains(searchTerm));
+        if (itemName.isEmpty()) {
+            return false;
+        }
+        if (pinyin) {
+            final String pinyinName = PinyinHelper.toPinyin(itemName, PinyinStyleEnum.INPUT, "");
+            final String pinyinFirstLetter = PinyinHelper.toPinyin(itemName, PinyinStyleEnum.FIRST_LETTER, "");
+            return itemName.contains(searchTerm) || pinyinName.contains(searchTerm) || pinyinFirstLetter.contains(searchTerm);
+        } else {
+            return itemName.contains(searchTerm);
+        }
     }
 
     @Override
@@ -820,7 +862,7 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
     }
 
     private @Nonnull ChestMenu create(@Nonnull Player p) {
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.main"));
+        ChestMenu menu = new ChestMenu("网络拓展指南");
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
