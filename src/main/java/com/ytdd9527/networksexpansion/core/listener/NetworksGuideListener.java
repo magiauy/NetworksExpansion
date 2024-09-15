@@ -1,8 +1,8 @@
 package com.ytdd9527.networksexpansion.core.listener;
 
 import com.ytdd9527.networksexpansion.core.event.NetworksExpansionGuideOpenEvent;
-import com.ytdd9527.networksexpansion.core.util.GuideUtil;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
+import com.ytdd9527.networksexpansion.utils.GuideUtil;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;

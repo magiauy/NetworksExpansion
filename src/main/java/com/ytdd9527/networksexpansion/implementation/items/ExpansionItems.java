@@ -3,7 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.core.items.unusable.AuthorHead;
-import com.ytdd9527.networksexpansion.core.items.unusable.NetworkExpansionGuide;
+import com.ytdd9527.networksexpansion.core.items.unusable.NetworksExpansionGuide;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.AncientAltarBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.ArmorForgeBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.ExpansionWorkbenchBlueprint;
@@ -637,9 +637,9 @@ public class ExpansionItems {
             ExpansionRecipes.CARGO_NODE_QUICK_TOOL
     );
 
-    public static final NetworksExpansionWorldEditAxe WORLD_EDIT_AXE = new NetworksExpansionWorldEditAxe(
+    public static final NetworksExpansionWorldEditAxe WORLDEDIT_AXE = new NetworksExpansionWorldEditAxe(
             ExpansionItemsMenus.MENU_ITEMS,
-            ExpansionItemStacks.WORLD_EDIT_AXE
+            ExpansionItemStacks.WORLDEDIT_AXE
     );
 
     public static final NetworksInfoTool INFO_TOOL = new NetworksInfoTool(
@@ -759,8 +759,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_1_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_1_MODEL,
-            StorageUnitType.TINY,
-            "CARGO_STORAGE_UNIT_1_MODEL"
+            StorageUnitType.TINY
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_2_MODEL = new CargoStorageUnit(
@@ -768,8 +767,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_2_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_2_MODEL,
-            StorageUnitType.MINI,
-            "CARGO_STORAGE_UNIT_2_MODEL"
+            StorageUnitType.MINI
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_3_MODEL = new CargoStorageUnit(
@@ -777,8 +775,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_3_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_3_MODEL,
-            StorageUnitType.SMALL,
-            "CARGO_STORAGE_UNIT_3_MODEL"
+            StorageUnitType.SMALL
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_4_MODEL = new CargoStorageUnit(
@@ -786,8 +783,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_4_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_4_MODEL,
-            StorageUnitType.MEDIUM,
-            "CARGO_STORAGE_UNIT_4_MODEL"
+            StorageUnitType.MEDIUM
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_5_MODEL = new CargoStorageUnit(
@@ -795,8 +791,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_5_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_5_MODEL,
-            StorageUnitType.LARGE,
-            "CARGO_STORAGE_UNIT_5_MODEL"
+            StorageUnitType.LARGE
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_6_MODEL = new CargoStorageUnit(
@@ -804,8 +799,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_6_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_6_MODEL,
-            StorageUnitType.ENHANCED,
-            "CARGO_STORAGE_UNIT_6_MODEL"
+            StorageUnitType.ENHANCED
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_7_MODEL = new CargoStorageUnit(
@@ -813,8 +807,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_7_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_7_MODEL,
-            StorageUnitType.ADVANCED,
-            "CARGO_STORAGE_UNIT_7_MODEL"
+            StorageUnitType.ADVANCED
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_8_MODEL = new CargoStorageUnit(
@@ -822,8 +815,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_8_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_8_MODEL,
-            StorageUnitType.EXTRA,
-            "CARGO_STORAGE_UNIT_8_MODEL"
+            StorageUnitType.EXTRA
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_9_MODEL = new CargoStorageUnit(
@@ -831,8 +823,7 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_9_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_9_MODEL,
-            StorageUnitType.ULTRA,
-            "CARGO_STORAGE_UNIT_9_MODEL"
+            StorageUnitType.ULTRA
     );
 
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_10_MODEL = new CargoStorageUnit(
@@ -840,32 +831,28 @@ public class ExpansionItems {
             ExpansionItemStacks.CARGO_STORAGE_UNIT_10_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_10_MODEL,
-            StorageUnitType.END_GAME_BASIC,
-            "CARGO_STORAGE_UNIT_10_MODEL"
+            StorageUnitType.END_GAME_BASIC
     );
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_11_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_11_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_11_MODEL,
-            StorageUnitType.END_GAME_INTERMEDIATE,
-            "CARGO_STORAGE_UNIT_11_MODEL"
+            StorageUnitType.END_GAME_INTERMEDIATE
     );
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_12_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_12_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_12_MODEL,
-            StorageUnitType.END_GAME_ADVANCED,
-            "CARGO_STORAGE_UNIT_12_MODEL"
+            StorageUnitType.END_GAME_ADVANCED
     );
     public static final CargoStorageUnit CARGO_STORAGE_UNIT_13_MODEL = new CargoStorageUnit(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,
             ExpansionItemStacks.CARGO_STORAGE_UNIT_13_MODEL,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CARGO_STORAGE_UNIT_13_MODEL,
-            StorageUnitType.END_GAME_MAX,
-            "CARGO_STORAGE_UNIT_13_MODEL"
+            StorageUnitType.END_GAME_MAX
     );
 
     // Bridges
@@ -984,43 +971,31 @@ public class ExpansionItems {
 
     public static final SpecialSlimefunItem AUTHOR_SEFIRAAT = new AuthorHead(
             ExpansionItemsMenus.MENU_TROPHY,
-            ExpansionItemStacks.AUTHOR_SEFIRAAT,
-            RecipeType.NULL,
-            ExpansionRecipes.NULL
+            ExpansionItemStacks.AUTHOR_SEFIRAAT
     );
 
     public static final SpecialSlimefunItem AUTHOR_YBW0014 = new AuthorHead(
             ExpansionItemsMenus.MENU_TROPHY,
-            ExpansionItemStacks.AUTHOR_YBW0014,
-            RecipeType.NULL,
-            ExpansionRecipes.NULL
+            ExpansionItemStacks.AUTHOR_YBW0014
     );
 
     public static final SpecialSlimefunItem AUTHOR_YITOUDAIDAI = new AuthorHead(
             ExpansionItemsMenus.MENU_TROPHY,
-            ExpansionItemStacks.AUTHOR_YITOUDAIDAI,
-            RecipeType.NULL,
-            ExpansionRecipes.NULL
+            ExpansionItemStacks.AUTHOR_YITOUDAIDAI
     );
 
     public static final SpecialSlimefunItem AUTHOR_TINALNESS = new AuthorHead(
             ExpansionItemsMenus.MENU_TROPHY,
-            ExpansionItemStacks.AUTHOR_TINALNESS,
-            RecipeType.NULL,
-            ExpansionRecipes.NULL
+            ExpansionItemStacks.AUTHOR_TINALNESS
     );
 
-    public static final SpecialSlimefunItem NETWORK_EXPANSION_SURVIVAL_GUIDE = new NetworkExpansionGuide(
+    public static final SpecialSlimefunItem NETWORK_EXPANSION_SURVIVAL_GUIDE = new NetworksExpansionGuide(
             ExpansionItemsMenus.MENU_ITEMS,
-            ExpansionItemStacks.NETWORK_EXPANSION_SURVIVAL_GUIDE,
-            RecipeType.NULL,
-            ExpansionRecipes.NULL
+            ExpansionItemStacks.NETWORK_EXPANSION_SURVIVAL_GUIDE
     );
 
-    public static final SpecialSlimefunItem NETWORK_EXPANSION_CHEAT_GUIDE = new NetworkExpansionGuide(
+    public static final SpecialSlimefunItem NETWORK_EXPANSION_CHEAT_GUIDE = new NetworksExpansionGuide(
             ExpansionItemsMenus.MENU_ITEMS,
-            ExpansionItemStacks.NETWORK_EXPANSION_CHEAT_GUIDE,
-            RecipeType.NULL,
-            ExpansionRecipes.NULL
+            ExpansionItemStacks.NETWORK_EXPANSION_CHEAT_GUIDE
     );
 }

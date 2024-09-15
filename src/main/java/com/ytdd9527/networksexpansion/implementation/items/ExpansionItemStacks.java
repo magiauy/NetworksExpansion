@@ -50,7 +50,7 @@ public class ExpansionItemStacks {
 
     // Workbench
     // Tools
-    public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
+    public static final SlimefunItemStack WORLDEDIT_AXE = Theme.Random(
             "NTW_EXPANSION_WORLD_EDIT_AXE",
             new ItemStack(Material.DIAMOND_AXE),
             Theme.TOOL,
@@ -502,7 +502,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_TRANSFER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_TRANSFER",
-            new ItemStack(Material.PISTON),
+            new ItemStack(Material.STICKY_PISTON),
             Theme.MACHINE,
             "高级传输器",
             "&c仅支持粘液容器",
@@ -602,7 +602,7 @@ public class ExpansionItemStacks {
     // Encoders
     public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_MAGIC_WORKBENCH_RECIPE_ENCODER",
-            new ItemStack(Material.OAK_HANGING_SIGN),
+            new ItemStack(Material.LODESTONE),
             Theme.MACHINE,
             "网络魔法工作台配方编码器",
             "可以根据输入的物品来制作魔法工作台蓝图",
@@ -611,7 +611,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ARMOR_FORGE_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_ARMOR_FORGE_RECIPE_ENCODER",
-            new ItemStack(Material.SPRUCE_HANGING_SIGN),
+            new ItemStack(Material.FLETCHING_TABLE),
             Theme.MACHINE,
             "网络盔甲锻造台配方编码器",
             "可以根据输入的物品来制作盔甲锻造台蓝图",
@@ -620,7 +620,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack SMELTERY_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_SMELTERY_RECIPE_ENCODER",
-            new ItemStack(Material.BIRCH_HANGING_SIGN),
+            new ItemStack(Material.SHROOMLIGHT),
             Theme.MACHINE,
             "网络冶炼炉配方编码器",
             "可以根据输入的物品来制作冶炼炉蓝图",
@@ -629,7 +629,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack QUANTUM_WORKBENCH_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_QUANTUM_WORKBENCH_RECIPE_ENCODER",
-            new ItemStack(Material.JUNGLE_HANGING_SIGN),
+            new ItemStack(Material.WET_SPONGE),
             Theme.MACHINE,
             "网络量子工作台配方编码器",
             "可以根据输入的物品来制作量子工作台蓝图",
@@ -638,7 +638,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ANCIENT_ALTAR_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_ANCIENT_ALTAR_RECIPE_ENCODER",
-            new ItemStack(Material.CHERRY_HANGING_SIGN),
+            new ItemStack(Material.BEACON),
             Theme.MACHINE,
             "网络古代祭坛配方编码器",
             "可以根据输入的物品来制作古代祭坛蓝图",
@@ -647,7 +647,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_EXPANSION_WORKBENCH_RECIPE_ENCODER",
-            new ItemStack(Material.ACACIA_HANGING_SIGN),
+            new ItemStack(Material.SEA_LANTERN),
             Theme.MACHINE,
             "网络拓展工作台配方编码器",
             "可以根据输入的物品来制作网络拓展工作台蓝图",
@@ -744,7 +744,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH",
-            new ItemStack(Material.HAY_BLOCK),
+            new ItemStack(Material.BRAIN_CORAL_BLOCK),
             Theme.MACHINE,
             "网络自动量子工作台",
             "网络自动量子工作台需要量子工作台蓝图才能工作。",
@@ -773,7 +773,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_ANCIENT_ALTAR = Theme.Random(
             "NTW_EXPANSION_AUTO_ANCIENT_ALTAR",
-            new ItemStack(Material.CRAFTING_TABLE),
+            new ItemStack(Material.ENCHANTING_TABLE),
             Theme.MACHINE,
             "网络自动古代祭坛",
             "网络自动古代祭坛需要古代祭坛蓝图才能工作。",
@@ -785,7 +785,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_ANCIENT_ALTAR_WITHHOLDING",
-            new ItemStack(Material.ENCHANTING_TABLE),
+            new ItemStack(Material.CALIBRATED_SCULK_SENSOR),
             Theme.MACHINE,
             "网络自动古代祭坛 (预留版)",
             "网络自动古代祭坛需要古代祭坛蓝图才能工作。",
@@ -925,7 +925,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH",
-            Enchanted(Material.HAY_BLOCK),
+            Enchanted(Material.BRAIN_CORAL_BLOCK),
             Theme.MACHINE,
             "高级网络自动量子工作台",
             "高级网络自动量子工作台需要量子工作台蓝图才能工作。",
@@ -956,7 +956,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR",
-            Enchanted(Material.CRAFTING_TABLE),
+            Enchanted(Material.ENCHANTING_TABLE),
             Theme.MACHINE,
             "高级网络自动古代祭坛",
             "高级网络自动古代祭坛需要古代祭坛蓝图才能工作。",
@@ -969,7 +969,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING",
-            Enchanted(Material.ENCHANTING_TABLE),
+            Enchanted(Material.CALIBRATED_SCULK_SENSOR),
             Theme.MACHINE,
             "高级网络自动古代祭坛 (预留版)",
             "高级网络自动古代祭坛需要古代祭坛蓝图才能工作。",

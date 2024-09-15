@@ -14,7 +14,7 @@ public class SetupUtil {
         /* 物品 */
         ExpansionItemsMenus.SUB_MENU_TOOL.addTo(
                 ExpansionItems.CARGO_NODE_QUICK_TOOL.registerThis(),
-                ExpansionItems.WORLD_EDIT_AXE.registerThis(),
+                ExpansionItems.WORLDEDIT_AXE.registerThis(),
                 ExpansionItems.INFO_TOOL.registerThis(),
                 ExpansionItems.NETWORK_EXPANSION_SURVIVAL_GUIDE.registerThis(),
                 ExpansionItems.NETWORK_EXPANSION_CHEAT_GUIDE.registerThis()
@@ -71,18 +71,18 @@ public class SetupUtil {
                 ExpansionItems.LINE_TRANSFER_GRABBER.registerThis(),
                 ExpansionItems.LINE_TRANSFER_PUSHER.registerThis(),
                 ExpansionItems.LINE_TRANSFER_PLUS.registerThis(),
-                ExpansionItems.LINE_TRANSFER_PLUS_PUSHER.registerThis(),
                 ExpansionItems.LINE_TRANSFER_PLUS_GRABBER.registerThis(),
-                ExpansionItems.LINE_TRANSFER_VANILLA_PUSHER.registerThis(),
-                ExpansionItems.LINE_TRANSFER_VANILLA_GRABBER.registerThis()
+                ExpansionItems.LINE_TRANSFER_PLUS_PUSHER.registerThis(),
+                ExpansionItems.LINE_TRANSFER_VANILLA_GRABBER.registerThis(),
+                ExpansionItems.LINE_TRANSFER_VANILLA_PUSHER.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
                 ExpansionItems.ADVANCED_LINE_TRANSFER.registerThis(),
                 ExpansionItems.ADVANCED_LINE_TRANSFER_GRABBER.registerThis(),
                 ExpansionItems.ADVANCED_LINE_TRANSFER_PUSHER.registerThis(),
                 ExpansionItems.ADVANCED_LINE_TRANSFER_PLUS.registerThis(),
-                ExpansionItems.ADVANCED_LINE_TRANSFER_PLUS_PUSHER.registerThis(),
-                ExpansionItems.ADVANCED_LINE_TRANSFER_PLUS_GRABBER.registerThis()
+                ExpansionItems.ADVANCED_LINE_TRANSFER_PLUS_GRABBER.registerThis(),
+                ExpansionItems.ADVANCED_LINE_TRANSFER_PLUS_PUSHER.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
                 ExpansionItems.TRANSFER.registerThis(),

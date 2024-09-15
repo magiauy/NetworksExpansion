@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.core.guide;
+package com.ytdd9527.networksexpansion.implementation.guide;
 
 import city.norain.slimefun4.VaultIntegration;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
