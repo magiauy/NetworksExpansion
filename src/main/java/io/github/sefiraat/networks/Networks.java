@@ -1,7 +1,11 @@
 package io.github.sefiraat.networks;
 
+import com.ytdd9527.networksexpansion.api.enums.MCVersion;
+import com.ytdd9527.networksexpansion.implementation.guide.CheatGuideImpl;
+import com.ytdd9527.networksexpansion.implementation.guide.SurvivalGuideImpl;
 import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.setup.SetupUtil;
+import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import com.ytdd9527.networksexpansion.utils.databases.QueryQueue;
@@ -13,7 +17,12 @@ import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
@@ -24,8 +33,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -35,6 +46,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     private static DataSource dataSource;
     private static QueryQueue queryQueue;
     private static BukkitRunnable autoSaveThread;
+    private static MCVersion mcVersion = MCVersion.UNKNOWN;
     private final String username;
     private final String repo;
     private final String branch;
@@ -124,8 +136,9 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 DataStorage.saveAmountChange();
             }
         };
-        // 5m * 60s * 20 ticks
-        long period = 5 * 60 * 20;
+        int seconds = getConfig().getInt("drawer-auto-save-period");
+        seconds = seconds <= 0 ? 300 : seconds;
+        long period = 20L * seconds;
         autoSaveThread.runTaskTimerAsynchronously(this, 2 * period, period);
 
         getLogger().info("正在注册物品...");
@@ -143,6 +156,30 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                         () -> slimefunTickCount++,
                         1,
                         Slimefun.getTickerTask().getTickRate());
+
+        final boolean survivalOverride = getConfig().getBoolean("integrations.guide.survival-override");
+        final boolean cheatOverride = getConfig().getBoolean("integrations.guide.cheat-override");
+        if (survivalOverride || cheatOverride) {
+            getLogger().info("检测到已开启指南替换功能");
+            getLogger().info("正在替换指南...");
+            Field field = ReflectionUtil.getField(Slimefun.getRegistry().getClass(), "guides");
+            if (field != null) {
+                field.setAccessible(true);
+
+                Map<SlimefunGuideMode, SlimefunGuideImplementation> newGuides = new EnumMap<>(SlimefunGuideMode.class);
+                newGuides.put(SlimefunGuideMode.SURVIVAL_MODE, survivalOverride ? new SurvivalGuideImpl() : new SurvivalSlimefunGuide());
+                newGuides.put(SlimefunGuideMode.CHEAT_MODE, cheatOverride ? new CheatGuideImpl() : new CheatSheetSlimefunGuide());
+                try {
+                    field.set(Slimefun.getRegistry(), newGuides);
+                } catch (IllegalAccessException ignored) {
+
+                }
+            }
+            getLogger().info(survivalOverride ? "已开启替换生存指南!" : "未关闭替换生存指南!");
+            getLogger().info(cheatOverride ? "已开启替换作弊指南!" : "未关闭替换作弊指南!");
+            getLogger().info("如遇开启后其他插件报错, 请在配置文件(config.yml)中关闭此功能");
+        }
+
 
         getLogger().info("已启用附属！");
     }
@@ -211,13 +248,21 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             return;
         }
         try {
-            MinecraftVersion envTest = MinecraftVersion.MINECRAFT_1_21;
+            mcVersion = Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) ? MCVersion.of(20, 0) : MCVersion.UNKNOWN;
+            mcVersion = Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20_5) ? MCVersion.of(20, 5) : mcVersion;
+            mcVersion = Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_21) ? MCVersion.of(21, 0) : mcVersion;
         } catch (NoClassDefFoundError | NoSuchFieldError e) {
             for (int i = 0; i < 20; i++) {
                 getLogger().severe("你需要更新 Slimefun4 才能正常运行本插件！");
             }
             getServer().getPluginManager().disablePlugin(this);
             return;
+        }
+
+        if (mcVersion == MCVersion.UNKNOWN) {
+            final int major = PaperLib.getMinecraftVersion();
+            final int minor = PaperLib.getMinecraftPatchVersion();
+            mcVersion = MCVersion.of(major, minor);
         }
     }
 
@@ -238,6 +283,10 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 getLogger().warning("你必须安装下界乌托邦才能让相关物品注册。");
             }
         }
+    }
+
+    public MCVersion getMCVersion() {
+        return mcVersion;
     }
 
     public void setupMetrics() {

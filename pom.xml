@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>2.0.9-Alpha-32</version>
+    <version>2.0.9-Alpha-39</version>
 
     <distributionManagement>
         <repository>
@@ -14,7 +14,6 @@
             <name>sefi-central</name>
             <url>https://sefiraat.jfrog.io/artifactory/default-maven-local</url>
         </repository>
-
         <snapshotRepository>
             <id>snapshots</id>
             <name>sefi-snapshot</name>

@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.manual;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+import com.ytdd9527.networksexpansion.implementation.recipes.ExpansionRecipes;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -26,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +69,9 @@ public class ExpansionWorkbench extends SpecialSlimefunItem implements AdminDebu
     }
 
     public static void addRecipe(ItemStack[] input, ItemStack output) {
-        RECIPES.put(input, output);
+        if (!Arrays.equals(input, ExpansionRecipes.NULL)) {
+            RECIPES.put(input, output);
+        }
     }
 
     @Override

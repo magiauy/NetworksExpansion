@@ -31,7 +31,9 @@ public class NetworkNode {
             BlockFace.WEST
     );
 
+    @Getter
     protected final Set<NetworkNode> childrenNodes = new HashSet<>();
+    @Getter
     protected NetworkNode parent = null;
     protected NetworkRoot root = null;
     protected Location nodePosition;
@@ -80,16 +82,8 @@ public class NetworkNode {
         this.root = root;
     }
 
-    public NetworkNode getParent() {
-        return parent;
-    }
-
     private void setParent(NetworkNode parent) {
         this.parent = parent;
-    }
-
-    public Set<NetworkNode> getChildrenNodes() {
-        return this.childrenNodes;
     }
 
     public void addAllChildren() {

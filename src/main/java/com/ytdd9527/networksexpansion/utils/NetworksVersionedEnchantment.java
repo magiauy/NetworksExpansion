@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import com.ytdd9527.networksexpansion.api.enums.MCVersion;
+import io.github.sefiraat.networks.Networks;
 import lombok.experimental.UtilityClass;
 import org.bukkit.enchantments.Enchantment;
 
@@ -15,9 +15,9 @@ public class NetworksVersionedEnchantment {
     public static final Enchantment LUCK_OF_THE_SEA;
 
     static {
-        MinecraftVersion version = Slimefun.getMinecraftVersion();
-        GLOW = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5) ? Enchantment.POWER : getKey("ARROW_DAMAGE");
-        LUCK_OF_THE_SEA = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5) ? Enchantment.LUCK_OF_THE_SEA : getKey("LUCK");
+        MCVersion version = Networks.getInstance().getMCVersion();
+        GLOW = version.isAtLeast(MCVersion.MC1_20_5) ? Enchantment.POWER : getKey("ARROW_DAMAGE");
+        LUCK_OF_THE_SEA = version.isAtLeast(MCVersion.MC1_20_5) ? Enchantment.LUCK_OF_THE_SEA : getKey("LUCK");
     }
 
     @Nullable

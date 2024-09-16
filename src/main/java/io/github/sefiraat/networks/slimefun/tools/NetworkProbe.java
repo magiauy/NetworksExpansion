@@ -80,16 +80,22 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int wirelessReceivers = root.getWirelessReceivers().size();
             final int powerOutlets = root.getPowerOutlets().size();
             final int greedyBlocks = root.getGreedyBlocks().size();
+
+            final int advancedImporters = root.getAdvancedImporters().size();
+            final int advancedExporters = root.getAdvancedExporters().size();
+            final int advancedGreedyBlocks = root.getAdvancedGreedyBlocks().size();
+            final int advancedPurgers = root.getAdvancedPurgers().size();
+            final int transferPushers = root.getTransferPushers().size();
+            final int transferGrabbers = root.getTransferGrabbers().size();
+            final int transfers = root.getTransfers().size();
+            final int lineTransferVanillaPushers = root.getLineTransferVanillaPushers().size();
+            final int lineTransferVanillaGrabbers = root.getLineTransferVanillaGrabbers().size();
+            final int inputOnlyMonitor = root.getInputOnlyMonitors().size();
+            final int outputOnlyMonitor = root.getOutputOnlyMonitors().size();
+
             final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItemsLongType();
             final int distinctItems = allNetworkItems.size();
 
-            final int chainPushers = root.getChainPushers().size();
-            final int chainGrabbers = root.getChainGrabbers().size();
-            final int advancedImporters = root.getAdvancedImporters().size();
-            final int advancedExporters = root.getAdvancedExporters().size();
-            final int chainDispatchers = root.getChainDispatchers().size();
-            final int chainVanillaPushers = root.getChainVanillaPushers().size();
-            final int chainVanillaGrabbers = root.getChainVanillaGrabbers().size();
 
             long totalItems = allNetworkItems.values().stream().mapToLong(integer -> integer).sum();
 
@@ -128,13 +134,17 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             player.sendMessage("------------------------------");
             player.sendMessage("        网络拓展 - 组件统计      ");
             player.sendMessage("------------------------------");
-            player.sendMessage(formatter("链式传输器 [推送]", chainPushers));
-            player.sendMessage(formatter("链式传输器 [抓取]", chainGrabbers));
-            player.sendMessage(formatter("链式传输器", chainDispatchers));
-            player.sendMessage(formatter("链式原版传输器 [推送]", chainVanillaPushers));
-            player.sendMessage(formatter("链式原版传输器 [抓取]", chainVanillaGrabbers));
             player.sendMessage(formatter("高级网络入口", advancedImporters));
             player.sendMessage(formatter("高级网络出口", advancedExporters));
+            player.sendMessage(formatter("高级网络阻断器", advancedGreedyBlocks));
+            player.sendMessage(formatter("高级网络清除器", advancedPurgers));
+            player.sendMessage(formatter("传输器", transfers));
+            player.sendMessage(formatter("传输器 [抓取]", transferGrabbers));
+            player.sendMessage(formatter("传输器 [推送]", transferPushers));
+            player.sendMessage(formatter("链式原版传输器 [推送]", lineTransferVanillaPushers));
+            player.sendMessage(formatter("链式原版传输器 [抓取]", lineTransferVanillaGrabbers));
+            player.sendMessage(formatter("网络监视器 (仅输入)", inputOnlyMonitor));
+            player.sendMessage(formatter("网络监视器 (仅输出)", outputOnlyMonitor));
             player.sendMessage("------------------------------");
             player.sendMessage(formatter("物品类型数量", distinctItems));
             player.sendMessage(formatter("累计物品数量", totalItems));

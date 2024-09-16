@@ -1,6 +1,9 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.point.basic;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -9,13 +12,14 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
+import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,51 +40,64 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-
-public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem {
+public class TransferPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
+    public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
+            Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
+    );
+    private static final int DEFAULT_PUSH_ITEM_TICK = 1;
+    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final String KEY_UUID = "display-uuid";
+    private static final int[] BACKGROUND_SLOTS = new int[]{
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
+    };
+    private static final int[] TEMPLATE_BACKGROUND = new int[]{16};
+    private static final int[] TEMPLATE_SLOTS = new int[]{24, 25, 26};
+    private static final int NORTH_SLOT = 11;
+    private static final int SOUTH_SLOT = 29;
+    private static final int EAST_SLOT = 21;
+    private static final int WEST_SLOT = 19;
+    private static final int UP_SLOT = 14;
+    private static final int DOWN_SLOT = 32;
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
     private Function<Location, DisplayGroup> displayGroupGenerator;
-    private int grabItemTick;
-    private int maxDistance;
+    private int pushItemTick;
 
-    public LineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String itemId) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
-        loadConfigurations(itemId);
+    public TransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_PUSHER);
+        for (int slot : TEMPLATE_SLOTS) {
+            this.getSlotsToDrop().add(slot);
+        }
+        loadConfigurations();
     }
 
-    private void loadConfigurations(String itemId) {
+    public void loadConfigurations() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 32;
-        int defaultGrabItemTick = 1;
-        boolean defaultUseSpecialModel = false;
-
-        this.maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
-        this.grabItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
-        this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
+        this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", DEFAULT_PUSH_ITEM_TICK);
+        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
         generatorMap.put("cloche", DisplayGroupGenerators::generateCloche);
+        generatorMap.put("cell", DisplayGroupGenerators::generateCell);
 
         this.displayGroupGenerator = null;
 
         if (this.useSpecialModel) {
-            String generatorKey = config.getString("items." + itemId + ".use-special-model.type");
+            String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
                 Networks.getInstance().getLogger().warning("未知的展示组类型 '" + generatorKey + "', 特殊模型已禁用。");
                 this.useSpecialModel = false;
             }
         }
-
     }
 
-    private void performGrabbingOperation(@Nullable BlockMenu blockMenu) {
+    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            tryGrabItem(blockMenu);
+            tryPushItem(blockMenu);
         }
     }
 
@@ -88,17 +105,12 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        // 初始化Tick计数器
-        final Location location = blockMenu.getLocation();
+        final Location location = block.getLocation();
         int tickCounter = getTickCounter(location);
-        tickCounter = (tickCounter + 1) % grabItemTick;
-
-        // 每10个Tick执行一次抓取操作
+        tickCounter = (tickCounter + 1) % pushItemTick;
         if (tickCounter == 0) {
-            performGrabbingOperation(blockMenu);
+            performPushItemOperation(blockMenu);
         }
-
-        // 更新Tick计数器
         updateTickCounter(location, tickCounter);
     }
 
@@ -115,44 +127,93 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         TICKER_MAP.put(location, tickCounter);
     }
 
-    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
         }
-        final NetworkRoot root = definition.getNode().getRoot();
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
-        Block currentBlock = blockMenu.getBlock().getRelative(direction);
-
-        for (int i = 0; i <= maxDistance; i++) {
-            BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
-            // 如果没有blockMenu，退出
-            if (targetMenu == null) {
-                break;
-            }
-            // 获取输出槽
-            final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            for (int slot : slots) {
-                ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                if (itemStack != null && !itemStack.getType().isAir()) {
-                    root.addItemStack(itemStack);
-                    break;
-                }
-            }
-            currentBlock = currentBlock.getRelative(direction);
+        if (direction == BlockFace.SELF) {
+            return;
         }
+
+        final NetworkRoot root = definition.getNode().getRoot();
+
+        List<ItemStack> templates = new ArrayList<>();
+        for (int slot : this.getItemSlots()) {
+            final ItemStack template = blockMenu.getItemInSlot(slot);
+            if (template != null && !template.getType().isAir()) {
+                templates.add(StackUtils.getAsQuantity(template, 1));
+            }
+        }
+
+        TransferUtil.doTransport(blockMenu.getLocation(), direction, 1, false, (targetMenu) -> {
+            TransferUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+        });
+    }
+
+    @Nonnull
+    @Override
+    protected int[] getBackgroundSlots() {
+        return BACKGROUND_SLOTS;
+    }
+
+    @Nullable
+    @Override
+    protected int[] getOtherBackgroundSlots() {
+        return TEMPLATE_BACKGROUND;
+    }
+
+    @Nullable
+    @Override
+    protected CustomItemStack getOtherBackgroundStack() {
+        return TEMPLATE_BACKGROUND_STACK;
+    }
+
+    @Override
+    public int getNorthSlot() {
+        return NORTH_SLOT;
+    }
+
+    @Override
+    public int getSouthSlot() {
+        return SOUTH_SLOT;
+    }
+
+    @Override
+    public int getEastSlot() {
+        return EAST_SLOT;
+    }
+
+    @Override
+    public int getWestSlot() {
+        return WEST_SLOT;
+    }
+
+    @Override
+    public int getUpSlot() {
+        return UP_SLOT;
+    }
+
+    @Override
+    public int getDownSlot() {
+        return DOWN_SLOT;
+    }
+
+    @Override
+    public int[] getItemSlots() {
+        return TEMPLATE_SLOTS;
     }
 
     @Override
     protected Particle.DustOptions getDustOptions() {
-        // 返回一个Particle.DustOptions对象，设置为黄绿色粒子
-        return new Particle.DustOptions(Color.LIME, 5);
+        return new Particle.DustOptions(Color.BLUE, 2);
     }
 
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -161,7 +222,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
@@ -207,8 +268,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩传输数据⇩",
                 "",
-                "&7[&a最大距离&7]&f:&6" + maxDistance + "方块",
-                "&7[&a抓取频率&7]&f:&7 每 &6" + grabItemTick + " SfTick &7抓取一次"
+                "&7[&a推送频率&7]&f:&7 每 &6" + pushItemTick + " SfTick &7推送一次"
         ));
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩参数⇩",
@@ -220,7 +280,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 "&a⇩功能⇩",
                 "",
-                "&e与链式不同的是，此机器&c只有连续抓取的功能",
+                "&e与链式不同的是，此机器&c只有连续推送的功能",
                 "&c而不是连续转移物品！"
         ));
         return displayRecipes;
