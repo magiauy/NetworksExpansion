@@ -1,6 +1,8 @@
 package io.github.sefiraat.networks.utils;
 
+import io.github.mooy1.infinityexpansion.InfinityExpansion;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
@@ -24,7 +26,17 @@ public class Keys {
     public static final NamespacedKey TRANSFER_MODE = newKey("transfer_mode");
     public static final NamespacedKey STORAGE_UNIT_UPGRADE_TABLE = newKey("storage_upgrade_table");
     public static final NamespacedKey STORAGE_UNIT_UPGRADE_TABLE_MODEL = newKey("storage_upgrade_table_model");
-    public static final NamespacedKey networkskey = newKey("networkskey");
+    public static final NamespacedKey NETWORKSKEY = newKey("networkskey");
+    public static final NamespacedKey ITEM_MOVER_ITEM = newKey("item_mover_item");
+    public static final NamespacedKey ITEM_MOVER_AMOUNT = newKey("item_mover_amount");
+
+    public static NamespacedKey INFINITY_DISPLAY = null;
+
+    static {
+        if (SupportedPluginManager.getInstance().isInfinityExpansion()) {
+            INFINITY_DISPLAY = InfinityExpansion.createKey("display");
+        }
+    }
 
 
     @Nonnull

@@ -56,6 +56,7 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.SmartPusher;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import com.ytdd9527.networksexpansion.implementation.items.tools.CargoNodeQuickTool;
+import com.ytdd9527.networksexpansion.implementation.items.tools.ItemMover;
 import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksExpansionWorldEditAxe;
 import com.ytdd9527.networksexpansion.implementation.items.tools.NetworksInfoTool;
 import com.ytdd9527.networksexpansion.implementation.menus.ExpansionItemsMenus;
@@ -68,9 +69,9 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 
 public class ExpansionItems {
-    public static final ExpansionWorkbench NETWORK_EXPANSION_WORKBENCH = new ExpansionWorkbench(
+    public static final ExpansionWorkbench NETWORKS_EXPANSION_WORKBENCH = new ExpansionWorkbench(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
-            ExpansionItemStacks.NETWORK_EXPANSION_WORKBENCH,
+            ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
             RecipeType.ENHANCED_CRAFTING_TABLE,
             ExpansionRecipes.NETWORKS_EXPANSION_WORKBENCH
     );
@@ -989,13 +990,20 @@ public class ExpansionItems {
             ExpansionItemStacks.AUTHOR_TINALNESS
     );
 
-    public static final SpecialSlimefunItem NETWORK_EXPANSION_SURVIVAL_GUIDE = new NetworksExpansionGuide(
+    public static final SpecialSlimefunItem NETWORKS_EXPANSION_SURVIVAL_GUIDE = new NetworksExpansionGuide(
             ExpansionItemsMenus.MENU_ITEMS,
-            ExpansionItemStacks.NETWORK_EXPANSION_SURVIVAL_GUIDE
+            ExpansionItemStacks.NETWORKS_EXPANSION_SURVIVAL_GUIDE
     );
 
-    public static final SpecialSlimefunItem NETWORK_EXPANSION_CHEAT_GUIDE = new NetworksExpansionGuide(
+    public static final SpecialSlimefunItem NETWORKS_EXPANSION_CHEAT_GUIDE = new NetworksExpansionGuide(
             ExpansionItemsMenus.MENU_ITEMS,
-            ExpansionItemStacks.NETWORK_EXPANSION_CHEAT_GUIDE
+            ExpansionItemStacks.NETWORKS_EXPANSION_CHEAT_GUIDE
+    );
+
+    public static final SpecialSlimefunItem ITEM_MOVER = new ItemMover(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.ITEM_MOVER,
+            RecipeType.NULL,
+            ExpansionRecipes.ITEM_MOVER
     );
 }

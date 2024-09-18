@@ -26,12 +26,12 @@ public class NetworksGuideListener implements Listener {
                 return;
             }
 
-            if (Objects.equals(ItemStackHelper.getDisplayName(item), ExpansionItemStacks.NETWORK_EXPANSION_SURVIVAL_GUIDE.getDisplayName())) {
+            if (Objects.equals(ItemStackHelper.getDisplayName(item), ExpansionItemStacks.NETWORKS_EXPANSION_SURVIVAL_GUIDE.getDisplayName())) {
                 NetworksExpansionGuideOpenEvent event = new NetworksExpansionGuideOpenEvent(e.getPlayer(), SlimefunGuideMode.SURVIVAL_MODE);
                 Bukkit.getPluginManager().callEvent(event);
             }
 
-            if (e.getPlayer().isOp() && Objects.equals(ItemStackHelper.getDisplayName(item), ExpansionItemStacks.NETWORK_EXPANSION_CHEAT_GUIDE.getDisplayName())) {
+            if (e.getPlayer().isOp() && Objects.equals(ItemStackHelper.getDisplayName(item), ExpansionItemStacks.NETWORKS_EXPANSION_CHEAT_GUIDE.getDisplayName())) {
                 NetworksExpansionGuideOpenEvent event = new NetworksExpansionGuideOpenEvent(e.getPlayer(), SlimefunGuideMode.CHEAT_MODE);
                 Bukkit.getPluginManager().callEvent(event);
             }

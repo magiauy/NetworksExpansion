@@ -215,7 +215,7 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] EXPANSION_WORKBENCH_BLUEPRINT = new ItemStack[]{
             NetworksSlimefunItemStacks.NETWORK_BRIDGE, SlimefunItems.ANCIENT_PEDESTAL, NetworksSlimefunItemStacks.NETWORK_BRIDGE,
-            CRAFTING_BLUEPRINT.getItem(), ExpansionItemStacks.NETWORK_EXPANSION_WORKBENCH, CRAFTING_BLUEPRINT.getItem(),
+            CRAFTING_BLUEPRINT.getItem(), ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, CRAFTING_BLUEPRINT.getItem(),
             NetworksSlimefunItemStacks.NETWORK_BRIDGE, SlimefunItems.ANCIENT_PEDESTAL, NetworksSlimefunItemStacks.NETWORK_BRIDGE
     };
 
@@ -678,4 +678,6 @@ public class ExpansionRecipes {
             OPTIC_CABLE.getItem(), ExpansionItemStacks.CARGO_STORAGE_UNIT_13, OPTIC_CABLE.getItem(),
             OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem()
     };
+
+    public static final ItemStack[] ITEM_MOVER = NULL;
 }

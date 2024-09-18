@@ -1,6 +1,5 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.unit;
 
-
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.data.ItemContainer;
@@ -10,6 +9,7 @@ import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.api.interfaces.ModelledItem;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+import com.ytdd9527.networksexpansion.implementation.items.tools.ItemMover;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -400,126 +400,183 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
     private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
         final ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
         if (itemStack == null || itemStack.getType().isAir()) {
-            player.sendMessage(ChatColor.RED + "请在量子存储槽放入量子存储");
+            player.sendMessage(ChatColor.RED + "请在量子存储槽放入量子存储 或 物品转移棒");
             return;
         }
+
         if (itemStack.getAmount() > 1) {
             player.sendMessage(ChatColor.RED + "量子存储槽只能放入一个物品！");
             return;
         }
+
         final ItemStack toTransfer = blockMenu.getItemInSlot(ITEM_CHOOSE_SLOT);
         if (toTransfer == null || toTransfer.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "请在下方放入你要传输的物品");
             return;
         }
+
+        boolean isQuantum = false;
+        boolean isMover = false;
+        final SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+        if (slimefunItem instanceof NetworkQuantumStorage) {
+            isQuantum = true;
+        }
+        else if (slimefunItem instanceof ItemMover) {
+            isMover = true;
+        }
+
         final StorageUnitData thisStorage = storages.get(location);
-        for (ItemContainer each : thisStorage.getStoredItems()) {
-            final ItemStack sample = each.getSample();
-            if (StackUtils.itemsMatch(sample, toTransfer)) {
-                final SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+        final QuickTransferMode mode = quickTransferModes.get(location);
 
-                if (!(slimefunItem instanceof NetworkQuantumStorage)) {
-                    player.sendMessage(ChatColor.RED + "这不是一个量子存储");
-                    return;
-                }
+        if (isQuantum) {
+            for (ItemContainer each : thisStorage.getStoredItems()) {
+                final ItemStack sample = each.getSample();
+                if (StackUtils.itemsMatch(sample, toTransfer)) {
+                    final ItemMeta meta = itemStack.getItemMeta();
+                    QuantumCache quantumCache = DataTypeMethods.getCustom(
+                            meta,
+                            Keys.QUANTUM_STORAGE_INSTANCE,
+                            PersistentQuantumStorageType.TYPE
+                    );
 
-                final ItemMeta meta = itemStack.getItemMeta();
-                QuantumCache quantumCache = DataTypeMethods.getCustom(
-                        meta,
-                        Keys.QUANTUM_STORAGE_INSTANCE,
-                        PersistentQuantumStorageType.TYPE
-                );
-
-                final QuickTransferMode mode = quickTransferModes.get(location);
-                switch (mode) {
-                    case FROM_QUANTUM -> {
-                        if (quantumCache == null || quantumCache.getItemStack() == null || quantumCache.getAmount() <= 0) {
-                            player.sendMessage(ChatColor.RED + "量子存储无物品或已损坏");
-                            return;
-                        }
-                        if (!StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
-                            player.sendMessage(ChatColor.RED + "量子存储中的物品与要传输的物品不同");
-                            return;
-                        }
-                        final long quantumAmount = quantumCache.getAmount();
-                        final int canAdd = (int) Math.min(quantumAmount, thisStorage.getSizeType().getEachMaxSize() - each.getAmount());
-                        if (canAdd <= 0) {
-                            player.sendMessage(ChatColor.RED + "量子存储中没有足够的物品或无法存入更多的物品");
-                            return;
-                        }
-
-                        final int left = (int) quantumAmount - canAdd;
-                        if (left > 0) {
-                            quantumCache.setAmount(left);
-                            DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
-                            quantumCache.updateMetaLore(meta);
-                            itemStack.setItemMeta(meta);
-                        } else {
-                            blockMenu.replaceExistingItem(QUANTUM_SLOT, slimefunItem.getItem());
-                        }
-                        final ItemStack clone = quantumCache.getItemStack().clone();
-                        clone.setAmount(canAdd);
-                        thisStorage.depositItemStack(clone, true);
-                        player.sendMessage(ChatColor.GREEN + "已存入物品！");
-                        return;
-                    }
-
-                    case TO_QUANTUM -> {
-                        if (each.getAmount() == 0 && locked.contains(location)) {
-                            player.sendMessage(ChatColor.RED + "此容器物品不足，无法转移至量子存储");
-                            return;
-                        }
-
-                        if (quantumCache == null) {
-                            final NetworkQuantumStorage nqs = (NetworkQuantumStorage) slimefunItem;
-                            final int quantumLimit = nqs.getMaxAmount();
-
-                            final int unitAmount = each.getAmount();
-                            final int canAdd = Math.min(unitAmount, quantumLimit);
-                            if (canAdd <= 0) {
-                                player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                    switch (mode) {
+                        case FROM_QUANTUM -> {
+                            if (quantumCache == null || quantumCache.getItemStack() == null || quantumCache.getAmount() <= 0) {
+                                player.sendMessage(ChatColor.RED + "量子存储无物品或已损坏");
                                 return;
                             }
-                            final ItemStack clone = sample.clone();
-
-                            thisStorage.requestItem(new ItemRequest(clone, canAdd));
-                            storages.put(location, thisStorage);
-
-                            quantumCache = new QuantumCache(clone, canAdd, quantumLimit, false, false);
-                            DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
-                            quantumCache.updateMetaLore(meta);
-                            itemStack.setItemMeta(meta);
-
-                            player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
-                            return;
-                        } else if (StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
-                            final int quantumLimit = quantumCache.getLimit();
-                            final int quantumAmount = (int) quantumCache.getAmount();
-                            final int unitAmount = each.getAmount();
-                            final int canAdd = Math.min(unitAmount, quantumLimit - quantumAmount);
-                            if (canAdd <= 0) {
-                                player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                            if (!StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
+                                player.sendMessage(ChatColor.RED + "量子存储中的物品与要传输的物品不同");
                                 return;
                             }
-                            final ItemStack clone = sample.clone();
+                            final long quantumAmount = quantumCache.getAmount();
+                            final int canAdd = (int) Math.min(quantumAmount, thisStorage.getSizeType().getEachMaxSize() - each.getAmount());
+                            if (canAdd <= 0) {
+                                player.sendMessage(ChatColor.RED + "量子存储中没有足够的物品或无法存入更多的物品");
+                                return;
+                            }
 
-                            thisStorage.requestItem(new ItemRequest(clone, canAdd));
-                            storages.put(location, thisStorage);
+                            final int left = (int) quantumAmount - canAdd;
+                            if (left > 0) {
+                                quantumCache.setAmount(left);
+                                DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+                                quantumCache.updateMetaLore(meta);
+                                itemStack.setItemMeta(meta);
+                            } else {
+                                blockMenu.replaceExistingItem(QUANTUM_SLOT, slimefunItem.getItem());
+                            }
+                            final ItemStack clone = quantumCache.getItemStack().clone();
+                            clone.setAmount(canAdd);
+                            thisStorage.depositItemStack(clone, true);
+                            player.sendMessage(ChatColor.GREEN + "已存入物品！");
+                            return;
+                        }
 
-                            quantumCache = new QuantumCache(clone, quantumAmount + canAdd, quantumLimit, false, false);
-                            DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
-                            quantumCache.updateMetaLore(meta);
-                            itemStack.setItemMeta(meta);
-                            player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
-                            return;
-                        } else {
-                            return;
+                        case TO_QUANTUM -> {
+                            if (each.getAmount() == 0 && locked.contains(location)) {
+                                player.sendMessage(ChatColor.RED + "此容器物品不足，无法转移至量子存储");
+                                return;
+                            }
+
+                            if (quantumCache == null) {
+                                final NetworkQuantumStorage nqs = (NetworkQuantumStorage) slimefunItem;
+                                final int quantumLimit = nqs.getMaxAmount();
+
+                                final int unitAmount = each.getAmount();
+                                final int canAdd = Math.min(unitAmount, quantumLimit);
+                                if (canAdd <= 0) {
+                                    player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                                    return;
+                                }
+                                final ItemStack clone = sample.clone();
+
+                                thisStorage.requestItem(new ItemRequest(clone, canAdd));
+                                storages.put(location, thisStorage);
+
+                                quantumCache = new QuantumCache(clone, canAdd, quantumLimit, false, false);
+                                DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+                                quantumCache.updateMetaLore(meta);
+                                itemStack.setItemMeta(meta);
+
+                                player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
+                                return;
+                            } else if (StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
+                                final int quantumLimit = quantumCache.getLimit();
+                                final int quantumAmount = (int) quantumCache.getAmount();
+                                final int unitAmount = each.getAmount();
+                                final int canAdd = Math.min(unitAmount, quantumLimit - quantumAmount);
+                                if (canAdd <= 0) {
+                                    player.sendMessage(ChatColor.RED + "没有更多物品可以转移或量子存储已满");
+                                    return;
+                                }
+                                final ItemStack clone = sample.clone();
+
+                                thisStorage.requestItem(new ItemRequest(clone, canAdd));
+                                storages.put(location, thisStorage);
+
+                                quantumCache = new QuantumCache(clone, quantumAmount + canAdd, quantumLimit, false, false);
+                                DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+                                quantumCache.updateMetaLore(meta);
+                                itemStack.setItemMeta(meta);
+                                player.sendMessage(ChatColor.GREEN + "已转移至量子存储！");
+                                return;
+                            } else {
+                                return;
+                            }
                         }
                     }
                 }
             }
+            player.sendMessage(ChatColor.RED + "未找到物品" + ItemStackHelper.getDisplayName(toTransfer));
         }
-        player.sendMessage(ChatColor.RED + "未找到物品" + ItemStackHelper.getDisplayName(toTransfer));
+
+        else if (isMover) {
+            ItemStack moverStored = ItemMover.getStoredItemStack(itemStack);
+            if (mode == QuickTransferMode.FROM_QUANTUM) {
+                if (moverStored == null) {
+                    return;
+                }
+                if (!StackUtils.itemsMatch(moverStored, toTransfer)) {
+                    return;
+                }
+            }
+            if (mode == QuickTransferMode.TO_QUANTUM) {
+                if (moverStored != null && !StackUtils.itemsMatch(moverStored, toTransfer)) {
+                    return;
+                }
+            }
+
+            for (ItemContainer each : thisStorage.getStoredItems()) {
+                final ItemStack sample = each.getSample();
+                if (StackUtils.itemsMatch(sample, toTransfer)) {
+                    switch (mode) {
+                        case FROM_QUANTUM -> {
+                            ItemStack stored = StackUtils.getAsQuantity(ItemMover.getStoredItemStack(itemStack), ItemMover.getStoredAmount(itemStack));
+                            thisStorage.depositItemStack(stored, true);
+                            ItemMover.setStoredAmount(itemStack, stored.getAmount());
+                            player.sendMessage(ChatColor.GREEN + "已存入至抽屉中！");
+                        }
+                        case TO_QUANTUM -> {
+                            ItemRequest itemRequest = new ItemRequest(sample, sample.getAmount());
+                            ItemStack fetched = thisStorage.requestItem(itemRequest);
+                            if (fetched != null) {
+                                ItemMover.depositItem(itemStack, fetched);
+                                if (fetched.getAmount() > 0) {
+                                    thisStorage.depositItemStack(fetched, false);
+                                }
+                                player.sendMessage(ChatColor.GREEN + "已转移至物品转移棒！");
+                            }
+                        }
+                    }
+                    ItemMover.updateLore(itemStack);
+                    return;
+                }
+            }
+            player.sendMessage(ChatColor.RED + "未找到物品" + ItemStackHelper.getDisplayName(toTransfer));
+        } else {
+            player.sendMessage(ChatColor.RED + "请在量子存储槽放入量子存储 或 物品转移棒");
+            return;
+        }
     }
 
     private static int getContainerId(Location l) {

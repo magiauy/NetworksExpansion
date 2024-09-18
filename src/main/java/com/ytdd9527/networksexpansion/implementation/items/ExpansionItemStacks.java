@@ -26,21 +26,21 @@ import java.util.Map;
  * @since 2.0
  */
 public class ExpansionItemStacks {
-    public static final SlimefunItemStack NETWORK_EXPANSION_SURVIVAL_GUIDE = Theme.themedSlimefunItemStack(
+    public static final SlimefunItemStack NETWORKS_EXPANSION_SURVIVAL_GUIDE = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_SURVIVAL_GUIDE",
             new ItemStack(Material.ENCHANTED_BOOK),
             Theme.GUIDE,
             "网络拓展指南 (生存模式)",
             ""
     );
-    public static final SlimefunItemStack NETWORK_EXPANSION_CHEAT_GUIDE = Theme.themedSlimefunItemStack(
+    public static final SlimefunItemStack NETWORKS_EXPANSION_CHEAT_GUIDE = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_CREATIVE_GUIDE",
             new ItemStack(Material.ENCHANTED_BOOK),
             Theme.GUIDE,
             "网络拓展指南 (作弊模式)",
             ""
     );
-    public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(
+    public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_WORKBENCH",
             new ItemStack(Material.BAMBOO_BLOCK),
             Theme.MACHINE,
@@ -1595,6 +1595,14 @@ public class ExpansionItemStacks {
             "",
             thanks,
             ""
+    );
+    public static SlimefunItemStack ITEM_MOVER = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_ITEM_MOVER",
+            new ItemStack(Material.DEBUG_STICK),
+            Theme.TOOL,
+            "&6物品转移棒",
+            "Right-click on a storage to move items into this stick",
+            "Shift+Right-click to move item in this stick into a storage"
     );
     public static ItemStack SEFIRAAT_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_SEFIRAAT = Theme.Random(

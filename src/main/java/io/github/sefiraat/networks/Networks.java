@@ -255,8 +255,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             for (int i = 0; i < 20; i++) {
                 getLogger().severe("你需要更新 Slimefun4 才能正常运行本插件！");
             }
-            getServer().getPluginManager().disablePlugin(this);
-            return;
         }
 
         if (mcVersion == MCVersion.UNKNOWN) {

@@ -16,8 +16,9 @@ public class SetupUtil {
                 ExpansionItems.CARGO_NODE_QUICK_TOOL.registerThis(),
                 ExpansionItems.WORLDEDIT_AXE.registerThis(),
                 ExpansionItems.INFO_TOOL.registerThis(),
-                ExpansionItems.NETWORK_EXPANSION_SURVIVAL_GUIDE.registerThis(),
-                ExpansionItems.NETWORK_EXPANSION_CHEAT_GUIDE.registerThis()
+                ExpansionItems.ITEM_MOVER.registerThis(),
+                ExpansionItems.NETWORKS_EXPANSION_SURVIVAL_GUIDE.registerThis(),
+                ExpansionItems.NETWORKS_EXPANSION_CHEAT_GUIDE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BLUEPRINT.addTo(
                 ExpansionItems.MAGIC_WORKBENCH_BLUEPRINT.registerThis(),
@@ -99,7 +100,7 @@ public class SetupUtil {
         );
         /* 功能机器 */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
-                ExpansionItems.NETWORK_EXPANSION_WORKBENCH.registerThis(),
+                ExpansionItems.NETWORKS_EXPANSION_WORKBENCH.registerThis(),
                 ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_ADVANCED_NET.addTo(
