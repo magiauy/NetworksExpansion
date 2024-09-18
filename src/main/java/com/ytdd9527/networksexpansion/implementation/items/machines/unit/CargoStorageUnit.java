@@ -420,8 +420,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
         final SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
         if (slimefunItem instanceof NetworkQuantumStorage) {
             isQuantum = true;
-        }
-        else if (slimefunItem instanceof ItemMover) {
+        } else if (slimefunItem instanceof ItemMover) {
             isMover = true;
         }
 
@@ -528,9 +527,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                 }
             }
             player.sendMessage(ChatColor.RED + "未找到物品" + ItemStackHelper.getDisplayName(toTransfer));
-        }
-
-        else if (isMover) {
+        } else if (isMover) {
             ItemStack moverStored = ItemMover.getStoredItemStack(itemStack);
             if (mode == QuickTransferMode.FROM_QUANTUM) {
                 if (moverStored == null) {

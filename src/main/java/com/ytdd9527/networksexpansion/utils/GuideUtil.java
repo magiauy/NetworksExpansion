@@ -46,6 +46,7 @@ public class GuideUtil {
 
         return survivalGuide;
     }
+
     public static void removeLastEntry(@Nonnull GuideHistory guideHistory) {
         try {
             Method getLastEntry = guideHistory.getClass().getDeclaredMethod("getLastEntry", boolean.class);

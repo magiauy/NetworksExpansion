@@ -38,8 +38,25 @@ public class NetworkBlueprintDecoder extends NetworkObject {
             "&6网络解码器",
             "&7点击解码网络蓝图"
     );
+
     public NetworkBlueprintDecoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.DECODER);
+    }
+
+    public static int[] getBackgroundSlots() {
+        return BACKGROUND_SLOTS;
+    }
+
+    public static int[] getOutputSlots() {
+        return OUTPUT_SLOTS;
+    }
+
+    public static int getInputSlot() {
+        return INPUT_SLOT;
+    }
+
+    public static int getDecodeSlot() {
+        return DECODE_SLOT;
     }
 
     @Override
@@ -78,22 +95,6 @@ public class NetworkBlueprintDecoder extends NetworkObject {
                 return getOutputSlots();
             }
         };
-    }
-
-    public static int[] getBackgroundSlots() {
-        return BACKGROUND_SLOTS;
-    }
-
-    public static int[] getOutputSlots() {
-        return OUTPUT_SLOTS;
-    }
-
-    public static int getInputSlot() {
-        return INPUT_SLOT;
-    }
-
-    public static int getDecodeSlot() {
-        return DECODE_SLOT;
     }
 
     private void decode(BlockMenu menu) {

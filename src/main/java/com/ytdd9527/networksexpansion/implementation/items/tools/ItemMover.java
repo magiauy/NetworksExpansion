@@ -49,6 +49,7 @@ import java.util.Optional;
 public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     @Nonnull
     public static final List<String> DEFAULT_LORE = ExpansionItemStacks.ITEM_MOVER.getItemMeta() == null ? new ArrayList<>() : (ExpansionItemStacks.ITEM_MOVER.getItemMeta().hasLore() && ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore() != null ? ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore() : new ArrayList<>());
+
     public ItemMover(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler(
@@ -237,29 +238,17 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         if (infinityEnabled && sfitem instanceof StorageUnit unit) {
             return getInfinityBarrel(location, unit);
-        }
-
-        else if (fluffyEnabled && sfitem instanceof Barrel barrel) {
+        } else if (fluffyEnabled && sfitem instanceof Barrel barrel) {
             return getFluffyBarrel(location, barrel);
-        }
-
-        else if (sfitem instanceof NetworkQuantumStorage) {
+        } else if (sfitem instanceof NetworkQuantumStorage) {
             return getNetworkStorage(location);
-        }
-
-        else if (sfitem instanceof CargoStorageUnit) {
+        } else if (sfitem instanceof CargoStorageUnit) {
             player.sendMessage(ChatColor.RED + "Use Quick Transfer of Cargo Storage Unit to support it.");
             return null;
         }
 
         return null;
     }
-
-    @Override
-    public boolean canStack(@NotNull ItemMeta itemMeta, @NotNull ItemMeta itemMeta1) {
-        return itemMeta.getPersistentDataContainer().equals(itemMeta1.getPersistentDataContainer());
-    }
-
 
     @Nullable
     public static InfinityBarrel getInfinityBarrel(@Nonnull Location location, @Nonnull StorageUnit unit) {
@@ -410,5 +399,10 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         barrel.depositItemStack(clone);
         setStoredAmount(mover, clone.getAmount());
         updateLore(mover);
+    }
+
+    @Override
+    public boolean canStack(@NotNull ItemMeta itemMeta, @NotNull ItemMeta itemMeta1) {
+        return itemMeta.getPersistentDataContainer().equals(itemMeta1.getPersistentDataContainer());
     }
 }
