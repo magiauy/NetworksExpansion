@@ -1604,6 +1604,14 @@ public class ExpansionItemStacks {
             "Right-click on a storage to move items into this stick",
             "Shift+Right-click to move item in this stick into a storage"
     );
+    public static SlimefunItemStack NETWORK_BLUEPRINT_DECODER = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_BLUEPRINT_DECODER",
+            new ItemStack(Material.DEEPSLATE_TILES),
+            Theme.MACHINE,
+            "&6网络蓝图解码器",
+            "解码网络蓝图",
+            ""
+    );
     public static ItemStack SEFIRAAT_ITEMSTACK = new CustomItemStack(Material.PLAYER_HEAD);
     public static final SlimefunItemStack AUTHOR_SEFIRAAT = Theme.Random(
             "NETWORKS_AUTHOR_SEFIRAAT",

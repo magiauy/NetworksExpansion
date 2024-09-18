@@ -103,14 +103,15 @@ public class SetupUtil {
                 ExpansionItems.NETWORKS_EXPANSION_WORKBENCH.registerThis(),
                 ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis()
         );
-        ExpansionItemsMenus.SUB_MENU_ADVANCED_NET.addTo(
+        ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS.addTo(
                 ExpansionItems.ADVANCED_IMPORT.registerThis(),
                 ExpansionItems.ADVANCED_EXPORT.registerThis(),
                 ExpansionItems.ADVANCED_PURGER.registerThis(),
                 ExpansionItems.ADVANCED_GREEDY_BLOCK.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_5.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_6.registerThis(),
-                ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis()
+                ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis(),
+                ExpansionItems.NETWORK_BLUEPRINT_DECODER.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
                 ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),
@@ -214,14 +215,14 @@ public class SetupUtil {
 
         ExpansionItemsMenus.MAIN_ITEM_GROUP.addTo(ExpansionItemsMenus.MAIN_MENU_FUNCTIONAL_MACHINE,
                 ExpansionItemsMenus.SUB_MENU_CORE_MACHINE,
-                ExpansionItemsMenus.SUB_MENU_ADVANCED_NET,
+                ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS,
                 ExpansionItemsMenus.SUB_MENU_BRIDGE,
                 ExpansionItemsMenus.SUB_MENU_ENCODER,
                 ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE
         );
         ExpansionItemsMenus.MAIN_MENU_FUNCTIONAL_MACHINE.addFrom(
                 ExpansionItemsMenus.SUB_MENU_CORE_MACHINE,
-                ExpansionItemsMenus.SUB_MENU_ADVANCED_NET,
+                ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS,
                 ExpansionItemsMenus.SUB_MENU_BRIDGE,
                 ExpansionItemsMenus.SUB_MENU_ENCODER,
                 ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE

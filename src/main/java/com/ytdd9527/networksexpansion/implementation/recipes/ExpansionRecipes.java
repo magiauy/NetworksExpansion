@@ -680,4 +680,5 @@ public class ExpansionRecipes {
     };
 
     public static final ItemStack[] ITEM_MOVER = NULL;
+    public static final ItemStack[] NETWORK_BLUEPRINT_DECODER = NULL;
 }

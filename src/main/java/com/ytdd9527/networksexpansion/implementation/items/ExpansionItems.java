@@ -49,6 +49,7 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedPurger;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkBlueprintDecoder;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkInputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkOutputOnlyMonitor;
@@ -1005,5 +1006,12 @@ public class ExpansionItems {
             ExpansionItemStacks.ITEM_MOVER,
             RecipeType.NULL,
             ExpansionRecipes.ITEM_MOVER
+    );
+
+    public static final NetworkBlueprintDecoder NETWORK_BLUEPRINT_DECODER = new NetworkBlueprintDecoder(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.NETWORK_BLUEPRINT_DECODER,
+            RecipeType.NULL,
+            ExpansionRecipes.NETWORK_BLUEPRINT_DECODER
     );
 }
