@@ -69,7 +69,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
                 for (int slot : BACKGROUND_SLOTS) {
                     addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 }
-                addItem(DECODE_SLOT, DECODE_ITEM);
+                addItem(DECODE_SLOT, DECODE_ITEM, ChestMenuUtils.getEmptyClickHandler());
             }
 
             @Override

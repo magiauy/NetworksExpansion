@@ -1009,7 +1009,7 @@ public class ExpansionItems {
     );
 
     public static final NetworkBlueprintDecoder NETWORK_BLUEPRINT_DECODER = new NetworkBlueprintDecoder(
-            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.NETWORK_BLUEPRINT_DECODER,
             RecipeType.NULL,
             ExpansionRecipes.NETWORK_BLUEPRINT_DECODER
