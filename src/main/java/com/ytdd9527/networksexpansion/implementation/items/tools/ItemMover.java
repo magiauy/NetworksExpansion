@@ -37,7 +37,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,7 +49,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     @Nonnull
     public static final List<String> DEFAULT_LORE = ExpansionItemStacks.ITEM_MOVER.getItemMeta() == null ? new ArrayList<>() : (ExpansionItemStacks.ITEM_MOVER.getItemMeta().hasLore() && ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore() != null ? ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore() : new ArrayList<>());
 
-    public ItemMover(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
+    public ItemMover(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler(
                 (ItemUseHandler) e -> {
@@ -402,7 +401,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     @Override
-    public boolean canStack(@NotNull ItemMeta itemMeta, @NotNull ItemMeta itemMeta1) {
+    public boolean canStack(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta itemMeta1) {
         return itemMeta.getPersistentDataContainer().equals(itemMeta1.getPersistentDataContainer());
     }
 }

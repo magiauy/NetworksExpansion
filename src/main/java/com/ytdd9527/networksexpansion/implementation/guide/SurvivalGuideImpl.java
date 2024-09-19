@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -54,7 +55,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 
 @SuppressWarnings("deprecation")
-public class SurvivalGuideImpl implements SlimefunGuideImplementation {
+public class SurvivalGuideImpl extends SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int MAX_ITEM_GROUPS = 36;
 
@@ -111,9 +112,6 @@ public class SurvivalGuideImpl implements SlimefunGuideImplementation {
         return item;
     }
 
-    protected final boolean isSurvivalMode() {
-        return getMode() != SlimefunGuideMode.CHEAT_MODE;
-    }
 
     /**
      * Returns a {@link List} of visible {@link ItemGroup} instances that the {@link SlimefunGuide} would display.

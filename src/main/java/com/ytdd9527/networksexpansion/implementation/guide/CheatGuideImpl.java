@@ -27,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -55,7 +56,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 
 @SuppressWarnings("deprecation")
-public class CheatGuideImpl implements SlimefunGuideImplementation {
+public class CheatGuideImpl extends CheatSheetSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int MAX_ITEM_GROUPS = 36;
 
@@ -111,9 +112,8 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
     public @Nonnull ItemStack getItem() {
         return item;
     }
-
-    protected final boolean isSurvivalMode() {
-        return true;
+    protected boolean isCheatMode() {
+        return false;
     }
 
     /**
@@ -157,7 +157,7 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
             return;
         }
 
-        if (isSurvivalMode()) {
+        if (!isCheatMode()) {
             GuideHistory history = profile.getGuideHistory();
             history.clear();
             history.setMainMenuPage(page);
@@ -209,7 +209,7 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
 
     private void showItemGroup(ChestMenu menu, Player p, PlayerProfile profile, ItemGroup group, int index) {
         if (!(group instanceof LockedItemGroup)
-                || !isSurvivalMode()
+                || !!isCheatMode()
                 || ((LockedItemGroup) group).hasUnlocked(p, profile)) {
             menu.addItem(index, group.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
@@ -257,7 +257,7 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
             return;
         }
 
-        if (isSurvivalMode()) {
+        if (!isCheatMode()) {
             profile.getGuideHistory().add(itemGroup, page);
         }
 
@@ -321,7 +321,7 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
             int index) {
         Research research = sfitem.getResearch();
 
-        if (isSurvivalMode() && !hasPermission(p, sfitem)) {
+        if (!isCheatMode() && !hasPermission(p, sfitem)) {
             List<String> message = Slimefun.getPermissionsService().getLore(sfitem);
             menu.addItem(
                     index,
@@ -330,7 +330,7 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
                             sfitem.getItemName(),
                             message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
-        } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
+        } else if (!isCheatMode() && research != null && !profile.hasUnlocked(research)) {
             String lore;
 
             if (VaultIntegration.isEnabled()) {
@@ -744,7 +744,7 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
             ChatInput.waitForPlayer(
                     Networks.getInstance(),
                     pl,
-                    msg -> openSearch(profile, msg, isSurvivalMode()));
+                    msg -> openSearch(profile, msg, !isCheatMode()));
 
             return false;
         });
@@ -757,7 +757,7 @@ public class CheatGuideImpl implements SlimefunGuideImplementation {
     private void addBackButton(ChestMenu menu, int slot, Player p, PlayerProfile profile) {
         GuideHistory history = profile.getGuideHistory();
 
-        if (isSurvivalMode() && history.size() > 1) {
+        if (!isCheatMode() && history.size() > 1) {
             menu.addItem(
                     slot,
                     new CustomItemStack(ChestMenuUtils.getBackButton(p, "", "&f左键: &7返回上一页", "&fShift + 左键: &7返回主菜单")));

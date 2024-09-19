@@ -29,6 +29,7 @@ public class Keys {
     public static final NamespacedKey NETWORKSKEY = newKey("networkskey");
     public static final NamespacedKey ITEM_MOVER_ITEM = newKey("item_mover_item");
     public static final NamespacedKey ITEM_MOVER_AMOUNT = newKey("item_mover_amount");
+    public static final NamespacedKey EXPANSION_WORKBENCH = newKey("expansion_workbench");
 
     public static NamespacedKey INFINITY_DISPLAY = null;
 

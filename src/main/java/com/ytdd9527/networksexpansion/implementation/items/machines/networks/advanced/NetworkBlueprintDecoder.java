@@ -124,6 +124,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
             return;
         }
 
+        input.setAmount(input.getAmount() - 1);
         ItemStack[] inputs = blueprintInstance.getRecipeItems();
         for (ItemStack inputItem : inputs) {
             ItemStack left = BlockMenuUtil.pushItem(menu, inputItem, getOutputSlots());
