@@ -120,7 +120,7 @@ public class NetworkControlV extends NetworkDirectional {
         final Material templateMaterial = templateStack.getType();
 
         if (!templateMaterial.isBlock() || SlimefunTag.SENSITIVE_MATERIALS.isTagged(templateMaterial)) {
-            return;
+            if (!templateMaterial.createBlockData().isSupported(targetBlock)) return;
         }
 
         final SlimefunItem slimefunItem = SlimefunItem.getByItem(templateStack);
