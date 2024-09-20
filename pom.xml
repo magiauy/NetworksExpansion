@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>2.0.9-Alpha-40</version>
+    <version>2.0.9-Alpha-41</version>
 
     <distributionManagement>
         <repository>
@@ -197,6 +197,12 @@
             <artifactId>pinyin</artifactId>
             <version>0.4.0</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Supported Plugins -->
@@ -213,6 +219,12 @@
             <artifactId>Netheopoiesis</artifactId>
             <version>8d1af6c570</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Support SlimeHUD -->
         <dependency>
@@ -220,6 +232,12 @@
             <artifactId>SlimeHUD</artifactId>
             <version>1.2.7</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Support WildChest -->
         <dependency>
@@ -227,6 +245,12 @@
             <artifactId>WildChestsAPI</artifactId>
             <version>2024.1</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Support WildStacker -->
         <dependency>
@@ -234,6 +258,12 @@
             <artifactId>WildStackerAPI</artifactId>
             <version>2023.2</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Support RoseStacker -->
         <dependency>
@@ -241,6 +271,12 @@
             <artifactId>rosestacker</artifactId>
             <version>1.5.23</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Support mcMMO -->
         <dependency>
@@ -248,6 +284,12 @@
             <artifactId>mcMMO</artifactId>
             <version>2.2.017</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Chinese localization library -->
         <dependency>
@@ -255,6 +297,12 @@
             <artifactId>GuizhanLibPlugin</artifactId>
             <version>1.7.6</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Useful Library -->
         <dependency>
@@ -270,6 +318,12 @@
             <version>035fe56381</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/FluffyMachines.jar</systemPath>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

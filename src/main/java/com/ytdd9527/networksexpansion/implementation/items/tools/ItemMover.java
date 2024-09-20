@@ -58,6 +58,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
                     if (optional.isPresent()) {
                         final ItemStack itemStack = e.getItem();
                         if (itemStack.getType() != Material.DEBUG_STICK) {
+                            player.sendMessage(ChatColor.RED + "Not a vaild item mover.");
                             return;
                         }
                         if (itemStack.getAmount() != 1) {
@@ -65,6 +66,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
                             return;
                         }
                         if (!itemStack.hasItemMeta() || itemStack.getItemMeta() == null) {
+                            player.sendMessage(ChatColor.RED + "Not a vaild item mover.");
                             return;
                         }
                         final Location location = optional.get().getLocation();
@@ -178,10 +180,13 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             if (stored == null) {
                 setStoredItemStack(mover, StackUtils.getAsQuantity(incoming, 1));
                 setStoredAmount(mover, incoming.getAmount());
+                incoming.setAmount(0);
             } else if (StackUtils.itemsMatch(stored, incoming)) {
                 int maxCanReceive = Integer.MAX_VALUE - storedAmount;
                 int incomingAmount = incoming.getAmount();
-                setStoredAmount(mover, getStoredAmount(mover) + Math.min(maxCanReceive, incomingAmount));
+                int canReceive = Math.min(maxCanReceive, incomingAmount);
+                setStoredAmount(mover, getStoredAmount(mover) + canReceive);
+                incoming.setAmount(incomingAmount - canReceive);
             }
         }
     }
@@ -211,15 +216,13 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemStack storedItemStack = getStoredItemStack(itemMeta);
-        if (storedItemStack == null) {
-            return;
-        }
-
         final int amount = getStoredAmount(itemMeta);
 
-        List<String> lore = DEFAULT_LORE;
-        lore.add(ChatColor.GRAY + "Stored: " + ItemStackHelper.getDisplayName(storedItemStack));
-        lore.add(ChatColor.GRAY + "Amount: " + amount);
+        List<String> lore = cloneDefaultLore();
+        if (storedItemStack != null && amount > 0) {
+            lore.add(ChatColor.GRAY + "Stored: " + ItemStackHelper.getDisplayName(storedItemStack));
+            lore.add(ChatColor.GRAY + "Amount: " + amount);
+        }
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
     }
@@ -349,7 +352,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         }
 
         final long storedAmount = cache.getAmount();
-        if (storedAmount <= 0) {
+        if (storedAmount < 0) {
             return null;
         }
 
@@ -361,10 +364,15 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         ItemStack storedItemStack = getStoredItemStack(mover);
         BarrelIdentity barrel = getBarrel(player, clickedLocation);
         if (barrel == null || barrel.getItemStack() == null || barrel.getAmount() <= 0) {
+            player.sendMessage(ChatColor.RED + "Please select a valid storage.");
             return;
         }
 
         int have = barrel.getAmount() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) barrel.getAmount();
+        if (have <= 0) {
+            player.sendMessage(ChatColor.RED + "Barrel is empty.");
+            return;
+        }
 
         ItemRequest itemRequest = new ItemRequest(barrel.getItemStack(), 0);
         if (storedItemStack == null && storedAmount <= 0) {
@@ -385,12 +393,19 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         ItemStack storedItemStack = getStoredItemStack(mover);
         BarrelIdentity barrel = getBarrel(player, clickedLocation);
         if (barrel == null) {
+            player.sendMessage(ChatColor.RED + "Please select a valid storage.");
             return;
         }
 
         int have = barrel.getAmount() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) barrel.getAmount();
 
         if (storedItemStack == null || storedAmount <= 0) {
+            player.sendMessage(ChatColor.RED + "No item to withdraw.");
+            return;
+        }
+
+        if (have == Integer.MAX_VALUE) {
+            player.sendMessage(ChatColor.RED + "Barrel is full.");
             return;
         }
 
@@ -398,6 +413,10 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         barrel.depositItemStack(clone);
         setStoredAmount(mover, clone.getAmount());
         updateLore(mover);
+    }
+
+    private static List<String> cloneDefaultLore() {
+        return new ArrayList<>(DEFAULT_LORE);
     }
 
     @Override

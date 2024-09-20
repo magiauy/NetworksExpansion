@@ -74,7 +74,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
 
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
-                addMenuClickHandler(DECODE_SLOT, (player, slot, clickedItem, clickAction) -> {
+                menu.addMenuClickHandler(DECODE_SLOT, (player, slot, clickedItem, clickAction) -> {
                     decode(menu);
                     return false;
                 });

@@ -531,14 +531,17 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             ItemStack moverStored = ItemMover.getStoredItemStack(itemStack);
             if (mode == QuickTransferMode.FROM_QUANTUM) {
                 if (moverStored == null) {
+                    player.sendMessage(ChatColor.RED + "物品转移棒中没有物品");
                     return;
                 }
                 if (!StackUtils.itemsMatch(moverStored, toTransfer)) {
+                    player.sendMessage(ChatColor.RED + "物品不匹配");
                     return;
                 }
             }
             if (mode == QuickTransferMode.TO_QUANTUM) {
                 if (moverStored != null && !StackUtils.itemsMatch(moverStored, toTransfer)) {
+                    player.sendMessage(ChatColor.RED + "物品不匹配");
                     return;
                 }
             }
