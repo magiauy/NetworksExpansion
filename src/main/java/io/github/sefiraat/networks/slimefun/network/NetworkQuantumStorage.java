@@ -20,12 +20,12 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import lombok.Getter;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -77,7 +77,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             Integer.MAX_VALUE
     };
     private static final String WIKI_PAGE = "network-storage/quantum-storage";
-    private static final int TRASH_TOGGLE_SLOT = 9;
     private static final ItemStack BACK_INPUT = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
             Theme.PASSIVE + "输入"
@@ -106,12 +105,8 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             Theme.SUCCESS + "设置",
             Theme.PASSIVE + "拿起物品并点击这里以设置物品",
             Theme.PASSIVE + "点击这里以设置更改容量",
-            Theme.CLICK_INFO + "Shift+左键点击" + Theme.PASSIVE + "切换满载清空输入");
-
-    private static final ItemStack TRASH_ON_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3满载清空输入 &a(开启)",
-            "&7开启后可清空无法存储的物品");
-    private static final ItemStack TRASH_OFF_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3满载清空输入 &c(关闭)",
-            "&7开启后可清空无法存储的物品");
+            Theme.CLICK_INFO + "Shift+左键点击" + Theme.PASSIVE + "切换满载清空输入"
+    );
     private static final ItemStack BACK_OUTPUT = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
             Theme.PASSIVE + "输出"
@@ -120,7 +115,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     private static final int[] INPUT_SLOTS = new int[]{0, 2};
     private static final int[] ITEM_SLOTS = new int[]{3, 5};
     private static final int[] OUTPUT_SLOTS = new int[]{6, 8};
-    private static final int[] BACKGROUND_SLOTS = new int[]{10, 11, 12, 14, 15, 16, 17};
+    private static final int[] BACKGROUND_SLOTS = new int[]{9, 10, 11, 12, 14, 15, 16, 17};
 
     private static final Map<Location, QuantumCache> CACHES = new HashMap<>();
 
@@ -132,6 +127,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     private final List<Integer> slotsToDrop = new ArrayList<>();
 
+    @Getter
     private final int maxAmount;
     private boolean supportsCustomMaxAmount = false;
 
@@ -236,8 +232,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             final ItemMeta itemMeta = itemStack.getItemMeta();
             final List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
 
-            ItemStack trashItem = cache.isVoidExcess() ? TRASH_ON_ITEM : TRASH_OFF_ITEM;
-            menu.replaceExistingItem(TRASH_TOGGLE_SLOT, trashItem);
             lore.add("");
             lore.add(Theme.CLICK_INFO + "满载清空输入: " + Theme.PASSIVE + BooleanHelper.enabledOrDisabled(cache.isVoidExcess()));
             lore.add(Theme.CLICK_INFO + "数量: " + Theme.PASSIVE + cache.getAmount());
@@ -342,9 +336,9 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             syncBlock(blockMenu.getLocation(), cache);
         }
 
-        addSignInfoAt(blockMenu.getLocation(), cache);
-
         CACHES.put(blockMenu.getLocation().clone(), cache);
+
+        addSignInfoAt(blockMenu.getLocation(), cache);
     }
 
     private void toggleVoid(@Nonnull BlockMenu blockMenu) {
@@ -468,19 +462,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                     }
                     return false;
                 });
-                // Toggle trash (Dynamic button)
-                String trash = StorageCacheUtils.getData(block.getLocation(), "trash");
-
-                if (trash == null || trash.equals("false")) {
-                    menu.replaceExistingItem(TRASH_TOGGLE_SLOT, TRASH_OFF_ITEM);
-                } else {
-                    menu.replaceExistingItem(TRASH_TOGGLE_SLOT, TRASH_ON_ITEM);
-                }
-                menu.addMenuClickHandler(TRASH_TOGGLE_SLOT, (pl, slot, item, action) -> {
-                    toggleTrash(block);
-                    return false;
-                });
-
 
                 // Insert all
                 int INSERT_ALL_SLOT = 16;
@@ -623,7 +604,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     private QuantumCache createCache(@Nullable ItemStack itemStack, @Nonnull BlockMenu menu, int amount, int maxAmount, boolean voidExcess, boolean supportsCustomMaxAmount) {
         if (itemStack == null || itemStack.getType().isAir() || isDisplayItem(itemStack)) {
             menu.addItem(ITEM_SLOT, ItemStackUtil.getCleanItem(NO_ITEM));
-            return new QuantumCache(null, 0, maxAmount, true, this.supportsCustomMaxAmount);
+            return new QuantumCache(null, 0, maxAmount, false, this.supportsCustomMaxAmount);
         } else {
             final ItemStack clone = itemStack.clone();
             final ItemMeta itemMeta = clone.getItemMeta();
@@ -691,31 +672,8 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         CACHES.put(event.getBlock().getLocation(), cache);
     }
 
-    public int getMaxAmount() {
-        return maxAmount;
-    }
-
     public boolean supportsCustomMaxAmount() {
         return this.supportsCustomMaxAmount;
-    }
-
-    private void putBlockData(Block b, int slot, String key, ItemStack displayItem, boolean data) {
-        StorageCacheUtils.setData(b.getLocation(), key, String.valueOf(data));
-        StorageCacheUtils.getMenu(b.getLocation()).replaceExistingItem(slot, displayItem);
-    }
-
-    private void toggleTrash(Block b) {
-        BlockMenu blockMenu = StorageCacheUtils.getMenu(b.getLocation());
-        QuantumCache cache = CACHES.get(blockMenu.getLocation());
-        // 切换状态
-        cache.setVoidExcess(!cache.isVoidExcess());
-        // 更新界面显示
-        updateDisplayItem(blockMenu, cache);
-        // 同步数据到区块存储
-        syncBlock(b.getLocation(), cache);
-        // 更新垃圾桶图标
-        ItemStack trashItem = cache.isVoidExcess() ? TRASH_ON_ITEM : TRASH_OFF_ITEM;
-        blockMenu.replaceExistingItem(TRASH_TOGGLE_SLOT, trashItem);
     }
 
     private void addSignInfoAt(Location quantumLocation, QuantumCache cache) {

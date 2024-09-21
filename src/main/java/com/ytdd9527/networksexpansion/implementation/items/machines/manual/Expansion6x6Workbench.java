@@ -48,11 +48,11 @@ public class Expansion6x6Workbench extends AbstractManualCrafter {
     );
     public static final Map<Integer, ItemStack> BACKGROUNDS = new HashMap<>();
     private static final int[] BACKGROUND_SLOTS = {
-            6,  7,  8,
-            15,     17,
+            6, 7, 8,
+            15, 17,
             24, 25, 26,
             33, 34, 35,
-            42,     44,
+            42, 44,
             51, 52, 53
     };
     private static final int[] RECIPE_SLOTS = {

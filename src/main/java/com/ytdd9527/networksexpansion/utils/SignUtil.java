@@ -33,11 +33,10 @@ public class SignUtil {
         return null;
     }
 
-    @Nonnull
-    public static Sign setSignText(@Nonnull Sign sign, boolean lock, @Nullable String... lines) {
+    public static void setSignText(@Nonnull Sign sign, boolean lock, @Nullable String... lines) {
         // Sign range: 0-3
         if (lines == null || lines.length == 0) {
-            return sign;
+            return;
         }
 
         for (int i = 0; i < Math.min(lines.length, 4); i++) {
@@ -52,7 +51,6 @@ public class SignUtil {
         }
 
         sign.update();
-        return sign;
     }
 
     public static void addSignTextAround(@Nonnull Block block, boolean lock, @Nullable String... lines) {
