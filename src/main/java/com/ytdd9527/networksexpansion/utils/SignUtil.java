@@ -10,7 +10,6 @@ import org.bukkit.block.Sign;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 
 @UtilityClass
 public class SignUtil {
@@ -24,6 +23,7 @@ public class SignUtil {
             BlockFace.EAST,
             BlockFace.WEST
     };
+
     @Nullable
     public static Sign getSignByBlock(@Nonnull Block block) {
         if (SlimefunTag.SIGNS.isTagged(block.getType()) || SlimefunTag.WALL_SIGNS.isTagged(block.getType())) {
