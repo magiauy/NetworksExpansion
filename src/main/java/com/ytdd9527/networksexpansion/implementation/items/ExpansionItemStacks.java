@@ -40,6 +40,8 @@ public class ExpansionItemStacks {
             "网络拓展指南 (作弊模式)",
             ""
     );
+
+    // Workbench
     public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_WORKBENCH",
             new ItemStack(Material.BAMBOO_BLOCK),
@@ -48,7 +50,13 @@ public class ExpansionItemStacks {
             "可以合成网络拓展的各种材料和机器"
     );
 
-    // Workbench
+    public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH_6X6 = Theme.Random(
+            "NTW_EXPANSION_WORKBENCH_6X6",
+            new ItemStack(Material.LAPIS_BLOCK),
+            Theme.MACHINE,
+            "网络拓展工作台 (6x6)",
+            "不可以合成网络拓展的各种材料和机器"
+    );
     // Tools
     public static final SlimefunItemStack WORLDEDIT_AXE = Theme.Random(
             "NTW_EXPANSION_WORLD_EDIT_AXE",
