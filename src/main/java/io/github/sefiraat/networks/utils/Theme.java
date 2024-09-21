@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.utils;
 
 import com.ytdd9527.networksexpansion.utils.TextUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
@@ -206,11 +207,11 @@ public enum Theme {
         }
         finalLore.add("");
         finalLore.add(applyThemeToString(Theme.CLICK_INFO, themeType.getLoreLine()));
-        return new CustomItemStack(
+        return ItemStackUtil.getCleanItem(new CustomItemStack(
                 material,
                 Theme.applyThemeToString(themeType, name),
                 finalLore.toArray(new String[finalLore.size() - 1])
-        );
+        ));
     }
 
     @Nonnull

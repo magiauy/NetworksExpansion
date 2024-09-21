@@ -2,53 +2,57 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.ytdd9527.networksexpansion.api.data.SuperRecipe;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import com.ytdd9527.networksexpansion.implementation.recipes.ExpansionRecipes;
 import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import lombok.Getter;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"unused", "deprecation"})
 public abstract class AbstractManualCrafter extends SpecialSlimefunItem implements AdminDebuggable, EnergyNetComponent {
-    @Getter
-    private static final List<SuperRecipe> RECIPES = new ArrayList<>();
-    private static int recipeIndex = 0;
-
     public AbstractManualCrafter(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    public final RecipeType TYPE = new RecipeType(
-            getRecipeTypeNamespacedKey(),
-            getRecipeTypeItemStack(),
-            this::addRecipe
-    );
-
-    public void addRecipe(ItemStack[] input, ItemStack output) {
-        if (!Arrays.equals(input, ExpansionRecipes.NULL)) {
-            RECIPES.add(new SuperRecipe(String.valueOf(recipeIndex), true, input, output));
+    @Override
+    public void preRegister() {
+        BlockPlaceHandler blockPlaceHandler = getMachineBlockPlaceHandler();
+        if (blockPlaceHandler != null) {
+            addItemHandler(blockPlaceHandler);
         }
-        recipeIndex += 1;
+
+        BlockBreakHandler blockBreakHandler = getMachineBlockBreakHandler();
+        if (blockBreakHandler != null) {
+            addItemHandler(blockBreakHandler);
+        }
+
+        BlockTicker blockTicker = getMachineBlockTicker();
+        if (blockTicker != null) {
+            addItemHandler(blockTicker);
+        }
     }
 
     @Override
@@ -56,7 +60,9 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         new BlockMenuPreset(this.getId(), this.getItemName()) {
             @Override
             public void init() {
-                drawBackground(getBackgroundItem(), getBackgroundSlots());
+                for (Map.Entry<Integer, ItemStack> entry : getBackgrounds().entrySet()) {
+                    addItem(entry.getKey(), entry.getValue(), ChestMenuUtils.getEmptyClickHandler());
+                }
             }
 
             @Override
@@ -67,10 +73,13 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.WITHDRAW) {
-                    return getOutputSlots();
+                if (isTransportable()) {
+                    if (flow == ItemTransportFlow.WITHDRAW) {
+                        return getOutputSlots();
+                    }
+                    return getInputSlots();
                 }
-                return getInputSlots();
+                return new int[0];
             }
 
             @Override
@@ -79,12 +88,18 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                     craft(p, menu);
                     return false;
                 });
+                Map<Integer, ChestMenu.MenuClickHandler> menuClickHandlers = getMenuClickHandlers();
+                if (menuClickHandlers != null) {
+                    for (Map.Entry<Integer, ChestMenu.MenuClickHandler> entry : menuClickHandlers.entrySet()) {
+                        menu.addMenuClickHandler(entry.getKey(), entry.getValue());
+                    }
+                }
             }
         };
     }
 
     public void craft(Player player, BlockMenu blockMenu) {
-        for (SuperRecipe recipe : RECIPES) {
+        for (SuperRecipe recipe : getRecipes()) {
             if (getCapacity() < recipe.getConsumeEnergy()) {
                 continue;
             }
@@ -104,6 +119,11 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
     }
 
     public void shapedCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
+        World world = blockMenu.getLocation().getWorld();
+        if (world == null) {
+            return;
+        }
+
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
             ItemStack wanted = recipe.getInput()[i];
             if (wanted == null || wanted.getType().isAir()) {
@@ -133,10 +153,17 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
         for (ItemStack item : recipe.getOutput()) {
             if (item != null && !item.getType().isAir()) {
+                SlimefunItem sfi = SlimefunItem.getByItem(item);
+                if (sfi != null) {
+                    if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
+                        player.sendMessage("This item is disabled in this world.");
+                        continue;
+                    }
+                }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
                 if (left != null && !left.getType().isAir()) {
                     player.sendMessage("Not enough space in output slots.");
-                    blockMenu.getLocation().getWorld().dropItem(blockMenu.getLocation(), left);
+                    world.dropItem(blockMenu.getLocation(), left);
                 }
             }
         }
@@ -146,6 +173,10 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
     }
 
     public void shapelessCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
+        World world = blockMenu.getLocation().getWorld();
+        if (world == null) {
+            return;
+        }
         // ItemStack : ItemStack.getAmount()
         Map<ItemStack, Integer> wanted = new HashMap<>();
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
@@ -183,6 +214,11 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
             }
         }
 
+        if (!BlockMenuUtil.fits(blockMenu, recipe.getOutput(), getOutputSlots())) {
+            player.sendMessage("Not enough space in output slots.");
+            return;
+        }
+
         // Consume items
         for (Map.Entry<ItemStack, Integer> entry : wanted.entrySet()) {
             for (int slot : getInputSlots()) {
@@ -212,10 +248,17 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
         for (ItemStack item : recipe.getOutput()) {
             if (item != null && !item.getType().isAir()) {
+                SlimefunItem sfi = SlimefunItem.getByItem(item);
+                if (sfi != null) {
+                    if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
+                        player.sendMessage("This item is disabled in this world.");
+                        continue;
+                    }
+                }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
                 if (left != null && !left.getType().isAir()) {
                     player.sendMessage("Not enough space in output slots.");
-                    blockMenu.getLocation().getWorld().dropItem(blockMenu.getLocation(), left);
+                    world.dropItem(blockMenu.getLocation(), left);
                 }
             }
         }
@@ -230,9 +273,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         return EnergyNetComponentType.CONSUMER;
     }
 
-    public abstract int[] getBackgroundSlots();
-
-    public abstract ItemStack getBackgroundItem();
+    public abstract List<SuperRecipe> getRecipes();
 
     public abstract int[] getInputSlots();
 
@@ -240,7 +281,15 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
     public abstract int getHandleSlot();
 
-    public abstract ItemStack getRecipeTypeItemStack();
+    public abstract boolean isTransportable();
 
-    public abstract NamespacedKey getRecipeTypeNamespacedKey();
+    public abstract Map<Integer, ItemStack> getBackgrounds();
+
+    public abstract Map<Integer, ChestMenu.MenuClickHandler> getMenuClickHandlers();
+
+    public abstract BlockPlaceHandler getMachineBlockPlaceHandler();
+
+    public abstract BlockBreakHandler getMachineBlockBreakHandler();
+
+    public abstract BlockTicker getMachineBlockTicker();
 }
