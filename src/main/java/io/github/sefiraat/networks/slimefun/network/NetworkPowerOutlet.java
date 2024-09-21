@@ -39,7 +39,7 @@ public class NetworkPowerOutlet extends NetworkDirectional {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(b.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(b.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;

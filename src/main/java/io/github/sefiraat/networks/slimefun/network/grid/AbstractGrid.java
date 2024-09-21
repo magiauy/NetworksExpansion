@@ -156,7 +156,7 @@ public abstract class AbstractGrid extends NetworkObject {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
@@ -164,13 +164,14 @@ public abstract class AbstractGrid extends NetworkObject {
         definition.getNode().getRoot().addItemStack(itemStack);
     }
 
+
     protected void updateDisplay(@Nonnull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
         if (!blockMenu.hasViewer()) {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         // No node located, weird
         if (definition == null || definition.getNode() == null) {

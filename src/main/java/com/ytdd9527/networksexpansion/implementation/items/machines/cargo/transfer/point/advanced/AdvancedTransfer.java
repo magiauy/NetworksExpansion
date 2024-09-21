@@ -196,7 +196,7 @@ public class AdvancedTransfer extends AdvancedDirectional implements RecipeDispl
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -225,7 +225,7 @@ public class AdvancedTransfer extends AdvancedDirectional implements RecipeDispl
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;

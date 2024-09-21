@@ -115,7 +115,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
     private void performPushingOperation(@Nullable BlockMenu blockMenu) {
         if (blockMenu != null) {
-            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+            final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
             if (definition == null || definition.getNode() == null) {
                 return;

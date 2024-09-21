@@ -85,9 +85,7 @@ public class BlockMenuUtil {
 
             if (stack == null || stack.getType().isAir()) {
                 incoming -= item.getMaxStackSize();
-            }
-
-            else if (stack.getMaxStackSize() > stack.getAmount() && StackUtils.itemsMatch(item, stack)) {
+            } else if (stack.getMaxStackSize() > stack.getAmount() && StackUtils.itemsMatch(item, stack)) {
                 incoming -= stack.getMaxStackSize() - stack.getAmount();
             }
 
@@ -113,6 +111,7 @@ public class BlockMenuUtil {
 
         return fits(blockMenu, listItems, slots);
     }
+
     public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
             return true;

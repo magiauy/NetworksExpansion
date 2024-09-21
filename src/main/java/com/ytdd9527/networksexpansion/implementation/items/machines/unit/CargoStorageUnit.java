@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -44,6 +45,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -66,6 +69,16 @@ import java.util.function.Function;
 //TODO 对于一些复杂的逻辑，需要重构
 @SuppressWarnings({"deprecation", "unused"})
 public class CargoStorageUnit extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem, Configurable {
+    public static final BlockFace[] VALID_SIGN_FACES = new BlockFace[]{
+            BlockFace.UP
+    };
+
+    public static final BlockFace[] VALID_WALL_SIGN_FACES = new BlockFace[]{
+            BlockFace.NORTH,
+            BlockFace.SOUTH,
+            BlockFace.EAST,
+            BlockFace.WEST
+    };
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
     private static final Map<Location, QuickTransferMode> quickTransferModes = new HashMap<>();
@@ -802,6 +815,8 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             // Update display item
             update(l, false);
         }
+
+        addSignInfoAt(l, data);
     }
 
     private ItemStack getLocationErrorItem(int id, Location lastLoc) {
@@ -908,6 +923,46 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             return null;
         }
         return DisplayGroup.fromUUID(uuid);
+    }
+
+    private void addSignInfoAt(Location unitLocation, StorageUnitData data) {
+        Sign sign = null;
+        if (Networks.getSlimefunTickCount() % 20 == 0) {
+            for (BlockFace face : VALID_SIGN_FACES) {
+                Block aroundRelative = unitLocation.getBlock().getRelative(face);
+                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
+                    sign = (Sign) aroundRelative.getState();
+                    break;
+                }
+            }
+
+            for (BlockFace face : VALID_WALL_SIGN_FACES) {
+                Block aroundRelative = unitLocation.getBlock().getRelative(face);
+                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
+                    sign = (Sign) aroundRelative.getState();
+                    break;
+                }
+            }
+        }
+
+        if (sign == null) {
+            return;
+        }
+
+        if (data.getId() != -1) {
+            String firstLine = ChatColor.YELLOW + "容器 ID" + data.getId();
+            sign.setLine(1, firstLine);
+        }
+
+        String size = ChatColor.YELLOW + "存储容量: " + data.getSizeType().getEachMaxSize() + " / " + data.getSizeType().getMaxItemCount();
+        String split = "------------";
+        String status = data.getId() != -1 ? ChatColor.GREEN + "正常运行" : ChatColor.RED + "已损坏";
+
+        sign.setLine(2, size);
+        sign.setLine(3, split);
+        sign.setLine(4, status);
+        sign.setWaxed(true);
+        sign.update();
     }
 
     @Override

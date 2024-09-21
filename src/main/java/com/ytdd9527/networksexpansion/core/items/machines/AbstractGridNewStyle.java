@@ -189,7 +189,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         // No node located, weird
         if (definition == null || definition.getNode() == null) {

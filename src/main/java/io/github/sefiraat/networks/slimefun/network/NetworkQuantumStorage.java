@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
@@ -25,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -32,10 +34,14 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.java.BooleanHelper;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -53,6 +59,16 @@ import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class NetworkQuantumStorage extends SpecialSlimefunItem implements DistinctiveItem {
+    public static final BlockFace[] VALID_SIGN_FACES = new BlockFace[]{
+            BlockFace.UP
+    };
+
+    public static final BlockFace[] VALID_WALL_SIGN_FACES = new BlockFace[]{
+            BlockFace.NORTH,
+            BlockFace.SOUTH,
+            BlockFace.EAST,
+            BlockFace.WEST
+    };
 
     public static final String BS_AMOUNT = "stored_amount";
     public static final String BS_VOID = "void_excess";
@@ -339,6 +355,8 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             blockMenu.pushItem(fetched, OUTPUT_SLOT);
             syncBlock(blockMenu.getLocation(), cache);
         }
+
+        addSignInfoAt(blockMenu.getLocation(), cache);
 
         CACHES.put(blockMenu.getLocation().clone(), cache);
     }
@@ -712,6 +730,40 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         // 更新垃圾桶图标
         ItemStack trashItem = cache.isVoidExcess() ? TRASH_ON_ITEM : TRASH_OFF_ITEM;
         blockMenu.replaceExistingItem(TRASH_TOGGLE_SLOT, trashItem);
+    }
+
+    private void addSignInfoAt(Location quantumLocation, QuantumCache cache) {
+        Sign sign = null;
+        if (Networks.getSlimefunTickCount() % 20 == 0) {
+            for (BlockFace face : VALID_SIGN_FACES) {
+                Block aroundRelative = quantumLocation.getBlock().getRelative(face);
+                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
+                    sign = (Sign) aroundRelative.getState();
+                    break;
+                }
+            }
+
+            for (BlockFace face : VALID_WALL_SIGN_FACES) {
+                Block aroundRelative = quantumLocation.getBlock().getRelative(face);
+                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
+                    sign = (Sign) aroundRelative.getState();
+                    break;
+                }
+            }
+        }
+
+        if (sign == null) {
+            return;
+        }
+
+        String itemName = cache.getItemStack() == null ? "无物品" : ItemStackHelper.getDisplayName(cache.getItemStack());
+        String split = "------------";
+        String amount = ChatColor.YELLOW + String.format("%,d", cache.getAmount());
+        sign.setLine(1, itemName);
+        sign.setLine(3, split);
+        sign.setLine(4, amount);
+        sign.setWaxed(true);
+        sign.update();
     }
 
     @Override

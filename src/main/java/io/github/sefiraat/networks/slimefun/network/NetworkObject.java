@@ -87,9 +87,9 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
     }
 
     protected void addToRegistry(@Nonnull Block block) {
-        if (!NetworkStorage.getAllNetworkObjects().containsKey(block.getLocation())) {
+        if (!NetworkStorage.containsKey(block.getLocation())) {
             final NodeDefinition nodeDefinition = new NodeDefinition(nodeType);
-            NetworkStorage.getAllNetworkObjects().put(block.getLocation(), nodeDefinition);
+            NetworkStorage.registerNode(block.getLocation(), nodeDefinition);
         }
     }
 

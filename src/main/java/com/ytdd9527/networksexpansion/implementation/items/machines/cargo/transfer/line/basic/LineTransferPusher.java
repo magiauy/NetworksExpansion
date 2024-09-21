@@ -131,7 +131,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;

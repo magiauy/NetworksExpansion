@@ -68,15 +68,15 @@ public class ExpansionWorkbench extends AbstractManualCrafter {
         BACKGROUNDS.put(CRAFT_SLOT, CRAFT_BUTTON_STACK);
     }
 
+    @ParametersAreNonnullByDefault
+    public ExpansionWorkbench(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
+    }
+
     public static void addRecipe(ItemStack[] input, ItemStack output) {
         if (!Arrays.equals(input, ExpansionRecipes.NULL)) {
             RECIPES.add(new SuperRecipe(true, input, output));
         }
-    }
-
-    @ParametersAreNonnullByDefault
-    public ExpansionWorkbench(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

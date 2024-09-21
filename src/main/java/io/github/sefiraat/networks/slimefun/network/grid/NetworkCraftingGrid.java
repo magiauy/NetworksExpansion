@@ -196,7 +196,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
     @SuppressWarnings("deprecation")
     private void tryCraft(@Nonnull BlockMenu menu, @Nonnull Player player) {
         // Get node and, if it doesn't exist - escape
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(menu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
         if (definition.getNode() == null) {
             return;
         }
@@ -256,7 +256,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
     private void tryReturnItems(@Nonnull BlockMenu menu) {
         // Get node and, if it doesn't exist - escape
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(menu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
 
         if (definition.getNode() == null) {
             return;

@@ -126,7 +126,7 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;

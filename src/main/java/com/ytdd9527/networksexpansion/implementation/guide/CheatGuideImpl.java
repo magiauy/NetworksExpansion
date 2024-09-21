@@ -112,6 +112,7 @@ public class CheatGuideImpl extends CheatSheetSlimefunGuide implements SlimefunG
     public @Nonnull ItemStack getItem() {
         return item;
     }
+
     protected boolean isCheatMode() {
         return false;
     }

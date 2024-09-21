@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.data.ItemContainer;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
+import com.ytdd9527.networksexpansion.api.enums.ErrorType;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
@@ -783,7 +784,7 @@ public class NetworksMain implements TabExecutor {
         switch (args[0]) {
             case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "restore", "setcontainerid" -> {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(getErrorMessage(ERROR_TYPE.MUST_BE_PLAYER));
+                    sender.sendMessage(getErrorMessage(ErrorType.MUST_BE_PLAYER));
                     return false;
                 }
             }
@@ -802,7 +803,7 @@ public class NetworksMain implements TabExecutor {
                         help(sender, null);
                     }
                 } else {
-                    sender.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    sender.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             }
@@ -811,10 +812,10 @@ public class NetworksMain implements TabExecutor {
                     if (args.length >= 2) {
                         findCachedStorages(sender, args[1]);
                     } else {
-                        sender.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "playerName"));
+                        sender.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "playerName"));
                     }
                 } else {
-                    sender.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    sender.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             }
@@ -830,13 +831,13 @@ public class NetworksMain implements TabExecutor {
                             fillQuantum(player, number);
                             return true;
                         } catch (NumberFormatException exception) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
                         }
                     } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("fixblueprint")) {
@@ -845,17 +846,17 @@ public class NetworksMain implements TabExecutor {
                         String before = args[1];
                         fixBlueprint(player, before);
                     } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "keyInMeta"));
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "keyInMeta"));
                     }
                 } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("restore")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.restore"))) {
                     restore(player);
                 } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("setQuantum")) {
@@ -864,14 +865,14 @@ public class NetworksMain implements TabExecutor {
                         try {
                             setQuantum(player, Integer.parseInt(args[1]));
                         } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
                             return true;
                         }
                     } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("addstorageitem")) {
@@ -881,14 +882,14 @@ public class NetworksMain implements TabExecutor {
                             int amount = Integer.parseInt(args[1]);
                             addStorageItem(player, amount);
                         } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
                             return true;
                         }
                     } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("reducestorageitem")) {
@@ -898,14 +899,14 @@ public class NetworksMain implements TabExecutor {
                             int amount = Integer.parseInt(args[1]);
                             reduceStorageItem(player, amount);
                         } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
                             return true;
                         }
                     } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "amount"));
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                     }
                 } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("setcontainerid")) {
@@ -915,13 +916,13 @@ public class NetworksMain implements TabExecutor {
                         try {
                             setContainerId(player, Integer.parseInt(containerId));
                         } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "containerId"));
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "containerId"));
                         }
                     } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "containerId"));
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "containerId"));
                     }
                 } else {
-                    player.sendMessage(getErrorMessage(ERROR_TYPE.NO_PERMISSION));
+                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
             } else if (args[0].equalsIgnoreCase("worldedit")) {
                 if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.worldedit.*"))) {
@@ -939,14 +940,14 @@ public class NetworksMain implements TabExecutor {
                                     boolean skipVanilla = Boolean.parseBoolean(args[3]);
                                     worldeditClear(player, callHandler, skipVanilla);
                                 } catch (NumberFormatException e) {
-                                    player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "callHandler / skipVanilla"));
+                                    player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler / skipVanilla"));
                                 }
                             } else if (args.length == 3) {
                                 try {
                                     boolean callHandler = Boolean.parseBoolean(args[2]);
                                     worldeditClear(player, callHandler, true);
                                 } catch (NumberFormatException e) {
-                                    player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "callHandler"));
+                                    player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler"));
                                 }
                             } else {
                                 worldeditClear(player, true, true);
@@ -980,7 +981,7 @@ public class NetworksMain implements TabExecutor {
                             } else if (args.length == 3) {
                                 worldeditPaste(player, args[2]);
                             } else {
-                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "sfId"));
+                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "sfId"));
                             }
 
                         }
@@ -992,18 +993,18 @@ public class NetworksMain implements TabExecutor {
                                             try {
                                                 worldeditBlockMenuSetSlot(player, Integer.parseInt(args[3]));
                                             } catch (NumberFormatException e) {
-                                                player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "slot"));
+                                                player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "slot"));
                                             }
                                         } else {
-                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "slot"));
+                                            player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "slot"));
                                         }
                                     }
                                     default -> {
-                                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                                     }
                                 }
                             } else {
-                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
                         case "blockinfo" -> {
@@ -1011,11 +1012,11 @@ public class NetworksMain implements TabExecutor {
                                 switch (args[2].toLowerCase(Locale.ROOT)) {
                                     case "add", "set" -> {
                                         if (args.length == 3) {
-                                            player.sendMessage(Theme.ERROR + getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
+                                            player.sendMessage(Theme.ERROR + getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "key"));
                                         }
 
                                         if (args.length == 4) {
-                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "value"));
+                                            player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "value"));
                                         }
 
                                         if (args.length >= 5) {
@@ -1026,7 +1027,7 @@ public class NetworksMain implements TabExecutor {
                                     }
                                     case "remove" -> {
                                         if (args.length == 3) {
-                                            player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "key"));
+                                            player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "key"));
                                         }
                                         if (args.length >= 4) {
                                             String key = args[3];
@@ -1035,7 +1036,7 @@ public class NetworksMain implements TabExecutor {
                                     }
                                 }
                             } else {
-                                player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
                     }
@@ -1051,10 +1052,10 @@ public class NetworksMain implements TabExecutor {
                             int slot = Integer.parseInt(args[1]);
                             getStorageItem(player, slot);
                         } catch (NumberFormatException e) {
-                            player.sendMessage(getErrorMessage(ERROR_TYPE.INVALID_REQUIRED_ARGUMENT, "slot"));
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "slot"));
                         }
                     } else {
-                        player.sendMessage(getErrorMessage(ERROR_TYPE.MISSING_REQUIRED_ARGUMENT, "slot"));
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "slot"));
                     }
                 }
             } else {
@@ -1212,11 +1213,11 @@ public class NetworksMain implements TabExecutor {
         return new ArrayList<>();
     }
 
-    public String getErrorMessage(ERROR_TYPE errorType) {
+    public String getErrorMessage(ErrorType errorType) {
         return getErrorMessage(errorType, null);
     }
 
-    public String getErrorMessage(ERROR_TYPE errorType, String argument) {
+    public String getErrorMessage(ErrorType errorType, String argument) {
         return switch (errorType) {
             case NO_PERMISSION -> "你没有权限执行此命令! ";
             case NO_ITEM_IN_HAND -> "你必须在手上持有物品! ";
@@ -1225,14 +1226,5 @@ public class NetworksMain implements TabExecutor {
             case MUST_BE_PLAYER -> "此命令只能由玩家执行! ";
             default -> "未知错误! ";
         };
-    }
-
-    public enum ERROR_TYPE {
-        NO_PERMISSION,
-        NO_ITEM_IN_HAND,
-        MISSING_REQUIRED_ARGUMENT,
-        INVALID_REQUIRED_ARGUMENT,
-        MUST_BE_PLAYER,
-        UNKNOWN_ERROR
     }
 }
