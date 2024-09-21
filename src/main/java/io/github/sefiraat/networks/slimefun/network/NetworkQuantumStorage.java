@@ -603,7 +603,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         final String amountString = blockData.getData(BS_AMOUNT);
         final String voidString = blockData.getData(BS_VOID);
         final int amount = amountString == null ? 0 : Integer.parseInt(amountString);
-        final boolean voidExcess = voidString == null || Boolean.parseBoolean(voidString);
+        final boolean voidExcess = Boolean.parseBoolean(voidString);
         int maxAmount = this.maxAmount;
         if (this.supportsCustomMaxAmount) {
             final String customMaxAmountString = BlockStorage.getLocationInfo(blockMenu.getLocation(), BS_CUSTOM_MAX_AMOUNT);
@@ -720,10 +720,11 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     private void addSignInfoAt(Location quantumLocation, QuantumCache cache) {
         String itemName = cache.getItemStack() == null ? "无物品" : ItemStackHelper.getDisplayName(cache.getItemStack());
+        String voidExcess = "满载清空: " + (cache.isVoidExcess() ? "启用" : "禁用");
         String split = "------------";
         String amount = ChatColor.YELLOW + String.format("%,d", cache.getAmount());
 
-        SignUtil.addSignTextAround(quantumLocation.getBlock(), true, itemName, null, split, amount);
+        SignUtil.addSignTextAround(quantumLocation.getBlock(), true, itemName, voidExcess, split, amount);
     }
 
     @Override
