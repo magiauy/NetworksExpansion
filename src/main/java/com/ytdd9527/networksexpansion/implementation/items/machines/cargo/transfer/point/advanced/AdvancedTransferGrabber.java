@@ -6,6 +6,7 @@ import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -98,8 +99,12 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
+        if (blockMenu == null) {
+            return;
+        }
+
+        final Location location = block.getLocation();
         if (grabItemTick != 1) {
-            final Location location = block.getLocation();
             int tickCounter = getTickCounter(location);
             tickCounter = (tickCounter + 1) % grabItemTick;
             if (tickCounter == 0) {
@@ -109,6 +114,8 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
         } else {
             tryGrabItem(blockMenu);
         }
+
+        addSignInfoAt(location);
     }
 
     private int getTickCounter(Location location) {
@@ -152,7 +159,7 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     }
 
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -161,7 +168,7 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
@@ -201,6 +208,7 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     }
 
     @Override
+    @Nonnull
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
@@ -246,5 +254,13 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     @Override
     protected int getTransportModeSlot() {
         return TRANSPORT_MODE_SLOT;
+    }
+
+    private void addSignInfoAt(Location transferLocation) {
+        String limitQuantity = String.format("数量限制: %,d", getLimitQuantity(transferLocation));
+        String split = "------------";
+        String transportMode = String.format("传输模式: %s", getCurrentTransportMode(transferLocation).getName());
+
+        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

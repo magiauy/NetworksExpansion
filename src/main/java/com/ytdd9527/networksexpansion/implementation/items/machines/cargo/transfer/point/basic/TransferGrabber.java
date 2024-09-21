@@ -5,6 +5,7 @@ import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -88,7 +89,11 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
+        if (blockMenu == null) {
+            return;
+        }
         final Location location = blockMenu.getLocation();
+        // TODO: optimize it
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
 
@@ -97,6 +102,8 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
         }
 
         updateTickCounter(location, tickCounter);
+
+        addSignInfoAt(location);
     }
 
     private int getTickCounter(Location location) {
@@ -137,7 +144,7 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     }
 
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -146,7 +153,7 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
@@ -208,5 +215,13 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
                 "&c而不是连续转移物品！"
         ));
         return displayRecipes;
+    }
+
+    private void addSignInfoAt(Location transferLocation) {
+        String limitQuantity = String.format("数量限制: %,d", 64);
+        String split = "------------";
+        String transportMode = String.format("传输模式: %s", TransportMode.FIRST_STOP.getName());
+
+        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

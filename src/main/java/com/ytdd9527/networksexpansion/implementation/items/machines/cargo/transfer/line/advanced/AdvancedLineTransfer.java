@@ -6,12 +6,14 @@ import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -20,6 +22,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -167,6 +171,8 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         } else {
             tryGrabItem(blockMenu);
         }
+
+        addSignInfoAt(location);
     }
 
     private int getPushTickCounter(Location location) {
@@ -395,5 +401,13 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     @Override
     protected int getTransportModeSlot() {
         return TRANSPORT_MODE_SLOT;
+    }
+
+    private void addSignInfoAt(Location transferLocation) {
+        String limitQuantity = String.format("数量限制: %,d", getLimitQuantity(transferLocation));
+        String split = "------------";
+        String transportMode = String.format("传输模式: %s", getCurrentTransportMode(transferLocation).getName());
+
+        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

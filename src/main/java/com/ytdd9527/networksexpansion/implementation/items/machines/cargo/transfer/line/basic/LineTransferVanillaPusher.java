@@ -2,13 +2,16 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
+import com.ytdd9527.networksexpansion.utils.SignUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -90,6 +93,8 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         super.onTick(blockMenu, block);
 
         final Location location = block.getLocation();
+
+        // TODO: optimize it
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % pushItemTick;
 
@@ -98,6 +103,8 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         }
 
         updateTickCounter(location, tickCounter);
+
+        addSignInfoAt(location);
     }
 
     private int getTickCounter(Location location) {
@@ -351,5 +358,13 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                 "&c而不是连续转移物品！"
         ));
         return displayRecipes;
+    }
+
+    private void addSignInfoAt(Location transferLocation) {
+        String limitQuantity = String.format("数量限制: %,d", 64);
+        String split = "------------";
+        String transportMode = String.format("传输模式: %s", TransportMode.FIRST_STOP.getName());
+
+        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

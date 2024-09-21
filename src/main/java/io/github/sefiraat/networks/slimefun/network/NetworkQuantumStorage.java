@@ -3,6 +3,7 @@ package io.github.sefiraat.networks.slimefun.network;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+import com.ytdd9527.networksexpansion.utils.SignUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
@@ -59,17 +60,6 @@ import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class NetworkQuantumStorage extends SpecialSlimefunItem implements DistinctiveItem {
-    public static final BlockFace[] VALID_SIGN_FACES = new BlockFace[]{
-            BlockFace.UP
-    };
-
-    public static final BlockFace[] VALID_WALL_SIGN_FACES = new BlockFace[]{
-            BlockFace.NORTH,
-            BlockFace.SOUTH,
-            BlockFace.EAST,
-            BlockFace.WEST
-    };
-
     public static final String BS_AMOUNT = "stored_amount";
     public static final String BS_VOID = "void_excess";
     public static final String BS_CUSTOM_MAX_AMOUNT = "custom_max_amount";
@@ -733,37 +723,11 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     }
 
     private void addSignInfoAt(Location quantumLocation, QuantumCache cache) {
-        Sign sign = null;
-        if (Networks.getSlimefunTickCount() % 20 == 0) {
-            for (BlockFace face : VALID_SIGN_FACES) {
-                Block aroundRelative = quantumLocation.getBlock().getRelative(face);
-                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
-                    sign = (Sign) aroundRelative.getState();
-                    break;
-                }
-            }
-
-            for (BlockFace face : VALID_WALL_SIGN_FACES) {
-                Block aroundRelative = quantumLocation.getBlock().getRelative(face);
-                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
-                    sign = (Sign) aroundRelative.getState();
-                    break;
-                }
-            }
-        }
-
-        if (sign == null) {
-            return;
-        }
-
         String itemName = cache.getItemStack() == null ? "无物品" : ItemStackHelper.getDisplayName(cache.getItemStack());
         String split = "------------";
         String amount = ChatColor.YELLOW + String.format("%,d", cache.getAmount());
-        sign.setLine(1, itemName);
-        sign.setLine(3, split);
-        sign.setLine(4, amount);
-        sign.setWaxed(true);
-        sign.update();
+
+        SignUtil.addSignTextAround(quantumLocation.getBlock(), true, itemName, null, split, amount);
     }
 
     @Override

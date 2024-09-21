@@ -5,12 +5,14 @@ import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
@@ -153,6 +155,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         } else {
             tryGrabItem(blockMenu);
         }
+        addSignInfoAt(location);
     }
 
     private int getPushTickCounter(Location location) {
@@ -355,5 +358,13 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 "&c而不是连续转移物品！"
         ));
         return displayRecipes;
+    }
+
+    private void addSignInfoAt(Location transferLocation) {
+        String limitQuantity = String.format("数量限制: %,d", 64);
+        String split = "------------";
+        String transportMode = String.format("传输模式: %s", TransportMode.FIRST_STOP.getName());
+
+        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

@@ -11,6 +11,7 @@ import com.ytdd9527.networksexpansion.api.interfaces.ModelledItem;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.items.tools.ItemMover;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.SignUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.Networks;
@@ -926,43 +927,12 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
     }
 
     private void addSignInfoAt(Location unitLocation, StorageUnitData data) {
-        Sign sign = null;
-        if (Networks.getSlimefunTickCount() % 20 == 0) {
-            for (BlockFace face : VALID_SIGN_FACES) {
-                Block aroundRelative = unitLocation.getBlock().getRelative(face);
-                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
-                    sign = (Sign) aroundRelative.getState();
-                    break;
-                }
-            }
-
-            for (BlockFace face : VALID_WALL_SIGN_FACES) {
-                Block aroundRelative = unitLocation.getBlock().getRelative(face);
-                if (SlimefunTag.SIGNS.isTagged(aroundRelative.getType())) {
-                    sign = (Sign) aroundRelative.getState();
-                    break;
-                }
-            }
-        }
-
-        if (sign == null) {
-            return;
-        }
-
-        if (data.getId() != -1) {
-            String firstLine = ChatColor.YELLOW + "容器 ID" + data.getId();
-            sign.setLine(1, firstLine);
-        }
-
+        String id = data.getId() != -1 ? ChatColor.YELLOW + "容器 ID" + data.getId() : null;
         String size = ChatColor.YELLOW + "存储容量: " + data.getSizeType().getEachMaxSize() + " / " + data.getSizeType().getMaxItemCount();
         String split = "------------";
         String status = data.getId() != -1 ? ChatColor.GREEN + "正常运行" : ChatColor.RED + "已损坏";
 
-        sign.setLine(2, size);
-        sign.setLine(3, split);
-        sign.setLine(4, status);
-        sign.setWaxed(true);
-        sign.update();
+        SignUtil.addSignTextAround(unitLocation.getBlock(), true, id, size, split, status);
     }
 
     @Override
