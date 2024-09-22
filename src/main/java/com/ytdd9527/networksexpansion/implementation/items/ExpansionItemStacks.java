@@ -607,6 +607,46 @@ public class ExpansionItemStacks {
             "一张空白的蓝图",
             "可以存储一个网络拓展工作台配方"
     );
+    public static final SlimefunItemStack COMPRESSOR_BLUEPRINT = Theme.Random(
+            "NTW_EXPANSION_COMPRESSOR_BLUEPRINT",
+            new ItemStack(Material.PINK_DYE),
+            Theme.TOOL,
+            "压缩机蓝图",
+            "一张空白的蓝图",
+            "可以存储一个压缩机配方"
+    );
+    public static final SlimefunItemStack GRIND_STONE_BLUEPRINT = Theme.Random(
+            "NTW_EXPANSION_GRIND_STONE_BLUEPRINT",
+            new ItemStack(Material.MAGENTA_DYE),
+            Theme.TOOL,
+            "磨石蓝图",
+            "一张空白的蓝图",
+            "可以存储一个磨石配方"
+    );
+    public static final SlimefunItemStack JUICER_BLUEPRINT = Theme.Random(
+            "NTW_EXPANSION_JUICER_BLUEPRINT",
+            new ItemStack(Material.LIGHT_BLUE_DYE),
+            Theme.TOOL,
+            "榨汁机蓝图",
+            "一张空白的蓝图",
+            "可以存储一个榨汁机配方"
+    );
+    public static final SlimefunItemStack ORE_CRUSHER_BLUEPRINT = Theme.Random(
+            "NTW_EXPANSION_ORE_CRUSHER_BLUEPRINT",
+            new ItemStack(Material.GRAY_DYE),
+            Theme.TOOL,
+            "矿石粉碎机蓝图",
+            "一张空白的蓝图",
+            "可以存储一个矿石粉碎机配方"
+    );
+    public static final SlimefunItemStack PRESSURE_CHAMBER_BLUEPRINT = Theme.Random(
+            "NTW_EXPANSION_PRESSURE_CHAMBER_BLUEPRINT",
+            new ItemStack(Material.LIGHT_GRAY_DYE),
+            Theme.TOOL,
+            "压力机蓝图",
+            "一张空白的蓝图",
+            "可以存储一个压力机配方"
+    );
     // Encoders
     public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_MAGIC_WORKBENCH_RECIPE_ENCODER",
@@ -662,6 +702,51 @@ public class ExpansionItemStacks {
             "",
             MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
     );
+    public static final SlimefunItemStack COMPRESSOR_RECIPE_ENCODER = Theme.Random(
+            "NTW_EXPANSION_COMPRESSOR_RECIPE_ENCODER",
+            new ItemStack(Material.PISTON),
+            Theme.MACHINE,
+            "网络压缩机配方编码器",
+            "可以根据输入的物品来制作压缩机蓝图",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+    );
+    public static final SlimefunItemStack GRIND_STONE_RECIPE_ENCODER = Theme.Random(
+            "NTW_EXPANSION_GRIND_STONE_RECIPE_ENCODER",
+            new ItemStack(Material.ANVIL),
+            Theme.MACHINE,
+            "网络磨石配方编码器",
+            "可以根据输入的物品来制作磨石蓝图",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+    );
+    public static final SlimefunItemStack JUICER_RECIPE_ENCODER = Theme.Random(
+            "NTW_EXPANSION_JUICER_RECIPE_ENCODER",
+            new ItemStack(Material.BLAST_FURNACE),
+            Theme.MACHINE,
+            "网络榨汁机配方编码器",
+            "可以根据输入的物品来制作榨汁机蓝图",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+    );
+    public static final SlimefunItemStack ORE_CRUSHER_RECIPE_ENCODER = Theme.Random(
+            "NTW_EXPANSION_ORE_CRUSHER_RECIPE_ENCODER",
+            new ItemStack(Material.SMOKER),
+            Theme.MACHINE,
+            "网络矿石粉碎机配方编码器",
+            "可以根据输入的物品来制作矿石粉碎机蓝图",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+    );
+    public static final SlimefunItemStack PRESSURE_CHAMBER_RECIPE_ENCODER = Theme.Random(
+            "NTW_EXPANSION_PRESSURE_CHAMBER_RECIPE_ENCODER",
+            new ItemStack(Material.CAULDRON),
+            Theme.MACHINE,
+            "网络压力机配方编码器",
+            "可以根据输入的物品来制作压力机蓝图",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次编码", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
+    );
     // Auto Crafters
     public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH",
@@ -673,7 +758,7 @@ public class ExpansionItemStacks {
             "机器会自动从网络中选取材料进行合成",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
     );
     public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_MAGIC_WORKBENCH_WITHHOLDING",
@@ -690,7 +775,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
     );
     public static final SlimefunItemStack AUTO_ARMOR_FORGE = Theme.Random(
             "NTW_EXPANSION_AUTO_ARMOR_FORGE",
@@ -702,7 +787,7 @@ public class ExpansionItemStacks {
             "机器会自动从网络中选取材料进行合成",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
     );
     public static final SlimefunItemStack AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_ARMOR_FORGE_WITHHOLDING",
@@ -719,7 +804,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
     );
     public static final SlimefunItemStack AUTO_SMELTERY = Theme.Random(
             "NTW_EXPANSION_AUTO_SMELTERY",
@@ -731,7 +816,7 @@ public class ExpansionItemStacks {
             "机器会自动从网络中选取材料进行合成",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
     );
     public static final SlimefunItemStack AUTO_SMELTERY_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_SMELTERY_WITHHOLDING",
@@ -748,7 +833,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
     );
     public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH",
@@ -760,7 +845,7 @@ public class ExpansionItemStacks {
             "机器会自动从网络中选取材料进行合成",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
     );
     public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH_WITHHOLDING",
@@ -777,7 +862,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
     );
     public static final SlimefunItemStack AUTO_ANCIENT_ALTAR = Theme.Random(
             "NTW_EXPANSION_AUTO_ANCIENT_ALTAR",
@@ -789,7 +874,7 @@ public class ExpansionItemStacks {
             "机器会自动从网络中选取材料进行合成",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
     );
     public static final SlimefunItemStack AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_ANCIENT_ALTAR_WITHHOLDING",
@@ -806,7 +891,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
     );
     public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH",
@@ -818,7 +903,7 @@ public class ExpansionItemStacks {
             "机器会自动从网络中选取材料进行合成",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
     );
     public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH_WITHHOLDING",
@@ -835,7 +920,152 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
+    );
+    public static final SlimefunItemStack AUTO_COMPRESSOR = Theme.Random(
+            "NTW_EXPANSION_AUTO_COMPRESSOR",
+            new ItemStack(Material.OBSIDIAN),
+            Theme.MACHINE,
+            "网络自动压缩机",
+            "网络自动压缩机需要压缩机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
+    );
+    public static final SlimefunItemStack AUTO_COMPRESSOR_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_AUTO_COMPRESSOR_WITHHOLDING",
+            new ItemStack(Material.DIAMOND_BLOCK),
+            Theme.MACHINE,
+            "网络自动压缩机 (预留版)",
+            "网络自动压缩机需要压缩机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
+    );
+    public static final SlimefunItemStack AUTO_GRIND_STONE = Theme.Random(
+            "NTW_EXPANSION_AUTO_GRIND_STONE",
+            new ItemStack(Material.ANDESITE),
+            Theme.MACHINE,
+            "网络自动磨石",
+            "网络自动磨石需要磨石蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
+    );
+    public static final SlimefunItemStack AUTO_GRIND_STONE_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_AUTO_GRIND_STONE_WITHHOLDING",
+            new ItemStack(Material.DIORITE),
+            Theme.MACHINE,
+            "网络自动磨石 (预留版)",
+            "网络自动磨石需要磨石蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
+    );
+    public static final SlimefunItemStack AUTO_JUICER = Theme.Random(
+            "NTW_EXPANSION_AUTO_JUICER",
+            new ItemStack(Material.GOLD_BLOCK),
+            Theme.MACHINE,
+            "网络自动榨汁机",
+            "网络自动榨汁机需要榨汁机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
+    );
+    public static final SlimefunItemStack AUTO_JUICER_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_AUTO_JUICER_WITHHOLDING",
+            new ItemStack(Material.IRON_BLOCK),
+            Theme.MACHINE,
+            "网络自动榨汁机 (预留版)",
+            "网络自动榨汁机需要榨汁机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
+    );
+    public static final SlimefunItemStack AUTO_ORE_CRUSHER = Theme.Random(
+            "NTW_EXPANSION_AUTO_ORE_CRUSHER",
+            new ItemStack(Material.NETHER_BRICK),
+            Theme.MACHINE,
+            "网络自动矿粉碎机",
+            "网络自动矿粉碎机需要矿粉碎机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
+    );
+    public static final SlimefunItemStack AUTO_ORE_CRUSHER_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_AUTO_ORE_CRUSHER_WITHHOLDING",
+            new ItemStack(Material.GOLD_INGOT),
+            Theme.MACHINE,
+            "网络自动矿石粉碎机 (预留版)",
+            "网络自动矿石粉碎机需要矿石粉碎机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
+    );
+    public static final SlimefunItemStack AUTO_PRESSURE_CHAMBER = Theme.Random(
+            "NTW_EXPANSION_AUTO_PRESSURE_CHAMBER",
+            new ItemStack(Material.OBSIDIAN),
+            Theme.MACHINE,
+            "网络自动压力机",
+            "网络自动压力机需要压力机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 64)
+    );
+    public static final SlimefunItemStack AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_AUTO_PRESSURE_CHAMBER_WITHHOLDING",
+            new ItemStack(Material.DIAMOND_BLOCK),
+            Theme.MACHINE,
+            "网络自动压力机 (预留版)",
+            "网络自动压力机需要压力机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 128)
     );
     // Advanced Auto Crafters
     public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.Random(
@@ -849,7 +1079,7 @@ public class ExpansionItemStacks {
             "允许堆叠蓝图 (不向下兼容)",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING",
@@ -867,7 +1097,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE",
@@ -880,7 +1110,7 @@ public class ExpansionItemStacks {
             "允许堆叠蓝图 (不向下兼容)",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING",
@@ -898,7 +1128,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY",
@@ -911,7 +1141,7 @@ public class ExpansionItemStacks {
             "允许堆叠蓝图 (不向下兼容)",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_SMELTERY_WITHHOLDING",
@@ -929,7 +1159,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH",
@@ -942,7 +1172,7 @@ public class ExpansionItemStacks {
             "允许堆叠蓝图 (不向下兼容)",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING",
@@ -960,7 +1190,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR",
@@ -973,7 +1203,7 @@ public class ExpansionItemStacks {
             "允许堆叠蓝图 (不向下兼容)",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING",
@@ -991,7 +1221,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH",
@@ -1004,7 +1234,7 @@ public class ExpansionItemStacks {
             "允许堆叠蓝图 (不向下兼容)",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING",
@@ -1022,7 +1252,162 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_COMPRESSOR = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_COMPRESSOR",
+            Enchanted(Material.COMPOSTER),
+            Theme.MACHINE,
+            "高级网络自动压缩机",
+            "高级网络自动压缩机需要压缩机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_COMPRESSOR_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_COMPRESSOR_WITHHOLDING",
+            Enchanted(Material.COMPOSTER),
+            Theme.MACHINE,
+            "高级网络自动压缩机 (预留版)",
+            "高级网络自动压缩机需要压缩机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_GRIND_STONE",
+            Enchanted(Material.GRINDSTONE),
+            Theme.MACHINE,
+            "高级网络自动磨石",
+            "高级网络自动磨石需要磨石蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_GRIND_STONE_WITHHOLDING",
+            Enchanted(Material.GRINDSTONE),
+            Theme.MACHINE,
+            "高级网络自动磨石 (预留版)",
+            "高级网络自动磨石需要磨石蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_JUICER = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_JUICER",
+            Enchanted(Material.GLASS),
+            Theme.MACHINE,
+            "高级网络自动榨汁机",
+            "高级网络自动榨汁机需要榨汁机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_JUICER_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_JUICER_WITHHOLDING",
+            Enchanted(Material.GLASS),
+            Theme.MACHINE,
+            "高级网络自动榨汁机 (预留版)",
+            "高级网络自动榨汁机需要榨汁机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_ORE_CRUSHER",
+            Enchanted(Material.ANCIENT_DEBRIS),
+            Theme.MACHINE,
+            "高级网络自动矿粉碎机",
+            "高级网络自动矿粉碎机需要矿粉碎机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING",
+            Enchanted(Material.ANCIENT_DEBRIS),
+            Theme.MACHINE,
+            "高级网络自动矿石粉碎机 (预留版)",
+            "高级网络自动矿石粉碎机需要矿石粉碎机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_PRESSURE_CHAMBER",
+            Enchanted(Material.STONE_BRICKS),
+            Theme.MACHINE,
+            "高级网络自动压力机",
+            "高级网络自动压力机需要压力机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
+    );
+    public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.Random(
+            "NTW_EXPANSION_ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING",
+            Enchanted(Material.STONE_BRICKS),
+            Theme.MACHINE,
+            "高级网络自动压力机 (预留版)",
+            "高级网络自动压力机需要压力机蓝图才能工作。",
+            "当网络中没有蓝图的目标物品时，",
+            "机器会自动从网络中选取材料进行合成",
+            "允许堆叠蓝图 (不向下兼容)",
+            "(需要网络中有足够的原材料)",
+            "",
+            "预留版的自动合成机会不断进行合成",
+            "直到输出栏拥有1组物品",
+            "这一组物品可以在网络中访问",
+            "也可以通过货运系统取出",
+            "",
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_CRAFTING",
@@ -1035,7 +1420,7 @@ public class ExpansionItemStacks {
             "允许堆叠蓝图 (不向下兼容)",
             "(需要网络中有足够的原材料)",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 6400)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 640)
     );
     public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_CRAFTING_WITHHOLDING",
@@ -1053,7 +1438,7 @@ public class ExpansionItemStacks {
             "这一组物品可以在网络中访问",
             "也可以通过货运系统取出",
             "",
-            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 12800)
+            MessageFormat.format("{0}网络电力消耗: {1}{2} 每次合成", Theme.CLICK_INFO, Theme.PASSIVE, 1280)
     );
     // Bridges
     public static final SlimefunItemStack NETWORK_BRIDGE_WHITE = Theme.Random(

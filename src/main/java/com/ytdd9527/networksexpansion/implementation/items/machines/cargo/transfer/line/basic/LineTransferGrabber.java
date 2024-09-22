@@ -3,7 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
+import com.ytdd9527.networksexpansion.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -81,27 +81,26 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
 
     }
 
-    private void performGrabbingOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryGrabItem(blockMenu);
-        }
-    }
-
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        final Location location = blockMenu.getLocation();
-        // TODO: optimize it
-        int tickCounter = getTickCounter(location);
-        tickCounter = (tickCounter + 1) % grabItemTick;
-
-        if (tickCounter == 0) {
-            performGrabbingOperation(blockMenu);
+        if (blockMenu == null) {
+            return;
         }
+        final Location location = blockMenu.getLocation();
+        if (grabItemTick != 1) {
+            int tickCounter = getTickCounter(location);
+            tickCounter = (tickCounter + 1) % grabItemTick;
 
-        updateTickCounter(location, tickCounter);
+            if (tickCounter == 0) {
+                tryGrabItem(blockMenu);
+            }
 
+            updateTickCounter(location, tickCounter);
+        } else {
+            tryGrabItem(blockMenu);
+        }
         addSignInfoAt(location);
     }
 

@@ -1,8 +1,8 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced;
+package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedQuantumWorkbenchRecipes;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.QuantumWorkbenchBlueprint;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedArmorForgeRecipes;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.ArmorForgeBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AdvancedAutoQuantumWorkbenchCrafter extends AbstractAdvancedAutoCrafter {
-    public AdvancedAutoQuantumWorkbenchCrafter(
+public class AutoArmorForge extends AbstractAutoCrafter {
+    public AutoArmorForge(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,
@@ -25,14 +25,14 @@ public class AdvancedAutoQuantumWorkbenchCrafter extends AbstractAdvancedAutoCra
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedQuantumWorkbenchRecipes.getRecipes().entrySet();
+        return SupportedArmorForgeRecipes.getRecipes().entrySet();
     }
 
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
-        return SupportedQuantumWorkbenchRecipes.testRecipe(inputs, recipe);
+        return SupportedArmorForgeRecipes.testRecipe(inputs, recipe);
     }
 
     public boolean isValidBlueprint(SlimefunItem item) {
-        return item instanceof QuantumWorkbenchBlueprint;
+        return item instanceof ArmorForgeBlueprint;
     }
 }

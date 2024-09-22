@@ -1,8 +1,8 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedMagicWorkbenchRecipes;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedJuicerRecipes;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.MagicWorkbenchBlueprint;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.JuicerBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AutoMagicWorkbenchCrafter extends AbstractAutoCrafter {
-    public AutoMagicWorkbenchCrafter(
+public class AutoJuicer extends AbstractAutoCrafter {
+    public AutoJuicer(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,
@@ -25,14 +25,14 @@ public class AutoMagicWorkbenchCrafter extends AbstractAutoCrafter {
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedMagicWorkbenchRecipes.getRecipes().entrySet();
+        return SupportedJuicerRecipes.getRecipes().entrySet();
     }
 
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
-        return SupportedMagicWorkbenchRecipes.testRecipe(inputs, recipe);
+        return SupportedJuicerRecipes.testRecipe(inputs, recipe);
     }
 
     public boolean isValidBlueprint(SlimefunItem item) {
-        return item instanceof MagicWorkbenchBlueprint;
+        return item instanceof JuicerBlueprint;
     }
 }

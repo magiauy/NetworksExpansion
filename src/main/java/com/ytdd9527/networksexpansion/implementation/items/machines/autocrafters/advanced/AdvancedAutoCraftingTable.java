@@ -1,8 +1,8 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedSmelteryRecipes;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedCraftingTableRecipes;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.SmelteryBlueprint;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AdvancedAutoSmelteryCrafter extends AbstractAdvancedAutoCrafter {
-    public AdvancedAutoSmelteryCrafter(
+public class AdvancedAutoCraftingTable extends AbstractAdvancedAutoCrafter {
+    public AdvancedAutoCraftingTable(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,
@@ -25,14 +25,18 @@ public class AdvancedAutoSmelteryCrafter extends AbstractAdvancedAutoCrafter {
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedSmelteryRecipes.getRecipes().entrySet();
+        return SupportedCraftingTableRecipes.getRecipes().entrySet();
     }
 
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
-        return SupportedSmelteryRecipes.testRecipe(inputs, recipe);
+        return SupportedCraftingTableRecipes.testRecipe(inputs, recipe);
     }
 
     public boolean isValidBlueprint(SlimefunItem item) {
-        return item instanceof SmelteryBlueprint;
+        return item instanceof CraftingBlueprint;
+    }
+
+    public boolean canTestVanillaRecipe() {
+        return true;
     }
 }

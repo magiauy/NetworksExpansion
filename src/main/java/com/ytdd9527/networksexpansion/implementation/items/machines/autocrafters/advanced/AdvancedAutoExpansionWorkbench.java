@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AdvancedAutoExpansionWorkbenchCrafter extends AbstractAdvancedAutoCrafter {
-    public AdvancedAutoExpansionWorkbenchCrafter(
+public class AdvancedAutoExpansionWorkbench extends AbstractAdvancedAutoCrafter {
+    public AdvancedAutoExpansionWorkbench(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,

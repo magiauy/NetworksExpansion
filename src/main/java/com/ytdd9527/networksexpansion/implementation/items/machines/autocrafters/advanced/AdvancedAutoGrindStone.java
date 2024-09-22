@@ -1,8 +1,8 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedArmorForgeRecipes;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.ArmorForgeBlueprint;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedGrindStoneRecipes;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.GrindStoneBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AutoArmorForgeCrafter extends AbstractAutoCrafter {
-    public AutoArmorForgeCrafter(
+public class AdvancedAutoGrindStone extends AbstractAdvancedAutoCrafter {
+    public AdvancedAutoGrindStone(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,
@@ -25,14 +25,14 @@ public class AutoArmorForgeCrafter extends AbstractAutoCrafter {
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedArmorForgeRecipes.getRecipes().entrySet();
+        return SupportedGrindStoneRecipes.getRecipes().entrySet();
     }
 
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
-        return SupportedArmorForgeRecipes.testRecipe(inputs, recipe);
+        return SupportedGrindStoneRecipes.testRecipe(inputs, recipe);
     }
 
     public boolean isValidBlueprint(SlimefunItem item) {
-        return item instanceof ArmorForgeBlueprint;
+        return item instanceof GrindStoneBlueprint;
     }
 }

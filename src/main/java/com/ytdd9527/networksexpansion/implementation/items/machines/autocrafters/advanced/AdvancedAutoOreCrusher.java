@@ -1,8 +1,8 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedExpansionWorkbenchRecipes;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.ExpansionWorkbenchBlueprint;
+import com.ytdd9527.networksexpansion.api.helpers.SupportedOreCrusherRecipes;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.blueprints.OreCrusherBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AutoExpansionWorkbenchCrafter extends AbstractAutoCrafter {
-    public AutoExpansionWorkbenchCrafter(
+public class AdvancedAutoOreCrusher extends AbstractAdvancedAutoCrafter {
+    public AdvancedAutoOreCrusher(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,
@@ -25,14 +25,14 @@ public class AutoExpansionWorkbenchCrafter extends AbstractAutoCrafter {
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedExpansionWorkbenchRecipes.getRecipes().entrySet();
+        return SupportedOreCrusherRecipes.getRecipes().entrySet();
     }
 
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
-        return SupportedExpansionWorkbenchRecipes.testRecipe(inputs, recipe);
+        return SupportedOreCrusherRecipes.testRecipe(inputs, recipe);
     }
 
     public boolean isValidBlueprint(SlimefunItem item) {
-        return item instanceof ExpansionWorkbenchBlueprint;
+        return item instanceof OreCrusherBlueprint;
     }
 }

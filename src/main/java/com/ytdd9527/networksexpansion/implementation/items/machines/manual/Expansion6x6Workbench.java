@@ -44,7 +44,7 @@ public class Expansion6x6Workbench extends AbstractManualCrafter {
     public static final RecipeType TYPE = new RecipeType(
             Keys.EXPANSION_WORKBENCH_6x6,
             RECIPE_TYPE_ITEMSTACK,
-            ExpansionWorkbench::addRecipe
+            Expansion6x6Workbench::addRecipe
     );
     public static final Map<Integer, ItemStack> BACKGROUNDS = new HashMap<>();
     private static final int[] BACKGROUND_SLOTS = {

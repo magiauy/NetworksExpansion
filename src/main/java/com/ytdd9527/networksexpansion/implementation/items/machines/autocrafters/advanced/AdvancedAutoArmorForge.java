@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AdvancedAutoArmorForgeCrafter extends AbstractAdvancedAutoCrafter {
-    public AdvancedAutoArmorForgeCrafter(
+public class AdvancedAutoArmorForge extends AbstractAdvancedAutoCrafter {
+    public AdvancedAutoArmorForge(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,

@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class AutoQuantumWorkbenchCrafter extends AbstractAutoCrafter {
-    public AutoQuantumWorkbenchCrafter(
+public class AutoQuantumWorkbench extends AbstractAutoCrafter {
+    public AutoQuantumWorkbench(
             ItemGroup itemGroup,
             SlimefunItemStack item,
             RecipeType recipeType,

@@ -1,7 +1,7 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.encoders;
+package com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.advanced;
 
 import com.ytdd9527.networksexpansion.api.helpers.SupportedMagicWorkbenchRecipes;
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractEncoder;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.MagicWorkbenchBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -12,18 +12,16 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.Set;
 
-public class MagicWorkbenchEncoder extends AbstractEncoder {
-
-    public MagicWorkbenchEncoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
-    }
-
-    public void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted) {
-        MagicWorkbenchBlueprint.setBlueprint(itemStack, inputs, crafted);
-    }
-
-    public boolean isValidBlueprint(ItemStack blueprint) {
-        return SlimefunItem.getByItem(blueprint) instanceof MagicWorkbenchBlueprint;
+public class AdvancedAutoMagicWorkbench extends AbstractAdvancedAutoCrafter {
+    public AdvancedAutoMagicWorkbench(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            int chargePerCraft,
+            boolean withholding
+    ) {
+        super(itemGroup, item, recipeType, recipe, chargePerCraft, withholding);
     }
 
     public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
@@ -34,4 +32,7 @@ public class MagicWorkbenchEncoder extends AbstractEncoder {
         return SupportedMagicWorkbenchRecipes.testRecipe(inputs, recipe);
     }
 
+    public boolean isValidBlueprint(SlimefunItem item) {
+        return item instanceof MagicWorkbenchBlueprint;
+    }
 }
