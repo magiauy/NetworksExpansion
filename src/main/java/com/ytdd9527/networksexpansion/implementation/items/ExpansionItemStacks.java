@@ -17,8 +17,6 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -27,34 +25,6 @@ import java.util.Map;
  * @since 2.0
  */
 public class ExpansionItemStacks {
-    private static final String thanks = "&x&c&c&8&c&f&4&l魔&x&c&b&9&7&f&5&l芋&x&c&a&a&3&f&6&l粘&x&c&9&a&e&f&7&l液&x&c&8&b&9&f&8&l科&x&c&7&c&5&f&9&l技&x&c&5&d&0&f&9&l服&x&c&4&d&b&f&a&l务&x&c&3&e&6&f&b&l器&x&c&2&f&2&f&c&l提&x&c&1&f&d&f&d&l供";
-    public static ItemStack SEFIRAAT_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
-
-    public static ItemStack YBW0014_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
-    public static ItemStack YITOUDAIDAI_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
-    public static ItemStack TINALNESS_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
-    static {
-        try {
-            SEFIRAAT_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACaeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgU2VmaXJhYXQifV0sInRleHQiOiIifXNxAH4ADgAAAANzcQB+AABzcQB+AAN1cQB+AAYAAAAEcQB+AAh0AAh1bmlxdWVJZHQABG5hbWV0AApwcm9wZXJ0aWVzdXEAfgAGAAAABHQADVBsYXllclByb2ZpbGV0ACQ0ZDY1MDllMi1kYTEyLTQyYTctOTk2YS01NjhiYWU0MTdmN2J0AAhTZWZpcmFhdHNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAABc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAADcQB+ACJ0AAh0ZXh0dXJlc3QABXZhbHVldAGcZXdvZ0lDSjBhVzFsYzNSaGJYQWlJRG9nTVRjeU1qTTBNRE16TmpFeU1Dd0tJQ0FpY0hKdlptbHNaVWxrSWlBNklDSTBaRFkxTURsbE1tUmhNVEkwTW1FM09UazJZVFUyT0dKaFpUUXhOMlkzWWlJc0NpQWdJbkJ5YjJacGJHVk9ZVzFsSWlBNklDSlRaV1pwY21GaGRDSXNDaUFnSW5OcFoyNWhkSFZ5WlZKbGNYVnBjbVZrSWlBNklIUnlkV1VzQ2lBZ0luUmxlSFIxY21WeklpQTZJSHNLSUNBZ0lDSlRTMGxPSWlBNklIc0tJQ0FnSUNBZ0luVnliQ0lnT2lBaWFIUjBjRG92TDNSbGVIUjFjbVZ6TG0xcGJtVmpjbUZtZEM1dVpYUXZkR1Y0ZEhWeVpTOWlZakkzTWpVNU1qUmxNRGxrTm1Jd1ltUm1OV0ZpT0RZMFpUWXpaamd3WldJNE9EQmlabUUyWm1VeFptRXhOMlk1Wm1SaU5qRmlZekZoWlRFeE1HUmlJZ29nSUNBZ2ZRb2dJSDBLZlE9PXQACXNpZ25hdHVyZXQCrHcraU9VYmpKUUxZRG9rTlU3YVkreVk1cStxMEZodWNoNEI0eW00Y1RqWGJHeEtPUUlaODFaUnhzTDdDR0dCVlVxampJMjFZbDRJaSs3aVBScjFPM1FMbXNlMGN4Tk1iVmxsV3UyZFg4TDlNTEhPUmZSbUp2M0FrVFdKZTlvNXZQb1JvVmtSOHhqbTRNQWJWQ3Rray80eVNKYlZ0UFJPaW96d2NtYm12UWpCRmFSbHIrV3pjeVhxdzkvOVBaL3NYd0hMQXlKRmZRWWdKcklla09JaUR4V1FXeDRDQmNnQUwrQ1NPaTkyRkRUazgyR3JYb01EaUJSRmhuaGdJQnFONSt2TW1leGVsRTJlSk1Pbi80L3FXV2dFY0FKZ2Jja1lQaDRublNoRkFLWnBVdmtwd1k2QS9DWG02bnRmTHcrOStuS3NmaUpRcWtpY0FXckExb21ZVEpPYjR2SmVEcG5EeUZuMVJLb3dnNWdHbjlOMzBRN1ZhRzkrMytReTRHRVh4SjVseTNoWVJzZjkxdFYrRm1GRkpmWTJjZWdVc0h5K0VVOWlBU1pqQ2hSY2tTQVNocmpyR1gxMkJQc2xaemx2Znk2WlNzWFhxNmYzOVhlVm5GbXZENmcyMk9takhLbWc4LzZja1FidkRaSkVoeFlYN0FLanNqaTdQcDl5RU4wRGE4aTFOR0hBdWNVS0hmcVNuNkZ0RTFjNlBmckhOWUVmT3c2eCtCRDJIejlnOFFvSElSRllPekZ3cGJBWkp5NWE4bkNxUWR6Y2hMTGpueG9sU0REZVEzZ1JWUVZPT3ltcFFBMUlXa3lyd3h0ZjFPTndBMVQxSXpGazUwUjdoNkNoWU1ZblRNNGVuakJvWFFtOUxkZEVHZVM3emtiTzZSK2VDVmZ3bmNyQXdnSTJNPXgAeA==");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            YBW0014_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACZeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgeWJ3MDAxNCJ9XSwidGV4dCI6IiJ9c3EAfgAOAAAAA3NxAH4AAHNxAH4AA3VxAH4ABgAAAARxAH4ACHQACHVuaXF1ZUlkdAAEbmFtZXQACnByb3BlcnRpZXN1cQB+AAYAAAAEdAANUGxheWVyUHJvZmlsZXQAJDY1YzA5YjhjLWZjMzktNDNhNS05MTFiLTAxZjQ1NzdkNzRhZnQAB3lidzAwMTRzcgATamF2YS51dGlsLkFycmF5TGlzdHiB0h2Zx2GdAwABSQAEc2l6ZXhwAAAAAXcEAAAAAXNyABdqYXZhLnV0aWwuTGlua2VkSGFzaE1hcDTATlwQbMD7AgABWgALYWNjZXNzT3JkZXJ4cgARamF2YS51dGlsLkhhc2hNYXAFB9rBwxZg0QMAAkYACmxvYWRGYWN0b3JJAAl0aHJlc2hvbGR4cD9AAAAAAAAMdwgAAAAQAAAAA3EAfgAidAAIdGV4dHVyZXN0AAV2YWx1ZXQBmGV3b2dJQ0owYVcxbGMzUmhiWEFpSURvZ01UY3lNak0wTURNd05UZzBNU3dLSUNBaWNISnZabWxzWlVsa0lpQTZJQ0kyTldNd09XSTRZMlpqTXprME0yRTFPVEV4WWpBeFpqUTFOemRrTnpSaFppSXNDaUFnSW5CeWIyWnBiR1ZPWVcxbElpQTZJQ0o1WW5jd01ERTBJaXdLSUNBaWMybG5ibUYwZFhKbFVtVnhkV2x5WldRaUlEb2dkSEoxWlN3S0lDQWlkR1Y0ZEhWeVpYTWlJRG9nZXdvZ0lDQWdJbE5MU1U0aUlEb2dld29nSUNBZ0lDQWlkWEpzSWlBNklDSm9kSFJ3T2k4dmRHVjRkSFZ5WlhNdWJXbHVaV055WVdaMExtNWxkQzkwWlhoMGRYSmxMemd5WVRWak9HUmxNemRrTVdFME9HWTBNVEExTTJJNFkyTXlZV0poWldNM09XWm1ZbVl3Wm1NeE1UUTJOR0l5T1RCaU1EVTNaR1F4WkRGa016Z3pOMlVpQ2lBZ0lDQjlDaUFnZlFwOXQACXNpZ25hdHVyZXQCrERINmpXTVpvb1NMdzVTNU41S2hBRXBqb2RrTExwMHZtbzY4cVUyL2t2ODVMbzExd0pwaEpMdUUySkp3WkVEdlpFZGNzeEgwYlY4N1BnUVVaTHAwWTNCaVNZSTVZczRqSWZUVUU1MmFhblZTdEF0VU1oNVRZUDlHRkZzVVVqSlFFODY5OEZnKzlZKzhDY3E5bHplQW9GMEtzbTgzM1FuT2diUlJpRmhaUHQ0VFp6alpMWXJwTHp0WGl6blIrajFUaWRobkVuT1A3WFZSeWlkckE4VmhtZklGWU13VzlnMTErYTlOV0wrZGUzejY3cjA3TlFoY0pHdVl6VXFKRVZQNFNwSUZYaTMzM1YxRTZTMjMrakV4K081RHd3enVZNlMyMlhFTVgrZmJTMHRpMTJ0Nzh4TWJ1V2dGV3k1SHZ4YjZJTmxoenFmRUQwNUtlb2M2NEMrWWErSzFieGVXRGQyOGpESlFnS1h5Z2xlZFV3Y21Ia1lMV0Z0OXkwOEV6WlJnYUZJekxWbFJjdlFMTWR4aGpyQ2tRUFFUYlFEcTZFc0RQbm91UklKQU14S0JETlBJNHNTZlh2cnJRMUkrVU03bG5RVXlZUTdXdG5tL2M4bHN5S3ZHdUxpZ2RWdEVmbnE0Yk9KMjF4VXZhVjEwNHNLdlYvMEJiTVFWVVArZ1M3ZkNSWUR5UWsvNHpDeVZpSjdaT2lBbkxncmQ3d3daSmxUZ1F4bXp3dWhhdWFIM3owNmVYVHR3MU5RUW8xRkM1S3I5MUxnek1nckF3OHhSMUlpZWRpclg1UEJzWUtRR3hQb1BQcmN3ckFmdXlRbDNwWWltazZFNzdwYlFUSGRIa3grNUhnOGhzQjFSZXJUS3pIaEhtMDhSVHRIbDBvTzdUaUptOGo4akloM1ZKV1JnPXgAeA==");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            YITOUDAIDAI_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACdeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgeWl0b3VkYWlkYWkifV0sInRleHQiOiIifXNxAH4ADgAAAANzcQB+AABzcQB+AAN1cQB+AAYAAAADcQB+AAh0AAh1bmlxdWVJZHQABG5hbWV1cQB+AAYAAAADdAANUGxheWVyUHJvZmlsZXQAJDJkMGMyMTQxLTRjMGItMzMxYy1hNDU2LWE5YjVhMjVlYjI1OHQAC3lpdG91ZGFpZGFp");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            TINALNESS_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACbeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgdGluYWxuZXNzIn1dLCJ0ZXh0IjoiIn1zcQB+AA4AAAADc3EAfgAAc3EAfgADdXEAfgAGAAAABHEAfgAIdAAIdW5pcXVlSWR0AARuYW1ldAAKcHJvcGVydGllc3VxAH4ABgAAAAR0AA1QbGF5ZXJQcm9maWxldAAkZTg5YmMwYjUtZDYyNC0zZGIzLWEzNmUtYmM3YzdjMjM2ZjRldAAJdGluYWxuZXNzc3IAE2phdmEudXRpbC5BcnJheUxpc3R4gdIdmcdhnQMAAUkABHNpemV4cAAAAAF3BAAAAAFzcgAXamF2YS51dGlsLkxpbmtlZEhhc2hNYXA0wE5cEGzA+wIAAVoAC2FjY2Vzc09yZGVyeHIAEWphdmEudXRpbC5IYXNoTWFwBQfawcMWYNEDAAJGAApsb2FkRmFjdG9ySQAJdGhyZXNob2xkeHA/QAAAAAAADHcIAAAAEAAAAANxAH4AInQACHRleHR1cmVzdAAFdmFsdWV0AZxld29nSUNKMGFXMWxjM1JoYlhBaUlEb2dNVGN5TWpNME1EUTJNalkzTUN3S0lDQWljSEp2Wm1sc1pVbGtJaUE2SUNJME1USTRNR1ZqTmpBd1l6azBaREZtT1dJMk5UYzJOelExT1dVd05EQXhaaUlzQ2lBZ0luQnliMlpwYkdWT1lXMWxJaUE2SUNKQmJXRjZhVzVuUVNJc0NpQWdJbk5wWjI1aGRIVnlaVkpsY1hWcGNtVmtJaUE2SUhSeWRXVXNDaUFnSW5SbGVIUjFjbVZ6SWlBNklIc0tJQ0FnSUNKVFMwbE9JaUE2SUhzS0lDQWdJQ0FnSW5WeWJDSWdPaUFpYUhSMGNEb3ZMM1JsZUhSMWNtVnpMbTFwYm1WamNtRm1kQzV1WlhRdmRHVjRkSFZ5WlM4M016RXhNamM0TldZMk5HUTRNVFF4TURNNU16RTFNRFZoWTJVd01EQTBPR013T0Rjek16YzNPRFUxTlRCak9UbGhOamMwTkRsak16a3lZak01TnpjeUlnb2dJQ0FnZlFvZ0lIMEtmUT09dAAJc2lnbmF0dXJldAKsVEpoR2FmL2tzQjJJVXE3ZkUrSUkzQ0EvMGQ5MU9KL0NhcS96azMvVGdsK1BJM0NQeHlKK1ZvdFpvZWZEYTRtUGlXNWJOank5NGM3L21QRWN1WFpKVVFSZUV4L0JRTmZyRENpUm9FdWdFMzBOVDhDTDBTaCtpdTkvK1lvTGtUSFV0ZVNuZFBwZTlMYlJzSzQwMnhEV3NTbUFQcVNSZHlUU21OMjhqTi82UW5sMzI5K3NWbHlKTWVEZjluamxYRnp2Z3JrNjRoUlRCK3JCZU9uL25qamE2UVNjVnBmQUpjZy9hZ2xGY01NNEV0OVlMdlBTVjV2WVo1UXhEbzFHL1drenk4WGFZME81ZU1CdXZQV3E4VFZ4WVRBUXFlcTNtM0xta1I0c1MrTU5iTmc3VFFFNjhTUDQ5TU5ObUJXM0tqM2dwNmxFNzNRZkFXUmcwVFBPRXhYSklTN1RsZGk1cVlQcGorRDljSng5VGRNYnRIUlA0Qzduc0NuWnJCVXB4RENsbXB4OVBzYlo1VlpwbkltZm9ldmxqeXFtS2gwWHBzM1JwZE1tNjk4a1JWQUk3Qzd6Yi8wNVpjQ3N1ekRpL1FoMlJoaDFaY2lXQXhZazljeEdwb2YzU04xU1ppMGdrVmpXY0dJNlNNRm9GNVQveWlhaFpsVlppdzE3VU5kMlQza2xvUWhyajFvWkFURVh6Yk1GR1lnY3drY0VQNElPNjRvK2dhWFM3WVRidEZJVUxRZTJHRTN3R0hTL2JnM2lPblhZa0hncG5lRlBBQXVVQ0hiZHRWYktmNjUyVDNiK2E5MHpRcWI0Z1B4M0lWLzVwMG1HbWc4dm5kNzBLR1lnQ3FOdWZQbHZpSmxjNEhENlhJcm84S1A2RnFzMUxXUGpGSEttQmtlL0RzVy93NGM9eAB4");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
     public static final SlimefunItemStack NETWORKS_EXPANSION_SURVIVAL_GUIDE = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_SURVIVAL_GUIDE",
             new ItemStack(Material.ENCHANTED_BOOK),
@@ -69,7 +39,6 @@ public class ExpansionItemStacks {
             "网络拓展指南 (作弊模式)",
             ""
     );
-
     // Workbench
     public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH = Theme.Random(
             "NTW_EXPANSION_WORKBENCH",
@@ -78,7 +47,6 @@ public class ExpansionItemStacks {
             "网络拓展工作台",
             "可以合成网络拓展的各种材料和机器"
     );
-
     public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH_6X6 = Theme.Random(
             "NTW_EXPANSION_WORKBENCH_6X6",
             new ItemStack(Material.LAPIS_BLOCK),
@@ -104,7 +72,6 @@ public class ExpansionItemStacks {
             "仅管理员可用",
             "右键查看网络中物品的详细信息"
     );
-
     // Advanced Networks Machines
     public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
             "NTW_EXPANSION_ADVANCED_IMPORT",
@@ -166,7 +133,6 @@ public class ExpansionItemStacks {
             "",
             MessageFormat.format("{0}容量: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, Integer.MAX_VALUE)
     );
-
     public static final SlimefunItemStack NETWORK_INPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
             "NTW_INPUT_ONLY_MONITOR",
             new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS),
@@ -182,7 +148,6 @@ public class ExpansionItemStacks {
             "网络 - 量子存储",
             TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
     );
-
     public static final SlimefunItemStack NETWORK_OUTPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
             "NTW_OUTPUT_ONLY_MONITOR",
             new ItemStack(Material.GRAY_STAINED_GLASS),
@@ -198,7 +163,6 @@ public class ExpansionItemStacks {
             "网络 - 量子存储",
             TextUtil.colorPseudorandomString("网络拓展 - 网络抽屉")
     );
-
     // Transfers
     public static final SlimefunItemStack LINE_TRANSFER_PUSHER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_PUSHER",
@@ -556,7 +520,6 @@ public class ExpansionItemStacks {
             "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位",
             "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
     );
-
     public static final SlimefunItemStack SMART_GRABBER = Theme.Random(
             "NTW_EXPANSION_SMART_GRABBER",
             new ItemStack(Material.END_ROD),
@@ -564,7 +527,6 @@ public class ExpansionItemStacks {
             "智能抓取器",
             "即放即用"
     );
-
     public static final SlimefunItemStack SMART_PUSHER = Theme.Random(
             "NTW_EXPANSION_SMART_PUSHER",
             new ItemStack(Material.LIGHTNING_ROD),
@@ -572,7 +534,6 @@ public class ExpansionItemStacks {
             "智能推送器",
             "即放即用"
     );
-
     // Grid
     public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE = Theme.Random(
             "NTW_EXPANSION_GRID_NEW_STYLE",
@@ -1624,414 +1585,6 @@ public class ExpansionItemStacks {
             "请注意设置数量之后不能在设置小于之前设置的数量",
             "否则清空到当前最大容量"
     );
-    public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
-            "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",
-            new ItemStack(Material.BONE),
-            Theme.MACHINE,
-            "货运节点快配工具",
-            "&a右键: 设置指向货运节点的配置",
-            "&e下蹲+右键: 从指向的货运节点加载配置",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE = Theme.Random(
-            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
-            new ItemStack(Material.CARTOGRAPHY_TABLE),
-            Theme.MACHINE,
-            "网络抽屉升级台",
-            "&e用于升级网络抽屉",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 I",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.TINY.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.TINY.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 II",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MINI.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MINI.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 III",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.SMALL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.SMALL.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 IV",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MEDIUM.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MEDIUM.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 V",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.LARGE.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.LARGE.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 VI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ENHANCED.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ENHANCED.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 VII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ADVANCED.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ADVANCED.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 VIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.EXTRA.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.EXTRA.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 IX",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ULTRA.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ULTRA.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 X",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_BASIC.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_BASIC.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 XI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_INTERMEDIATE.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_INTERMEDIATE.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 XII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_ADVANCED.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_ADVANCED.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
-            new ItemStack(Material.CHISELED_BOOKSHELF),
-            Theme.MACHINE,
-            "网络抽屉 XIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_MAX.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_MAX.getEachMaxSize() + " 个",
-            "",
-            thanks,
-            ""
-    );
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
-            Skins.CARGO_STORAGE_UNIT_1_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 I",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.TINY_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.TINY_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
-            Skins.CARGO_STORAGE_UNIT_2_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 II",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MINI_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MINI_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
-            Skins.CARGO_STORAGE_UNIT_3_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 III",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.SMALL_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.SMALL_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
-            Skins.CARGO_STORAGE_UNIT_4_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 IV",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.MEDIUM_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MEDIUM_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
-            Skins.CARGO_STORAGE_UNIT_5_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 V",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.LARGE_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.LARGE_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
-            Skins.CARGO_STORAGE_UNIT_6_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 VI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ENHANCED_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ENHANCED_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
-            Skins.CARGO_STORAGE_UNIT_7_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 VII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ADVANCED_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ADVANCED_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
-            Skins.CARGO_STORAGE_UNIT_8_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 VIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.EXTRA_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.EXTRA_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
-            Skins.CARGO_STORAGE_UNIT_9_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 IX",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.ULTRA_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ULTRA_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
-            Skins.CARGO_STORAGE_UNIT_10_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 X",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_BASIC_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_BASIC_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
-            Skins.CARGO_STORAGE_UNIT_11_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 XI",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
-            Skins.CARGO_STORAGE_UNIT_12_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 XII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_ADVANCED_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_ADVANCED_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-
-
-    public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
-            "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
-            Skins.CARGO_STORAGE_UNIT_13_MODEL.getPlayerHead(),
-            Theme.MACHINE,
-            "网络抽屉 XIII",
-            "&6支持网络快速输入/输出",
-            "",
-            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_MAX_MODEL.getMaxItemCount() + " 种物品",
-            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_MAX_MODEL.getEachMaxSize() + " 个",
-            "",
-            "&7⇨ &e需要网络扳手才能拆除模型方块",
-            "",
-            thanks,
-            ""
-    );
-    public static SlimefunItemStack ITEM_MOVER = Theme.themedSlimefunItemStack(
-            "NTW_EXPANSION_ITEM_MOVER",
-            new ItemStack(Material.DEBUG_STICK),
-            Theme.TOOL,
-            "&6物品转移棒",
-            "Right-click on a storage to move items into this stick",
-            "Shift+Right-click to move item in this stick into a storage"
-    );
-    public static SlimefunItemStack NETWORK_BLUEPRINT_DECODER = Theme.themedSlimefunItemStack(
-            "NTW_EXPANSION_BLUEPRINT_DECODER",
-            new ItemStack(Material.DEEPSLATE_TILES),
-            Theme.MACHINE,
-            "&6网络蓝图解码器",
-            "解码网络蓝图",
-            ""
-    );
     public static final SlimefunItemStack LINE_POWER_OUTLET_1 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_1",
             new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
@@ -2142,6 +1695,8 @@ public class ExpansionItemStacks {
             "",
             MessageFormat.format("{0}可存储: {1}{2}J", Theme.CLICK_INFO, Theme.PASSIVE, NetworkQuantumStorage.getSizes()[10])
     );
+    private static final String thanks = "&x&c&c&8&c&f&4&l魔&x&c&b&9&7&f&5&l芋&x&c&a&a&3&f&6&l粘&x&c&9&a&e&f&7&l液&x&c&8&b&9&f&8&l科&x&c&7&c&5&f&9&l技&x&c&5&d&0&f&9&l服&x&c&4&d&b&f&a&l务&x&c&3&e&6&f&b&l器&x&c&2&f&2&f&c&l提&x&c&1&f&d&f&d&l供";
+    public static ItemStack SEFIRAAT_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
     public static final SlimefunItemStack AUTHOR_SEFIRAAT = Theme.Random(
             "NETWORKS_AUTHOR_SEFIRAAT",
             SEFIRAAT_ITEMSTACK,
@@ -2149,7 +1704,7 @@ public class ExpansionItemStacks {
             "Sefiraat",
             "Networks' author"
     );
-
+    public static ItemStack YBW0014_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
     public static final SlimefunItemStack AUTHOR_YBW0014 = Theme.Random(
             "NETWORKS_CHINESE_LOCALIZATION_AUTHOR_YBW0014",
             YBW0014_ITEMSTACK,
@@ -2157,6 +1712,7 @@ public class ExpansionItemStacks {
             "ybw0014",
             "Networks Chinese Localization's author"
     );
+    public static ItemStack YITOUDAIDAI_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
     public static final SlimefunItemStack AUTHOR_YITOUDAIDAI = Theme.Random(
             "NETWORKS_EXPANSION_AUTHOR_YITOUDAIDAI",
             YITOUDAIDAI_ITEMSTACK,
@@ -2164,6 +1720,7 @@ public class ExpansionItemStacks {
             "yitoudaidai",
             "NetworksExpansion's author"
     );
+    public static ItemStack TINALNESS_ITEMSTACK = ItemStackUtil.getCleanItem(new CustomItemStack(Material.PLAYER_HEAD));
     public static final SlimefunItemStack AUTHOR_TINALNESS = Theme.Random(
             "NETWORKS_EXPANSION_AUTHOR_TINALNESS",
             TINALNESS_ITEMSTACK,
@@ -2171,6 +1728,430 @@ public class ExpansionItemStacks {
             "tinalness",
             "NetworksExpansion's author"
     );
+    public static SlimefunItemStack CARGO_NODE_QUICK_TOOL = Theme.Random(
+            "NTW_EXPANSION_CARGO_NODE_QUICK_TOOL",
+            new ItemStack(Material.BONE),
+            Theme.MACHINE,
+            "货运节点快配工具",
+            "&a右键: 设置指向货运节点的配置",
+            "&e下蹲+右键: 从指向的货运节点加载配置",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE = Theme.Random(
+            "NTW_EXPANSION_STORAGE_UPGRADE_TABLE",
+            new ItemStack(Material.CARTOGRAPHY_TABLE),
+            Theme.MACHINE,
+            "网络抽屉升级台",
+            "&e用于升级网络抽屉",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 I",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.TINY.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.TINY.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 II",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.MINI.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MINI.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 III",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.SMALL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.SMALL.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 IV",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.MEDIUM.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MEDIUM.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 V",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.LARGE.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.LARGE.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 VI",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.ENHANCED.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ENHANCED.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 VII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.ADVANCED.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ADVANCED.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 VIII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.EXTRA.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.EXTRA.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 IX",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.ULTRA.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ULTRA.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 X",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_BASIC.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_BASIC.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 XI",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_INTERMEDIATE.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_INTERMEDIATE.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 XII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_ADVANCED.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_ADVANCED.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
+            new ItemStack(Material.CHISELED_BOOKSHELF),
+            Theme.MACHINE,
+            "网络抽屉 XIII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_MAX.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_MAX.getEachMaxSize() + " 个",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_1",
+            Skins.CARGO_STORAGE_UNIT_1_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 I",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.TINY_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.TINY_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_2_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_2",
+            Skins.CARGO_STORAGE_UNIT_2_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 II",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.MINI_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MINI_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_3_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_3",
+            Skins.CARGO_STORAGE_UNIT_3_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 III",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.SMALL_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.SMALL_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_4_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_4",
+            Skins.CARGO_STORAGE_UNIT_4_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 IV",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.MEDIUM_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.MEDIUM_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_5_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_5",
+            Skins.CARGO_STORAGE_UNIT_5_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 V",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.LARGE_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.LARGE_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_6_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_6",
+            Skins.CARGO_STORAGE_UNIT_6_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 VI",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.ENHANCED_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ENHANCED_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_7_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_7",
+            Skins.CARGO_STORAGE_UNIT_7_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 VII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.ADVANCED_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ADVANCED_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_8_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_8",
+            Skins.CARGO_STORAGE_UNIT_8_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 VIII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.EXTRA_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.EXTRA_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_9_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_9",
+            Skins.CARGO_STORAGE_UNIT_9_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 IX",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.ULTRA_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.ULTRA_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_10_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_10",
+            Skins.CARGO_STORAGE_UNIT_10_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 X",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_BASIC_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_BASIC_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_11_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_11",
+            Skins.CARGO_STORAGE_UNIT_11_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 XI",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_INTERMEDIATE_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_12_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_12",
+            Skins.CARGO_STORAGE_UNIT_12_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 XII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_ADVANCED_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_ADVANCED_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack CARGO_STORAGE_UNIT_13_MODEL = Theme.model(
+            "NTW_EXPANSION_CARGO_STORAGE_UNIT_13",
+            Skins.CARGO_STORAGE_UNIT_13_MODEL.getPlayerHead(),
+            Theme.MACHINE,
+            "网络抽屉 XIII",
+            "&6支持网络快速输入/输出",
+            "",
+            "&7⇨ &e可储存 " + StorageUnitType.END_GAME_MAX_MODEL.getMaxItemCount() + " 种物品",
+            "&7⇨ &e每种物品可容纳 " + StorageUnitType.END_GAME_MAX_MODEL.getEachMaxSize() + " 个",
+            "",
+            "&7⇨ &e需要网络扳手才能拆除模型方块",
+            "",
+            thanks,
+            ""
+    );
+    public static SlimefunItemStack ITEM_MOVER = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_ITEM_MOVER",
+            new ItemStack(Material.DEBUG_STICK),
+            Theme.TOOL,
+            "&6物品转移棒",
+            "Right-click on a storage to move items into this stick",
+            "Shift+Right-click to move item in this stick into a storage"
+    );
+    public static SlimefunItemStack NETWORK_BLUEPRINT_DECODER = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_BLUEPRINT_DECODER",
+            new ItemStack(Material.DEEPSLATE_TILES),
+            Theme.MACHINE,
+            "&6网络蓝图解码器",
+            "解码网络蓝图",
+            ""
+    );
+
+    static {
+        try {
+            SEFIRAAT_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACaeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgU2VmaXJhYXQifV0sInRleHQiOiIifXNxAH4ADgAAAANzcQB+AABzcQB+AAN1cQB+AAYAAAAEcQB+AAh0AAh1bmlxdWVJZHQABG5hbWV0AApwcm9wZXJ0aWVzdXEAfgAGAAAABHQADVBsYXllclByb2ZpbGV0ACQ0ZDY1MDllMi1kYTEyLTQyYTctOTk2YS01NjhiYWU0MTdmN2J0AAhTZWZpcmFhdHNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAABc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAADcQB+ACJ0AAh0ZXh0dXJlc3QABXZhbHVldAGcZXdvZ0lDSjBhVzFsYzNSaGJYQWlJRG9nTVRjeU1qTTBNRE16TmpFeU1Dd0tJQ0FpY0hKdlptbHNaVWxrSWlBNklDSTBaRFkxTURsbE1tUmhNVEkwTW1FM09UazJZVFUyT0dKaFpUUXhOMlkzWWlJc0NpQWdJbkJ5YjJacGJHVk9ZVzFsSWlBNklDSlRaV1pwY21GaGRDSXNDaUFnSW5OcFoyNWhkSFZ5WlZKbGNYVnBjbVZrSWlBNklIUnlkV1VzQ2lBZ0luUmxlSFIxY21WeklpQTZJSHNLSUNBZ0lDSlRTMGxPSWlBNklIc0tJQ0FnSUNBZ0luVnliQ0lnT2lBaWFIUjBjRG92TDNSbGVIUjFjbVZ6TG0xcGJtVmpjbUZtZEM1dVpYUXZkR1Y0ZEhWeVpTOWlZakkzTWpVNU1qUmxNRGxrTm1Jd1ltUm1OV0ZpT0RZMFpUWXpaamd3WldJNE9EQmlabUUyWm1VeFptRXhOMlk1Wm1SaU5qRmlZekZoWlRFeE1HUmlJZ29nSUNBZ2ZRb2dJSDBLZlE9PXQACXNpZ25hdHVyZXQCrHcraU9VYmpKUUxZRG9rTlU3YVkreVk1cStxMEZodWNoNEI0eW00Y1RqWGJHeEtPUUlaODFaUnhzTDdDR0dCVlVxampJMjFZbDRJaSs3aVBScjFPM1FMbXNlMGN4Tk1iVmxsV3UyZFg4TDlNTEhPUmZSbUp2M0FrVFdKZTlvNXZQb1JvVmtSOHhqbTRNQWJWQ3Rray80eVNKYlZ0UFJPaW96d2NtYm12UWpCRmFSbHIrV3pjeVhxdzkvOVBaL3NYd0hMQXlKRmZRWWdKcklla09JaUR4V1FXeDRDQmNnQUwrQ1NPaTkyRkRUazgyR3JYb01EaUJSRmhuaGdJQnFONSt2TW1leGVsRTJlSk1Pbi80L3FXV2dFY0FKZ2Jja1lQaDRublNoRkFLWnBVdmtwd1k2QS9DWG02bnRmTHcrOStuS3NmaUpRcWtpY0FXckExb21ZVEpPYjR2SmVEcG5EeUZuMVJLb3dnNWdHbjlOMzBRN1ZhRzkrMytReTRHRVh4SjVseTNoWVJzZjkxdFYrRm1GRkpmWTJjZWdVc0h5K0VVOWlBU1pqQ2hSY2tTQVNocmpyR1gxMkJQc2xaemx2Znk2WlNzWFhxNmYzOVhlVm5GbXZENmcyMk9takhLbWc4LzZja1FidkRaSkVoeFlYN0FLanNqaTdQcDl5RU4wRGE4aTFOR0hBdWNVS0hmcVNuNkZ0RTFjNlBmckhOWUVmT3c2eCtCRDJIejlnOFFvSElSRllPekZ3cGJBWkp5NWE4bkNxUWR6Y2hMTGpueG9sU0REZVEzZ1JWUVZPT3ltcFFBMUlXa3lyd3h0ZjFPTndBMVQxSXpGazUwUjdoNkNoWU1ZblRNNGVuakJvWFFtOUxkZEVHZVM3emtiTzZSK2VDVmZ3bmNyQXdnSTJNPXgAeA==");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            YBW0014_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACZeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgeWJ3MDAxNCJ9XSwidGV4dCI6IiJ9c3EAfgAOAAAAA3NxAH4AAHNxAH4AA3VxAH4ABgAAAARxAH4ACHQACHVuaXF1ZUlkdAAEbmFtZXQACnByb3BlcnRpZXN1cQB+AAYAAAAEdAANUGxheWVyUHJvZmlsZXQAJDY1YzA5YjhjLWZjMzktNDNhNS05MTFiLTAxZjQ1NzdkNzRhZnQAB3lidzAwMTRzcgATamF2YS51dGlsLkFycmF5TGlzdHiB0h2Zx2GdAwABSQAEc2l6ZXhwAAAAAXcEAAAAAXNyABdqYXZhLnV0aWwuTGlua2VkSGFzaE1hcDTATlwQbMD7AgABWgALYWNjZXNzT3JkZXJ4cgARamF2YS51dGlsLkhhc2hNYXAFB9rBwxZg0QMAAkYACmxvYWRGYWN0b3JJAAl0aHJlc2hvbGR4cD9AAAAAAAAMdwgAAAAQAAAAA3EAfgAidAAIdGV4dHVyZXN0AAV2YWx1ZXQBmGV3b2dJQ0owYVcxbGMzUmhiWEFpSURvZ01UY3lNak0wTURNd05UZzBNU3dLSUNBaWNISnZabWxzWlVsa0lpQTZJQ0kyTldNd09XSTRZMlpqTXprME0yRTFPVEV4WWpBeFpqUTFOemRrTnpSaFppSXNDaUFnSW5CeWIyWnBiR1ZPWVcxbElpQTZJQ0o1WW5jd01ERTBJaXdLSUNBaWMybG5ibUYwZFhKbFVtVnhkV2x5WldRaUlEb2dkSEoxWlN3S0lDQWlkR1Y0ZEhWeVpYTWlJRG9nZXdvZ0lDQWdJbE5MU1U0aUlEb2dld29nSUNBZ0lDQWlkWEpzSWlBNklDSm9kSFJ3T2k4dmRHVjRkSFZ5WlhNdWJXbHVaV055WVdaMExtNWxkQzkwWlhoMGRYSmxMemd5WVRWak9HUmxNemRrTVdFME9HWTBNVEExTTJJNFkyTXlZV0poWldNM09XWm1ZbVl3Wm1NeE1UUTJOR0l5T1RCaU1EVTNaR1F4WkRGa016Z3pOMlVpQ2lBZ0lDQjlDaUFnZlFwOXQACXNpZ25hdHVyZXQCrERINmpXTVpvb1NMdzVTNU41S2hBRXBqb2RrTExwMHZtbzY4cVUyL2t2ODVMbzExd0pwaEpMdUUySkp3WkVEdlpFZGNzeEgwYlY4N1BnUVVaTHAwWTNCaVNZSTVZczRqSWZUVUU1MmFhblZTdEF0VU1oNVRZUDlHRkZzVVVqSlFFODY5OEZnKzlZKzhDY3E5bHplQW9GMEtzbTgzM1FuT2diUlJpRmhaUHQ0VFp6alpMWXJwTHp0WGl6blIrajFUaWRobkVuT1A3WFZSeWlkckE4VmhtZklGWU13VzlnMTErYTlOV0wrZGUzejY3cjA3TlFoY0pHdVl6VXFKRVZQNFNwSUZYaTMzM1YxRTZTMjMrakV4K081RHd3enVZNlMyMlhFTVgrZmJTMHRpMTJ0Nzh4TWJ1V2dGV3k1SHZ4YjZJTmxoenFmRUQwNUtlb2M2NEMrWWErSzFieGVXRGQyOGpESlFnS1h5Z2xlZFV3Y21Ia1lMV0Z0OXkwOEV6WlJnYUZJekxWbFJjdlFMTWR4aGpyQ2tRUFFUYlFEcTZFc0RQbm91UklKQU14S0JETlBJNHNTZlh2cnJRMUkrVU03bG5RVXlZUTdXdG5tL2M4bHN5S3ZHdUxpZ2RWdEVmbnE0Yk9KMjF4VXZhVjEwNHNLdlYvMEJiTVFWVVArZ1M3ZkNSWUR5UWsvNHpDeVZpSjdaT2lBbkxncmQ3d3daSmxUZ1F4bXp3dWhhdWFIM3owNmVYVHR3MU5RUW8xRkM1S3I5MUxnek1nckF3OHhSMUlpZWRpclg1UEJzWUtRR3hQb1BQcmN3ckFmdXlRbDNwWWltazZFNzdwYlFUSGRIa3grNUhnOGhzQjFSZXJUS3pIaEhtMDhSVHRIbDBvTzdUaUptOGo4akloM1ZKV1JnPXgAeA==");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            YITOUDAIDAI_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACdeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgeWl0b3VkYWlkYWkifV0sInRleHQiOiIifXNxAH4ADgAAAANzcQB+AABzcQB+AAN1cQB+AAYAAAADcQB+AAh0AAh1bmlxdWVJZHQABG5hbWV1cQB+AAYAAAADdAANUGxheWVyUHJvZmlsZXQAJDJkMGMyMTQxLTRjMGItMzMxYy1hNDU2LWE5YjVhMjVlYjI1OHQAC3lpdG91ZGFpZGFp");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            TINALNESS_ITEMSTACK = getItemStack("rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA2JdAALUExBWUVSX0hFQURzcQB+AABzcQB+AAN1cQB+AAYAAAAFcQB+AAh0AAltZXRhLXR5cGV0AAxkaXNwbGF5LW5hbWV0AAZEYW1hZ2V0AAtza3VsbC1vd25lcnVxAH4ABgAAAAV0AAhJdGVtTWV0YXQABVNLVUxMdACbeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoiU2t1bGwgb2YgdGluYWxuZXNzIn1dLCJ0ZXh0IjoiIn1zcQB+AA4AAAADc3EAfgAAc3EAfgADdXEAfgAGAAAABHEAfgAIdAAIdW5pcXVlSWR0AARuYW1ldAAKcHJvcGVydGllc3VxAH4ABgAAAAR0AA1QbGF5ZXJQcm9maWxldAAkZTg5YmMwYjUtZDYyNC0zZGIzLWEzNmUtYmM3YzdjMjM2ZjRldAAJdGluYWxuZXNzc3IAE2phdmEudXRpbC5BcnJheUxpc3R4gdIdmcdhnQMAAUkABHNpemV4cAAAAAF3BAAAAAFzcgAXamF2YS51dGlsLkxpbmtlZEhhc2hNYXA0wE5cEGzA+wIAAVoAC2FjY2Vzc09yZGVyeHIAEWphdmEudXRpbC5IYXNoTWFwBQfawcMWYNEDAAJGAApsb2FkRmFjdG9ySQAJdGhyZXNob2xkeHA/QAAAAAAADHcIAAAAEAAAAANxAH4AInQACHRleHR1cmVzdAAFdmFsdWV0AZxld29nSUNKMGFXMWxjM1JoYlhBaUlEb2dNVGN5TWpNME1EUTJNalkzTUN3S0lDQWljSEp2Wm1sc1pVbGtJaUE2SUNJME1USTRNR1ZqTmpBd1l6azBaREZtT1dJMk5UYzJOelExT1dVd05EQXhaaUlzQ2lBZ0luQnliMlpwYkdWT1lXMWxJaUE2SUNKQmJXRjZhVzVuUVNJc0NpQWdJbk5wWjI1aGRIVnlaVkpsY1hWcGNtVmtJaUE2SUhSeWRXVXNDaUFnSW5SbGVIUjFjbVZ6SWlBNklIc0tJQ0FnSUNKVFMwbE9JaUE2SUhzS0lDQWdJQ0FnSW5WeWJDSWdPaUFpYUhSMGNEb3ZMM1JsZUhSMWNtVnpMbTFwYm1WamNtRm1kQzV1WlhRdmRHVjRkSFZ5WlM4M016RXhNamM0TldZMk5HUTRNVFF4TURNNU16RTFNRFZoWTJVd01EQTBPR013T0Rjek16YzNPRFUxTlRCak9UbGhOamMwTkRsak16a3lZak01TnpjeUlnb2dJQ0FnZlFvZ0lIMEtmUT09dAAJc2lnbmF0dXJldAKsVEpoR2FmL2tzQjJJVXE3ZkUrSUkzQ0EvMGQ5MU9KL0NhcS96azMvVGdsK1BJM0NQeHlKK1ZvdFpvZWZEYTRtUGlXNWJOank5NGM3L21QRWN1WFpKVVFSZUV4L0JRTmZyRENpUm9FdWdFMzBOVDhDTDBTaCtpdTkvK1lvTGtUSFV0ZVNuZFBwZTlMYlJzSzQwMnhEV3NTbUFQcVNSZHlUU21OMjhqTi82UW5sMzI5K3NWbHlKTWVEZjluamxYRnp2Z3JrNjRoUlRCK3JCZU9uL25qamE2UVNjVnBmQUpjZy9hZ2xGY01NNEV0OVlMdlBTVjV2WVo1UXhEbzFHL1drenk4WGFZME81ZU1CdXZQV3E4VFZ4WVRBUXFlcTNtM0xta1I0c1MrTU5iTmc3VFFFNjhTUDQ5TU5ObUJXM0tqM2dwNmxFNzNRZkFXUmcwVFBPRXhYSklTN1RsZGk1cVlQcGorRDljSng5VGRNYnRIUlA0Qzduc0NuWnJCVXB4RENsbXB4OVBzYlo1VlpwbkltZm9ldmxqeXFtS2gwWHBzM1JwZE1tNjk4a1JWQUk3Qzd6Yi8wNVpjQ3N1ekRpL1FoMlJoaDFaY2lXQXhZazljeEdwb2YzU04xU1ppMGdrVmpXY0dJNlNNRm9GNVQveWlhaFpsVlppdzE3VU5kMlQza2xvUWhyajFvWkFURVh6Yk1GR1lnY3drY0VQNElPNjRvK2dhWFM3WVRidEZJVUxRZTJHRTN3R0hTL2JnM2lPblhZa0hncG5lRlBBQXVVQ0hiZHRWYktmNjUyVDNiK2E5MHpRcWI0Z1B4M0lWLzVwMG1HbWc4dm5kNzBLR1lnQ3FOdWZQbHZpSmxjNEhENlhJcm84S1A2RnFzMUxXUGpGSEttQmtlL0RzVy93NGM9eAB4");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static ItemStack getItemStack(String base64Str) throws IOException, ClassNotFoundException {
         ByteArrayInputStream stream = new ByteArrayInputStream(Base64Coder.decodeLines(base64Str));

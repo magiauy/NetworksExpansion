@@ -228,35 +228,35 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.COMPRESSOR_BLUEPRINT
     );
-    
+
     public static final GrindStoneBlueprint GRIND_STONE_BLUEPRINT = new GrindStoneBlueprint(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.GRIND_STONE_BLUEPRINT,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.GRIND_STONE_BLUEPRINT
     );
-    
+
     public static final JuicerBlueprint JUICER_BLUEPRINT = new JuicerBlueprint(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.JUICER_BLUEPRINT,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.JUICER_BLUEPRINT
     );
-    
+
     public static final OreCrusherBlueprint ORE_CRUSHER_BLUEPRINT = new OreCrusherBlueprint(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.ORE_CRUSHER_BLUEPRINT,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ORE_CRUSHER_BLUEPRINT
     );
-    
+
     public static final PressureChamberBlueprint PRESSURE_CHAMBER_BLUEPRINT = new PressureChamberBlueprint(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.PRESSURE_CHAMBER_BLUEPRINT,
-            ExpansionWorkbench.TYPE,            
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.PRESSURE_CHAMBER_BLUEPRINT
     );
-    
+
     // Encoders
     public static final MagicWorkbenchEncoder MAGIC_WORKBENCH_RECIPE_ENCODER = new MagicWorkbenchEncoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
@@ -299,35 +299,35 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.EXPANSION_WORKBENCH_RECIPE_ENCODER
     );
-    
+
     public static final CompressorEncoder COMPRESSOR_RECIPE_ENCODER = new CompressorEncoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.COMPRESSOR_RECIPE_ENCODER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.COMPRESSOR_RECIPE_ENCODER
     );
-    
+
     public static final GrindStoneEncoder GRIND_STONE_RECIPE_ENCODER = new GrindStoneEncoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.GRIND_STONE_RECIPE_ENCODER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.GRIND_STONE_RECIPE_ENCODER
     );
-    
+
     public static final JuicerEncoder JUICER_RECIPE_ENCODER = new JuicerEncoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.JUICER_RECIPE_ENCODER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.JUICER_RECIPE_ENCODER
     );
-    
+
     public static final OreCrusherEncoder ORE_CRUSHER_RECIPE_ENCODER = new OreCrusherEncoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ORE_CRUSHER_RECIPE_ENCODER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ORE_CRUSHER_RECIPE_ENCODER
     );
-    
+
     public static final PressureChamberEncoder PRESSURE_CHAMBER_RECIPE_ENCODER = new PressureChamberEncoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.PRESSURE_CHAMBER_RECIPE_ENCODER,
@@ -442,7 +442,7 @@ public class ExpansionItems {
             128,
             true
     );
-    
+
     public static final AutoCompressor AUTO_COMPRESSOR = new AutoCompressor(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_COMPRESSOR,
@@ -451,7 +451,7 @@ public class ExpansionItems {
             64,
             false
     );
-    
+
     public static final AutoCompressor AUTO_COMPRESSOR_WITHHOLDING = new AutoCompressor(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_COMPRESSOR_WITHHOLDING,
@@ -460,7 +460,7 @@ public class ExpansionItems {
             128,
             true
     );
-    
+
     public static final AutoGrindStone AUTO_GRIND_STONE = new AutoGrindStone(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_GRIND_STONE,
@@ -469,7 +469,7 @@ public class ExpansionItems {
             64,
             false
     );
-    
+
     public static final AutoGrindStone AUTO_GRIND_STONE_WITHHOLDING = new AutoGrindStone(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_GRIND_STONE_WITHHOLDING,
@@ -478,7 +478,7 @@ public class ExpansionItems {
             128,
             true
     );
-    
+
     public static final AutoJuicer AUTO_JUICER = new AutoJuicer(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_JUICER,
@@ -487,7 +487,7 @@ public class ExpansionItems {
             64,
             false
     );
-    
+
     public static final AutoJuicer AUTO_JUICER_WITHHOLDING = new AutoJuicer(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_JUICER_WITHHOLDING,
@@ -496,7 +496,7 @@ public class ExpansionItems {
             128,
             true
     );
-    
+
     public static final AutoOreCrusher AUTO_ORE_CRUSHER = new AutoOreCrusher(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_ORE_CRUSHER,
@@ -505,7 +505,7 @@ public class ExpansionItems {
             64,
             false
     );
-    
+
     public static final AutoOreCrusher AUTO_ORE_CRUSHER_WITHHOLDING = new AutoOreCrusher(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_ORE_CRUSHER_WITHHOLDING,
@@ -514,7 +514,7 @@ public class ExpansionItems {
             128,
             true
     );
-    
+
     public static final AutoPressureChamber AUTO_PRESSURE_CHAMBER = new AutoPressureChamber(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_PRESSURE_CHAMBER,
@@ -523,7 +523,7 @@ public class ExpansionItems {
             64,
             false
     );
-    
+
     public static final AutoPressureChamber AUTO_PRESSURE_CHAMBER_WITHHOLDING = new AutoPressureChamber(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.AUTO_PRESSURE_CHAMBER_WITHHOLDING,
@@ -659,7 +659,7 @@ public class ExpansionItems {
             1280,
             true
     );
-    
+
     public static final AdvancedAutoCompressor ADVANCED_AUTO_COMPRESSOR = new AdvancedAutoCompressor(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_COMPRESSOR,
@@ -668,7 +668,7 @@ public class ExpansionItems {
             640,
             false
     );
-    
+
     public static final AdvancedAutoCompressor ADVANCED_AUTO_COMPRESSOR_WITHHOLDING = new AdvancedAutoCompressor(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_COMPRESSOR_WITHHOLDING,
@@ -677,16 +677,16 @@ public class ExpansionItems {
             1280,
             true
     );
-    
+
     public static final AdvancedAutoGrindStone ADVANCED_AUTO_GRIND_STONE = new AdvancedAutoGrindStone(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
-            ExpansionItemStacks.ADVANCED_AUTO_GRIND_STONE,            
+            ExpansionItemStacks.ADVANCED_AUTO_GRIND_STONE,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ADVANCED_AUTO_GRIND_STONE,
             640,
             false
     );
-    
+
     public static final AdvancedAutoGrindStone ADVANCED_AUTO_GRIND_STONE_WITHHOLDING = new AdvancedAutoGrindStone(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_GRIND_STONE_WITHHOLDING,
@@ -695,7 +695,7 @@ public class ExpansionItems {
             1280,
             true
     );
-    
+
     public static final AdvancedAutoJuicer ADVANCED_AUTO_JUICER = new AdvancedAutoJuicer(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_JUICER,
@@ -704,7 +704,7 @@ public class ExpansionItems {
             640,
             false
     );
-    
+
     public static final AdvancedAutoJuicer ADVANCED_AUTO_JUICER_WITHHOLDING = new AdvancedAutoJuicer(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_JUICER_WITHHOLDING,
@@ -713,7 +713,7 @@ public class ExpansionItems {
             1280,
             true
     );
-    
+
     public static final AdvancedAutoOreCrusher ADVANCED_AUTO_ORE_CRUSHER = new AdvancedAutoOreCrusher(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_ORE_CRUSHER,
@@ -722,7 +722,7 @@ public class ExpansionItems {
             640,
             false
     );
-    
+
     public static final AdvancedAutoOreCrusher ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING = new AdvancedAutoOreCrusher(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING,
@@ -731,7 +731,7 @@ public class ExpansionItems {
             1280,
             true
     );
-    
+
     public static final AdvancedAutoPressureChamber ADVANCED_AUTO_PRESSURE_CHAMBER = new AdvancedAutoPressureChamber(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_PRESSURE_CHAMBER,
@@ -740,7 +740,7 @@ public class ExpansionItems {
             640,
             false
     );
-    
+
     public static final AdvancedAutoPressureChamber ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING = new AdvancedAutoPressureChamber(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING,
@@ -749,7 +749,7 @@ public class ExpansionItems {
             1280,
             true
     );
-    
+
     // Transfer
     public static final LineTransferPusher LINE_TRANSFER_PUSHER = new LineTransferPusher(
             ExpansionItemsMenus.MENU_CARGO_SYSTEM,

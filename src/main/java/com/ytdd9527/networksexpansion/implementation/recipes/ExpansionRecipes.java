@@ -1,7 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.recipes;
 
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
-import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
 import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import org.bukkit.Material;
@@ -594,12 +593,12 @@ public class ExpansionRecipes {
             ExpansionItemStacks.AUTO_PRESSURE_CHAMBER_WITHHOLDING, ExpansionItemStacks.PRESSURE_CHAMBER_RECIPE_ENCODER, ExpansionItemStacks.AUTO_PRESSURE_CHAMBER_WITHHOLDING
     };
 
-    public static final ItemStack[] SMART_GRABBER = new ItemStack[] {
+    public static final ItemStack[] SMART_GRABBER = new ItemStack[]{
             OPTIC_GLASS.getItem(), SIMPLE_NANOBOTS.getItem(), OPTIC_GLASS.getItem(),
             OPTIC_CABLE.getItem(), NETWORK_GRABBER.getItem(), OPTIC_CABLE.getItem(),
             OPTIC_GLASS.getItem(), SIMPLE_NANOBOTS.getItem(), OPTIC_GLASS.getItem()
     };
-    public static final ItemStack[] SMART_PUSHER = new ItemStack[] {
+    public static final ItemStack[] SMART_PUSHER = new ItemStack[]{
             OPTIC_GLASS.getItem(), ADVANCED_NANOBOTS.getItem(), OPTIC_GLASS.getItem(),
             OPTIC_CABLE.getItem(), NETWORK_PUSHER.getItem(), OPTIC_CABLE.getItem(),
             OPTIC_GLASS.getItem(), ADVANCED_NANOBOTS.getItem(), OPTIC_GLASS.getItem()
@@ -870,60 +869,60 @@ public class ExpansionRecipes {
             OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem()
     };
 
-    public static final ItemStack[] ITEM_MOVER = new ItemStack[] {
+    public static final ItemStack[] ITEM_MOVER = new ItemStack[]{
             NETWORK_QUANTUM_STORAGE_8.getItem(), ExpansionItemStacks.CARGO_STORAGE_UNIT_13, NETWORK_QUANTUM_STORAGE_8.getItem(),
             ExpansionItemStacks.CARGO_STORAGE_UNIT_13, new ItemStack(Material.STICK), ExpansionItemStacks.CARGO_STORAGE_UNIT_13,
             NETWORK_QUANTUM_STORAGE_8.getItem(), ExpansionItemStacks.CARGO_STORAGE_UNIT_13, NETWORK_QUANTUM_STORAGE_8.getItem()
     };
-    public static final ItemStack[] NETWORK_BLUEPRINT_DECODER = new ItemStack[] {
+    public static final ItemStack[] NETWORK_BLUEPRINT_DECODER = new ItemStack[]{
             NETWORK_RECIPE_ENCODER.getItem(), NETWORK_RECIPE_ENCODER.getItem(), NETWORK_RECIPE_ENCODER.getItem(),
             NETWORK_RECIPE_ENCODER.getItem(), new ItemStack(Material.DIAMOND), NETWORK_RECIPE_ENCODER.getItem(),
             NETWORK_RECIPE_ENCODER.getItem(), NETWORK_RECIPE_ENCODER.getItem(), NETWORK_RECIPE_ENCODER.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_1 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_1 = new ItemStack[]{
             OPTIC_STAR.getItem(), NETWORK_POWER_OUTLET_1.getItem(), OPTIC_STAR.getItem(),
             NETWORK_POWER_OUTLET_1.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_POWER_OUTLET_1.getItem(),
             OPTIC_STAR.getItem(), NETWORK_POWER_OUTLET_1.getItem(), OPTIC_STAR.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_2 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_2 = new ItemStack[]{
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_1, OPTIC_STAR.getItem(),
             ExpansionItemStacks.LINE_POWER_OUTLET_1, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_1,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_1, OPTIC_STAR.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_3 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_3 = new ItemStack[]{
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_2, OPTIC_STAR.getItem(),
             ExpansionItemStacks.LINE_POWER_OUTLET_2, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_2,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_2, OPTIC_STAR.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_4 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_4 = new ItemStack[]{
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_3, OPTIC_STAR.getItem(),
             ExpansionItemStacks.LINE_POWER_OUTLET_3, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_3,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_3, OPTIC_STAR.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_5 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_5 = new ItemStack[]{
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_4, OPTIC_STAR.getItem(),
             ExpansionItemStacks.LINE_POWER_OUTLET_4, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_4,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_4, OPTIC_STAR.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_6 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_6 = new ItemStack[]{
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_5, OPTIC_STAR.getItem(),
             ExpansionItemStacks.LINE_POWER_OUTLET_5, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_5,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_5, OPTIC_STAR.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_7 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_7 = new ItemStack[]{
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_6, OPTIC_STAR.getItem(),
             ExpansionItemStacks.LINE_POWER_OUTLET_6, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_6,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_6, OPTIC_STAR.getItem()
     };
 
-    public static final ItemStack[] LINE_POWER_OUTLET_8 = new ItemStack[] {
+    public static final ItemStack[] LINE_POWER_OUTLET_8 = new ItemStack[]{
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_7, OPTIC_STAR.getItem(),
             ExpansionItemStacks.LINE_POWER_OUTLET_7, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_7,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_7, OPTIC_STAR.getItem()

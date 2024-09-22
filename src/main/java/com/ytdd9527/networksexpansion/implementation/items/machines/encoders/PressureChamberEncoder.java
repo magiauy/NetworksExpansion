@@ -1,9 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.encoders;
 
-import com.ytdd9527.networksexpansion.api.helpers.SupportedCompressorRecipes;
 import com.ytdd9527.networksexpansion.api.helpers.SupportedPressureChamberRecipes;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractEncoder;
-import com.ytdd9527.networksexpansion.implementation.items.blueprints.CompressorBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.PressureChamberBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
