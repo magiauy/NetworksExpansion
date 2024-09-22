@@ -118,7 +118,18 @@ public class SetupUtil {
                 ExpansionItems.NETWORK_CAPACITOR_5.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_6.registerThis(),
                 ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis(),
-                ExpansionItems.NETWORK_BLUEPRINT_DECODER.registerThis()
+                ExpansionItems.NETWORK_BLUEPRINT_DECODER.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_1.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_2.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_3.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_4.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_5.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_6.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_7.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_8.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_9.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_10.registerThis(),
+                ExpansionItems.LINE_POWER_OUTLET_11.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
                 ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),

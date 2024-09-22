@@ -4,7 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
-import com.ytdd9527.networksexpansion.utils.TransferUtil;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -169,8 +169,8 @@ public class AdvancedTransferPusher extends AdvancedDirectional implements Recip
             }
         }
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, 1, false, (targetMenu) -> {
-            TransferUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, (targetMenu) -> {
+            LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
         });
     }
 

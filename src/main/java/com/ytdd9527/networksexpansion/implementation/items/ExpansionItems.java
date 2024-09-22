@@ -38,6 +38,7 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoPressureChamber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoQuantumWorkbench;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoSmeltery;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.power.power_outlet.line.LinePowerOutlet;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.advanced.AdvancedLineTransfer;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.advanced.AdvancedLineTransferGrabber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.advanced.AdvancedLineTransferPusher;
@@ -1270,14 +1271,91 @@ public class ExpansionItems {
     public static final SpecialSlimefunItem ITEM_MOVER = new ItemMover(
             ExpansionItemsMenus.MENU_ITEMS,
             ExpansionItemStacks.ITEM_MOVER,
-            RecipeType.NULL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.ITEM_MOVER
     );
 
     public static final NetworkBlueprintDecoder NETWORK_BLUEPRINT_DECODER = new NetworkBlueprintDecoder(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.NETWORK_BLUEPRINT_DECODER,
-            RecipeType.NULL,
+            ExpansionWorkbench.TYPE,
             ExpansionRecipes.NETWORK_BLUEPRINT_DECODER
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_1 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_1,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_1
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_2 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_2,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_2
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_3 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_3,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_3
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_4 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_4,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_4
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_5 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_5,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_5
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_6 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_6,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_6
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_7 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_7,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_7
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_8 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_8,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_8
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_9 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_9,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_9
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_10 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_10,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_10
+    );
+
+    public static final LinePowerOutlet LINE_POWER_OUTLET_11 = new LinePowerOutlet(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.LINE_POWER_OUTLET_11,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.LINE_POWER_OUTLET_11
     );
 }

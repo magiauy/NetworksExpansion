@@ -2,11 +2,13 @@ package com.ytdd9527.networksexpansion.utils;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
-import com.ytdd9527.networksexpansion.api.enums.TransportResult;
 import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -20,8 +22,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 @UtilityClass
-public class TransferUtil {
-    public static void doTransport(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, Consumer<BlockMenu> consumer) {
+public class LineOperationUtil {
+    public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, Consumer<BlockMenu> consumer) {
         Block block = startLocation.getBlock();
         for (int i = 0; i < limit; i++) {
             block = block.getRelative(direction);
@@ -38,7 +40,7 @@ public class TransferUtil {
         }
     }
 
-    public static TransportResult grabItem(
+    public static void grabItem(
             @Nonnull NetworkRoot root,
             @Nonnull BlockMenu blockMenu,
             @Nonnull TransportMode transportMode,
@@ -147,7 +149,7 @@ public class TransferUtil {
                 }
             }
         }
-        return TransportResult.CONTINUE;
+        return;
     }
 
     public static void pushItem(
@@ -162,7 +164,7 @@ public class TransferUtil {
         }
     }
 
-    public static TransportResult pushItem(
+    public static void pushItem(
             @Nonnull NetworkRoot root,
             @Nonnull BlockMenu blockMenu,
             @Nonnull ItemStack clone,
@@ -192,7 +194,7 @@ public class TransferUtil {
                     }
                 }
                 if (freeSpace <= 0) {
-                    return TransportResult.CONTINUE;
+                    return;
                 }
                 itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
@@ -267,17 +269,17 @@ public class TransferUtil {
                     itemRequest.setAmount(clone.getMaxStackSize());
                 } else {
                     if (itemStack.getAmount() >= clone.getMaxStackSize()) {
-                        return TransportResult.CONTINUE;
+                        return;
                     }
                     if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                         final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                         if (space > 0) {
                             itemRequest.setAmount(space);
                         } else {
-                            return TransportResult.CONTINUE;
+                            return;
                         }
                     } else {
-                        return TransportResult.CONTINUE;
+                        return;
                     }
                 }
                 itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
@@ -302,17 +304,17 @@ public class TransferUtil {
                     itemRequest.setAmount(clone.getMaxStackSize());
                 } else {
                     if (itemStack.getAmount() >= clone.getMaxStackSize()) {
-                        return TransportResult.CONTINUE;
+                        return;
                     }
                     if (StackUtils.itemsMatch(itemRequest, itemStack)) {
                         final int space = itemStack.getMaxStackSize() - itemStack.getAmount();
                         if (space > 0) {
                             itemRequest.setAmount(space);
                         } else {
-                            return TransportResult.CONTINUE;
+                            return;
                         }
                     } else {
-                        return TransportResult.CONTINUE;
+                        return;
                     }
                 }
                 itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
@@ -347,7 +349,7 @@ public class TransferUtil {
                     }
                 }
                 if (freeSpace <= 0) {
-                    return TransportResult.CONTINUE;
+                    return;
                 }
                 itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
@@ -378,7 +380,7 @@ public class TransferUtil {
                             }
                         }
                         if (freeSpace <= 0) {
-                            return TransportResult.CONTINUE;
+                            return;
                         }
                         itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
@@ -390,6 +392,47 @@ public class TransferUtil {
                 }
             }
         }
-        return TransportResult.CONTINUE;
+    }
+
+    public static void outPower(@Nonnull Location location, @Nonnull NetworkRoot root, int rate) {
+        var blockData = StorageCacheUtils.getBlock(location);
+        if (blockData == null) {
+            return;
+        }
+
+        if (!blockData.isDataLoaded()) {
+            StorageCacheUtils.requestLoad(blockData);
+            return;
+        }
+
+        final SlimefunItem slimefunItem = SlimefunItem.getById(blockData.getSfId());
+        if (!(slimefunItem instanceof EnergyNetComponent component) || slimefunItem instanceof NetworkObject) {
+            return;
+        }
+
+        final String charge = blockData.getData("energy-charge");
+        int chargeInt = 0;
+        if (charge != null) {
+            chargeInt = Integer.parseInt(charge);
+        }
+
+        final int capacity = component.getCapacity();
+        final int space = capacity - chargeInt;
+
+        if (space <= 0) {
+            return;
+        }
+
+        final int possibleGeneration = Math.min(rate, space);
+        final long power = root.getRootPower();
+
+        if (power <= 0) {
+            return;
+        }
+
+        final int gen = power < possibleGeneration ? (int) power : possibleGeneration;
+
+        component.addCharge(location, gen);
+        root.removeRootPower(gen);
     }
 }

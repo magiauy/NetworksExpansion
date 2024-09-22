@@ -130,36 +130,6 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
-    public static void restore(Player p) {
-        Block target = p.getTargetBlockExact(5);
-        if (target == null || target.getType().isAir()) {
-            p.sendMessage(ChatColor.RED + "请指向一个失效的网络抽屉单元");
-            return;
-        }
-        Location l = target.getLocation();
-        SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
-        if (blockData != null) {
-            String id = blockData.getData("containerId");
-            if (id != null) {
-                p.sendMessage(ChatColor.RED + "该单元的数据正常，无需恢复。");
-            }
-        } else {
-            p.sendMessage(ChatColor.GREEN + "正在查询，请稍候...");
-            DataStorage.restoreFromLocation(l, opData -> {
-                if (opData.isPresent()) {
-                    StorageUnitData data = opData.get();
-                    String sfId = ExpansionItemStacks.getStorageItemFromType(data.getSizeType()).getItemId();
-
-                    CargoStorageUnit.addBlockInfo(l, data.getId(), false, false);
-                    Slimefun.getDatabaseManager().getBlockDataController().createBlock(l, sfId);
-                    p.sendMessage(ChatColor.GREEN + "已成功恢复！");
-                } else {
-                    p.sendMessage(ChatColor.RED + "未找到数据。");
-                }
-            });
-        }
-    }
-
     public static void setQuantum(Player player, int amount) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
@@ -702,7 +672,6 @@ public class NetworksMain implements TabExecutor {
             sender.sendMessage(ChatColor.GOLD + "/networks help - 显示此帮助信息.");
             sender.sendMessage(ChatColor.GOLD + "/networks fillquantum <amount> - 填充手持量子存储物品的存储量.");
             sender.sendMessage(ChatColor.GOLD + "/networks fixblueprint <keyInMeta> - 修复手持合成蓝图.");
-            sender.sendMessage(ChatColor.GOLD + "/networks restore - 恢复失效的网络抽屉单元.");
             sender.sendMessage(ChatColor.GOLD + "/networks addstorageitem <amount> - 使看向的网络抽屉中添加物品.");
             sender.sendMessage(ChatColor.GOLD + "/networks reducestorageitem <amount> - 使看向的网络抽屉中减少物品.");
             sender.sendMessage(ChatColor.GOLD + "/networks setquantum <amount> - 设置手持量子存储物品的存储量.");
@@ -725,10 +694,6 @@ public class NetworksMain implements TabExecutor {
             case "fixblueprint" -> {
                 sender.sendMessage(ChatColor.GOLD + "/networks fixBlueprint <keyInMeta> - 修复手持合成蓝图.");
                 sender.sendMessage(ChatColor.GOLD + "ex: /networks fixBlueprint networks-changed");
-            }
-            case "restore" -> {
-                sender.sendMessage(ChatColor.GOLD + "/networks restore - 恢复失效的网络抽屉单元.");
-                sender.sendMessage(ChatColor.GOLD + "ex: /networks restore");
             }
             case "addstorageitem" -> {
                 sender.sendMessage(ChatColor.GOLD + "/networks addStorageItem <amount> - 向指向的货运存储中添加手中物品指定数量.");
@@ -782,7 +747,7 @@ public class NetworksMain implements TabExecutor {
             return true;
         }
         switch (args[0]) {
-            case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "restore", "setcontainerid" -> {
+            case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "setcontainerid" -> {
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(getErrorMessage(ErrorType.MUST_BE_PLAYER));
                     return false;
@@ -848,13 +813,6 @@ public class NetworksMain implements TabExecutor {
                     } else {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "keyInMeta"));
                     }
-                } else {
-                    player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
-                }
-                return true;
-            } else if (args[0].equalsIgnoreCase("restore")) {
-                if ((player.isOp() || player.hasPermission("networks.admin") || player.hasPermission("networks.commands.restore"))) {
-                    restore(player);
                 } else {
                     player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                 }
@@ -1156,7 +1114,6 @@ public class NetworksMain implements TabExecutor {
                     "getStorageItem",
                     "help",
                     "reduceStorageItem",
-                    "restore",
                     "setContainerId",
                     "setQuantum",
                     "updateItem",
@@ -1164,7 +1121,7 @@ public class NetworksMain implements TabExecutor {
             );
         } else if (args.length == 2) {
             return switch (args[0].toLowerCase(Locale.ROOT)) {
-                // case "help", "restore", "updateitem" -> List.of();
+                // case "help", "updateitem" -> List.of();
                 case "getstorageitem" -> List.of("<slot>");
                 case "fillquantum", "addstorageitem", "reducestorageitem", "setquantum" -> List.of("<amount>");
                 case "fixblueprint" -> List.of("<keyInMeta>");

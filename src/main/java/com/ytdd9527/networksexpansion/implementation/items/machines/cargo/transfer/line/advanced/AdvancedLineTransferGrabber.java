@@ -4,7 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
-import com.ytdd9527.networksexpansion.utils.TransferUtil;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -150,8 +150,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
-            TransferUtil.grabItem(root, targetMenu, mode, limitQuantity);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+            LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
         });
     }
 

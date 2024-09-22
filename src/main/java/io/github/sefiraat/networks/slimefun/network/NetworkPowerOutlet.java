@@ -85,9 +85,8 @@ public class NetworkPowerOutlet extends NetworkDirectional {
         }
 
         final int gen = power < possibleGeneration ? (int) power : possibleGeneration;
-        final int chargeToRemove = (int) (gen * 1.2);
 
         component.addCharge(targetBlock.getLocation(), gen);
-        root.removeRootPower(chargeToRemove);
+        root.removeRootPower(gen);
     }
 }

@@ -880,4 +880,70 @@ public class ExpansionRecipes {
             NETWORK_RECIPE_ENCODER.getItem(), new ItemStack(Material.DIAMOND), NETWORK_RECIPE_ENCODER.getItem(),
             NETWORK_RECIPE_ENCODER.getItem(), NETWORK_RECIPE_ENCODER.getItem(), NETWORK_RECIPE_ENCODER.getItem()
     };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_1 = new ItemStack[] {
+            OPTIC_STAR.getItem(), NETWORK_POWER_OUTLET_1.getItem(), OPTIC_STAR.getItem(),
+            NETWORK_POWER_OUTLET_1.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_POWER_OUTLET_1.getItem(),
+            OPTIC_STAR.getItem(), NETWORK_POWER_OUTLET_1.getItem(), OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_2 = new ItemStack[] {
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_1, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_1, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_1,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_1, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_3 = new ItemStack[] {
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_2, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_2, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_2,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_2, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_4 = new ItemStack[] {
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_3, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_3, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_3,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_3, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_5 = new ItemStack[] {
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_4, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_4, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_4,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_4, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_6 = new ItemStack[] {
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_5, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_5, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_5,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_5, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_7 = new ItemStack[] {
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_6, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_6, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_6,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_6, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_8 = new ItemStack[] {
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_7, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_7, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_7,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_7, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_9 = new ItemStack[]{
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_8, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_8, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_8,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_8, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_10 = new ItemStack[]{
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_9, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_9, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_9,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_9, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] LINE_POWER_OUTLET_11 = new ItemStack[]{
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_10, OPTIC_STAR.getItem(),
+            ExpansionItemStacks.LINE_POWER_OUTLET_10, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_10,
+            OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_10, OPTIC_STAR.getItem()
+    };
 }

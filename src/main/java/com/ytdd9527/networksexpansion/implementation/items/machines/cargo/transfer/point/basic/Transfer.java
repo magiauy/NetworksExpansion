@@ -3,7 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
-import com.ytdd9527.networksexpansion.utils.TransferUtil;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -201,8 +201,8 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem, C
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, 1, false, (targetMenu) -> {
-            TransferUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, (targetMenu) -> {
+            LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
         });
     }
 
@@ -220,8 +220,8 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem, C
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, 1, true, (targetMenu) -> {
-            TransferUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, true, (targetMenu) -> {
+            LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
         });
     }
 
