@@ -36,39 +36,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
-    private static final int[] DUE_ITEM_SLOTS = new int[] {
+    private static final int[] DUE_ITEM_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7
     };
 
-    private static final int[] DUE_BORDERS = new int[] {
+    private static final int[] DUE_BORDERS = new int[]{
             8
     };
 
-    private static final int[] DUE_INPUT_SPLIT = new int[] {
+    private static final int[] DUE_INPUT_SPLIT = new int[]{
             9, 10, 11, 12, 13, 14, 15, 16
     };
 
-    private static final int[] INPUT_OUTPUT_SPLIT = new int[] {
+    private static final int[] INPUT_OUTPUT_SPLIT = new int[]{
             27, 28, 29, 30, 31, 32, 33, 34
     };
 
-    private static final int[] BACKGROUND_BORDERS = new int[] {
+    private static final int[] BACKGROUND_BORDERS = new int[]{
             17, 35
     };
 
-    private static final int[] INPUT_SLOTS = new int[] {
+    private static final int[] INPUT_SLOTS = new int[]{
             18, 19, 20, 21, 22, 23, 24, 25,
     };
 
-    private static final int[] OUTPUT_SLOTS = new int[] {
+    private static final int[] OUTPUT_SLOTS = new int[]{
             36, 37, 38, 39, 40, 41, 42, 43,
     };
 
-    private static final int[] INPUT_BORDERS = new int[] {
+    private static final int[] INPUT_BORDERS = new int[]{
             26
     };
 
-    private static final int[] OUTPUT_BORDERS = new int[] {
+    private static final int[] OUTPUT_BORDERS = new int[]{
             44
     };
 
@@ -95,6 +95,34 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
 
     public DueMachine(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+    }
+
+    private static void onTick(@Nonnull Block block) {
+        Location location = block.getLocation();
+        BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+        if (blockMenu == null) {
+            return;
+        }
+
+        for (int i = 0; i < DUE_ITEM_SLOTS.length; i++) {
+            int dueSlot = DUE_ITEM_SLOTS[i];
+            int inputSlot = INPUT_SLOTS[i];
+            int outputSlot = OUTPUT_SLOTS[i];
+            ItemStack dueItem = blockMenu.getItemInSlot(dueSlot);
+            if (dueItem == null || dueItem.getType().isAir()) {
+                continue;
+            }
+            ItemStack inputItem = blockMenu.getItemInSlot(inputSlot);
+            if (inputItem == null || inputItem.getType().isAir()) {
+                continue;
+            }
+            if (StackUtils.itemsMatch(inputItem, dueItem, false, true)) {
+                if (BlockMenuUtil.fits(blockMenu, dueItem, outputSlot)) {
+                    blockMenu.consumeItem(inputSlot, dueItem.getAmount());
+                    BlockMenuUtil.pushItem(blockMenu, dueItem.clone(), outputSlot);
+                }
+            }
+        }
     }
 
     @Override
@@ -200,33 +228,5 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
                 }
             }
         };
-    }
-
-    private static void onTick(@Nonnull Block block) {
-        Location location = block.getLocation();
-        BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
-        if (blockMenu == null) {
-            return;
-        }
-
-        for (int i = 0; i < DUE_ITEM_SLOTS.length; i++) {
-            int dueSlot = DUE_ITEM_SLOTS[i];
-            int inputSlot = INPUT_SLOTS[i];
-            int outputSlot = OUTPUT_SLOTS[i];
-            ItemStack dueItem = blockMenu.getItemInSlot(dueSlot);
-            if (dueItem == null || dueItem.getType().isAir()) {
-                continue;
-            }
-            ItemStack inputItem = blockMenu.getItemInSlot(inputSlot);
-            if (inputItem == null || inputItem.getType().isAir()) {
-                continue;
-            }
-            if (StackUtils.itemsMatch(inputItem, dueItem, false, true)) {
-                if (BlockMenuUtil.fits(blockMenu, dueItem, outputSlot)) {
-                    blockMenu.consumeItem(inputSlot, dueItem.getAmount());
-                    BlockMenuUtil.pushItem(blockMenu, dueItem.clone(), outputSlot);
-                }
-            }
-        }
     }
 }

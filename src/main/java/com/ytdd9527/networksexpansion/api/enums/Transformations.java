@@ -1,7 +1,6 @@
 package com.ytdd9527.networksexpansion.api.enums;
 
 
-import com.ytdd9527.networksexpansion.api.enums.MCVersion;
 import dev.sefiraat.sefilib.misc.RotationFace;
 import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.sefiraat.networks.Networks;

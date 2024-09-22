@@ -7,7 +7,6 @@ import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -21,7 +20,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -69,125 +67,9 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
                     "&aOffset +1"
             )
     );
+
     public Offsetter(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-    }
-
-    @Override
-    public void preRegister() {
-        addItemHandler(new BlockPlaceHandler(false) {
-            @Override
-            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
-
-            }
-        });
-
-        addItemHandler(new BlockBreakHandler(false, false) {
-            @Override
-            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
-
-            }
-        });
-
-        addItemHandler(new BlockTicker() {
-            @Override
-            public boolean isSynchronized() {
-                return false;
-            }
-
-            @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                onTick(block);
-            }
-        });
-    }
-
-    @Override
-    public void postRegister() {
-        new BlockMenuPreset(this.getId(), this.getItemName()) {
-            @Override
-            public void init() {
-                for (int i = 0; i < 9; i++) {
-                    addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                }
-
-                addItem(OFFSET_INCREASE_SLOT, OFFSET_INCREASE_ICON, ChestMenuUtils.getEmptyClickHandler());
-                addItem(OFFSET_SHOW_SLOT, OFFSET_SHOW_ICON, ChestMenuUtils.getEmptyClickHandler());
-                addItem(OFFSET_DECREASE_SLOT, OFFSET_DECREASE_ICON, ChestMenuUtils.getEmptyClickHandler());
-            }
-
-            @Override
-            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (Slimefun.getPermissionsService().hasPermission(player, this.getSlimefunItem()) && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK));
-            }
-
-            @Override
-            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow itemTransportFlow) {
-                return new int[0];
-            }
-
-            @Override
-            public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block) {
-                // Texture should be Grindstone
-                BlockData blockData = block.getBlockData();
-                BlockFace blockFace = null;
-                FaceAttachable.AttachedFace attachedFace = null;
-                if (blockData instanceof Directional directional) {
-                    blockFace = directional.getFacing();
-                }
-
-                if (blockFace == null) {
-                    return;
-                }
-
-                if (blockData instanceof FaceAttachable faceAttachable) {
-                    attachedFace = faceAttachable.getAttachedFace();
-                }
-
-                if (attachedFace == null) {
-                    return;
-                }
-
-                Location location = block.getLocation();
-                switch (attachedFace) {
-                    case FLOOR -> {
-                        facingMap.put(location, TransportFacing.DOWN_TO_UP);
-                    }
-                    case CEILING -> {
-                        facingMap.put(location, TransportFacing.UP_TO_DOWN);
-                    }
-                    case WALL -> {
-                        switch (blockFace) {
-                            case WEST -> {
-                                facingMap.put(location, TransportFacing.EAST_TO_WEST);
-                            }
-                            case EAST -> {
-                                facingMap.put(location, TransportFacing.WEST_TO_EAST);
-                            }
-                            case NORTH -> {
-                                facingMap.put(location, TransportFacing.SOUTH_TO_NORTH);
-                            }
-                            case SOUTH -> {
-                                facingMap.put(location, TransportFacing.NORTH_TO_SOUTH);
-                            }
-                        }
-                    }
-                }
-
-                setOffset(location, 0);
-
-                // Click handler
-                addMenuClickHandler(OFFSET_INCREASE_SLOT, (player, slot, item, clickAction) -> {
-                    increaseOffset(location, 1);
-                    return false;
-                });
-
-                addMenuClickHandler(OFFSET_DECREASE_SLOT, (player, slot, item, clickAction) -> {
-                    decreaseOffset(location, 1);
-                    return false;
-                });
-            }
-        };
     }
 
     private static void onTick(@Nonnull Block block) {
@@ -324,5 +206,124 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             return;
         }
         blockMenu.replaceExistingItem(OFFSET_SHOW_SLOT, newIcon);
-    };
+    }
+
+    @Override
+    public void preRegister() {
+        addItemHandler(new BlockPlaceHandler(false) {
+            @Override
+            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+
+            }
+        });
+
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
+
+            }
+        });
+
+        addItemHandler(new BlockTicker() {
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+
+            @Override
+            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+                onTick(block);
+            }
+        });
+    }
+
+    @Override
+    public void postRegister() {
+        new BlockMenuPreset(this.getId(), this.getItemName()) {
+            @Override
+            public void init() {
+                for (int i = 0; i < 9; i++) {
+                    addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                }
+
+                addItem(OFFSET_INCREASE_SLOT, OFFSET_INCREASE_ICON, ChestMenuUtils.getEmptyClickHandler());
+                addItem(OFFSET_SHOW_SLOT, OFFSET_SHOW_ICON, ChestMenuUtils.getEmptyClickHandler());
+                addItem(OFFSET_DECREASE_SLOT, OFFSET_DECREASE_ICON, ChestMenuUtils.getEmptyClickHandler());
+            }
+
+            @Override
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+                return player.hasPermission("slimefun.inventory.bypass") || (Slimefun.getPermissionsService().hasPermission(player, this.getSlimefunItem()) && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK));
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow itemTransportFlow) {
+                return new int[0];
+            }
+
+            @Override
+            public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block) {
+                // Texture should be Grindstone
+                BlockData blockData = block.getBlockData();
+                BlockFace blockFace = null;
+                FaceAttachable.AttachedFace attachedFace = null;
+                if (blockData instanceof Directional directional) {
+                    blockFace = directional.getFacing();
+                }
+
+                if (blockFace == null) {
+                    return;
+                }
+
+                if (blockData instanceof FaceAttachable faceAttachable) {
+                    attachedFace = faceAttachable.getAttachedFace();
+                }
+
+                if (attachedFace == null) {
+                    return;
+                }
+
+                Location location = block.getLocation();
+                switch (attachedFace) {
+                    case FLOOR -> {
+                        facingMap.put(location, TransportFacing.DOWN_TO_UP);
+                    }
+                    case CEILING -> {
+                        facingMap.put(location, TransportFacing.UP_TO_DOWN);
+                    }
+                    case WALL -> {
+                        switch (blockFace) {
+                            case WEST -> {
+                                facingMap.put(location, TransportFacing.EAST_TO_WEST);
+                            }
+                            case EAST -> {
+                                facingMap.put(location, TransportFacing.WEST_TO_EAST);
+                            }
+                            case NORTH -> {
+                                facingMap.put(location, TransportFacing.SOUTH_TO_NORTH);
+                            }
+                            case SOUTH -> {
+                                facingMap.put(location, TransportFacing.NORTH_TO_SOUTH);
+                            }
+                        }
+                    }
+                }
+
+                setOffset(location, 0);
+
+                // Click handler
+                addMenuClickHandler(OFFSET_INCREASE_SLOT, (player, slot, item, clickAction) -> {
+                    increaseOffset(location, 1);
+                    return false;
+                });
+
+                addMenuClickHandler(OFFSET_DECREASE_SLOT, (player, slot, item, clickAction) -> {
+                    decreaseOffset(location, 1);
+                    return false;
+                });
+            }
+        };
+    }
+
+    ;
 }
