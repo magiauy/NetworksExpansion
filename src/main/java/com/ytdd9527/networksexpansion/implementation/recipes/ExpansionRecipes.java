@@ -945,4 +945,16 @@ public class ExpansionRecipes {
             ExpansionItemStacks.LINE_POWER_OUTLET_10, RADIOACTIVE_OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_10,
             OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_POWER_OUTLET_10, OPTIC_STAR.getItem()
     };
+
+    public static final ItemStack[] DUE_MACHINE = new ItemStack[] {
+            ExpansionItemStacks.NETWORK_INPUT_ONLY_MONITOR, NETWORK_EXPORT.getItem(), ExpansionItemStacks.NETWORK_OUTPUT_ONLY_MONITOR,
+            NETWORK_IMPORT.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_IMPORT.getItem(),
+            ExpansionItemStacks.NETWORK_OUTPUT_ONLY_MONITOR, NETWORK_EXPORT.getItem(), ExpansionItemStacks.NETWORK_INPUT_ONLY_MONITOR
+    };
+
+    public static final ItemStack[] OFFSETTER = new ItemStack[] {
+            OPTIC_STAR.getItem(), OPTIC_CABLE.getItem(), OPTIC_STAR.getItem(),
+            OPTIC_CABLE.getItem(), ExpansionItemStacks.TRANSFER, OPTIC_CABLE.getItem(),
+            OPTIC_STAR.getItem(), OPTIC_CABLE.getItem(), OPTIC_STAR.getItem()
+    };
 }

@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.utils.itemstacks;
+package com.ytdd9527.networksexpansion.api.enums;
 
 
 import com.ytdd9527.networksexpansion.api.enums.MCVersion;

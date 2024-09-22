@@ -71,10 +71,12 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.networks.adv
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedPurger;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.DueMachine;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkBlueprintDecoder;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkInputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.NetworkOutputOnlyMonitor;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.Offsetter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.SmartGrabber;
 import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.SmartPusher;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
@@ -1357,5 +1359,19 @@ public class ExpansionItems {
             ExpansionItemStacks.LINE_POWER_OUTLET_11,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.LINE_POWER_OUTLET_11
+    );
+
+    public static final DueMachine DUE_MACHINE = new DueMachine(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.DUE_MACHINE,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.DUE_MACHINE
+    );
+
+    public static final Offsetter OFFSETTER = new Offsetter(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.OFFSETTER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.OFFSETTER
     );
 }

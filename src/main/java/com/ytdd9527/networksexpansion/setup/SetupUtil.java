@@ -129,7 +129,9 @@ public class SetupUtil {
                 ExpansionItems.LINE_POWER_OUTLET_8.registerThis(),
                 ExpansionItems.LINE_POWER_OUTLET_9.registerThis(),
                 ExpansionItems.LINE_POWER_OUTLET_10.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_11.registerThis()
+                ExpansionItems.LINE_POWER_OUTLET_11.registerThis(),
+                ExpansionItems.DUE_MACHINE.registerThis(),
+                ExpansionItems.OFFSETTER.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
                 ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),
