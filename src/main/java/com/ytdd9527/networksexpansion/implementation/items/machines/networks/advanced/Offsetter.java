@@ -312,12 +312,12 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
                 setOffset(location, 0);
 
                 // Click handler
-                addMenuClickHandler(OFFSET_INCREASE_SLOT, (player, slot, item, clickAction) -> {
+                blockMenu.addMenuClickHandler(OFFSET_INCREASE_SLOT, (player, slot, item, clickAction) -> {
                     increaseOffset(location, 1);
                     return false;
                 });
 
-                addMenuClickHandler(OFFSET_DECREASE_SLOT, (player, slot, item, clickAction) -> {
+                blockMenu.addMenuClickHandler(OFFSET_DECREASE_SLOT, (player, slot, item, clickAction) -> {
                     decreaseOffset(location, 1);
                     return false;
                 });

@@ -30,7 +30,6 @@ public class SetupUtil {
                 ExpansionItems.COMPRESSOR_BLUEPRINT.registerThis(),
                 ExpansionItems.GRIND_STONE_BLUEPRINT.registerThis(),
                 ExpansionItems.JUICER_BLUEPRINT.registerThis(),
-                ExpansionItems.GRIND_STONE_BLUEPRINT.registerThis(),
                 ExpansionItems.ORE_CRUSHER_BLUEPRINT.registerThis(),
                 ExpansionItems.PRESSURE_CHAMBER_BLUEPRINT.registerThis()
         );

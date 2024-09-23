@@ -53,7 +53,7 @@ public class SignUtil {
         sign.update();
     }
 
-    public static synchronized void addSignTextAround(@Nonnull Block block, boolean lock, @Nullable String... lines) {
+    public static void addSignTextAround(@Nonnull Block block, boolean lock, @Nullable String... lines) {
         if (lines == null || lines.length == 0) {
             return;
         }
