@@ -3,7 +3,6 @@ package io.github.sefiraat.networks.slimefun.network;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import com.ytdd9527.networksexpansion.utils.SignUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
@@ -33,8 +32,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.java.BooleanHelper;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -337,8 +334,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         }
 
         CACHES.put(blockMenu.getLocation().clone(), cache);
-
-        addSignInfoAt(blockMenu.getLocation(), cache);
     }
 
     private void toggleVoid(@Nonnull BlockMenu blockMenu) {
@@ -674,15 +669,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     public boolean supportsCustomMaxAmount() {
         return this.supportsCustomMaxAmount;
-    }
-
-    private void addSignInfoAt(Location quantumLocation, QuantumCache cache) {
-        String itemName = cache.getItemStack() == null ? "无物品" : ItemStackHelper.getDisplayName(cache.getItemStack());
-        String voidExcess = "满载清空: " + (cache.isVoidExcess() ? "启用" : "禁用");
-        String split = "------------";
-        String amount = ChatColor.YELLOW + String.format("%,d", cache.getAmount());
-
-        SignUtil.addSignTextAround(quantumLocation.getBlock(), true, itemName, voidExcess, split, amount);
     }
 
     @Override

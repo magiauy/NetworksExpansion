@@ -21,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -99,6 +100,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
     }
 
     public void craft(Player player, BlockMenu blockMenu) {
+        boolean success = false;
         for (SuperRecipe recipe : getRecipes()) {
             if (getCapacity() < recipe.getConsumeEnergy()) {
                 continue;
@@ -106,22 +108,25 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
             if (getCharge(blockMenu.getLocation()) >= recipe.getConsumeEnergy()) {
                 if (recipe.getHandler() != null) {
-                    recipe.getHandler().accept(player, blockMenu);
+                    success = recipe.getHandler().handle(player, blockMenu);
                 } else {
                     if (recipe.isShaped()) {
-                        shapedCraft(recipe, player, blockMenu);
+                        success = shapedCraft(recipe, player, blockMenu);
                     } else {
-                        shapelessCraft(recipe, player, blockMenu);
+                        success = shapelessCraft(recipe, player, blockMenu);
                     }
                 }
+            }
+            if (success) {
+                break;
             }
         }
     }
 
-    public void shapedCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
+    public boolean shapedCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
         World world = blockMenu.getLocation().getWorld();
         if (world == null) {
-            return;
+            return false;
         }
 
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
@@ -132,14 +137,16 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
             ItemStack itemInSlot = blockMenu.getItemInSlot(getInputSlots()[i]);
             if (itemInSlot == null || itemInSlot.getType().isAir()) {
-                player.sendMessage("Not enough items in inventory at slot " + getInputSlots()[i] + ".");
-                return;
+                return false;
             }
 
             if (!StackUtils.itemsMatch(itemInSlot, wanted, false, true)) {
-                player.sendMessage("Item at slot " + getInputSlots()[i] + " does not match the required item.");
-                return;
+                return false;
             }
+        }
+
+        if (!BlockMenuUtil.fits(blockMenu, recipe.getOutput(), getOutputSlots())) {
+            return false;
         }
 
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
@@ -156,26 +163,27 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
-                        player.sendMessage("This item is disabled in this world.");
+                        player.sendMessage(ChatColor.RED + "This item is disabled in this world.");
                         continue;
                     }
                 }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
                 if (left != null && !left.getType().isAir()) {
-                    player.sendMessage("Not enough space in output slots.");
+                    player.sendMessage(ChatColor.RED + "Not enough space in output slots.");
                     world.dropItem(blockMenu.getLocation(), left);
                 }
             }
         }
 
         removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
-        player.sendMessage("Successfully crafted.");
+        player.sendMessage(ChatColor.GREEN + "Successfully crafted.");
+        return true;
     }
 
-    public void shapelessCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
+    public boolean shapelessCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
         World world = blockMenu.getLocation().getWorld();
         if (world == null) {
-            return;
+            return false;
         }
         // ItemStack : ItemStack.getAmount()
         Map<ItemStack, Integer> wanted = new HashMap<>();
@@ -209,14 +217,12 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
         for (Map.Entry<ItemStack, Integer> entry : wanted.entrySet()) {
             if (!have.containsKey(entry.getKey()) || have.get(entry.getKey()) < entry.getValue()) {
-                player.sendMessage("Not enough items in inventory.");
                 break;
             }
         }
 
         if (!BlockMenuUtil.fits(blockMenu, recipe.getOutput(), getOutputSlots())) {
-            player.sendMessage("Not enough space in output slots.");
-            return;
+            return false;
         }
 
         // Consume items
@@ -241,9 +247,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         }
 
         if (!wanted.isEmpty()) {
-            player.sendMessage("Not enough items in inventory.");
-            player.sendMessage("This may a bug or the recipe is invalid.");
-            return;
+            return false;
         }
 
         for (ItemStack item : recipe.getOutput()) {
@@ -251,20 +255,21 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
-                        player.sendMessage("This item is disabled in this world.");
+                        player.sendMessage(ChatColor.RED + "This item is disabled in this world.");
                         continue;
                     }
                 }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
                 if (left != null && !left.getType().isAir()) {
-                    player.sendMessage("Not enough space in output slots.");
+                    player.sendMessage(ChatColor.RED + "Not enough space in output slots.");
                     world.dropItem(blockMenu.getLocation(), left);
                 }
             }
         }
 
         removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
-        player.sendMessage("Successfully crafted.");
+        player.sendMessage(ChatColor.GREEN + "Successfully crafted.");
+        return true;
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
-import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -150,8 +149,6 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem, C
         } else {
             tryGrabItem(blockMenu);
         }
-
-        addSignInfoAt(location);
     }
 
     private int getPushTickCounter(Location location) {
@@ -352,13 +349,5 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem, C
                 "&c而不是连续转移物品！"
         ));
         return displayRecipes;
-    }
-
-    private void addSignInfoAt(Location transferLocation) {
-        String limitQuantity = String.format("数量限制: %,d", 64);
-        String split = "------------";
-        String transportMode = String.format("传输模式: %s", TransportMode.FIRST_STOP.getName());
-
-        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

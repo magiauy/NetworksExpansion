@@ -1,13 +1,10 @@
 package com.ytdd9527.networksexpansion.api.data;
 
+import com.ytdd9527.networksexpansion.api.interfaces.SuperRecipeHandler;
 import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.function.BiConsumer;
 
 @Data
 @Getter
@@ -17,7 +14,7 @@ public class SuperRecipe {
     private final ItemStack[] input;
     private final ItemStack[] output;
     private final int consumeEnergy;
-    private final BiConsumer<Player, BlockMenu> handler;
+    private final SuperRecipeHandler handler;
     private final boolean isShaped;
 
     public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, int consumeEnergy) {
@@ -52,7 +49,7 @@ public class SuperRecipe {
         this.handler = null;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, int consumeEnergy, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, int consumeEnergy, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = output;
@@ -60,7 +57,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = output;
@@ -68,7 +65,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, int consumeEnergy, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, int consumeEnergy, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = new ItemStack[]{output};
@@ -76,7 +73,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = new ItemStack[]{output};
@@ -84,7 +81,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, int consumeEnergy, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, int consumeEnergy, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = output;
@@ -92,7 +89,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = output;
@@ -100,7 +97,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, int consumeEnergy, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, int consumeEnergy, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = new ItemStack[]{output};
@@ -108,7 +105,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, BiConsumer<Player, BlockMenu> handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = new ItemStack[]{output};

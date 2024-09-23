@@ -160,7 +160,6 @@ public class SetupUtil {
                 ExpansionItems.COMPRESSOR_RECIPE_ENCODER.registerThis(),
                 ExpansionItems.GRIND_STONE_RECIPE_ENCODER.registerThis(),
                 ExpansionItems.JUICER_RECIPE_ENCODER.registerThis(),
-                ExpansionItems.GRIND_STONE_RECIPE_ENCODER.registerThis(),
                 ExpansionItems.ORE_CRUSHER_RECIPE_ENCODER.registerThis(),
                 ExpansionItems.PRESSURE_CHAMBER_RECIPE_ENCODER.registerThis()
         );
@@ -174,7 +173,6 @@ public class SetupUtil {
                 ExpansionItems.AUTO_COMPRESSOR.registerThis(),
                 ExpansionItems.AUTO_GRIND_STONE.registerThis(),
                 ExpansionItems.AUTO_JUICER.registerThis(),
-                ExpansionItems.AUTO_GRIND_STONE.registerThis(),
                 ExpansionItems.AUTO_ORE_CRUSHER.registerThis(),
                 ExpansionItems.AUTO_PRESSURE_CHAMBER.registerThis()
         );
@@ -188,7 +186,6 @@ public class SetupUtil {
                 ExpansionItems.AUTO_COMPRESSOR_WITHHOLDING.registerThis(),
                 ExpansionItems.AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
                 ExpansionItems.AUTO_JUICER_WITHHOLDING.registerThis(),
-                ExpansionItems.AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
                 ExpansionItems.AUTO_ORE_CRUSHER_WITHHOLDING.registerThis(),
                 ExpansionItems.AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis()
         );
@@ -203,7 +200,6 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_AUTO_COMPRESSOR.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_GRIND_STONE.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_JUICER.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_GRIND_STONE.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_ORE_CRUSHER.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER.registerThis()
         );
@@ -214,13 +210,12 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING.registerThis(),
+                ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_COMPRESSOR_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_JUICER_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING.registerThis()
+                ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis()
         );
 
         /* authors */

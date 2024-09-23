@@ -210,7 +210,7 @@ public class CheatGuideImpl extends CheatSheetSlimefunGuide implements SlimefunG
 
     private void showItemGroup(ChestMenu menu, Player p, PlayerProfile profile, ItemGroup group, int index) {
         if (!(group instanceof LockedItemGroup)
-                || !!isCheatMode()
+                || isCheatMode()
                 || ((LockedItemGroup) group).hasUnlocked(p, profile)) {
             menu.addItem(index, group.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {

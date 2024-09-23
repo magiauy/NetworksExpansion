@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.networks.ad
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -20,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -33,10 +35,12 @@ public class NetworkBlueprintDecoder extends NetworkObject {
     private static final int[] OUTPUT_SLOTS = {6, 7, 8, 15, 16, 17, 24, 25, 26};
     private static final int INPUT_SLOT = 10;
     private static final int DECODE_SLOT = 13;
-    private static final CustomItemStack DECODE_ITEM = new CustomItemStack(
-            Material.KNOWLEDGE_BOOK,
-            "&6网络解码器",
-            "&7点击解码网络蓝图"
+    private static final ItemStack DECODE_ITEM = ItemStackUtil.getCleanItem(
+            new CustomItemStack(
+                Material.KNOWLEDGE_BOOK,
+                "&6网络解码器",
+                "&7点击解码网络蓝图"
+            )
     );
 
     public NetworkBlueprintDecoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -75,7 +79,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 menu.addMenuClickHandler(DECODE_SLOT, (player, slot, clickedItem, clickAction) -> {
-                    decode(menu);
+                    decode(player, menu);
                     return false;
                 });
             }
@@ -97,19 +101,22 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         };
     }
 
-    private void decode(BlockMenu menu) {
+    private void decode(Player player, BlockMenu menu) {
         ItemStack input = menu.getItemInSlot(getInputSlot());
         if (input == null || input.getType().isAir()) {
+            player.sendMessage(ChatColor.RED + "没有输入蓝图");
             return;
         }
 
         SlimefunItem item = SlimefunItem.getByItem(input);
         if (!(item instanceof AbstractBlueprint)) {
+            player.sendMessage(ChatColor.RED + "该物品不是蓝图");
             return;
         }
 
         ItemMeta meta = input.getItemMeta();
         if (meta == null) {
+            player.sendMessage(ChatColor.RED + "该物品没有蓝图信息");
             return;
         }
 
@@ -121,16 +128,24 @@ public class NetworkBlueprintDecoder extends NetworkObject {
             blueprintInstance = DataTypeMethods.getCustom(meta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
         }
         if (blueprintInstance == null) {
+            player.sendMessage(ChatColor.RED + "该物品没有蓝图信息");
             return;
         }
 
-        input.setAmount(input.getAmount() - 1);
         ItemStack[] inputs = blueprintInstance.getRecipeItems();
+        if (!BlockMenuUtil.fits(menu, inputs, getOutputSlots())) {
+            player.sendMessage(ChatColor.RED + "输出栏不足");
+            return;
+        }
+        input.setAmount(input.getAmount() - 1);
         for (ItemStack inputItem : inputs) {
             ItemStack left = BlockMenuUtil.pushItem(menu, inputItem, getOutputSlots());
             if (left != null) {
+                player.sendMessage(ChatColor.RED + "没有足够的位置输出物品! ");
                 menu.getLocation().getWorld().dropItem(menu.getLocation(), left);
             }
         }
+
+        player.sendMessage(ChatColor.GREEN + "蓝图解码成功!");
     }
 }

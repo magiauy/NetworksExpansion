@@ -9,6 +9,7 @@ import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -182,7 +183,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_TRANSFER_GRABBER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_GRABBER",
-            new ItemStack(Material.TARGET),
+            new ItemStack(Material.HAY_BLOCK),
             Theme.MACHINE,
             "链式传输器 [抓取]",
             "&c仅支持粘液容器",
@@ -214,7 +215,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER",
-            new ItemStack(Material.OBSERVER),
+            new ItemStack(Material.LIME_GLAZED_TERRACOTTA),
             Theme.MACHINE,
             "链式传输器Plus [推送]",
             "&c仅支持粘液容器",
@@ -230,7 +231,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER",
-            new ItemStack(Material.TARGET),
+            new ItemStack(Material.WAXED_COPPER_BLOCK),
             Theme.MACHINE,
             "链式传输器Plus [抓取]",
             "&c仅支持粘液容器",
@@ -278,7 +279,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
             "NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER",
-            new ItemStack(Material.TARGET),
+            new ItemStack(Material.HAY_BLOCK),
             Theme.MACHINE,
             "链式原版传输器 [抓取]",
             "&c仅支持原版容器",
@@ -316,7 +317,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER",
-            Enchanted(Material.TARGET),
+            Enchanted(Material.HAY_BLOCK),
             Theme.MACHINE,
             "高级链式传输 [抓取]",
             "&c仅支持粘液容器",
@@ -360,7 +361,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER",
-            Enchanted(Material.OBSERVER),
+            Enchanted(Material.LIME_GLAZED_TERRACOTTA),
             Theme.MACHINE,
             "高级链式传输Plus [推送]",
             "&c仅支持粘液容器",
@@ -382,7 +383,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER",
-            Enchanted(Material.TARGET),
+            Enchanted(Material.WAXED_COPPER_BLOCK),
             Theme.MACHINE,
             "高级链式传输Plus [抓取]",
             "&c仅支持粘液容器",
@@ -439,7 +440,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack TRANSFER_GRABBER = Theme.Random(
             "NTW_EXPANSION_TRANSFER_GRABBER",
-            new ItemStack(Material.TARGET),
+            new ItemStack(Material.HAY_BLOCK),
             Theme.MACHINE,
             "传输器 [抓取]",
             "&c仅支持粘液容器",
@@ -484,7 +485,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_TRANSFER_GRABBER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_TRANSFER_GRABBER",
-            new ItemStack(Material.TARGET),
+            new ItemStack(Material.HAY_BLOCK),
             Theme.MACHINE,
             "高级传输器 [抓取]",
             "&c仅支持粘液容器",
@@ -703,7 +704,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack GRIND_STONE_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_GRIND_STONE_RECIPE_ENCODER",
-            new ItemStack(Material.ANVIL),
+            new ItemStack(Material.LOOM),
             Theme.MACHINE,
             "网络磨石配方编码器",
             "可以根据输入的物品来制作磨石蓝图",
@@ -712,7 +713,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack JUICER_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_JUICER_RECIPE_ENCODER",
-            new ItemStack(Material.BLAST_FURNACE),
+            new ItemStack(Material.VERDANT_FROGLIGHT),
             Theme.MACHINE,
             "网络榨汁机配方编码器",
             "可以根据输入的物品来制作榨汁机蓝图",
@@ -721,7 +722,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ORE_CRUSHER_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_ORE_CRUSHER_RECIPE_ENCODER",
-            new ItemStack(Material.SMOKER),
+            new ItemStack(Material.CAULDRON),
             Theme.MACHINE,
             "网络矿石粉碎机配方编码器",
             "可以根据输入的物品来制作矿石粉碎机蓝图",
@@ -730,7 +731,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack PRESSURE_CHAMBER_RECIPE_ENCODER = Theme.Random(
             "NTW_EXPANSION_PRESSURE_CHAMBER_RECIPE_ENCODER",
-            new ItemStack(Material.CAULDRON),
+            new ItemStack(Material.STICKY_PISTON),
             Theme.MACHINE,
             "网络压力机配方编码器",
             "可以根据输入的物品来制作压力机蓝图",
@@ -914,7 +915,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_COMPRESSOR = Theme.Random(
             "NTW_EXPANSION_AUTO_COMPRESSOR",
-            new ItemStack(Material.OBSIDIAN),
+            new ItemStack(Material.COMPOSTER),
             Theme.MACHINE,
             "网络自动压缩机",
             "网络自动压缩机需要压缩机蓝图才能工作。",
@@ -926,7 +927,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_COMPRESSOR_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_COMPRESSOR_WITHHOLDING",
-            new ItemStack(Material.DIAMOND_BLOCK),
+            new ItemStack(Material.JUKEBOX),
             Theme.MACHINE,
             "网络自动压缩机 (预留版)",
             "网络自动压缩机需要压缩机蓝图才能工作。",
@@ -943,7 +944,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_GRIND_STONE = Theme.Random(
             "NTW_EXPANSION_AUTO_GRIND_STONE",
-            new ItemStack(Material.ANDESITE),
+            new ItemStack(Material.DROPPER),
             Theme.MACHINE,
             "网络自动磨石",
             "网络自动磨石需要磨石蓝图才能工作。",
@@ -955,7 +956,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_GRIND_STONE_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_GRIND_STONE_WITHHOLDING",
-            new ItemStack(Material.DIORITE),
+            new ItemStack(Material.DISPENSER),
             Theme.MACHINE,
             "网络自动磨石 (预留版)",
             "网络自动磨石需要磨石蓝图才能工作。",
@@ -972,7 +973,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_JUICER = Theme.Random(
             "NTW_EXPANSION_AUTO_JUICER",
-            new ItemStack(Material.GOLD_BLOCK),
+            new ItemStack(Material.MOSS_BLOCK),
             Theme.MACHINE,
             "网络自动榨汁机",
             "网络自动榨汁机需要榨汁机蓝图才能工作。",
@@ -984,7 +985,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_JUICER_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_JUICER_WITHHOLDING",
-            new ItemStack(Material.IRON_BLOCK),
+            new ItemStack(Material.MUD),
             Theme.MACHINE,
             "网络自动榨汁机 (预留版)",
             "网络自动榨汁机需要榨汁机蓝图才能工作。",
@@ -1001,10 +1002,10 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_ORE_CRUSHER = Theme.Random(
             "NTW_EXPANSION_AUTO_ORE_CRUSHER",
-            new ItemStack(Material.NETHER_BRICK),
+            new ItemStack(Material.RAW_IRON_BLOCK),
             Theme.MACHINE,
-            "网络自动矿粉碎机",
-            "网络自动矿粉碎机需要矿粉碎机蓝图才能工作。",
+            "网络自动矿石粉碎机",
+            "网络自动矿石粉碎机需要矿石粉碎机蓝图才能工作。",
             "当网络中没有蓝图的目标物品时，",
             "机器会自动从网络中选取材料进行合成",
             "(需要网络中有足够的原材料)",
@@ -1013,7 +1014,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_ORE_CRUSHER_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_ORE_CRUSHER_WITHHOLDING",
-            new ItemStack(Material.GOLD_INGOT),
+            new ItemStack(Material.RAW_GOLD_BLOCK),
             Theme.MACHINE,
             "网络自动矿石粉碎机 (预留版)",
             "网络自动矿石粉碎机需要矿石粉碎机蓝图才能工作。",
@@ -1030,7 +1031,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_PRESSURE_CHAMBER = Theme.Random(
             "NTW_EXPANSION_AUTO_PRESSURE_CHAMBER",
-            new ItemStack(Material.OBSIDIAN),
+            new ItemStack(Material.SMOOTH_STONE),
             Theme.MACHINE,
             "网络自动压力机",
             "网络自动压力机需要压力机蓝图才能工作。",
@@ -1042,7 +1043,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_AUTO_PRESSURE_CHAMBER_WITHHOLDING",
-            new ItemStack(Material.DIAMOND_BLOCK),
+            new ItemStack(Material.SMOOTH_SANDSTONE),
             Theme.MACHINE,
             "网络自动压力机 (预留版)",
             "网络自动压力机需要压力机蓝图才能工作。",
@@ -1259,7 +1260,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_COMPRESSOR_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_COMPRESSOR_WITHHOLDING",
-            Enchanted(Material.COMPOSTER),
+            Enchanted(Material.JUKEBOX),
             Theme.MACHINE,
             "高级网络自动压缩机 (预留版)",
             "高级网络自动压缩机需要压缩机蓝图才能工作。",
@@ -1277,7 +1278,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_GRIND_STONE",
-            Enchanted(Material.GRINDSTONE),
+            Enchanted(Material.DROPPER),
             Theme.MACHINE,
             "高级网络自动磨石",
             "高级网络自动磨石需要磨石蓝图才能工作。",
@@ -1290,7 +1291,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_GRIND_STONE_WITHHOLDING",
-            Enchanted(Material.GRINDSTONE),
+            Enchanted(Material.DISPENSER),
             Theme.MACHINE,
             "高级网络自动磨石 (预留版)",
             "高级网络自动磨石需要磨石蓝图才能工作。",
@@ -1308,7 +1309,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_JUICER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_JUICER",
-            Enchanted(Material.GLASS),
+            Enchanted(Material.MOSS_BLOCK),
             Theme.MACHINE,
             "高级网络自动榨汁机",
             "高级网络自动榨汁机需要榨汁机蓝图才能工作。",
@@ -1321,7 +1322,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_JUICER_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_JUICER_WITHHOLDING",
-            Enchanted(Material.GLASS),
+            Enchanted(Material.MUD),
             Theme.MACHINE,
             "高级网络自动榨汁机 (预留版)",
             "高级网络自动榨汁机需要榨汁机蓝图才能工作。",
@@ -1339,10 +1340,10 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ORE_CRUSHER",
-            Enchanted(Material.ANCIENT_DEBRIS),
+            Enchanted(Material.RAW_IRON_BLOCK),
             Theme.MACHINE,
-            "高级网络自动矿粉碎机",
-            "高级网络自动矿粉碎机需要矿粉碎机蓝图才能工作。",
+            "高级网络自动矿石粉碎机",
+            "高级网络自动矿石粉碎机需要矿石粉碎机蓝图才能工作。",
             "当网络中没有蓝图的目标物品时，",
             "机器会自动从网络中选取材料进行合成",
             "允许堆叠蓝图 (不向下兼容)",
@@ -1352,7 +1353,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING",
-            Enchanted(Material.ANCIENT_DEBRIS),
+            Enchanted(Material.RAW_GOLD_BLOCK),
             Theme.MACHINE,
             "高级网络自动矿石粉碎机 (预留版)",
             "高级网络自动矿石粉碎机需要矿石粉碎机蓝图才能工作。",
@@ -1370,7 +1371,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_PRESSURE_CHAMBER",
-            Enchanted(Material.STONE_BRICKS),
+            Enchanted(Material.SMOOTH_STONE),
             Theme.MACHINE,
             "高级网络自动压力机",
             "高级网络自动压力机需要压力机蓝图才能工作。",
@@ -1383,7 +1384,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.Random(
             "NTW_EXPANSION_ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING",
-            Enchanted(Material.STONE_BRICKS),
+            Enchanted(Material.SMOOTH_SANDSTONE),
             Theme.MACHINE,
             "高级网络自动压力机 (预留版)",
             "高级网络自动压力机需要压力机蓝图才能工作。",
@@ -1587,7 +1588,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_1 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_1",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.WHITE_WOOL),
             Theme.MACHINE,
             "链式网络插口 (1)",
             "链式网络插口可以将网络中存储的电力",
@@ -1597,7 +1598,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_2 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_2",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.LIGHT_GRAY_WOOL),
             Theme.MACHINE,
             "链式网络插口 (2)",
             "链式网络插口可以将网络中存储的电力",
@@ -1607,7 +1608,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_3 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_3",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.GRAY_WOOL),
             Theme.MACHINE,
             "链式网络插口 (3)",
             "链式网络插口可以将网络中存储的电力",
@@ -1617,7 +1618,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_4 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_4",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.BLACK_WOOL),
             Theme.MACHINE,
             "链式网络插口 (4)",
             "链式网络插口可以将网络中存储的电力",
@@ -1627,7 +1628,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_5 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_5",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.BROWN_WOOL),
             Theme.MACHINE,
             "链式网络插口 (5)",
             "链式网络插口可以将网络中存储的电力",
@@ -1637,7 +1638,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_6 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_6",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.RED_WOOL),
             Theme.MACHINE,
             "链式网络插口 (6)",
             "链式网络插口可以将网络中存储的电力",
@@ -1647,7 +1648,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_7 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_7",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.ORANGE_WOOL),
             Theme.MACHINE,
             "链式网络插口 (7)",
             "链式网络插口可以将网络中存储的电力",
@@ -1657,7 +1658,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_8 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_8",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.YELLOW_WOOL),
             Theme.MACHINE,
             "链式网络插口 (8)",
             "链式网络插口可以将网络中存储的电力",
@@ -1667,7 +1668,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_9 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_9",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.LIME_WOOL),
             Theme.MACHINE,
             "链式网络插口 (9)",
             "链式网络插口可以将网络中存储的电力",
@@ -1677,7 +1678,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_10 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_10",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.GREEN_WOOL),
             Theme.MACHINE,
             "链式网络插口 (10)",
             "链式网络插口可以将网络中存储的电力",
@@ -1687,7 +1688,7 @@ public class ExpansionItemStacks {
     );
     public static final SlimefunItemStack LINE_POWER_OUTLET_11 = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_LINE_POWER_OUTLET_11",
-            new ItemStack(Material.YELLOW_GLAZED_TERRACOTTA),
+            new ItemStack(Material.CYAN_WOOL),
             Theme.MACHINE,
             "链式网络插口 (11)",
             "链式网络插口可以将网络中存储的电力",
@@ -2118,8 +2119,9 @@ public class ExpansionItemStacks {
             new ItemStack(Material.DEBUG_STICK),
             Theme.TOOL,
             "&6物品转移棒",
-            "Right-click on a storage to move items into this stick",
-            "Shift+Right-click to move item in this stick into a storage"
+            ChatColor.GOLD + "右键以转移物品至物品转移棒",
+            ChatColor.GOLD + "Shift + 右键以转移物品至指定的存储",
+            ChatColor.RED + "不支持无尽存储"
     );
     public static SlimefunItemStack NETWORK_BLUEPRINT_DECODER = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_BLUEPRINT_DECODER",
@@ -2132,9 +2134,9 @@ public class ExpansionItemStacks {
 
     public static SlimefunItemStack DUE_MACHINE = Theme.themedSlimefunItemStack(
             "NTW_EXPANSION_DUE_MACHINE",
-            new ItemStack(Material.YELLOW_STAINED_GLASS),
+            new ItemStack(Material.TARGET),
             Theme.MACHINE,
-            "&6网络预期机",
+            "&6预期机",
             "匹配物品时，输出物品"
     );
 

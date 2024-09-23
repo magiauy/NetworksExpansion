@@ -11,7 +11,6 @@ import com.ytdd9527.networksexpansion.api.interfaces.ModelledItem;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.items.tools.ItemMover;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
-import com.ytdd9527.networksexpansion.utils.SignUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.Networks;
@@ -45,7 +44,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -68,16 +66,6 @@ import java.util.function.Function;
 //TODO 对于一些复杂的逻辑，需要重构
 @SuppressWarnings({"deprecation", "unused"})
 public class CargoStorageUnit extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem, Configurable {
-    public static final BlockFace[] VALID_SIGN_FACES = new BlockFace[]{
-            BlockFace.UP
-    };
-
-    public static final BlockFace[] VALID_WALL_SIGN_FACES = new BlockFace[]{
-            BlockFace.NORTH,
-            BlockFace.SOUTH,
-            BlockFace.EAST,
-            BlockFace.WEST
-    };
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
     private static final Map<Location, QuickTransferMode> quickTransferModes = new HashMap<>();
@@ -564,12 +552,21 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                     switch (mode) {
                         case FROM_QUANTUM -> {
                             ItemStack stored = StackUtils.getAsQuantity(ItemMover.getStoredItemStack(itemStack), ItemMover.getStoredAmount(itemStack));
+                            if (stored == null || stored.getType().isAir()) {
+                                player.sendMessage(ChatColor.RED + "物品转移棒中没有物品");
+                            }
+                            Networks.getInstance().getLogger().info("stored: " + stored);
                             thisStorage.depositItemStack(stored, true);
-                            ItemMover.setStoredAmount(itemStack, stored.getAmount());
+                            int left = stored.getAmount();
+                            ItemMover.setStoredAmount(itemStack, left);
+                            if (left <= 0) {
+                                ItemMover.setStoredItemStack(itemStack, null);
+                            }
+                            Networks.getInstance().getLogger().info("after deposit: " + stored);
                             player.sendMessage(ChatColor.GREEN + "已存入至抽屉中！");
                         }
                         case TO_QUANTUM -> {
-                            ItemRequest itemRequest = new ItemRequest(sample, sample.getAmount());
+                            ItemRequest itemRequest = new ItemRequest(sample, each.getAmount());
                             ItemStack fetched = thisStorage.requestItem(itemRequest);
                             if (fetched != null) {
                                 ItemMover.depositItem(itemStack, fetched);
@@ -601,9 +598,9 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                 mode == QuickTransferMode.FROM_QUANTUM ? Material.GREEN_CONCRETE_POWDER : Material.BLUE_CONCRETE_POWDER,
                 "&6快速转移模式",
                 "",
-                "&b状态: " + (mode == QuickTransferMode.FROM_QUANTUM ? "&a从量子存储转移" : "&c转移至量子存储"),
+                "&b状态: " + (mode == QuickTransferMode.FROM_QUANTUM ? "&a从量子存储/物品转移棒转移至此" : "&c从此转移至量子存储/物品转移棒"),
                 " ",
-                "&e在上方放入量子存储",
+                "&e在上方放入量子存储/物品转移棒",
                 "&e在下方放入要转移的物品",
                 " ",
                 "&e点击左键开始转移",
@@ -814,8 +811,6 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             // Update display item
             update(l, false);
         }
-
-        addSignInfoAt(l, data);
     }
 
     private ItemStack getLocationErrorItem(int id, Location lastLoc) {
@@ -923,16 +918,6 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
         }
         return DisplayGroup.fromUUID(uuid);
     }
-
-    private void addSignInfoAt(Location unitLocation, StorageUnitData data) {
-        String id = data.getId() != -1 ? ChatColor.YELLOW + "容器 ID" + data.getId() : null;
-        String size = ChatColor.YELLOW + "存储容量: " + data.getSizeType().getEachMaxSize() + " / " + data.getSizeType().getMaxItemCount();
-        String split = "------------";
-        String status = data.getId() != -1 ? ChatColor.GREEN + "正常运行" : ChatColor.RED + "已损坏";
-
-        SignUtil.addSignTextAround(unitLocation.getBlock(), true, id, size, split, status);
-    }
-
     @Override
     public boolean canStack(ItemMeta meta1, ItemMeta meta2) {
         return meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer());

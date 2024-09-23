@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,7 +30,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -75,25 +75,25 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
     private static final ItemStack DUE_BORDER_ICON = ItemStackUtil.getCleanItem(
             new CustomItemStack(
                     Material.LIGHT_BLUE_STAINED_GLASS_PANE,
-                    "← Put due items here"
+                    ChatColor.GREEN + "← 在此放置预期物品"
             )
     );
 
     private static final ItemStack DUE_INPUT_SPLIT_ICON = ItemStackUtil.getCleanItem(
             new CustomItemStack(
                     Material.YELLOW_STAINED_GLASS_PANE,
-                    "↑ Due items & Input items ↓"
+                    ChatColor.GREEN + "↑ 预期物品 & 输入物品 ↓"
             )
     );
 
     private static final ItemStack INPUT_OUTPUT_SPLIT_ICON = ItemStackUtil.getCleanItem(
             new CustomItemStack(
                     Material.ORANGE_STAINED_GLASS_PANE,
-                    "↑ Input items & Output items ↓"
+                    ChatColor.GREEN + "↑ 输入物品 & 输出物品 ↓"
             )
     );
 
-    public DueMachine(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
+    public DueMachine(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -129,14 +129,14 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
     public void preRegister() {
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
-            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
 
             }
         });
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
+            public void onPlayerBreak(@Nonnull BlockBreakEvent blockBreakEvent, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> list) {
 
             }
         });
@@ -186,7 +186,7 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
             }
 
             @Override
-            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass") || (Slimefun.getPermissionsService().hasPermission(player, this.getSlimefunItem()) && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK));
             }
 
@@ -205,12 +205,13 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
                     if (incoming == null || incoming.getType().isAir()) {
                         return new int[0];
                     }
+
                     List<Integer> matched = new ArrayList<>();
                     for (int i = 0; i < DUE_ITEM_SLOTS.length; i++) {
                         int dueSlot = DUE_ITEM_SLOTS[i];
                         int inputSlot = INPUT_SLOTS[i];
-                        if (StackUtils.itemsMatch(menu.getItemInSlot(dueSlot), incoming) && StackUtils.itemsMatch(menu.getItemInSlot(dueSlot), menu.getItemInSlot(inputSlot))) {
-                            matched.add(dueSlot);
+                        if (StackUtils.itemsMatch(menu.getItemInSlot(dueSlot), incoming)) {
+                            matched.add(inputSlot);
                         }
                     }
 

@@ -6,7 +6,6 @@ import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
-import com.ytdd9527.networksexpansion.utils.SignUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -116,8 +115,6 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         } else {
             tryGrabItem(blockMenu);
         }
-
-        addSignInfoAt(location);
     }
 
     private int getTickCounter(Location location) {
@@ -258,13 +255,5 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     @Override
     protected int getTransportModeSlot() {
         return TRANSPORT_MODE_SLOT;
-    }
-
-    private void addSignInfoAt(Location transferLocation) {
-        String limitQuantity = String.format("数量限制: %,d", getLimitQuantity(transferLocation));
-        String split = "------------";
-        String transportMode = String.format("传输模式: %s", getCurrentTransportMode(transferLocation).getName());
-
-        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

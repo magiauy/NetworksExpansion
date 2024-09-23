@@ -2,9 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
-import com.ytdd9527.networksexpansion.utils.SignUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -107,7 +105,6 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         } else {
             tryPushItem(blockMenu);
         }
-        addSignInfoAt(location);
     }
 
     private int getTickCounter(Location location) {
@@ -354,13 +351,5 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                 "&c而不是连续转移物品！"
         ));
         return displayRecipes;
-    }
-
-    private void addSignInfoAt(Location transferLocation) {
-        String limitQuantity = String.format("数量限制: %,d", 64);
-        String split = "------------";
-        String transportMode = String.format("传输模式: %s", TransportMode.FIRST_STOP.getName());
-
-        SignUtil.addSignTextAround(transferLocation.getBlock(), true, limitQuantity, null, split, transportMode);
     }
 }

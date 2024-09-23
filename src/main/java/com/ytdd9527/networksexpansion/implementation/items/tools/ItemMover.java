@@ -8,6 +8,7 @@ import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
 import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.network.barrel.FluffyBarrel;
 import io.github.sefiraat.networks.network.barrel.InfinityBarrel;
@@ -58,15 +59,15 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
                     if (optional.isPresent()) {
                         final ItemStack itemStack = e.getItem();
                         if (itemStack.getType() != Material.DEBUG_STICK) {
-                            player.sendMessage(ChatColor.RED + "Not a vaild item mover.");
+                            player.sendMessage(ChatColor.RED + "不是一个有效的物品转移棒");
                             return;
                         }
                         if (itemStack.getAmount() != 1) {
-                            player.sendMessage(ChatColor.RED + "You can only hold one item mover at a time.");
+                            player.sendMessage(ChatColor.RED + "不是一个有效的物品转移棒");
                             return;
                         }
                         if (!itemStack.hasItemMeta() || itemStack.getItemMeta() == null) {
-                            player.sendMessage(ChatColor.RED + "Not a vaild item mover.");
+                            player.sendMessage(ChatColor.RED + "不是一个有效的物品转移棒");
                             return;
                         }
                         final Location location = optional.get().getLocation();
@@ -142,7 +143,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return;
         }
 
-        if (itemStack == null || itemStack.getType().isAir()) {
+        if (itemStack == null || itemStack.getType().isAir() || itemStack.getAmount() != 1) {
             clearPDC(mover);
             return;
         }
@@ -174,10 +175,10 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return;
         }
 
-        if (incoming.getAmount() > 1) {
+        if (incoming.getAmount() > 0) {
             ItemStack stored = getStoredItemStack(mover);
             int storedAmount = getStoredAmount(mover);
-            if (stored == null) {
+            if (stored == null || stored.getType().isAir()) {
                 setStoredItemStack(mover, StackUtils.getAsQuantity(incoming, 1));
                 setStoredAmount(mover, incoming.getAmount());
                 incoming.setAmount(0);
@@ -220,8 +221,10 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         List<String> lore = cloneDefaultLore();
         if (storedItemStack != null && amount > 0) {
-            lore.add(ChatColor.GRAY + "Stored: " + ItemStackHelper.getDisplayName(storedItemStack));
-            lore.add(ChatColor.GRAY + "Amount: " + amount);
+            lore.add(ChatColor.AQUA + "已存储: " + ItemStackHelper.getDisplayName(storedItemStack));
+            lore.add(ChatColor.AQUA + "数量: " + amount);
+        } else {
+            clearPDC(itemStack);
         }
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
@@ -238,14 +241,15 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         final boolean infinityEnabled = SupportedPluginManager.getInstance().isInfinityExpansion();
         final boolean fluffyEnabled = SupportedPluginManager.getInstance().isFluffyMachines();
 
-        if (infinityEnabled && sfitem instanceof StorageUnit unit) {
+        /*if (infinityEnabled && sfitem instanceof StorageUnit unit) {
             return getInfinityBarrel(location, unit);
-        } else if (fluffyEnabled && sfitem instanceof Barrel barrel) {
+        } else */
+        if (fluffyEnabled && sfitem instanceof Barrel barrel) {
             return getFluffyBarrel(location, barrel);
         } else if (sfitem instanceof NetworkQuantumStorage) {
             return getNetworkStorage(location);
         } else if (sfitem instanceof CargoStorageUnit) {
-            player.sendMessage(ChatColor.RED + "Use Quick Transfer of Cargo Storage Unit to support it.");
+            player.sendMessage(ChatColor.RED + "请使用网络抽屉的快速转移模式");
             return null;
         }
 
@@ -364,13 +368,13 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         ItemStack storedItemStack = getStoredItemStack(mover);
         BarrelIdentity barrel = getBarrel(player, clickedLocation);
         if (barrel == null || barrel.getItemStack() == null || barrel.getAmount() <= 0) {
-            player.sendMessage(ChatColor.RED + "Please select a valid storage.");
+            player.sendMessage(ChatColor.RED + "请选择一个有效的存储.");
             return;
         }
 
         int have = barrel.getAmount() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) barrel.getAmount();
         if (have <= 0) {
-            player.sendMessage(ChatColor.RED + "Barrel is empty.");
+            player.sendMessage(ChatColor.RED + "存储中没有可用的物品.");
             return;
         }
 
@@ -384,6 +388,12 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         ItemStack fetched = barrel.requestItem(itemRequest);
 
+        if (fetched == null || fetched.getType().isAir()) {
+            player.sendMessage(ChatColor.RED + "无法获取物品.");
+            return;
+        }
+
+        player.sendMessage(ChatColor.GREEN + "已存储 " + ItemStackHelper.getDisplayName(fetched) + " x" + fetched.getAmount() + " 至物品转移棒");
         depositItem(mover, fetched);
         updateLore(mover);
     }
@@ -393,23 +403,24 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         ItemStack storedItemStack = getStoredItemStack(mover);
         BarrelIdentity barrel = getBarrel(player, clickedLocation);
         if (barrel == null) {
-            player.sendMessage(ChatColor.RED + "Please select a valid storage.");
+            player.sendMessage(ChatColor.RED + "请选择一个有效的存储.");
             return;
         }
 
         int have = barrel.getAmount() > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) barrel.getAmount();
 
         if (storedItemStack == null || storedAmount <= 0) {
-            player.sendMessage(ChatColor.RED + "No item to withdraw.");
+            player.sendMessage(ChatColor.RED + "没有可用的物品.");
             return;
         }
 
-        if (have == Integer.MAX_VALUE) {
-            player.sendMessage(ChatColor.RED + "Barrel is full.");
+        if (have >= Integer.MAX_VALUE) {
+            player.sendMessage(ChatColor.RED + "存储已满");
             return;
         }
 
         ItemStack clone = StackUtils.getAsQuantity(storedItemStack, storedAmount);
+        player.sendMessage(ChatColor.GREEN + "已输出 " + ItemStackHelper.getDisplayName(clone) + " x" + clone.getAmount() + " 至存储.");
         barrel.depositItemStack(clone);
         setStoredAmount(mover, clone.getAmount());
         updateLore(mover);
