@@ -156,7 +156,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
             }
         }
 
-        p.sendMessage(ChatColor.RED + "没有合适的配方");
+        p.sendMessage(ChatColor.RED + "Invalid Recipe!");
     }
 
     private boolean match(BlockMenu menu, ItemStack[] recipe) {
