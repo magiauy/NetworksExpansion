@@ -50,7 +50,7 @@ public class NetworkConfigurator extends SlimefunItem {
                                 if (player.isSneaking()) {
                                     if (slimefunItem instanceof AdvancedDirectional advancedDirectional) {
                                         ItemMeta itemMeta = e.getItem().getItemMeta();
-                                        int amount = advancedDirectional.getLimitQuantity(blockMenu.getLocation());
+                                        int amount = advancedDirectional.getCurrentNumber(blockMenu.getLocation());
                                         DataTypeMethods.setCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER, amount);
                                         player.sendMessage(Theme.SUCCESS + "The amount of saved transmission is " + amount);
                                         TransportMode transportMode = advancedDirectional.getCurrentTransportMode(blockMenu.getLocation());

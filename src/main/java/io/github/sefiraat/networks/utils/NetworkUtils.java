@@ -1,19 +1,13 @@
 package io.github.sefiraat.networks.utils;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.network.NetworkNode;
-import io.github.sefiraat.networks.network.NodeDefinition;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
-import io.github.sefiraat.networks.slimefun.network.pusher.NetworkPusher;
+import io.github.sefiraat.networks.slimefun.network.NetworkPusher;
 import io.github.sefiraat.networks.slimefun.tools.NetworkConfigurator;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -83,21 +77,5 @@ public class NetworkUtils {
         } else {
             player.sendMessage(Theme.WARNING + "Item: " + Theme.PASSIVE + "No items in stored config");
         }
-    }
-
-    public static void clearNetwork(Location location) {
-        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(location);
-
-        if (definition == null || definition.getNode() == null) {
-            return;
-        }
-
-        NetworkNode node = definition.getNode();
-
-        if (node != null && node.getNodeType() == NodeType.CONTROLLER) {
-            NetworkController.wipeNetwork(location);
-        }
-
-        NetworkStorage.removeNode(location);
     }
 }

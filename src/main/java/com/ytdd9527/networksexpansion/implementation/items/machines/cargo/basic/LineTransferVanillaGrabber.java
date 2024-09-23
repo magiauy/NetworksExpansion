@@ -1,8 +1,7 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -42,12 +41,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-// TODO #114
-
 @SuppressWarnings("deprecation")
-public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
-    private static final int DEFAULT_MAX_DISTANCE = 32;
-    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
+public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem {
     private static final ItemStack AIR = new ItemStack(Material.AIR);
 
     private static final String TICK_COUNTER_KEY = "tick_rate";
@@ -68,32 +63,38 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     public LineTransferVanillaGrabber(ItemGroup itemGroup,
                                       SlimefunItemStack item,
                                       RecipeType recipeType,
-                                      ItemStack[] recipe
+                                      ItemStack[] recipe,
+                                      String configKey
     ) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_GRABBER);
-        loadConfigurations();
+        super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
+        loadConfiguration(configKey);
     }
 
-    public void loadConfigurations() {
-        String configKey = getId();
+    private void loadConfiguration(String itemId) {
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
-        grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
+        int defaultMaxDistance = 32;
+        int defaultGrabItemTick = 1;
+
+        maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
+        grabItemTick = config.getInt("items." + itemId + ".grabitem-tick", defaultGrabItemTick);
     }
 
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
+        // 初始化Tick计数器
         final Location location = block.getLocation();
         int tickCounter = getTickCounter(location);
         tickCounter = (tickCounter + 1) % grabItemTick;
 
+        // 每10个Tick执行一次抓取操作
         if (tickCounter == 0) {
             performGrabbingOperation(blockMenu);
         }
 
+        // 更新Tick计数器
         updateTickCounter(location, tickCounter);
     }
 

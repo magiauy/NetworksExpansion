@@ -787,7 +787,6 @@ public class NetworksMain implements TabExecutor {
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
         if (args.length == 0) {
             help(sender, null);
-            return true;
         }
         switch (args[0]) {
             case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "restore", "setcontainerid" -> {

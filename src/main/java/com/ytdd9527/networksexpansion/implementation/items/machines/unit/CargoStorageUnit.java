@@ -7,7 +7,6 @@ import com.ytdd9527.networksexpansion.api.data.ItemContainer;
 import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.api.enums.QuickTransferMode;
 import com.ytdd9527.networksexpansion.api.enums.StorageUnitType;
-import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.api.interfaces.ModelledItem;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
@@ -47,6 +46,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -64,8 +64,8 @@ import java.util.function.Function;
 
 //TODO 对于一些复杂的逻辑，需要重构
 @SuppressWarnings({"deprecation", "unused"})
-public class CargoStorageUnit extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem, Configurable {
-    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
+public class CargoStorageUnit extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem {
+
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
     private static final Map<Location, QuickTransferMode> quickTransferModes = new HashMap<>();
     private static final Set<Location> locked = new HashSet<>();
@@ -170,9 +170,94 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             }
         };
 
-        if (item.getItemId().endsWith("MODEL")) {
-            loadConfigurations();
-        }
+    }
+
+    public CargoStorageUnit(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, StorageUnitType sizeType, String itemId) {
+        super(itemGroup, item, recipeType, recipe);
+
+        this.sizeType = sizeType;
+
+        new BlockMenuPreset(this.getId(), this.getItemName()) {
+            @Override
+            public void init() {
+                for (int slot : BORDER) {
+                    addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                }
+                addItem(STORAGE_INFO_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(LOCK_MODE_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(VOID_MODE_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                addItem(QUICK_TRANSFER_SLOT, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+            }
+
+            @Override
+            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+                Location l = b.getLocation();
+                requestData(l, getContainerId(l));
+                // Restore mode
+                SlimefunBlockData blockData = StorageCacheUtils.getBlock(l);
+                String lock = null;
+                String voidExcess = null;
+                String quickModeStr = null;
+                if (blockData != null) {
+                    lock = blockData.getData("locked");
+                    voidExcess = blockData.getData("voidExcess");
+                    quickModeStr = blockData.getData("quickTransferMode");
+                }
+                QuickTransferMode quickTransferMode = quickModeStr == null ? QuickTransferMode.FROM_QUANTUM : QuickTransferMode.valueOf(quickModeStr);
+                quickTransferModes.put(l, quickTransferMode);
+                if (lock != null) {
+                    locked.add(l);
+                    menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(true));
+                } else {
+                    menu.replaceExistingItem(LOCK_MODE_SLOT, getContentLockItem(false));
+                }
+
+                if (voidExcess != null) {
+                    voidExcesses.add(l);
+                    menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(true));
+                } else {
+                    menu.replaceExistingItem(VOID_MODE_SLOT, getVoidExcessItem(false));
+                }
+
+                menu.replaceExistingItem(QUICK_TRANSFER_SLOT, getQuickTransferItem(quickTransferMode));
+
+                // Add lock mode switcher
+                menu.addMenuClickHandler(LOCK_MODE_SLOT, (p, slot, item1, action) -> {
+                    switchLock(menu, l);
+                    return false;
+                });
+
+                menu.addMenuClickHandler(VOID_MODE_SLOT, (p, slot, item1, action) -> {
+                    switchVoidExcess(menu, l);
+                    return false;
+                });
+
+                menu.addMenuClickHandler(QUICK_TRANSFER_SLOT, (p, slot, item1, action) -> {
+                    if (action.isRightClicked()) {
+                        switchQuickTransferMode(menu, l);
+                    } else {
+                        quickTransfer(menu, l, p);
+                    }
+                    return false;
+                });
+
+                StorageUnitData data = storages.get(l);
+                if (data != null) {
+                    update(l, true);
+                }
+            }
+
+            @Override
+            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
+                return p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                return new int[0];
+            }
+        };
+        loadConfigurations(itemId);
     }
 
     @Nullable
@@ -228,21 +313,18 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
 
     public static int getBoundId(@Nonnull ItemStack item) {
         // Get meta
-        final ItemMeta meta = item.getItemMeta();
-        Integer id = null;
+        ItemMeta meta = item.getItemMeta();
+        int id = -1;
         // Check if meta has bound id
         if (meta != null && meta.getPersistentDataContainer().has(idKey, PersistentDataType.INTEGER)) {
             id = meta.getPersistentDataContainer().get(idKey, PersistentDataType.INTEGER);
-        }
-        if (id == null) {
-            id = -1;
         }
         return id;
     }
 
     public static ItemStack bindId(@Nonnull ItemStack itemSample, int id) {
-        final ItemStack item = itemSample.clone();
-        final ItemMeta meta = item.getItemMeta();
+        ItemStack item = itemSample.clone();
+        ItemMeta meta = item.getItemMeta();
         List<String> lore;
         if (meta != null) {
             lore = meta.getLore();
@@ -306,16 +388,16 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
     }
 
     private static void addClickHandler(Location l) {
-        final BlockMenu blockMenu = StorageCacheUtils.getMenu(l);
+        BlockMenu blockMenu = StorageCacheUtils.getMenu(l);
         if (blockMenu == null) {
             return;
         }
-        final StorageUnitData data = storages.get(l);
+        StorageUnitData data = storages.get(l);
         // 遍历每一个显示槽
         for (int s : DISPLAY_SLOTS) {
             // 添加点击事件
             blockMenu.addMenuClickHandler(s, (player, slot, clickItem, action) -> {
-                final ItemStack itemOnCursor = player.getItemOnCursor();
+                ItemStack itemOnCursor = player.getItemOnCursor();
                 if (StackUtils.itemsMatch(clickItem, ERROR_BORDER)) {
                     if (!itemOnCursor.getType().isAir()) {
                         data.depositItemStack(itemOnCursor, false, true);
@@ -326,25 +408,27 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         a.add(i);
                     }
                     int index = a.indexOf(slot);
-                    final ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
+                    ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
 
-                    final ItemRequest itemRequest = new ItemRequest(take, 1);
+                    ItemRequest itemRequest = new ItemRequest(take, 1);
 
                     if (!action.isShiftClicked() || !action.isRightClicked()) {
                         if (action.isRightClicked()) {
                             itemRequest.setAmount(take.getMaxStackSize());
                         } else if (action.isShiftClicked()) {
-                            itemRequest.setAmount(take.getMaxStackSize() * 36);
+                            itemRequest.setAmount(take.getMaxStackSize()*36);
                         }
 
-                        final ItemStack requestedItemStack = data.requestItem(itemRequest);
+                        ItemStack requestedItemStack = data.requestItem(itemRequest);
                         if (requestedItemStack != null) {
                             do {
                                 int max = Math.min(requestedItemStack.getAmount(), requestedItemStack.getMaxStackSize());
-                                final ItemStack clone = StackUtils.getAsQuantity(requestedItemStack, max);
+                                ItemStack clone = StackUtils.getAsQuantity(requestedItemStack, max);
                                 requestedItemStack.setAmount(requestedItemStack.getAmount() - max);
-                                final HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(clone);
-                                remnant.values().stream().findFirst().ifPresent(leftOver -> data.depositItemStack(leftOver, false));
+                                HashMap<Integer, ItemStack> remnat = player.getInventory().addItem(clone);
+                                remnat.values().stream().findFirst().ifPresent(leftOver -> {
+                                    data.depositItemStack(leftOver, false);
+                                });
                             } while (requestedItemStack.getAmount() > 0);
                         }
                     } else {
@@ -397,7 +481,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
     }
 
     private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
-        final ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
+        ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
         if (itemStack == null || itemStack.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "Please put quantum storage in the quantum storage slot");
             return;
@@ -406,30 +490,30 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             player.sendMessage(ChatColor.RED + "Quantum storage slots can only hold one item!");
             return;
         }
-        final ItemStack toTransfer = blockMenu.getItemInSlot(ITEM_CHOOSE_SLOT);
+        ItemStack toTransfer = blockMenu.getItemInSlot(ITEM_CHOOSE_SLOT);
         if (toTransfer == null || toTransfer.getType().isAir()) {
             player.sendMessage(ChatColor.RED + "Please place the items you want to transfer below");
             return;
         }
-        final StorageUnitData thisStorage = storages.get(location);
+        StorageUnitData thisStorage = storages.get(location);
         for (ItemContainer each : thisStorage.getStoredItems()) {
-            final ItemStack sample = each.getSample();
+            ItemStack sample = each.getSample();
             if (StackUtils.itemsMatch(sample, toTransfer)) {
-                final SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
 
                 if (!(slimefunItem instanceof NetworkQuantumStorage)) {
                     player.sendMessage(ChatColor.RED + "It's not a quantum storage");
                     return;
                 }
 
-                final ItemMeta meta = itemStack.getItemMeta();
+                ItemMeta meta = itemStack.getItemMeta();
                 QuantumCache quantumCache = DataTypeMethods.getCustom(
                         meta,
                         Keys.QUANTUM_STORAGE_INSTANCE,
                         PersistentQuantumStorageType.TYPE
                 );
 
-                final QuickTransferMode mode = quickTransferModes.get(location);
+                QuickTransferMode mode = quickTransferModes.get(location);
                 switch (mode) {
                     case FROM_QUANTUM -> {
                         if (quantumCache == null || quantumCache.getItemStack() == null || quantumCache.getAmount() <= 0) {
@@ -440,14 +524,14 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                             player.sendMessage(ChatColor.RED + "The item in quantum storage is different from the item in the storage");
                             return;
                         }
-                        final long quantumAmount = quantumCache.getAmount();
-                        final int canAdd = (int) Math.min(quantumAmount, thisStorage.getSizeType().getEachMaxSize() - each.getAmount());
+                        long quantumAmount = quantumCache.getAmount();
+                        int canAdd = (int) Math.min(quantumAmount, thisStorage.getSizeType().getEachMaxSize() - each.getAmount());
                         if (canAdd <= 0) {
                             player.sendMessage(ChatColor.RED + "Not enough items in quantum storage or unable to deposit more items");
                             return;
                         }
 
-                        final int left = (int) quantumAmount - canAdd;
+                        int left = (int) quantumAmount - canAdd;
                         if (left > 0) {
                             quantumCache.setAmount(left);
                             DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
@@ -456,7 +540,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         } else {
                             blockMenu.replaceExistingItem(QUANTUM_SLOT, slimefunItem.getItem());
                         }
-                        final ItemStack clone = quantumCache.getItemStack().clone();
+                        ItemStack clone = quantumCache.getItemStack().clone();
                         clone.setAmount(canAdd);
                         thisStorage.depositItemStack(clone, true);
                         player.sendMessage(ChatColor.GREEN + "Deposit from quantum storage is successful!");
@@ -470,16 +554,16 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                         }
 
                         if (quantumCache == null) {
-                            final NetworkQuantumStorage nqs = (NetworkQuantumStorage) slimefunItem;
-                            final int quantumLimit = nqs.getMaxAmount();
+                            NetworkQuantumStorage nqs = (NetworkQuantumStorage) slimefunItem;
+                            int quantumLimit = nqs.getMaxAmount();
 
-                            final int unitAmount = each.getAmount();
-                            final int canAdd = Math.min(unitAmount, quantumLimit);
+                            int unitAmount = each.getAmount();
+                            int canAdd = Math.min(unitAmount, quantumLimit);
                             if (canAdd <= 0) {
                                 player.sendMessage(ChatColor.RED + "No more items to transfer or quantum storage is full");
                                 return;
                             }
-                            final ItemStack clone = sample.clone();
+                            ItemStack clone = sample.clone();
 
                             thisStorage.requestItem(new ItemRequest(clone, canAdd));
                             storages.put(location, thisStorage);
@@ -492,15 +576,15 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                             player.sendMessage(ChatColor.GREEN + "Withdraw to quantum storage is successful");
                             return;
                         } else if (StackUtils.itemsMatch(quantumCache.getItemStack(), sample)) {
-                            final int quantumLimit = quantumCache.getLimit();
-                            final int quantumAmount = (int) quantumCache.getAmount();
-                            final int unitAmount = each.getAmount();
-                            final int canAdd = Math.min(unitAmount, quantumLimit - quantumAmount);
+                            int quantumLimit = quantumCache.getLimit();
+                            int quantumAmount = (int) quantumCache.getAmount();
+                            int unitAmount = each.getAmount();
+                            int canAdd = Math.min(unitAmount, quantumLimit - quantumAmount);
                             if (canAdd <= 0) {
                                 player.sendMessage(ChatColor.RED + "No more items to transfer or quantum storage is full");
                                 return;
                             }
-                            final ItemStack clone = sample.clone();
+                            ItemStack clone = sample.clone();
 
                             thisStorage.requestItem(new ItemRequest(clone, canAdd));
                             storages.put(location, thisStorage);
@@ -522,7 +606,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
     }
 
     private static int getContainerId(Location l) {
-        final String str = StorageCacheUtils.getData(l, "containerId");
+        String str = StorageCacheUtils.getData(l, "containerId");
         return str == null ? -1 : Integer.parseInt(str);
     }
 
@@ -543,11 +627,13 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
         );
     }
 
-    public void loadConfigurations() {
-        final String configKey = this.getId();
+    private void loadConfigurations(String itemId) {
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
+
+        boolean defaultUseSpecialModel = false;
+        this.useSpecialModel = config.getBoolean("items." + itemId + ".use-special-model.enable", defaultUseSpecialModel);
+
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
         generatorMap.put("1", DisplayGroupGenerators::generateStorageUnit_1);
@@ -567,7 +653,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
         this.displayGroupGenerator = null;
 
         if (this.useSpecialModel) {
-            String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
+            String generatorKey = config.getString("items." + itemId + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
                 Networks.getInstance().getLogger().warning("未知的展示组类型 '" + generatorKey + "', 特殊模型已禁用。");

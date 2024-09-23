@@ -90,13 +90,11 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> wirelessReceivers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
+    private final Set<Location> chainPushers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> transferPushers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> chainGrabbers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> transferGrabbers = ConcurrentHashMap.newKeySet();
-    @Getter
-    private final Set<Location> transfers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> chainDispatchers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> advancedImporters = ConcurrentHashMap.newKeySet();
     @Getter
@@ -104,17 +102,15 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> advancedGreedyBlocks = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> advancedPurgers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> chainVanillaPushers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> lineTransferVanillaPushers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> chainVanillaGrabbers = ConcurrentHashMap.newKeySet();
     @Getter
-    private final Set<Location> lineTransferVanillaGrabbers = ConcurrentHashMap.newKeySet();
+    private final Set<Location> powerOutlets = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> inputOnlyMonitors = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> outputOnlyMonitors = ConcurrentHashMap.newKeySet();
-    @Getter
-    private Location controller = null;
     private boolean progressing = false;
     @Getter
     private int maxNodes;
@@ -137,14 +133,22 @@ public class NetworkRoot extends NetworkNode {
         super(location, type);
         this.maxNodes = maxNodes;
         this.root = this;
+        NetworkNode node = new NetworkNode(location, NodeType.CONTROLLER);
 
-        registerNode(location, type);
+        io.github.sefiraat.networks.NetworkStorage.getAllNetworkObjects().get(location).setNode(node);
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
+        // model just for network rake, so we don't need to register it
+        if (type == NodeType.MODEL) {
+            return;
+        }
+
         nodeLocations.add(location);
         switch (type) {
-            case CONTROLLER -> this.controller = location;
+            case CONTROLLER -> {
+                // Nothing here guvnor
+            }
             case BRIDGE -> bridges.add(location);
             case STORAGE_MONITOR -> monitors.add(location);
             case IMPORT -> importers.add(location);
@@ -189,6 +193,10 @@ public class NetworkRoot extends NetworkNode {
             case WIRELESS_RECEIVER -> wirelessReceivers.add(location);
             case POWER_OUTLET -> powerOutlets.add(location);
             // from networks expansion
+            case LINE_TRANSMITTER_PUSHER -> chainPushers.add(location);
+            case LINE_TRANSMITTER_PUSHER_PLUS -> chainPushers.add(location);
+            case LINE_TRANSMITTER_GRABBER -> chainGrabbers.add(location);
+            case LINE_TRANSMITTER_GRABBER_PLUS -> chainGrabbers.add(location);
             case ADVANCED_IMPORT -> advancedImporters.add(location);
             case ADVANCED_EXPORT -> advancedExporters.add(location);
             case ADVANCED_GREEDY_BLOCK -> {
@@ -203,12 +211,9 @@ public class NetworkRoot extends NetworkNode {
                     advancedGreedyBlocks.add(location);
                 }
             }
-            case ADVANCED_PURGER -> advancedPurgers.add(location);
-            case TRANSFER -> transfers.add(location);
-            case TRANSFER_PUSHER -> transferPushers.add(location);
-            case TRANSFER_GRABBER -> transferGrabbers.add(location);
-            case LINE_TRANSFER_VANILLA_GRABBER -> lineTransferVanillaGrabbers.add(location);
-            case LINE_TRANSFER_VANILLA_PUSHER -> lineTransferVanillaPushers.add(location);
+            case LINE_TRANSMITTER -> chainDispatchers.add(location);
+            case LINE_TRANSMITTER_VANILLA_GRABBER -> chainVanillaGrabbers.add(location);
+            case LINE_TRANSMITTER_VANILLA_PUSHER -> chainVanillaPushers.add(location);
             case INPUT_ONLY_MONITOR -> inputOnlyMonitors.add(location);
             case OUTPUT_ONLY_MONITOR -> outputOnlyMonitors.add(location);
         }
@@ -234,6 +239,14 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         this.isOverburdened = overburdened;
+    }
+
+    public Set<Location> getAdvancedImports() {
+        return this.advancedImporters;
+    }
+
+    public Set<Location> getAdvancedExports() {
+        return this.advancedExporters;
     }
 
     @Nonnull
@@ -774,6 +787,240 @@ public class NetworkRoot extends NetworkNode {
             }
         }
         return menus;
+    }
+
+    /**
+     * Checks the Network's exposed items and removes items matching the request up
+     * to the amount requested. Items are withdrawn in this order:
+     * <p>
+     * Deep Storages (Barrels)
+     * Cargo Storage Units
+     * Cells
+     * Crafters
+     * Advanced Greedy Blocks
+     * Greedy Blocks
+     *
+     * @param request The {@link ItemRequest} being requested from the Network
+     * @return The {@link ItemStack} matching the request with as many as could be found. Null if none.
+     */
+    @Nullable
+    public synchronized ItemStack getItemStackAsync(@Nonnull ItemRequest request) {
+        if (progressing) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        progressing = true;
+
+        ItemStack stackToReturn = null;
+
+        if (request.getAmount() <= 0) {
+            progressing = false;
+            notifyAll();
+            return stackToReturn;
+        }
+
+        // Barrels first
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
+
+            final ItemStack itemStack = barrelIdentity.getItemStack();
+
+            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
+                continue;
+            }
+
+            boolean infinity = barrelIdentity instanceof InfinityBarrel;
+            boolean fluffy = barrelIdentity instanceof FluffyBarrel;
+            final ItemStack fetched = barrelIdentity.requestItem(request);
+            if (fetched == null || fetched.getType().isAir() || (infinity && fetched.getAmount() == 1)) {
+                continue;
+            }
+
+            // Stack is null, so we can fill it here
+            if (stackToReturn == null) {
+                stackToReturn = fetched.clone();
+                stackToReturn.setAmount(0);
+            }
+
+            final int preserveAmount = (infinity || fluffy) ? fetched.getAmount() - 1 : fetched.getAmount();
+
+            if (request.getAmount() <= preserveAmount) {
+                stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                fetched.setAmount(fetched.getAmount() - request.getAmount());
+                progressing = false;
+                notifyAll();
+                return stackToReturn;
+            } else {
+                stackToReturn.setAmount(stackToReturn.getAmount() + preserveAmount);
+                request.receiveAmount(preserveAmount);
+                fetched.setAmount(fetched.getAmount() - preserveAmount);
+            }
+        }
+
+        // Units
+        for (StorageUnitData cache : getOutputAbleCargoStorageUnitDatas().keySet()) {
+            ItemStack take = cache.requestItem(request);
+            if (take != null) {
+                if (stackToReturn == null) {
+                    stackToReturn = take.clone();
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
+                }
+                request.receiveAmount(stackToReturn.getAmount());
+
+                if (request.getAmount() <= 0) {
+                    progressing = false;
+                    notifyAll();
+                    return stackToReturn;
+                }
+            }
+        }
+
+        // Cells
+        for (BlockMenu blockMenu : getCellMenus()) {
+            for (ItemStack itemStack : blockMenu.getContents()) {
+                if (itemStack == null
+                        || itemStack.getType().isAir()
+                        || !StackUtils.itemsMatch(request, itemStack)
+                ) {
+                    continue;
+                }
+
+                // Mark the Cell as dirty otherwise the changes will not save on shutdown
+                blockMenu.markDirty();
+
+                // If the return stack is null, we need to set it up
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
+                }
+
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    // We can't take more than this stack. Level to request amount, remove items and then return
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    progressing = false;
+                    notifyAll();
+                    return stackToReturn;
+                } else {
+                    // We can take more than what is here, consume before trying to take more
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
+        // Crafters
+        for (BlockMenu blockMenu : getCrafterOutputs()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            for (int slot : slots) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType().isAir() || !StackUtils.itemsMatch(
+                        request,
+                        itemStack
+                )) {
+                    continue;
+                }
+
+                // Stack is null, so we can fill it here
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
+                }
+
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    progressing = false;
+                    notifyAll();
+                    return stackToReturn;
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
+        for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            for (int slot : slots) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType().isAir() || !StackUtils.itemsMatch(
+                        request,
+                        itemStack
+                )) {
+                    continue;
+                }
+
+                // Stack is null, so we can fill it here
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
+                }
+
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    progressing = false;
+                    notifyAll();
+                    return stackToReturn;
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
+        // Greedy Blocks
+        for (BlockMenu blockMenu : getGreedyBlockMenus()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
+            if (itemStack == null
+                    || itemStack.getType().isAir()
+                    || !StackUtils.itemsMatch(request, itemStack)
+            ) {
+                continue;
+            }
+
+            // Mark the Cell as dirty otherwise the changes will not save on shutdown
+            blockMenu.markDirty();
+
+            // If the return stack is null, we need to set it up
+            if (stackToReturn == null) {
+                stackToReturn = itemStack.clone();
+                stackToReturn.setAmount(0);
+            }
+
+            if (request.getAmount() <= itemStack.getAmount()) {
+                // We can't take more than this stack. Level to request amount, remove items and then return
+                stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                progressing = false;
+                notifyAll();
+                return stackToReturn;
+            } else {
+                // We can take more than what is here, consume before trying to take more
+                stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                request.receiveAmount(itemStack.getAmount());
+                itemStack.setAmount(0);
+            }
+        }
+
+        if (stackToReturn == null || stackToReturn.getAmount() == 0) {
+            progressing = false;
+            notifyAll();
+            return null;
+        }
+
+        progressing = false;
+        notifyAll();
+        return stackToReturn;
     }
 
     @Nullable

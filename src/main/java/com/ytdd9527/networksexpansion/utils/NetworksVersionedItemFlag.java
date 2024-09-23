@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import com.ytdd9527.networksexpansion.api.enums.MCVersion;
-import io.github.sefiraat.networks.Networks;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemFlag;
 
@@ -14,8 +14,8 @@ public class NetworksVersionedItemFlag {
     public static final ItemFlag HIDE_ADDITIONAL_TOOLTIP;
 
     static {
-        MCVersion version = Networks.getInstance().getMCVersion();
-        HIDE_ADDITIONAL_TOOLTIP = version.isAtLeast(MCVersion.MC1_20_5) ? ItemFlag.HIDE_ADDITIONAL_TOOLTIP : getKey("HIDE_POTION_EFFECTS");
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
+        HIDE_ADDITIONAL_TOOLTIP = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5) ? ItemFlag.HIDE_ADDITIONAL_TOOLTIP : getKey("HIDE_POTION_EFFECTS");
 
     }
 
