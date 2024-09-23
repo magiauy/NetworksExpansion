@@ -64,7 +64,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
     private boolean useSpecialModel = false;
 
     public AdvancedPurger(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.PURGER);
+        super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_PURGER);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
 

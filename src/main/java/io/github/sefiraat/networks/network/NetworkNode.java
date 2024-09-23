@@ -31,7 +31,9 @@ public class NetworkNode {
             BlockFace.WEST
     );
 
+    @Getter
     protected final Set<NetworkNode> childrenNodes = new HashSet<>();
+    @Getter
     protected NetworkNode parent = null;
     protected NetworkRoot root = null;
     protected Location nodePosition;
@@ -80,16 +82,8 @@ public class NetworkNode {
         this.root = root;
     }
 
-    public NetworkNode getParent() {
-        return parent;
-    }
-
     private void setParent(NetworkNode parent) {
         this.parent = parent;
-    }
-
-    public Set<NetworkNode> getChildrenNodes() {
-        return this.childrenNodes;
     }
 
     public void addAllChildren() {
@@ -107,6 +101,7 @@ public class NetworkNode {
             // Kill additional controllers if it isn't the root
             if (testType == NodeType.CONTROLLER && !testLocation.equals(getRoot().nodePosition)) {
                 killAdditionalController(testLocation);
+                continue;
             }
 
             // Check if it's in the network already and, if not, create a child node and propagate further.
@@ -138,7 +133,7 @@ public class NetworkNode {
                 }
             };
             runnable.runTask(Networks.getInstance());
-            NetworkStorage.getAllNetworkObjects().remove(location);
+            NetworkController.wipeNetwork(location);
         }
     }
 

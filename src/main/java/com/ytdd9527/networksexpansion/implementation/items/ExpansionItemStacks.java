@@ -27,7 +27,20 @@ import java.util.Map;
  */
 public class ExpansionItemStacks {
     //工作台
-
+    public static final SlimefunItemStack NETWORK_EXPANSION_SURVIVAL_GUIDE = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_SURVIVAL_GUIDE",
+            new ItemStack(Material.ENCHANTED_BOOK),
+            Theme.GUIDE,
+            "网络拓展指南 (生存模式)",
+            ""
+    );
+    public static final SlimefunItemStack NETWORK_EXPANSION_CHEAT_GUIDE = Theme.themedSlimefunItemStack(
+            "NTW_EXPANSION_CREATIVE_GUIDE",
+            new ItemStack(Material.ENCHANTED_BOOK),
+            Theme.GUIDE,
+            "网络拓展指南 (作弊模式)",
+            ""
+    );
 public static final SlimefunItemStack NETWORK_EXPANSION_WORKBENCH = Theme.Random(
                 "NTW_EXPANSION_WORKBENCH",
                 new ItemStack(Material.BAMBOO_BLOCK),
@@ -459,7 +472,7 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
 );
     // Workbench
     // Tools
-    public static final SlimefunItemStack WORLD_EDIT_AXE = Theme.Random(
+    public static final SlimefunItemStack WORLDEDIT_AXE = Theme.Random(
             "NTW_EXPANSION_WORLD_EDIT_AXE",
             new ItemStack(Material.DIAMOND_AXE),
             Theme.TOOL,
@@ -510,22 +523,6 @@ public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme
                 " Fluffy Barrel",
             TextUtil.colorPseudorandomString("Network Expansion Drawer")
     );
-    /*
-    // Points
-    public static final SlimefunItemStack POINT_TRANSFER = Theme.Random(
-            "NTW_EXPANSION_POINT_TRANSFER",
-            Enchanted(Material.END_ROD),
-            Theme.MACHINE,
-            "对点传输器"
-    );
-    public static final SlimefunItemStack POINT_TRANSFER_GRABBER = Theme.Random(
-            "NTW_EXPANSION_POINT_TRANSFER_GRABBER",
-            new ItemStack(Material.END_ROD),
-            Theme.MACHINE,
-            "对点传输器 [抓取]"
-    );
-    */
-
 
 //网络合成机
 public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH = Theme.Random(
