@@ -30,11 +30,7 @@ public class ExpansionWorkbenchEncoder extends AbstractEncoder {
         return SupportedExpansionWorkbenchRecipes.getRecipes().entrySet();
     }
 
-    ;
-
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedExpansionWorkbenchRecipes.testRecipe(inputs, recipe);
     }
-
-    ;
 }

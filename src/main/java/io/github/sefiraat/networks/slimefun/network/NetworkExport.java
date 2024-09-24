@@ -96,7 +96,7 @@ public class NetworkExport extends NetworkObject {
     }
 
     private void tryFetchItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition.getNode() == null) {
             return;

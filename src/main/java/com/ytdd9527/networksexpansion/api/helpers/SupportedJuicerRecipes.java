@@ -2,10 +2,13 @@ package com.ytdd9527.networksexpansion.api.helpers;
 
 import com.ytdd9527.networksexpansion.api.interfaces.CanTestRecipe;
 import com.ytdd9527.networksexpansion.api.interfaces.HasRecipes;
+import com.ytdd9527.networksexpansion.utils.itemstacks.RecipeUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +23,33 @@ public final class SupportedJuicerRecipes implements HasRecipes, CanTestRecipe {
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 
     static {
+        String id = SlimefunItems.JUICER.getItemId();
+        SlimefunItem recipeTypeItem = SlimefunItem.getById(id);
+        if (recipeTypeItem != null && recipeTypeItem instanceof MultiBlockMachine mb) {
+            boolean isInput = true;
+            ItemStack[] input = null;
+            ItemStack[] output = null;
+            for (ItemStack[] recipe : mb.getRecipes()) {
+                if (isInput) {
+                    input = recipe;
+                } else {
+                    output = recipe;
+                    if (input.length != 9) {
+                        ItemStack[] newInput = new ItemStack[9];
+                        for (int i = 0; i < 9; i++) {
+                            if (i < input.length) {
+                                newInput[i] = input[i];
+                            } else {
+                                newInput[i] = null;
+                            }
+                        }
+                        input = newInput;
+                    }
+                    RECIPES.put(input, output[0]);
+                }
+                isInput = !isInput;
+            }
+        }
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             RecipeType recipeType = item.getRecipeType();
             if ((recipeType == RecipeType.JUICER) && allowedRecipe(item)) {

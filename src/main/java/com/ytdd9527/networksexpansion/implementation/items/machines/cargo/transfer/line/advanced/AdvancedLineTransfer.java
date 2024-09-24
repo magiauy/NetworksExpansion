@@ -4,8 +4,8 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -38,7 +38,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-// TODO: 需要重构
 public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem, Configurable {
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
@@ -198,7 +197,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -221,13 +220,13 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             }
         }
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
-            TransferUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
+            LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
         });
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -242,8 +241,8 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
-            TransferUtil.grabItem(root, targetMenu, mode, limitQuantity);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+            LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
         });
     }
 

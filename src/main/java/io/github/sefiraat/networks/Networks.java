@@ -1,9 +1,9 @@
 package io.github.sefiraat.networks;
 
 import com.ytdd9527.networksexpansion.api.enums.MCVersion;
+import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.implementation.guide.CheatGuideImpl;
 import com.ytdd9527.networksexpansion.implementation.guide.SurvivalGuideImpl;
-import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.setup.SetupUtil;
 import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
@@ -255,8 +255,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             for (int i = 0; i < 20; i++) {
                 getLogger().severe("你需要更新 Slimefun4 才能正常运行本插件！");
             }
-            getServer().getPluginManager().disablePlugin(this);
-            return;
         }
 
         if (mcVersion == MCVersion.UNKNOWN) {

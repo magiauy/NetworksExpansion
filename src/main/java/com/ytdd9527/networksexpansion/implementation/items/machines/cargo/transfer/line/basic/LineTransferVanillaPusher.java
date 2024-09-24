@@ -43,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-// TODO #114
 public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
@@ -89,15 +88,23 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        final Location location = block.getLocation();
-        int tickCounter = getTickCounter(location);
-        tickCounter = (tickCounter + 1) % pushItemTick;
-
-        if (tickCounter == 0) {
-            performPushingOperation(blockMenu);
+        if (blockMenu == null) {
+            return;
         }
+        final Location location = blockMenu.getLocation();
 
-        updateTickCounter(location, tickCounter);
+        if (pushItemTick != 1) {
+            int tickCounter = getTickCounter(location);
+            tickCounter = (tickCounter + 1) % pushItemTick;
+
+            if (tickCounter == 0) {
+                tryPushItem(blockMenu);
+            }
+
+            updateTickCounter(location, tickCounter);
+        } else {
+            tryPushItem(blockMenu);
+        }
     }
 
     private int getTickCounter(Location location) {
@@ -113,21 +120,14 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         TICKER_MAP.put(location, tickCounter);
     }
 
-    private void performPushingOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
-            if (definition == null || definition.getNode() == null) {
-                return;
-            }
-
-            final NetworkRoot root = definition.getNode().getRoot();
-            tryPushItem(root, blockMenu);
+        if (definition == null || definition.getNode() == null) {
+            return;
         }
-    }
 
-    private void tryPushItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
-
+        final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = getCurrentDirection(blockMenu);
 
         // Fix for early vanilla pusher release

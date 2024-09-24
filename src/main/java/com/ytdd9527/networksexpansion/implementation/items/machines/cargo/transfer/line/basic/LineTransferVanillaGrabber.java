@@ -42,8 +42,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-// TODO #114
-
 @SuppressWarnings("deprecation")
 public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
@@ -86,15 +84,22 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        final Location location = block.getLocation();
-        int tickCounter = getTickCounter(location);
-        tickCounter = (tickCounter + 1) % grabItemTick;
-
-        if (tickCounter == 0) {
-            performGrabbingOperation(blockMenu);
+        if (blockMenu == null) {
+            return;
         }
+        final Location location = blockMenu.getLocation();
+        if (grabItemTick != 1) {
+            int tickCounter = getTickCounter(location);
+            tickCounter = (tickCounter + 1) % grabItemTick;
 
-        updateTickCounter(location, tickCounter);
+            if (tickCounter == 0) {
+                tryGrabItem(blockMenu);
+            }
+
+            updateTickCounter(location, tickCounter);
+        } else {
+            tryGrabItem(blockMenu);
+        }
     }
 
     private int getTickCounter(Location location) {
@@ -110,20 +115,14 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         TICKER_MAP.put(location, tickCounter);
     }
 
-    private void performGrabbingOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
-            if (definition == null || definition.getNode() == null) {
-                return;
-            }
-
-            final NetworkRoot root = definition.getNode().getRoot();
-            tryGrabItem(root, blockMenu);
+        if (definition == null || definition.getNode() == null) {
+            return;
         }
-    }
 
-    private void tryGrabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
+        final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = getCurrentDirection(blockMenu);
 
         // Fix for early vanilla pusher release

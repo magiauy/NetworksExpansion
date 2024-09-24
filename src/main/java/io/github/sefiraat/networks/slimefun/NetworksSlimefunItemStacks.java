@@ -599,10 +599,7 @@ public class NetworksSlimefunItemStacks {
                 Theme.MACHINE,
                 "网络插口 (1)",
                 "网络插口可以将网络中存储的电力",
-                "传输回电力网络中.",
-                "将网络插口理解为发电机.",
-                "",
-                "会有 20% 的损耗.",
+                "传输至指定的机器中.",
                 "",
                 MessageFormat.format("{0}可存储: {1}{2}J", Theme.CLICK_INFO, Theme.PASSIVE, 500)
         );
@@ -613,10 +610,7 @@ public class NetworksSlimefunItemStacks {
                 Theme.MACHINE,
                 "网络插口 (2)",
                 "网络插口可以将网络中存储的电力",
-                "传输回电力网络中.",
-                "将网络插口理解为发电机.",
-                "",
-                "会有 20% 的损耗.",
+                "传输至指定的机器中.",
                 "",
                 MessageFormat.format("{0}可存储: {1}{2}J", Theme.CLICK_INFO, Theme.PASSIVE, 2000)
         );

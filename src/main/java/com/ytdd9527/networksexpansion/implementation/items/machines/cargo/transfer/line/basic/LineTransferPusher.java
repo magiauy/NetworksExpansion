@@ -3,8 +3,8 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -98,23 +98,24 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         }
     }
 
-    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryPushItem(blockMenu);
-        }
-    }
-
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        final Location location = block.getLocation();
-        int tickCounter = getTickCounter(location);
-        tickCounter = (tickCounter + 1) % pushItemTick;
-        if (tickCounter == 0) {
-            performPushItemOperation(blockMenu);
+        if (blockMenu == null) {
+            return;
         }
-        updateTickCounter(location, tickCounter);
+        final Location location = blockMenu.getLocation();
+        if (pushItemTick != 1) {
+            int tickCounter = getTickCounter(location);
+            tickCounter = (tickCounter + 1) % pushItemTick;
+            if (tickCounter == 0) {
+                tryPushItem(blockMenu);
+            }
+            updateTickCounter(location, tickCounter);
+        } else {
+            tryPushItem(blockMenu);
+        }
     }
 
     private int getTickCounter(Location location) {
@@ -131,7 +132,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -152,8 +153,8 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
-            TransferUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
+            LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
         });
     }
 

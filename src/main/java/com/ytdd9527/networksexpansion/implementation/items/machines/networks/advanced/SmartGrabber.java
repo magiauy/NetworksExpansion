@@ -114,7 +114,7 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
         final BlockFace containerFace = bridgeFace.getOppositeFace();
         final Block bridge = thisBlock.getRelative(bridgeFace);
         final Block container = thisBlock.getRelative(containerFace);
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(bridge.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(bridge.getLocation());
         if (definition != null && definition.getNode() != null) {
             final BlockMenu targetMenu = StorageCacheUtils.getMenu(container.getLocation());
             if (targetMenu != null) {

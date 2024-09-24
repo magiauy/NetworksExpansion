@@ -3,8 +3,8 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -153,6 +153,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         } else {
             tryGrabItem(blockMenu);
         }
+
     }
 
     private int getPushTickCounter(Location location) {
@@ -182,7 +183,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -203,13 +204,13 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
-            TransferUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
+            LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
         });
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -222,8 +223,8 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
-            TransferUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+            LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
         });
     }
 

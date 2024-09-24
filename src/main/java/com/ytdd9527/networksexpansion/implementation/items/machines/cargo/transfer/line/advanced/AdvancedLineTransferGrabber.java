@@ -4,8 +4,8 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
-import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -101,8 +101,11 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
+        if (blockMenu == null) {
+            return;
+        }
+        final Location location = block.getLocation();
         if (grabItemTick != 1) {
-            final Location location = block.getLocation();
             int tickCounter = getTickCounter(location);
             tickCounter = (tickCounter + 1) % grabItemTick;
             if (tickCounter == 0) {
@@ -129,7 +132,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -144,8 +147,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
-            TransferUtil.grabItem(root, targetMenu, mode, limitQuantity);
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+            LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
         });
     }
 
@@ -156,7 +159,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
 
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@Nonnull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -165,7 +168,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@Nonnull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
@@ -205,6 +208,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
 
     @Override
+    @Nonnull
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }

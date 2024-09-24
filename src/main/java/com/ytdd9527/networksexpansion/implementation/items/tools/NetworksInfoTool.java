@@ -37,7 +37,7 @@ public class NetworksInfoTool extends SpecialSlimefunItem {
                         }
                         final SlimefunItem sfi = StorageCacheUtils.getSfItem(location);
                         if (sfi instanceof NetworkObject) {
-                            final NodeDefinition nodeDefinition = NetworkStorage.getAllNetworkObjects().get(location);
+                            final NodeDefinition nodeDefinition = NetworkStorage.getNode(location);
                             if (nodeDefinition == null) {
                                 player.sendMessage(ChatColor.GREEN + "nodeDefinition = null");
                                 return;

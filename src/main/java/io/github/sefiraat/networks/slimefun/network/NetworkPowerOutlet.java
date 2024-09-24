@@ -39,7 +39,7 @@ public class NetworkPowerOutlet extends NetworkDirectional {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(b.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(b.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -85,9 +85,8 @@ public class NetworkPowerOutlet extends NetworkDirectional {
         }
 
         final int gen = power < possibleGeneration ? (int) power : possibleGeneration;
-        final int chargeToRemove = (int) (gen * 1.2);
 
         component.addCharge(targetBlock.getLocation(), gen);
-        root.removeRootPower(chargeToRemove);
+        root.removeRootPower(gen);
     }
 }
