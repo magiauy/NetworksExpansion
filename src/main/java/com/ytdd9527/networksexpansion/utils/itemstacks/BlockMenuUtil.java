@@ -56,6 +56,21 @@ public class BlockMenuUtil {
     }
 
     @Nonnull
+    public static Map<ItemStack, Integer> pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack[] items, int... slots) {
+        if (items == null || items.length == 0) {
+            throw new IllegalArgumentException("Cannot push null or empty array");
+        }
+
+        List<ItemStack> listItems = new ArrayList<>();
+        for (ItemStack item : items) {
+            if (item != null && !item.getType().isAir()) {
+                listItems.add(item);
+            }
+        }
+
+        return pushItem(blockMenu, listItems, slots);
+    }
+    @Nonnull
     public static Map<ItemStack, Integer> pushItem(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty list");
@@ -99,13 +114,13 @@ public class BlockMenuUtil {
 
     public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack[] items, int... slots) {
         if (items == null || items.length == 0) {
-            return true;
+            return false;
         }
 
         List<ItemStack> listItems = new ArrayList<>();
         for (ItemStack item : items) {
             if (item != null && !item.getType().isAir()) {
-                listItems.add(item);
+                listItems.add(item.clone());
             }
         }
 
@@ -114,16 +129,25 @@ public class BlockMenuUtil {
 
     public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
-            return true;
+            return false;
         }
 
         List<ItemStack> cloneMenu = new ArrayList<>();
-        for (int slot : slots) {
-            ItemStack stack = blockMenu.getItemInSlot(slot);
-            cloneMenu.set(slot, stack);
+        for (int i = 0; i < 54; i++) {
+            cloneMenu.add(null);
         }
 
-        for (ItemStack item : items) {
+        for (int slot : slots) {
+            ItemStack stack = blockMenu.getItemInSlot(slot);
+            if (stack!= null && !stack.getType().isAir()) {
+                cloneMenu.set(slot, stack.clone());
+            } else {
+                cloneMenu.set(slot, null);
+            }
+        }
+
+        for (ItemStack rawItem : items) {
+            ItemStack item = rawItem.clone();
             int leftAmount = item.getAmount();
             for (int slot : slots) {
                 if (leftAmount <= 0) {

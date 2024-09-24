@@ -26,7 +26,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -36,6 +38,39 @@ import java.util.Set;
 @UtilityClass
 @SuppressWarnings({"unchecked", "unused", "deprecation"})
 public class RecipeUtil {
+    public static Map<ItemStack[], ItemStack> getRecipesBySlimefunId(@Nonnull String slimefunId) {
+        final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);
+        try {
+            Method method = ReflectionUtil.getMethod(slimefunItem.getClass(), "getMachineRecipes");
+            if (method != null && method.getReturnType().equals(List.class)) {
+                method.setAccessible(true);
+                List<MachineRecipe> recipes = (List<MachineRecipe>) method.invoke(slimefunItem);
+                if (recipes != null) {
+                    Map<ItemStack[], ItemStack> recipeMap = new HashMap<>();
+                    for (MachineRecipe recipe : recipes) {
+                        boolean disabled = false;
+                        for (ItemStack itemStack : recipe.getOutput()) {
+                            SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+                            if (sfItem != null && sfItem.isDisabled()) {
+                                disabled = true;
+                                break;
+                            }
+                        }
+                        if (!disabled) {
+                            ItemStack[] inputs = recipe.getInput();
+                            ItemStack[] outputs = recipe.getOutput();
+                            recipeMap.put(inputs, outputs[0]);
+                        }
+                    }
+                    return recipeMap;
+                }
+                return null;
+            }
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static void registerRecipeBySlimefunId(@Nonnull RecipeItem recipeItem, @Nonnull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);
         try {

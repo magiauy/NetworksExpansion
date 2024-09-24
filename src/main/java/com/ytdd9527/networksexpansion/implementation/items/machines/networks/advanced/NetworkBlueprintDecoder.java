@@ -4,6 +4,7 @@ import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -29,6 +30,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class NetworkBlueprintDecoder extends NetworkObject {
     private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 3, 4, 5, 9, 11, 12, 14, 18, 19, 20, 21, 22, 23};
@@ -133,16 +138,18 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         }
 
         ItemStack[] inputs = blueprintInstance.getRecipeItems();
+
         if (!BlockMenuUtil.fits(menu, inputs, getOutputSlots())) {
             player.sendMessage(ChatColor.RED + "输出栏不足");
             return;
         }
+
         input.setAmount(input.getAmount() - 1);
-        for (ItemStack inputItem : inputs) {
-            ItemStack left = BlockMenuUtil.pushItem(menu, inputItem, getOutputSlots());
-            if (left != null) {
+        Map<ItemStack, Integer> left = BlockMenuUtil.pushItem(menu, inputs, getOutputSlots());
+        if (left != null && !left.isEmpty()) {
+            for (Map.Entry<ItemStack, Integer> entry : left.entrySet()) {
                 player.sendMessage(ChatColor.RED + "没有足够的位置输出物品! ");
-                menu.getLocation().getWorld().dropItem(menu.getLocation(), left);
+                menu.getLocation().getWorld().dropItem(menu.getLocation(), entry.getKey());
             }
         }
 

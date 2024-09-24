@@ -23,9 +23,21 @@ import java.util.function.Consumer;
 
 @UtilityClass
 public class LineOperationUtil {
+    public static void doOperation(Location startLocation, BlockFace direction, int limit, Consumer<BlockMenu> consumer) {
+        doOperation(startLocation, direction, limit, false, true, consumer);
+    }
+
     public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, Consumer<BlockMenu> consumer) {
+        doOperation(startLocation, direction, limit, skipNoMenu, true, consumer);
+    }
+
+    public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, Consumer<BlockMenu> consumer) {
         Block block = startLocation.getBlock();
-        for (int i = 0; i < limit; i++) {
+        int finalLimit = limit;
+        if (optimizeExperience) {
+            finalLimit += 1;
+        }
+        for (int i = 0; i < finalLimit; i++) {
             block = block.getRelative(direction);
             BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
             if (blockMenu == null) {

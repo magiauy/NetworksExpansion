@@ -164,6 +164,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         if (amount <= 0) {
             clearPDC(mover);
+            return;
         }
 
         DataTypeMethods.setCustom(itemMeta, Keys.ITEM_MOVER_AMOUNT, PersistentDataType.INTEGER, amount);
@@ -204,6 +205,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         DataTypeMethods.removeCustom(itemMeta, Keys.ITEM_MOVER_ITEM);
         DataTypeMethods.removeCustom(itemMeta, Keys.ITEM_MOVER_AMOUNT);
+
+        mover.setItemMeta(itemMeta);
     }
 
     public static void updateLore(ItemStack itemStack) {
@@ -393,8 +396,11 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return;
         }
 
-        player.sendMessage(ChatColor.GREEN + "已存储 " + ItemStackHelper.getDisplayName(fetched) + " x" + fetched.getAmount() + " 至物品转移棒");
+        int before = fetched.getAmount();
+        String name = ItemStackHelper.getDisplayName(fetched);
         depositItem(mover, fetched);
+        int after = fetched.getAmount();
+        player.sendMessage(ChatColor.GREEN + "已存储 " + name + "x" + (before - after) + " 至物品转移棒");
         updateLore(mover);
     }
 
@@ -420,9 +426,11 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         }
 
         ItemStack clone = StackUtils.getAsQuantity(storedItemStack, storedAmount);
-        player.sendMessage(ChatColor.GREEN + "已输出 " + ItemStackHelper.getDisplayName(clone) + " x" + clone.getAmount() + " 至存储.");
+        String name = ItemStackHelper.getDisplayName(clone);
         barrel.depositItemStack(clone);
+        int after = clone.getAmount();
         setStoredAmount(mover, clone.getAmount());
+        player.sendMessage(ChatColor.GREEN + "已输出 " + name + "x" + (storedAmount - after) + " 至存储.");
         updateLore(mover);
     }
 

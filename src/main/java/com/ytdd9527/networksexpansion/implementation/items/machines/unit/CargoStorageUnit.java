@@ -555,25 +555,25 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                             if (stored == null || stored.getType().isAir()) {
                                 player.sendMessage(ChatColor.RED + "物品转移棒中没有物品");
                             }
-                            Networks.getInstance().getLogger().info("stored: " + stored);
+                            int before = stored.getAmount();
+                            String name = ItemStackHelper.getDisplayName(stored);
                             thisStorage.depositItemStack(stored, true);
                             int left = stored.getAmount();
                             ItemMover.setStoredAmount(itemStack, left);
-                            if (left <= 0) {
-                                ItemMover.setStoredItemStack(itemStack, null);
-                            }
-                            Networks.getInstance().getLogger().info("after deposit: " + stored);
-                            player.sendMessage(ChatColor.GREEN + "已存入至抽屉中！");
+                            player.sendMessage(ChatColor.GREEN + "已存入 " + name + "x" + (before - left) +" 至抽屉中!");
                         }
                         case TO_QUANTUM -> {
                             ItemRequest itemRequest = new ItemRequest(sample, each.getAmount());
+                            int before = each.getAmount();
                             ItemStack fetched = thisStorage.requestItem(itemRequest);
                             if (fetched != null) {
+                                String name = ItemStackHelper.getDisplayName(fetched);
                                 ItemMover.depositItem(itemStack, fetched);
+                                int left = fetched.getAmount();
                                 if (fetched.getAmount() > 0) {
                                     thisStorage.depositItemStack(fetched, false);
                                 }
-                                player.sendMessage(ChatColor.GREEN + "已转移至物品转移棒！");
+                                player.sendMessage(ChatColor.GREEN + "已转移 " + name + "x" + (before - left) + " 至物品转移棒!");
                             }
                         }
                     }
