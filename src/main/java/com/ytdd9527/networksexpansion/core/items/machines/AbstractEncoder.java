@@ -164,13 +164,13 @@ public abstract class AbstractEncoder extends NetworkObject {
             }
         }
 
-        if (crafted == null || crafted.getType().isAir()) {
+        if (crafted == null || crafted.getType() == Material.AIR) {
             player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
             sendDebugMessage(blockMenu.getLocation(), "Invalid recipe");
             return;
         }
 
-        if (crafted.getType().isAir()) {
+        if (crafted.getType() == Material.AIR) {
             player.sendMessage(Theme.WARNING + "编码的结果是空气，这不是一个有效的配方。");
             sendDebugMessage(blockMenu.getLocation(), "Encoded result is air");
             return;

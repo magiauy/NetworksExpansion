@@ -97,7 +97,7 @@ public class NetworkPurger extends NetworkObject {
 
         ItemStack testItem = blockMenu.getItemInSlot(TEST_ITEM_SLOT);
 
-        if (testItem == null || testItem.getType().isAir()) {
+        if (testItem == null || testItem.getType() == Material.AIR) {
             return;
         }
         ItemStack clone = StackUtils.getAsQuantity(testItem, 1);

@@ -318,7 +318,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             blockMenu.addMenuClickHandler(s, (player, slot, clickItem, action) -> {
                 final ItemStack itemOnCursor = player.getItemOnCursor();
                 if (StackUtils.itemsMatch(clickItem, ERROR_BORDER)) {
-                    if (!itemOnCursor.getType().isAir()) {
+                    if (itemOnCursor.getType() != Material.AIR) {
                         data.depositItemStack(itemOnCursor, false, true);
                     }
                 } else {
@@ -399,7 +399,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
 
     private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
         final ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
-        if (itemStack == null || itemStack.getType().isAir()) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "请在量子存储槽放入量子存储 或 物品转移棒");
             return;
         }
@@ -410,7 +410,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
         }
 
         final ItemStack toTransfer = blockMenu.getItemInSlot(ITEM_CHOOSE_SLOT);
-        if (toTransfer == null || toTransfer.getType().isAir()) {
+        if (toTransfer == null || toTransfer.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "请在下方放入你要传输的物品");
             return;
         }
@@ -552,7 +552,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                     switch (mode) {
                         case FROM_QUANTUM -> {
                             ItemStack stored = StackUtils.getAsQuantity(ItemMover.getStoredItemStack(itemStack), ItemMover.getStoredAmount(itemStack));
-                            if (stored == null || stored.getType().isAir()) {
+                            if (stored == null || stored.getType() == Material.AIR) {
                                 player.sendMessage(ChatColor.RED + "物品转移棒中没有物品");
                             }
                             int before = stored.getAmount();

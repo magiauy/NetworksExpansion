@@ -131,7 +131,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
         int[] fromSlot = fromMenu.getPreset().getSlotsAccessedByItemTransport(fromMenu, ItemTransportFlow.WITHDRAW, null);
         for (int i = 0; i < fromSlot.length; i++) {
             ItemStack fromItem = fromMenu.getItemInSlot(fromSlot[i]);
-            if (fromItem == null || fromItem.getType().isAir()) {
+            if (fromItem == null || fromItem.getType() == Material.AIR) {
                 continue;
             }
             int[] toSlot = toMenu.getPreset().getSlotsAccessedByItemTransport(toMenu, ItemTransportFlow.INSERT, fromItem);

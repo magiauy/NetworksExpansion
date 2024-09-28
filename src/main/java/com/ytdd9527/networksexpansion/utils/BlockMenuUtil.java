@@ -4,6 +4,7 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class BlockMenuUtil {
     @Nullable
     public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int... slots) {
-        if (item == null || item.getType().isAir()) {
+        if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
 
@@ -67,7 +68,7 @@ public class BlockMenuUtil {
 
         List<ItemStack> listItems = new ArrayList<>();
         for (ItemStack item : items) {
-            if (item != null && !item.getType().isAir()) {
+            if (item != null && item.getType() != Material.AIR) {
                 listItems.add(item);
             }
         }
@@ -83,7 +84,7 @@ public class BlockMenuUtil {
 
         Map<ItemStack, Integer> itemMap = new HashMap<>();
         for (ItemStack item : items) {
-            if (item != null && !item.getType().isAir()) {
+            if (item != null && item.getType() != Material.AIR) {
                 ItemStack leftOver = pushItem(blockMenu, item, slots);
                 if (leftOver != null) {
                     itemMap.put(leftOver, itemMap.getOrDefault(leftOver, 0) + leftOver.getAmount());
@@ -95,7 +96,7 @@ public class BlockMenuUtil {
     }
 
     public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int... slots) {
-        if (item == null || item.getType().isAir()) {
+        if (item == null || item.getType() == Material.AIR) {
             return true;
         }
 
@@ -103,7 +104,7 @@ public class BlockMenuUtil {
         for (int slot : slots) {
             ItemStack stack = blockMenu.getItemInSlot(slot);
 
-            if (stack == null || stack.getType().isAir()) {
+            if (stack == null || stack.getType() == Material.AIR) {
                 incoming -= item.getMaxStackSize();
             } else if (stack.getMaxStackSize() > stack.getAmount() && StackUtils.itemsMatch(item, stack)) {
                 incoming -= stack.getMaxStackSize() - stack.getAmount();
@@ -124,7 +125,7 @@ public class BlockMenuUtil {
 
         List<ItemStack> listItems = new ArrayList<>();
         for (ItemStack item : items) {
-            if (item != null && !item.getType().isAir()) {
+            if (item != null && item.getType() != Material.AIR) {
                 listItems.add(item.clone());
             }
         }
@@ -144,7 +145,7 @@ public class BlockMenuUtil {
 
         for (int slot : slots) {
             ItemStack stack = blockMenu.getItemInSlot(slot);
-            if (stack != null && !stack.getType().isAir()) {
+            if (stack != null && stack.getType() != Material.AIR) {
                 cloneMenu.set(slot, stack.clone());
             } else {
                 cloneMenu.set(slot, null);

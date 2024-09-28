@@ -107,7 +107,7 @@ public class NetworkControlV extends NetworkDirectional {
 
         final Material material = targetBlock.getType();
 
-        if (!material.isAir()) {
+        if (material != Material.AIR) {
             return;
         }
 

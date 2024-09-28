@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -131,12 +132,12 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
             ItemStack wanted = recipe.getInput()[i];
-            if (wanted == null || wanted.getType().isAir()) {
+            if (wanted == null || wanted.getType() == Material.AIR) {
                 continue;
             }
 
             ItemStack itemInSlot = blockMenu.getItemInSlot(getInputSlots()[i]);
-            if (itemInSlot == null || itemInSlot.getType().isAir()) {
+            if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
                 return false;
             }
 
@@ -151,7 +152,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
             ItemStack wanted = recipe.getInput()[i];
-            if (wanted == null || wanted.getType().isAir()) {
+            if (wanted == null || wanted.getType() == Material.AIR) {
                 continue;
             }
 
@@ -159,7 +160,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         }
 
         for (ItemStack item : recipe.getOutput()) {
-            if (item != null && !item.getType().isAir()) {
+            if (item != null && item.getType() != Material.AIR) {
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
@@ -168,7 +169,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                     }
                 }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
-                if (left != null && !left.getType().isAir()) {
+                if (left != null && left.getType() != Material.AIR) {
                     player.sendMessage(ChatColor.RED + "Not enough space in output slots.");
                     world.dropItem(blockMenu.getLocation(), left);
                 }
@@ -189,7 +190,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         Map<ItemStack, Integer> wanted = new HashMap<>();
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
             ItemStack wantedItem = recipe.getInput()[i];
-            if (wantedItem == null || wantedItem.getType().isAir()) {
+            if (wantedItem == null || wantedItem.getType() == Material.AIR) {
                 continue;
             }
 
@@ -204,7 +205,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         Map<ItemStack, Integer> have = new HashMap<>();
         for (int slot : getInputSlots()) {
             ItemStack itemInSlot = blockMenu.getItemInSlot(slot);
-            if (itemInSlot == null || itemInSlot.getType().isAir()) {
+            if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
                 continue;
             }
 
@@ -229,7 +230,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         for (Map.Entry<ItemStack, Integer> entry : wanted.entrySet()) {
             for (int slot : getInputSlots()) {
                 ItemStack itemInSlot = blockMenu.getItemInSlot(slot);
-                if (itemInSlot == null || itemInSlot.getType().isAir()) {
+                if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
                     continue;
                 }
 
@@ -251,7 +252,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         }
 
         for (ItemStack item : recipe.getOutput()) {
-            if (item != null && !item.getType().isAir()) {
+            if (item != null && item.getType() != Material.AIR) {
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
@@ -260,7 +261,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                     }
                 }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
-                if (left != null && !left.getType().isAir()) {
+                if (left != null && left.getType() != Material.AIR) {
                     player.sendMessage(ChatColor.RED + "Not enough space in output slots.");
                     world.dropItem(blockMenu.getLocation(), left);
                 }

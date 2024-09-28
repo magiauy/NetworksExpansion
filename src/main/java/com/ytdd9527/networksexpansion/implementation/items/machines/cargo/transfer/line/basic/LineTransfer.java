@@ -197,7 +197,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
             final ItemStack template = blockMenu.getItemInSlot(slot);
-            if (template != null && !template.getType().isAir()) {
+            if (template != null && template.getType() != Material.AIR) {
                 templates.add(StackUtils.getAsQuantity(template, 1));
             }
         }

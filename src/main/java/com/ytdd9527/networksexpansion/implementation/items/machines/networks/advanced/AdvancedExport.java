@@ -146,7 +146,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
         // for each every slot, then make itemRequests
         for (int testItemSlot : getTestSlots()) {
             ItemStack currentStack = blockMenu.getItemInSlot(testItemSlot);
-            if (currentStack != null && !currentStack.getType().isAir()) {
+            if (currentStack != null && currentStack.getType() != Material.AIR) {
                 itemRequests.add(new ItemRequest(StackUtils.getAsQuantity(currentStack, 1), currentStack.getAmount()));
             }
         }
