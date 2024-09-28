@@ -2,9 +2,8 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.networks.ad
 
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
-import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.BlockMenuUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -30,9 +29,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class NetworkBlueprintDecoder extends NetworkObject {

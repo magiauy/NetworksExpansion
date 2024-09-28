@@ -4,7 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportFacing;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.BlockMenuUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;

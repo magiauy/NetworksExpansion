@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.utils.itemstacks;
+package com.ytdd9527.networksexpansion.utils;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -32,7 +32,7 @@ public class BlockMenuUtil {
 
             if (stack == null) {
                 int received = Math.min(leftAmount, item.getMaxStackSize());
-                blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, leftAmount));
+                blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, received));
                 leftAmount -= received;
                 item.setAmount(Math.max(0, leftAmount));
             } else {

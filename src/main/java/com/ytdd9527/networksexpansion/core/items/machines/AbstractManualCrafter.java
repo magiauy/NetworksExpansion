@@ -2,7 +2,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.ytdd9527.networksexpansion.api.data.SuperRecipe;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.BlockMenuUtil;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
