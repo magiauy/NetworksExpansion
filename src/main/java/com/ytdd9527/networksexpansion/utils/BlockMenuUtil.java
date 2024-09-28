@@ -74,6 +74,7 @@ public class BlockMenuUtil {
 
         return pushItem(blockMenu, listItems, slots);
     }
+
     @Nonnull
     public static Map<ItemStack, Integer> pushItem(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
@@ -143,7 +144,7 @@ public class BlockMenuUtil {
 
         for (int slot : slots) {
             ItemStack stack = blockMenu.getItemInSlot(slot);
-            if (stack!= null && !stack.getType().isAir()) {
+            if (stack != null && !stack.getType().isAir()) {
                 cloneMenu.set(slot, stack.clone());
             } else {
                 cloneMenu.set(slot, null);

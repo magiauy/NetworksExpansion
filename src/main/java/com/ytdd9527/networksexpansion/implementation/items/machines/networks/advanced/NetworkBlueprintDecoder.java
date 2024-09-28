@@ -38,9 +38,9 @@ public class NetworkBlueprintDecoder extends NetworkObject {
     private static final int DECODE_SLOT = 13;
     private static final ItemStack DECODE_ITEM = ItemStackUtil.getCleanItem(
             new CustomItemStack(
-                Material.KNOWLEDGE_BOOK,
-                "&6网络解码器",
-                "&7点击解码网络蓝图"
+                    Material.KNOWLEDGE_BOOK,
+                    "&6网络解码器",
+                    "&7点击解码网络蓝图"
             )
     );
 

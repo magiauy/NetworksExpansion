@@ -2,14 +2,11 @@ package com.ytdd9527.networksexpansion.api.helpers;
 
 import com.ytdd9527.networksexpansion.api.interfaces.CanTestRecipe;
 import com.ytdd9527.networksexpansion.api.interfaces.HasRecipes;
-import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.items.machines.manual.ExpansionWorkbench;
-import com.ytdd9527.networksexpansion.utils.itemstacks.RecipeUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;

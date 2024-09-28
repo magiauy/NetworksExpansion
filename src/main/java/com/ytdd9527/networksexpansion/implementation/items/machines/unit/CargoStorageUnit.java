@@ -560,7 +560,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
                             thisStorage.depositItemStack(stored, true);
                             int left = stored.getAmount();
                             ItemMover.setStoredAmount(itemStack, left);
-                            player.sendMessage(ChatColor.GREEN + "已存入 " + name + "x" + (before - left) +" 至抽屉中!");
+                            player.sendMessage(ChatColor.GREEN + "已存入 " + name + "x" + (before - left) + " 至抽屉中!");
                         }
                         case TO_QUANTUM -> {
                             ItemRequest itemRequest = new ItemRequest(sample, each.getAmount());
@@ -918,6 +918,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
         }
         return DisplayGroup.fromUUID(uuid);
     }
+
     @Override
     public boolean canStack(ItemMeta meta1, ItemMeta meta2) {
         return meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer());

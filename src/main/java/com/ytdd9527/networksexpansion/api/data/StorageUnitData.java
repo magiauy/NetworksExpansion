@@ -5,7 +5,6 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoSt
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

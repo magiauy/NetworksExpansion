@@ -49,6 +49,7 @@ public class StackUtils {
     private static final MCVersion MC_VERSION = Networks.getInstance().getMCVersion();
     private static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MCVersion.MC1_20_5);
     private static final boolean IS_1_21 = MC_VERSION.isAtLeast(MCVersion.MC1_21);
+
     @Nonnull
     public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
         if (itemStack == null) {
