@@ -2,7 +2,6 @@ package com.ytdd9527.networksexpansion.utils;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
-import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -13,7 +12,6 @@ import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,14 +30,21 @@ public class LineOperationUtil {
     }
 
     public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, Consumer<BlockMenu> consumer) {
-        Block block = startLocation.getBlock();
+        Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {
             finalLimit += 1;
         }
         for (int i = 0; i < finalLimit; i++) {
-            block = block.getRelative(direction);
-            BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+            switch (direction) {
+                case NORTH -> location.setZ(location.getZ() - 1);
+                case SOUTH -> location.setZ(location.getZ() + 1);
+                case EAST -> location.setX(location.getX() + 1);
+                case WEST -> location.setX(location.getX() - 1);
+                case UP -> location.setY(location.getY() + 1);
+                case DOWN -> location.setY(location.getY() - 1);
+            }
+            final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
             if (blockMenu == null) {
                 if (skipNoMenu) {
                     continue;
@@ -47,7 +52,6 @@ public class LineOperationUtil {
                     return;
                 }
             }
-
             consumer.accept(blockMenu);
         }
     }

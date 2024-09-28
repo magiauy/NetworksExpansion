@@ -204,7 +204,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, false, (targetMenu) -> {
             LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
         });
     }
@@ -223,7 +223,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, true, (targetMenu) -> {
             LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
         });
     }

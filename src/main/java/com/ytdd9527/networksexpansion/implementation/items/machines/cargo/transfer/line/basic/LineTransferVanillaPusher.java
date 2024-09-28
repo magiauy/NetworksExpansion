@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.trans
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.MCVersion;
 import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -31,6 +32,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.CrafterInventory;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -46,7 +48,6 @@ import java.util.UUID;
 public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
-    private static final ItemStack AIR = new ItemStack(Material.AIR);
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
@@ -151,6 +152,12 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
             if (!(blockState instanceof InventoryHolder holder)) {
                 return;
+            }
+
+            if (Networks.getInstance().getMCVersion().isAtLeast(MCVersion.MC1_21)) {
+                if (blockState instanceof CrafterInventory) {
+                    return;
+                }
             }
 
             for (int slot : getInputSlots()) {

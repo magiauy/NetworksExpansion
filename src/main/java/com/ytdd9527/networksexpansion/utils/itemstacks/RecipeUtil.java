@@ -71,6 +71,7 @@ public class RecipeUtil {
         }
         return null;
     }
+
     public static void registerRecipeBySlimefunId(@Nonnull RecipeItem recipeItem, @Nonnull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);
         try {

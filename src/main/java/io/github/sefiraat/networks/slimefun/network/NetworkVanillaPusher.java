@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.MCVersion;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -22,6 +23,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.CrafterInventory;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -95,10 +97,16 @@ public class NetworkVanillaPusher extends NetworkDirectional {
             return;
         }
 
+        if (Networks.getInstance().getMCVersion().isAtLeast(MCVersion.MC1_21)) {
+            if (blockState instanceof CrafterInventory) {
+                return;
+            }
+        }
+
         final Inventory inventory = holder.getInventory();
         final ItemStack stack = blockMenu.getItemInSlot(INPUT_SLOT);
 
-        if (stack == null || stack.getType() == Material.AIR) {
+        if (stack == null || stack.getType().isAir()) {
             return;
         }
 

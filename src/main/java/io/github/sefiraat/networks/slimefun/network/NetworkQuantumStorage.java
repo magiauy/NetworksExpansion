@@ -322,7 +322,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         if (output == null || output.getType().isAir()) {
             // No item in output, try output
             fetched = cache.withdrawItem();
-        } else if (StackUtils.itemsMatch(cache, output) && output.getAmount() < output.getMaxStackSize()) {
+        } else if (output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(cache, output)) {
             // There is an item, but it's not filled so lets top it up if we can
             final int requestAmount = output.getMaxStackSize() - output.getAmount();
             fetched = cache.withdrawItem(requestAmount);

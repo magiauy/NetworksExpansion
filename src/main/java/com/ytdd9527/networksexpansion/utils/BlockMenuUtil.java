@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.utils.itemstacks;
+package com.ytdd9527.networksexpansion.utils;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -32,10 +32,14 @@ public class BlockMenuUtil {
 
             if (stack == null) {
                 int received = Math.min(leftAmount, item.getMaxStackSize());
-                blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, leftAmount));
+                blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, received));
                 leftAmount -= received;
                 item.setAmount(Math.max(0, leftAmount));
             } else {
+                if (item.getMaxStackSize() >= stack.getMaxStackSize()) {
+                    continue;
+                }
+
                 if (!StackUtils.itemsMatch(item, stack)) {
                     continue;
                 }
@@ -70,6 +74,7 @@ public class BlockMenuUtil {
 
         return pushItem(blockMenu, listItems, slots);
     }
+
     @Nonnull
     public static Map<ItemStack, Integer> pushItem(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
@@ -139,7 +144,7 @@ public class BlockMenuUtil {
 
         for (int slot : slots) {
             ItemStack stack = blockMenu.getItemInSlot(slot);
-            if (stack!= null && !stack.getType().isAir()) {
+            if (stack != null && !stack.getType().isAir()) {
                 cloneMenu.set(slot, stack.clone());
             } else {
                 cloneMenu.set(slot, null);
@@ -162,6 +167,10 @@ public class BlockMenuUtil {
                     leftAmount -= received;
                     item.setAmount(Math.max(0, leftAmount));
                 } else {
+                    if (item.getMaxStackSize() >= stack.getMaxStackSize()) {
+                        continue;
+                    }
+
                     if (!StackUtils.itemsMatch(item, stack)) {
                         continue;
                     }

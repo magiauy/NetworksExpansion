@@ -5,7 +5,6 @@ import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoSt
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -96,11 +95,10 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     public int addStoredItem(ItemStack item, int amount, boolean contentLocked, boolean force) {
-        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
         boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
         for (ItemContainer each : storedItems.values()) {
-            if (each.isSimilar(wrapper)) {
+            if (each.isSimilar(item)) {
                 // Found existing one, add amount
                 add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                 if (isVoidExcess) {
@@ -258,7 +256,7 @@ public class StorageUnitData {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
-        int actualAdded = addStoredItem(itemsToDeposit, contentLocked, force);
+        int actualAdded = addStoredItem(itemsToDeposit, itemsToDeposit.getAmount(), contentLocked, force);
         itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
     }
 
