@@ -44,6 +44,7 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
+    private static final int PARTICLE_INTERVAL = 2;
     private static final int DEFAULT_MAX_DISTANCE = 64;
     private static final int DEFAULT_PUSH_ITEM_TICK = 1;
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
@@ -173,7 +174,16 @@ public class AdvancedLineTransferPusher extends AdvancedDirectional implements R
             }
         }
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, false, (targetMenu) -> {
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                false,
+                false,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
             LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
         });
     }
