@@ -1362,7 +1362,6 @@ public class NetworkRoot extends NetworkNode {
             fallbackBlockMenu2.replaceExistingItem(fallBackSlot2, incoming.clone());
             incoming.setAmount(0);
         }
-
     }
 
     @Override

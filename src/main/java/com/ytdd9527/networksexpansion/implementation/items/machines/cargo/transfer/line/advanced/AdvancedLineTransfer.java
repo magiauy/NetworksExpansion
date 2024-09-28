@@ -220,7 +220,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
             }
         }
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, (targetMenu) -> {
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, false, (targetMenu) -> {
             LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
         });
     }
@@ -241,7 +241,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, true, (targetMenu) -> {
             LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
         });
     }

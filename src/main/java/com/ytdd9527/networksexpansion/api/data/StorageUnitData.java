@@ -96,11 +96,10 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     public int addStoredItem(ItemStack item, int amount, boolean contentLocked, boolean force) {
-        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         int add = 0;
         boolean isVoidExcess = CargoStorageUnit.isVoidExcess(getLastLocation());
         for (ItemContainer each : storedItems.values()) {
-            if (each.isSimilar(wrapper)) {
+            if (each.isSimilar(item)) {
                 // Found existing one, add amount
                 add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
                 if (isVoidExcess) {
@@ -258,7 +257,7 @@ public class StorageUnitData {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
-        int actualAdded = addStoredItem(itemsToDeposit, contentLocked, force);
+        int actualAdded = addStoredItem(itemsToDeposit, itemsToDeposit.getAmount(), contentLocked, force);
         itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
     }
 

@@ -147,7 +147,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, true, (targetMenu) -> {
             LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
         });
     }

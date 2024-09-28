@@ -46,8 +46,9 @@ import java.util.Optional;
 @UtilityClass
 @SuppressWarnings("deprecation")
 public class StackUtils {
-    MCVersion MC_VERSION = Networks.getInstance().getMCVersion();
-
+    private static final MCVersion MC_VERSION = Networks.getInstance().getMCVersion();
+    private static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MCVersion.MC1_20_5);
+    private static final boolean IS_1_21 = MC_VERSION.isAtLeast(MCVersion.MC1_21);
     @Nonnull
     public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
         if (itemStack == null) {
@@ -183,24 +184,6 @@ public class StackUtils {
             return false;
         }
 
-        // Check the display name
-        if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
-            return false;
-        }
-
-        // Check the lore
-        if (checkLore
-                || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
-        ) {
-            if (itemMeta.hasLore() && cachedMeta.hasLore()) {
-                if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
-                    return false;
-                }
-            } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
-                return false;
-            }
-        }
-
         // Check the attribute modifiers
         final boolean hasAttributeOne = itemMeta.hasAttributeModifiers();
         final boolean hasAttributeTwo = cachedMeta.hasAttributeModifiers();
@@ -212,7 +195,7 @@ public class StackUtils {
             return false;
         }
 
-        if (MC_VERSION.isAtLeast(MCVersion.MC1_20_5)) {
+        if (IS_1_20_5) {
             // Check if fire-resistant
             if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
                 return false;
@@ -267,6 +250,20 @@ public class StackUtils {
             }
         }
 
+        // Check the lore
+        if (checkLore
+                || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
+                || itemStack.getType() == Material.SPAWNER // Fix Reinforced Spawner in Slimefun4
+        ) {
+            if (itemMeta.hasLore() && cachedMeta.hasLore()) {
+                if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+                    return false;
+                }
+            } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
+                return false;
+            }
+        }
+
         // Slimefun ID check no need to worry about distinction, covered in PDC + lore
         final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(itemMeta);
         final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(cachedMeta);
@@ -275,6 +272,11 @@ public class StackUtils {
         }
         if (optionalStackId1.isPresent()) {
             return optionalStackId1.get().equals(optionalStackId2.get());
+        }
+
+        // Check the display name
+        if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
+            return false;
         }
 
         // Everything should match if we've managed to get here
@@ -452,7 +454,7 @@ public class StackUtils {
 
         // Potion
         if (metaOne instanceof PotionMeta instanceOne && metaTwo instanceof PotionMeta instanceTwo) {
-            if (MC_VERSION.isAtLeast(MCVersion.MC1_20_5)) {
+            if (IS_1_20_5) {
                 if (instanceOne.getBasePotionType() != instanceTwo.getBasePotionType()) {
                     return true;
                 }
@@ -537,7 +539,7 @@ public class StackUtils {
             }
         }
 
-        if (MC_VERSION.isAtLeast(MCVersion.MC1_20_5)) {
+        if (IS_1_20_5) {
             // Writable Book
             if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
                 if (instanceOne.getPageCount() != instanceTwo.getPageCount()) {
@@ -547,7 +549,7 @@ public class StackUtils {
                     return true;
                 }
             }
-            if (MC_VERSION.isAtLeast(MCVersion.MC1_21)) {
+            if (IS_1_21) {
                 // Ominous Bottle
                 if (metaOne instanceof OminousBottleMeta instanceOne && metaTwo instanceof OminousBottleMeta instanceTwo) {
                     if (instanceOne.hasAmplifier() != instanceTwo.hasAmplifier()) {

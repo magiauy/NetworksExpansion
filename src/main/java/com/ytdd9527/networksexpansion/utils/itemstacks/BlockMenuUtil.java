@@ -36,6 +36,10 @@ public class BlockMenuUtil {
                 leftAmount -= received;
                 item.setAmount(Math.max(0, leftAmount));
             } else {
+                if (item.getMaxStackSize() >= stack.getMaxStackSize()) {
+                    continue;
+                }
+
                 if (!StackUtils.itemsMatch(item, stack)) {
                     continue;
                 }
@@ -162,6 +166,10 @@ public class BlockMenuUtil {
                     leftAmount -= received;
                     item.setAmount(Math.max(0, leftAmount));
                 } else {
+                    if (item.getMaxStackSize() >= stack.getMaxStackSize()) {
+                        continue;
+                    }
+
                     if (!StackUtils.itemsMatch(item, stack)) {
                         continue;
                     }
