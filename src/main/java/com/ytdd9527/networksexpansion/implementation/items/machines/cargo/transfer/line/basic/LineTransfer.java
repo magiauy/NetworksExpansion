@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem, Configurable {
+    private static final int PARTICLE_INTERVAL = 2;
     public static final int DEFAULT_MAX_DISTANCE = 32;
     public static final int DEFAULT_PUSH_ITEM_TICK = 1;
     public static final int DEFAULT_GRAB_ITEM_TICK = 1;
@@ -197,14 +198,23 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
             final ItemStack template = blockMenu.getItemInSlot(slot);
-            if (template != null && !template.getType().isAir()) {
+            if (template != null && template.getType() != Material.AIR) {
                 templates.add(StackUtils.getAsQuantity(template, 1));
             }
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, false, (targetMenu) -> {
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                false,
+                false,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
             LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
         });
     }
@@ -223,7 +233,16 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
 
         final NetworkRoot root = definition.getNode().getRoot();
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, true, (targetMenu) -> {
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                true,
+                true,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
             LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
         });
     }

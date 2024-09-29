@@ -152,7 +152,7 @@ public abstract class AbstractGrid extends NetworkObject {
     protected void tryAddItem(@Nonnull BlockMenu blockMenu) {
         final ItemStack itemStack = blockMenu.getItemInSlot(getInputSlot());
 
-        if (itemStack == null || itemStack.getType().isAir()) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
             return;
         }
 
@@ -271,7 +271,7 @@ public abstract class AbstractGrid extends NetworkObject {
                 }
                 gridCache.setFilter(s.toLowerCase(Locale.ROOT));
                 player.sendMessage(Theme.SUCCESS + "已启用过滤器");
-                if (!blockMenu.getBlock().getType().isAir()) {
+                if (blockMenu.getBlock().getType() != Material.AIR) {
                     blockMenu.open(player);
                 }
             });
@@ -280,7 +280,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @ParametersAreNonnullByDefault
     protected void retrieveItem(Player player, NodeDefinition definition, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
-        if (itemStack == null || itemStack.getType().isAir()) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
             return;
         }
 
@@ -301,7 +301,7 @@ public abstract class AbstractGrid extends NetworkObject {
         clone.setItemMeta(cloneMeta);
 
         final ItemStack cursor = player.getItemOnCursor();
-        if (!cursor.getType().isAir() && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
+        if (cursor.getType() != Material.AIR && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
             definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
             return;
         }
@@ -343,7 +343,7 @@ public abstract class AbstractGrid extends NetworkObject {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
-        if (!cursor.getType().isAir() && !canAddMore(action, cursor, request)) {
+        if (cursor.getType() != Material.AIR && !canAddMore(action, cursor, request)) {
             return;
         }
 

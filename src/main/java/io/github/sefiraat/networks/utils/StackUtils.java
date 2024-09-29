@@ -60,48 +60,36 @@ public class StackUtils {
         return clone;
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, checkDistinctive);
-    }
-
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, true);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false, true);
-    }
-
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false);
     }
 
     public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
-        return itemsMatch(cache, itemStack, checkLore, false, true);
+        return itemsMatch(cache, itemStack, checkLore, false);
     }
 
     public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
-        return itemsMatch(cache, itemStack, false, false, true);
-    }
-
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, checkDistinctive);
+        return itemsMatch(cache, itemStack, false, false);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
+        return itemsMatch(cache, itemStack, checkLore, checkAmount);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore) {
-        return itemsMatch(cache, itemStack, checkLore, false, true);
+        return itemsMatch(cache, itemStack, checkLore, false);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache) {
-        return itemsMatch(cache, itemStack, false, false, true);
+        return itemsMatch(cache, itemStack, false, false);
     }
 
     /**
@@ -111,7 +99,7 @@ public class StackUtils {
      * @param itemStack The {@link ItemStack} being evaluated
      * @return True if items match
      */
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
         // Null check
         if (cache.getItemStack() == null || itemStack == null) {
             return itemStack == null && cache.getItemStack() == null;
@@ -143,10 +131,6 @@ public class StackUtils {
         // ItemMetas are different types and cannot match
         if (!itemMeta.getClass().equals(cachedMeta.getClass())) {
             return false;
-        }
-
-        if (checkDistinctive && itemStack instanceof DistinctiveItem distinctiveItem && cache.getItemStack() instanceof DistinctiveItem) {
-            return distinctiveItem.canStack(itemMeta, cachedMeta);
         }
 
         // Quick meta-extension escapes

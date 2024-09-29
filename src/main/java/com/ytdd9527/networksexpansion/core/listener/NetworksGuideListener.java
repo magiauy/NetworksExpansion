@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +22,7 @@ public class NetworksGuideListener implements Listener {
     @EventHandler
     public void onInteract(PlayerRightClickEvent e) {
         ItemStack item = e.getItem();
-        if (item != null && !item.getType().isAir()) {
+        if (item != null && item.getType() != Material.AIR) {
             if (!e.getPlayer().isOp()) {
                 return;
             }

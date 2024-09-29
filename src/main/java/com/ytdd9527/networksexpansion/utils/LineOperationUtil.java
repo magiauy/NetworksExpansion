@@ -2,20 +2,26 @@ package com.ytdd9527.networksexpansion.utils;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -30,11 +36,15 @@ public class LineOperationUtil {
     }
 
     public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, Consumer<BlockMenu> consumer) {
+        doOperation(startLocation, direction, limit, skipNoMenu, optimizeExperience, false, 2, consumer);
+    }
+    public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, boolean drawParticle, int particleInterval, Consumer<BlockMenu> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {
             finalLimit += 1;
         }
+        List<Location> finalLocationList = new ArrayList<>();
         for (int i = 0; i < finalLimit; i++) {
             switch (direction) {
                 case NORTH -> location.setZ(location.getZ() - 1);
@@ -53,6 +63,14 @@ public class LineOperationUtil {
                 }
             }
             consumer.accept(blockMenu);
+
+            if (drawParticle) {
+                finalLocationList.add(location);
+            }
+        }
+
+        if (drawParticle && Networks.getSlimefunTickCount() % particleInterval == 0) {
+            Networks.getInstance().getServer().getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> ParticleUtil.drawCubeByLocations(Networks.getInstance(), Particle.ELECTRIC_SPARK, particleInterval * Slimefun.getTickerTask().getTickRate() * 50L / finalLocationList.size(), finalLocationList));
         }
     }
 
@@ -72,7 +90,7 @@ public class LineOperationUtil {
                  */
                 for (int slot : slots) {
                     final ItemStack item = blockMenu.getItemInSlot(slot);
-                    if (item != null && !item.getType().isAir()) {
+                    if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                         root.addItemStack(clone);
@@ -95,7 +113,7 @@ public class LineOperationUtil {
                  */
                 if (slots.length > 0) {
                     final ItemStack item = blockMenu.getItemInSlot(slots[0]);
-                    if (item != null && !item.getType().isAir()) {
+                    if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                         root.addItemStack(clone);
@@ -113,7 +131,7 @@ public class LineOperationUtil {
                  */
                 if (slots.length > 0) {
                     final ItemStack item = blockMenu.getItemInSlot(slots[slots.length - 1]);
-                    if (item != null && !item.getType().isAir()) {
+                    if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                         root.addItemStack(clone);
@@ -131,7 +149,7 @@ public class LineOperationUtil {
                  */
                 for (int slot : slots) {
                     final ItemStack item = blockMenu.getItemInSlot(slot);
-                    if (item != null && !item.getType().isAir()) {
+                    if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                         root.addItemStack(clone);
@@ -147,10 +165,10 @@ public class LineOperationUtil {
                  */
                 if (slots.length > 0) {
                     final ItemStack delta = blockMenu.getItemInSlot(slots[0]);
-                    if (delta != null && !delta.getType().isAir()) {
+                    if (delta != null && delta.getType() != Material.AIR) {
                         for (int slot : slots) {
                             ItemStack item = blockMenu.getItemInSlot(slot);
-                            if (item != null && !item.getType().isAir()) {
+                            if (item != null && item.getType() != Material.AIR) {
                                 final int exceptedReceive = Math.min(item.getAmount(), limit);
                                 final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                                 root.addItemStack(clone);
@@ -195,7 +213,7 @@ public class LineOperationUtil {
                 int freeSpace = 0;
                 for (int slot : slots) {
                     final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                    if (itemStack == null || itemStack.getType().isAir()) {
+                    if (itemStack == null || itemStack.getType() == Material.AIR) {
                         freeSpace += clone.getMaxStackSize();
                     } else {
                         if (itemStack.getAmount() >= clone.getMaxStackSize()) {
@@ -215,7 +233,7 @@ public class LineOperationUtil {
                 itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
                 final ItemStack retrieved = root.getItemStack(itemRequest);
-                if (retrieved != null && !retrieved.getType().isAir()) {
+                if (retrieved != null && retrieved.getType() != Material.AIR) {
                     BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                 }
             }
@@ -224,7 +242,7 @@ public class LineOperationUtil {
                 int free = limitQuantity;
                 for (int slot : slots) {
                     final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                    if (itemStack == null || itemStack.getType().isAir()) {
+                    if (itemStack == null || itemStack.getType() == Material.AIR) {
                         itemRequest.setAmount(clone.getMaxStackSize());
                     } else {
                         continue;
@@ -232,7 +250,7 @@ public class LineOperationUtil {
                     itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
                     final ItemStack retrieved = root.getItemStack(itemRequest);
-                    if (retrieved != null && !retrieved.getType().isAir()) {
+                    if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
                         blockMenu.pushItem(retrieved, slot);
                         if (free <= 0) {
@@ -246,7 +264,7 @@ public class LineOperationUtil {
                 int free = limitQuantity;
                 for (int slot : slots) {
                     final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                    if (itemStack == null || itemStack.getType().isAir()) {
+                    if (itemStack == null || itemStack.getType() == Material.AIR) {
                         continue;
                     }
                     if (itemStack.getAmount() >= clone.getMaxStackSize()) {
@@ -265,7 +283,7 @@ public class LineOperationUtil {
                     itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
                     final ItemStack retrieved = root.getItemStack(itemRequest);
-                    if (retrieved != null && !retrieved.getType().isAir()) {
+                    if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
                         blockMenu.pushItem(retrieved, slot);
                         if (free <= 0) {
@@ -281,7 +299,7 @@ public class LineOperationUtil {
                 }
                 final int slot = slots[0];
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                if (itemStack == null || itemStack.getType().isAir()) {
+                if (itemStack == null || itemStack.getType() == Material.AIR) {
                     itemRequest.setAmount(clone.getMaxStackSize());
                 } else {
                     if (itemStack.getAmount() >= clone.getMaxStackSize()) {
@@ -301,7 +319,7 @@ public class LineOperationUtil {
                 itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
                 final ItemStack retrieved = root.getItemStack(itemRequest);
-                if (retrieved != null && !retrieved.getType().isAir()) {
+                if (retrieved != null && retrieved.getType() != Material.AIR) {
                     free -= retrieved.getAmount();
                     blockMenu.pushItem(retrieved, slot);
                     if (free <= 0) {
@@ -316,7 +334,7 @@ public class LineOperationUtil {
                 }
                 final int slot = slots[slots.length - 1];
                 final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                if (itemStack == null || itemStack.getType().isAir()) {
+                if (itemStack == null || itemStack.getType() == Material.AIR) {
                     itemRequest.setAmount(clone.getMaxStackSize());
                 } else {
                     if (itemStack.getAmount() >= clone.getMaxStackSize()) {
@@ -336,7 +354,7 @@ public class LineOperationUtil {
                 itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
                 final ItemStack retrieved = root.getItemStack(itemRequest);
-                if (retrieved != null && !retrieved.getType().isAir()) {
+                if (retrieved != null && retrieved.getType() != Material.AIR) {
                     free -= retrieved.getAmount();
                     blockMenu.pushItem(retrieved, slot);
                     if (free <= 0) {
@@ -348,7 +366,7 @@ public class LineOperationUtil {
                 int freeSpace = 0;
                 for (int slot : slots) {
                     final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                    if (itemStack == null || itemStack.getType().isAir()) {
+                    if (itemStack == null || itemStack.getType() == Material.AIR) {
                         freeSpace += clone.getMaxStackSize();
                         break;
                     } else {
@@ -370,18 +388,18 @@ public class LineOperationUtil {
                 itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
                 final ItemStack retrieved = root.getItemStack(itemRequest);
-                if (retrieved != null && !retrieved.getType().isAir()) {
+                if (retrieved != null && retrieved.getType() != Material.AIR) {
                     BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                 }
             }
             case LAZY -> {
                 if (slots.length > 0) {
                     final ItemStack delta = blockMenu.getItemInSlot(slots[0]);
-                    if (delta == null || delta.getType().isAir()) {
+                    if (delta == null || delta.getType() == Material.AIR) {
                         int freeSpace = 0;
                         for (int slot : slots) {
                             final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-                            if (itemStack == null || itemStack.getType().isAir()) {
+                            if (itemStack == null || itemStack.getType() == Material.AIR) {
                                 freeSpace += clone.getMaxStackSize();
                             } else {
                                 if (itemStack.getAmount() >= clone.getMaxStackSize()) {
@@ -401,7 +419,7 @@ public class LineOperationUtil {
                         itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
                         final ItemStack retrieved = root.getItemStack(itemRequest);
-                        if (retrieved != null && !retrieved.getType().isAir()) {
+                        if (retrieved != null && retrieved.getType() != Material.AIR) {
                             BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                         }
                     }

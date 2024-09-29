@@ -42,6 +42,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
+    private static final int PARTICLE_INTERVAL = 2;
     private static final int DEFAULT_MAX_DISTANCE = 64;
     private static final int DEFAULT_PUSH_ITEM_TICK = 1;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
@@ -215,12 +216,21 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
             final ItemStack template = blockMenu.getItemInSlot(slot);
-            if (template != null && !template.getType().isAir()) {
+            if (template != null && template.getType() != Material.AIR) {
                 templates.add(StackUtils.getAsQuantity(template, 1));
             }
         }
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, false, false, (targetMenu) -> {
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                false,
+                false,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
             LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
         });
     }
@@ -241,7 +251,16 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, maxDistance, true, true, (targetMenu) -> {
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                false,
+                false,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
             LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
         });
     }

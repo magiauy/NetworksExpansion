@@ -73,19 +73,19 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
     }
 
     private static void onTick(@Nonnull Block block) {
-        Location location = block.getLocation();
-        BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+        final Location location = block.getLocation();
+        final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
         if (blockMenu == null) {
             return;
         }
 
-        TransportFacing facing = facingMap.get(location);
+        final TransportFacing facing = facingMap.get(location);
         if (facing == null) {
             return;
         }
 
-        BlockFace from = null;
-        BlockFace to = null;
+        final BlockFace from;
+        final BlockFace to;
         switch (facing) {
             case UP_TO_DOWN -> {
                 from = BlockFace.UP;
@@ -111,32 +111,36 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
                 from = BlockFace.NORTH;
                 to = BlockFace.SOUTH;
             }
+            default -> {
+                from = null;
+                to = null;
+            }
         }
 
         if (from == null || to == null) {
             return;
         }
 
-        Block fromBlock = block.getRelative(from);
-        Block toBlock = block.getRelative(to);
-        Location fromLocation = fromBlock.getLocation();
-        Location toLocation = toBlock.getLocation();
+        final Block fromBlock = block.getRelative(from);
+        final Block toBlock = block.getRelative(to);
+        final Location fromLocation = fromBlock.getLocation();
+        final Location toLocation = toBlock.getLocation();
 
-        BlockMenu fromMenu = StorageCacheUtils.getMenu(fromLocation);
-        BlockMenu toMenu = StorageCacheUtils.getMenu(toLocation);
+        final BlockMenu fromMenu = StorageCacheUtils.getMenu(fromLocation);
+        final BlockMenu toMenu = StorageCacheUtils.getMenu(toLocation);
         if (fromMenu == null || toMenu == null) {
             return;
         }
 
-        int[] fromSlot = fromMenu.getPreset().getSlotsAccessedByItemTransport(fromMenu, ItemTransportFlow.WITHDRAW, null);
+        final int[] fromSlot = fromMenu.getPreset().getSlotsAccessedByItemTransport(fromMenu, ItemTransportFlow.WITHDRAW, null);
         for (int i = 0; i < fromSlot.length; i++) {
             ItemStack fromItem = fromMenu.getItemInSlot(fromSlot[i]);
-            if (fromItem == null || fromItem.getType().isAir()) {
+            if (fromItem == null || fromItem.getType() == Material.AIR) {
                 continue;
             }
-            int[] toSlot = toMenu.getPreset().getSlotsAccessedByItemTransport(toMenu, ItemTransportFlow.INSERT, fromItem);
-            int offset = getOffset(location);
-            int offseti = i + offset;
+            final int[] toSlot = toMenu.getPreset().getSlotsAccessedByItemTransport(toMenu, ItemTransportFlow.INSERT, fromItem);
+            final int offset = getOffset(location);
+            final int offseti = i + offset;
             if (offseti >= toSlot.length || offseti < 0) {
                 continue;
             }
@@ -149,7 +153,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
 
     private static void increaseOffset(@Nonnull Location location, int amount) {
         int offset = getOffset(location);
-        if (offset + amount > 53 || offset + amount < 0) {
+        if (offset + amount > 53 || offset + amount < -53) {
             return;
         }
 
@@ -158,7 +162,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
 
     private static void decreaseOffset(@Nonnull Location location, int amount) {
         int offset = getOffset(location);
-        if (offset - amount > 53 || offset - amount < 0) {
+        if (offset - amount > 53 || offset - amount < -53) {
             return;
         }
 

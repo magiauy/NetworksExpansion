@@ -24,6 +24,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
@@ -169,11 +170,11 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
                     final int limitQuantity = getLimitQuantity();
                     if (slots.length > 0) {
                         final ItemStack delta = targetMenu.getItemInSlot(slots[0]);
-                        if (delta == null || delta.getType().isAir()) {
+                        if (delta == null || delta.getType() == Material.AIR) {
                             int freeSpace = 0;
                             for (int slot : slots) {
                                 final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                                if (itemStack == null || itemStack.getType().isAir()) {
+                                if (itemStack == null || itemStack.getType() == Material.AIR) {
                                     freeSpace += clone.getMaxStackSize();
                                 } else {
                                     if (itemStack.getAmount() >= clone.getMaxStackSize()) {
@@ -193,7 +194,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
                             itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
                             final ItemStack retrieved = root.getItemStack(itemRequest);
-                            if (retrieved != null && !retrieved.getType().isAir()) {
+                            if (retrieved != null && retrieved.getType() != Material.AIR) {
                                 BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
                             }
                         }
@@ -211,7 +212,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
         final List<ItemStack> items = new ArrayList<>();
         for (int slot : getTemplateSlots()) {
             final ItemStack itemStack = blockMenu.getItemInSlot(slot);
-            if (itemStack != null && !itemStack.getType().isAir()) {
+            if (itemStack != null && itemStack.getType() != Material.AIR) {
                 items.add(itemStack);
             }
         }

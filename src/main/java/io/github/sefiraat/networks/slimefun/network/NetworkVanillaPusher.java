@@ -106,7 +106,7 @@ public class NetworkVanillaPusher extends NetworkDirectional {
         final Inventory inventory = holder.getInventory();
         final ItemStack stack = blockMenu.getItemInSlot(INPUT_SLOT);
 
-        if (stack == null || stack.getType().isAir()) {
+        if (stack == null || stack.getType() == Material.AIR) {
             return;
         }
 

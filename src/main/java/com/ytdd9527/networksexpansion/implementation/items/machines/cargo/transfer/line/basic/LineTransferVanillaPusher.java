@@ -144,7 +144,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d <= maxDistance; d++) {
             // 如果方块是空气，退出
-            if (targetBlock.getType().isAir()) {
+            if (targetBlock.getType() == Material.AIR) {
                 break;
             }
 
@@ -163,7 +163,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
             for (int slot : getInputSlots()) {
                 final ItemStack templateItem = blockMenu.getItemInSlot(slot);
 
-                if (templateItem == null || templateItem.getType().isAir()) {
+                if (templateItem == null || templateItem.getType() == Material.AIR) {
                     continue;
                 }
 
@@ -196,7 +196,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                 } else if (InvUtils.fits(holder.getInventory(), template)) {
                     sendDebugMessage(block.getLocation(), "WildChest 测试成功。");
                     for (ItemStack targetItem : inventory.getContents()) {
-                        if (targetItem == null || targetItem.getType().isAir()) {
+                        if (targetItem == null || targetItem.getType() == Material.AIR) {
                             final ItemStack stack = root.getItemStack(new ItemRequest(template, template.getMaxStackSize()));
                             if (stack == null) {
                                 break;
@@ -223,7 +223,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
     private void handleFurnace(@Nonnull NetworkRoot root, @Nonnull ItemStack template, @Nonnull FurnaceInventory furnace) {
         if (template.getType().isFuel()
-                && (furnace.getFuel() == null || furnace.getFuel().getType().isAir())
+                && (furnace.getFuel() == null || furnace.getFuel().getType() == Material.AIR)
         ) {
             final ItemStack stack = root.getItemStack(new ItemRequest(template, template.getMaxStackSize()));
             if (stack == null) {
@@ -231,7 +231,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
             }
             furnace.setFuel(stack.clone());
             stack.setAmount(0);
-        } else if (!template.getType().isFuel() && furnace.getSmelting() == null || furnace.getSmelting().getType().isAir()) {
+        } else if (!template.getType().isFuel() && furnace.getSmelting() == null || furnace.getSmelting().getType() == Material.AIR) {
             final ItemStack stack = root.getItemStack(new ItemRequest(template, template.getMaxStackSize()));
             if (stack == null) {
                 return;
@@ -243,15 +243,15 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
     private void handleBrewingStand(@Nonnull NetworkRoot root, @Nonnull ItemStack template, @Nonnull BrewerInventory brewer) {
         if (template.getType() == Material.BLAZE_POWDER) {
-            if (brewer.getFuel() == null || brewer.getFuel().getType().isAir()) {
+            if (brewer.getFuel() == null || brewer.getFuel().getType() == Material.AIR) {
                 final ItemStack stack = root.getItemStack(new ItemRequest(template.clone(), template.getMaxStackSize()));
                 if (stack == null) {
                     return;
                 }
                 brewer.setFuel(stack.clone());
                 stack.setAmount(0);
-            } else if (brewer.getIngredient() == null || brewer.getIngredient().getType().isAir()) {
-                if (brewer.getIngredient() == null || brewer.getIngredient().getType().isAir()) {
+            } else if (brewer.getIngredient() == null || brewer.getIngredient().getType() == Material.AIR) {
+                if (brewer.getIngredient() == null || brewer.getIngredient().getType() == Material.AIR) {
                     final ItemStack stack = root.getItemStack(new ItemRequest(template.clone(), template.getMaxStackSize()));
                     if (stack == null) {
                         return;
@@ -263,7 +263,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         } else if (template.getType() == Material.POTION) {
             for (int i = 0; i < 3; i++) {
                 final ItemStack stackInSlot = brewer.getContents()[i];
-                if (stackInSlot == null || stackInSlot.getType().isAir()) {
+                if (stackInSlot == null || stackInSlot.getType() == Material.AIR) {
                     final ItemStack[] contents = brewer.getContents();
                     final ItemStack stack = root.getItemStack(new ItemRequest(template.clone(), template.getMaxStackSize()));
                     if (stack == null) {
@@ -275,7 +275,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                     return;
                 }
             }
-        } else if (brewer.getIngredient() == null || brewer.getIngredient().getType().isAir()) {
+        } else if (brewer.getIngredient() == null || brewer.getIngredient().getType() == Material.AIR) {
             final ItemStack stack = root.getItemStack(new ItemRequest(template.clone(), template.getMaxStackSize()));
             if (stack == null) {
                 return;

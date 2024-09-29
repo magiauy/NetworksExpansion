@@ -170,7 +170,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     }
 
     public static boolean isBlacklisted(@Nonnull ItemStack itemStack) {
-        return itemStack.getType().isAir()
+        return itemStack.getType() == Material.AIR
                 || itemStack.getType().getMaxDurability() < 0
                 || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
                 || itemStack.getType() == Material.BUNDLE;
@@ -194,11 +194,11 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             ItemStack fetched = cache.withdrawItem(amount);
 
             if (output != null
-                    && !output.getType().isAir()
+                    && output.getType() != Material.AIR
                     && StackUtils.itemsMatch(cache, output)
             ) {
                 // We have an output item we can use also
-                if (fetched == null || fetched.getType().isAir()) {
+                if (fetched == null || fetched.getType() == Material.AIR) {
                     // Storage is totally empty - just use output slot
                     fetched = output.clone();
                     if (fetched.getAmount() > amount) {
@@ -312,14 +312,14 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
         // Move items from the input slot into the card
         final ItemStack input = blockMenu.getItemInSlot(INPUT_SLOT);
-        if (input != null && !input.getType().isAir()) {
+        if (input != null && input.getType() != Material.AIR) {
             tryInputItem(blockMenu.getLocation(), new ItemStack[]{input}, cache);
         }
 
         // Output items
         final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
         ItemStack fetched = null;
-        if (output == null || output.getType().isAir()) {
+        if (output == null || output.getType() == Material.AIR) {
             // No item in output, try output
             fetched = cache.withdrawItem();
         } else if (output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(cache, output)) {
@@ -328,7 +328,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             fetched = cache.withdrawItem(requestAmount);
         }
 
-        if (fetched != null && !fetched.getType().isAir()) {
+        if (fetched != null && fetched.getType() != Material.AIR) {
             blockMenu.pushItem(fetched, OUTPUT_SLOT);
             syncBlock(blockMenu.getLocation(), cache);
         }
@@ -432,7 +432,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                     } else if (
                             cache != null &&
                                     cache.supportsCustomMaxAmount() &&
-                                    p.getItemOnCursor().getType().isAir()
+                                    p.getItemOnCursor().getType() == Material.AIR
                     ) {
                         p.closeInventory();
                         p.sendMessage(
@@ -504,7 +504,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
         for (int i = 0; i < contents.length; i++) {
             ItemStack item = contents[i];
-            if (item == null || item.getType().isAir()) continue;
+            if (item == null || item.getType() == Material.AIR) continue;
 
             ItemStackCache storedItemCache = new ItemStackCache(storedItem);
 
@@ -551,7 +551,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             ItemStack[] contents = inv.getStorageContents(); // 获取玩家背包内容
 
             for (int i = 0; i < contents.length; i++) {
-                if (contents[i] == null || contents[i].getType().isAir()) {
+                if (contents[i] == null || contents[i].getType() == Material.AIR) {
                     // 玩家背包中有空槽位
                     if (stored == 0) break; // 如果量子存储已空，退出循环
 
@@ -597,7 +597,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     }
 
     private QuantumCache createCache(@Nullable ItemStack itemStack, @Nonnull BlockMenu menu, int amount, int maxAmount, boolean voidExcess, boolean supportsCustomMaxAmount) {
-        if (itemStack == null || itemStack.getType().isAir() || isDisplayItem(itemStack)) {
+        if (itemStack == null || itemStack.getType() == Material.AIR || isDisplayItem(itemStack)) {
             menu.addItem(ITEM_SLOT, ItemStackUtil.getCleanItem(NO_ITEM));
             return new QuantumCache(null, 0, maxAmount, false, this.supportsCustomMaxAmount);
         } else {

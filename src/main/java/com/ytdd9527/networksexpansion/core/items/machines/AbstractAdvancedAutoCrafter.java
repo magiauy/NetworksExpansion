@@ -107,14 +107,14 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
 
         if (!this.withholding) {
             final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
-            if (stored != null && !stored.getType().isAir()) {
+            if (stored != null && stored.getType() != Material.AIR) {
                 root.addItemStack(stored);
             }
         }
 
         final ItemStack blueprint = blockMenu.getItemInSlot(BLUEPRINT_SLOT);
 
-        if (blueprint == null || blueprint.getType().isAir()) {
+        if (blueprint == null || blueprint.getType() == Material.AIR) {
             sendDebugMessage(blockMenu.getLocation(), "No blueprint found");
             return;
         }
@@ -157,7 +157,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
             int blueprintAmount = blueprint.getAmount();
 
             if (output != null
-                    && !output.getType().isAir()
+                    && output.getType() != Material.AIR
                     && (output.getAmount() + instance.getItemStack().getAmount() * blueprintAmount > output.getMaxStackSize() || !StackUtils.itemsMatch(instance, output))
             ) {
                 sendDebugMessage(blockMenu.getLocation(), "Output slot is full");
@@ -243,7 +243,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         }
 
         // If no item crafted OR result doesn't fit, escape
-        if (crafted == null || crafted.getType().isAir()) {
+        if (crafted == null || crafted.getType() == Material.AIR) {
             sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
             sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
             returnItems(root, acutalInputs);

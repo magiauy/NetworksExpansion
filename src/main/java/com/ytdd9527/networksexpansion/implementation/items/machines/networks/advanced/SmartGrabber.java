@@ -20,6 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
@@ -123,10 +124,10 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
                 int limit = getLimitQuantity();
                 if (slots.length > 0) {
                     final ItemStack delta = targetMenu.getItemInSlot(slots[0]);
-                    if (delta != null && !delta.getType().isAir()) {
+                    if (delta != null && delta.getType() != Material.AIR) {
                         for (int slot : slots) {
                             ItemStack item = targetMenu.getItemInSlot(slot);
-                            if (item != null && !item.getType().isAir()) {
+                            if (item != null && item.getType() != Material.AIR) {
                                 final int exceptedReceive = Math.min(item.getAmount(), limit);
                                 final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                                 root.addItemStack(clone);

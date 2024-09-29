@@ -104,7 +104,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
 
     private void decode(Player player, BlockMenu menu) {
         ItemStack input = menu.getItemInSlot(getInputSlot());
-        if (input == null || input.getType().isAir()) {
+        if (input == null || input.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "没有输入蓝图");
             return;
         }

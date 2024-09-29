@@ -109,11 +109,11 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
             int inputSlot = INPUT_SLOTS[i];
             int outputSlot = OUTPUT_SLOTS[i];
             ItemStack dueItem = blockMenu.getItemInSlot(dueSlot);
-            if (dueItem == null || dueItem.getType().isAir()) {
+            if (dueItem == null || dueItem.getType() == Material.AIR) {
                 continue;
             }
             ItemStack inputItem = blockMenu.getItemInSlot(inputSlot);
-            if (inputItem == null || inputItem.getType().isAir()) {
+            if (inputItem == null || inputItem.getType() == Material.AIR) {
                 continue;
             }
             if (StackUtils.itemsMatch(inputItem, dueItem, false, true)) {
@@ -202,7 +202,7 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
             @Override
             public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow itemTransportFlow, ItemStack incoming) {
                 if (itemTransportFlow == ItemTransportFlow.INSERT) {
-                    if (incoming == null || incoming.getType().isAir()) {
+                    if (incoming == null || incoming.getType() == Material.AIR) {
                         return new int[0];
                     }
 

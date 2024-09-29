@@ -94,7 +94,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
     @Nullable
     public static ItemStack getStoredItemStack(ItemStack mover) {
-        if (mover == null || mover.getType().isAir()) {
+        if (mover == null || mover.getType() == Material.AIR) {
             return null;
         }
 
@@ -120,7 +120,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     public static int getStoredAmount(ItemStack mover) {
-        if (mover == null || mover.getType().isAir()) {
+        if (mover == null || mover.getType() == Material.AIR) {
             return 0;
         }
 
@@ -133,7 +133,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     public static void setStoredItemStack(ItemStack mover, @Nullable ItemStack itemStack) {
-        if (mover == null || mover.getType().isAir()) {
+        if (mover == null || mover.getType() == Material.AIR) {
             return;
         }
 
@@ -142,7 +142,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return;
         }
 
-        if (itemStack == null || itemStack.getType().isAir() || itemStack.getAmount() != 1) {
+        if (itemStack == null || itemStack.getType() == Material.AIR || itemStack.getAmount() != 1) {
             clearPDC(mover);
             return;
         }
@@ -152,7 +152,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     public static void setStoredAmount(ItemStack mover, int amount) {
-        if (mover == null || mover.getType().isAir()) {
+        if (mover == null || mover.getType() == Material.AIR) {
             return;
         }
 
@@ -171,14 +171,14 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     public static void depositItem(ItemStack mover, ItemStack incoming) {
-        if (incoming == null || incoming.getType().isAir()) {
+        if (incoming == null || incoming.getType() == Material.AIR) {
             return;
         }
 
         if (incoming.getAmount() > 0) {
             ItemStack stored = getStoredItemStack(mover);
             int storedAmount = getStoredAmount(mover);
-            if (stored == null || stored.getType().isAir()) {
+            if (stored == null || stored.getType() == Material.AIR) {
                 setStoredItemStack(mover, StackUtils.getAsQuantity(incoming, 1));
                 setStoredAmount(mover, incoming.getAmount());
                 incoming.setAmount(0);
@@ -193,7 +193,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     private static void clearPDC(ItemStack mover) {
-        if (mover == null || mover.getType().isAir()) {
+        if (mover == null || mover.getType() == Material.AIR) {
             return;
         }
 
@@ -209,7 +209,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     public static void updateLore(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType().isAir()) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
             return;
         }
 
@@ -322,7 +322,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return null;
         }
 
-        if (itemStack == null || itemStack.getType().isAir()) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
             return null;
         }
 
@@ -353,7 +353,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         }
 
         final ItemStack stored = cache.getItemStack();
-        if (stored == null || stored.getType().isAir()) {
+        if (stored == null || stored.getType() == Material.AIR) {
             return null;
         }
 
@@ -390,7 +390,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         ItemStack fetched = barrel.requestItem(itemRequest);
 
-        if (fetched == null || fetched.getType().isAir()) {
+        if (fetched == null || fetched.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "无法获取物品.");
             return;
         }
