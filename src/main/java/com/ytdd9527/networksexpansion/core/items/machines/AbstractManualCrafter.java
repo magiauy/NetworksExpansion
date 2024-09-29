@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 import com.ytdd9527.networksexpansion.api.data.SuperRecipe;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -21,6 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -29,6 +31,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,6 +153,8 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
             return false;
         }
 
+        // player.sendMessage(ChatColor.GREEN + "正在尝试消耗" + Arrays.toString(Arrays.stream(recipe.getInput()).map(ItemStackHelper::getDisplayName).toArray()) + " 合成 " + Arrays.toString(Arrays.stream(recipe.getOutput()).map(ItemStackHelper::getDisplayName).toArray()));
+
         for (int i = 0; i < Math.min(recipe.getInput().length, getInputSlots().length); i++) {
             ItemStack wanted = recipe.getInput()[i];
             if (wanted == null || wanted.getType() == Material.AIR) {
@@ -168,15 +173,17 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                         continue;
                     }
                 }
-                ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
+                ItemStack left = BlockMenuUtil.pushItem(blockMenu, ItemStackUtil.getCleanItem(item), getOutputSlots());
                 if (left != null && left.getType() != Material.AIR) {
-                    player.sendMessage(ChatColor.RED + "Not enough space in output slots.");
+                    player.sendMessage(ChatColor.RED + "No enough space in output slots.");
                     world.dropItem(blockMenu.getLocation(), left);
                 }
             }
         }
 
-        removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
+        if (recipe.getConsumeEnergy() > 0) {
+            removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
+        }
         player.sendMessage(ChatColor.GREEN + "Successfully crafted.");
         return true;
     }
@@ -268,7 +275,9 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
             }
         }
 
-        removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
+        if (recipe.getConsumeEnergy() > 0) {
+            removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
+        }
         player.sendMessage(ChatColor.GREEN + "Successfully crafted.");
         return true;
     }

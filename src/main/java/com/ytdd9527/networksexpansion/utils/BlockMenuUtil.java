@@ -1,9 +1,11 @@
 package com.ytdd9527.networksexpansion.utils;
 
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -29,26 +31,26 @@ public class BlockMenuUtil {
                 break;
             }
 
-            ItemStack stack = blockMenu.getItemInSlot(slot);
+            ItemStack existing = blockMenu.getItemInSlot(slot);
 
-            if (stack == null) {
+            if (existing == null || existing.getType() == Material.AIR) {
                 int received = Math.min(leftAmount, item.getMaxStackSize());
                 blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, received));
                 leftAmount -= received;
                 item.setAmount(Math.max(0, leftAmount));
             } else {
-                if (item.getMaxStackSize() >= stack.getMaxStackSize()) {
+                int existingAmount = existing.getAmount();
+                if (existingAmount >= item.getMaxStackSize()) {
                     continue;
                 }
 
-                if (!StackUtils.itemsMatch(item, stack)) {
+                if (!StackUtils.itemsMatch(item, existing)) {
                     continue;
                 }
 
-                int existingAmount = stack.getAmount();
                 int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
                 leftAmount -= received;
-                stack.setAmount(existingAmount + received);
+                existing.setAmount(existingAmount + received);
                 item.setAmount(leftAmount);
             }
         }
@@ -160,26 +162,26 @@ public class BlockMenuUtil {
                     break;
                 }
 
-                ItemStack stack = cloneMenu.get(slot);
+                ItemStack existing = cloneMenu.get(slot);
 
-                if (stack == null) {
+                if (existing == null || existing.getType() == Material.AIR) {
                     int received = Math.min(leftAmount, item.getMaxStackSize());
                     cloneMenu.set(slot, StackUtils.getAsQuantity(item, leftAmount));
                     leftAmount -= received;
                     item.setAmount(Math.max(0, leftAmount));
                 } else {
-                    if (item.getMaxStackSize() >= stack.getMaxStackSize()) {
+                    int existingAmount = existing.getAmount();
+                    if (existingAmount >= item.getMaxStackSize()) {
                         continue;
                     }
 
-                    if (!StackUtils.itemsMatch(item, stack)) {
+                    if (!StackUtils.itemsMatch(item, existing)) {
                         continue;
                     }
 
-                    int existingAmount = stack.getAmount();
                     int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
                     leftAmount -= received;
-                    stack.setAmount(existingAmount + received);
+                    existing.setAmount(existingAmount + received);
                     item.setAmount(leftAmount);
                 }
             }
