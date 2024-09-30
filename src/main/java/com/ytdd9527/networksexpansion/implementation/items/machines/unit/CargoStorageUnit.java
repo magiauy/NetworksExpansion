@@ -32,7 +32,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -754,7 +753,7 @@ public class CargoStorageUnit extends SpecialSlimefunItem implements Distinctive
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, Config conf) {
+            public void tick(Block block, SlimefunItem item, SlimefunBlockData blockData) {
                 onTick(block);
             }
         });

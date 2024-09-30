@@ -201,7 +201,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             return;
         }
         List<String> newLore = new ArrayList<>();
-        newLore.add("&7Current Offset: &e" + offset);
+        newLore.add(ChatColor.GRAY + "Current Offset: " + ChatColor.YELLOW + offset);
         meta.setLore(newLore);
         newIcon.setItemMeta(meta);
 
