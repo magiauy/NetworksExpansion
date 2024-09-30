@@ -158,8 +158,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                 drawParticle,
                 PARTICLE_INTERVAL,
                 (targetMenu) -> {
-            LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
-        });
+                    LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
+                });
     }
 
 

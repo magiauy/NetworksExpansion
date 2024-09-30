@@ -140,8 +140,8 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
                 drawParticle,
                 PARTICLE_INTERVAL,
                 (targetMenu) -> {
-            LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
-        });
+                    LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+                });
     }
 
     @Override
