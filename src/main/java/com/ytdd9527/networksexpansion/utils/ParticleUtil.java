@@ -3,7 +3,6 @@ package com.ytdd9527.networksexpansion.utils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
@@ -15,9 +14,9 @@ import java.util.List;
  * @since 2.0
  */
 public class ParticleUtil {
-    private static final double[] BLOCK_CUBE_OFFSET_X = new double[] {0, 1, 0, 0, 1, 1, 0, 1};
-    private static final double[] BLOCK_CUBE_OFFSET_Y = new double[] {0, 0, 1, 0, 1, 0, 1, 1};
-    private static final double[] BLOCK_CUBE_OFFSET_Z = new double[] {0, 0, 0, 1, 0, 1, 1, 1};
+    private static final double[] BLOCK_CUBE_OFFSET_X = new double[]{0, 1, 0, 0, 1, 1, 0, 1};
+    private static final double[] BLOCK_CUBE_OFFSET_Y = new double[]{0, 0, 1, 0, 1, 0, 1, 1};
+    private static final double[] BLOCK_CUBE_OFFSET_Z = new double[]{0, 0, 0, 1, 0, 1, 1, 1};
 
     public static void drawLineByTotalAmount(@Nonnull Particle particle, int totalAmount, @Nonnull Location... locations) {
         for (int i = 0; i < locations.length; i++) {
@@ -38,6 +37,7 @@ public class ParticleUtil {
             }
         }
     }
+
     public static void drawLineByTotalAmount(@Nonnull Particle particle, int totalAmount, @Nonnull List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locations.length; i++) {
@@ -81,14 +81,14 @@ public class ParticleUtil {
 
                 t += (double) interval / particleCount;
                 lastTick = (int) (t / 50);
-                if(tick != lastTick) {
+                if (tick != lastTick) {
                     final List<Runnable> finalRunnableList = runnableList;
                     plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> finalRunnableList.forEach(Runnable::run), tick);
                     tick = lastTick;
                     runnableList = new ArrayList<>();
                 }
             }
-            if(!runnableList.isEmpty()) {
+            if (!runnableList.isEmpty()) {
                 final List<Runnable> finalRunnableList = runnableList;
                 plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> finalRunnableList.forEach(Runnable::run), tick);
             }
@@ -96,6 +96,7 @@ public class ParticleUtil {
             time += interval;
         }
     }
+
     public static void drawLineByDistance(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, double distance, @Nonnull List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locations.length; i++) {
@@ -128,6 +129,7 @@ public class ParticleUtil {
             time += interval;
         }
     }
+
     public static void drawCubeByLocations(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locationList.size(); i++) {

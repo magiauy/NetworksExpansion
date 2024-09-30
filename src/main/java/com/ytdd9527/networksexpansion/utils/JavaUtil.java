@@ -1,7 +1,12 @@
 package com.ytdd9527.networksexpansion.utils;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -15,15 +20,17 @@ public class JavaUtil {
         result.addAll(Arrays.asList(objects));
         return result;
     }
+
     @SafeVarargs
     public static <T> List<T> toList(T... objects) {
         List<T> result = new ArrayList<>(objects.length);
         result.addAll(Arrays.asList(objects));
         return result;
     }
+
     public static int[] toArray(List<Integer> list) {
         int[] result = new int[list.size()];
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i);
         }
         return result;
@@ -36,6 +43,7 @@ public class JavaUtil {
         }
         return result;
     }
+
     public static <T> List<T> reserve(List<T> objectList) {
         List<T> result = new ArrayList<>(objectList);
         for (int i = 0; i < objectList.size(); i++) {
@@ -53,6 +61,7 @@ public class JavaUtil {
         }
         return result;
     }
+
     public static <T> T[] shuffle(T[] objects) {
         List<T> collect = Arrays.stream(objects).collect(Collectors.toList());
         Collections.shuffle(collect);
@@ -62,6 +71,7 @@ public class JavaUtil {
         }
         return result;
     }
+
     public static <T> List<T> shuffle(List<T> objectList) {
         List<T> list = new ArrayList<>(objectList);
         Collections.shuffle(list);
@@ -70,7 +80,7 @@ public class JavaUtil {
 
     public static double[] disperse(int size, Number... value) {
         if (size == 1 && value.length > 0) {
-            return new double[] {value[0].doubleValue()};
+            return new double[]{value[0].doubleValue()};
         } else if (size == 0 || value.length == 0) {
             return new double[0];
         }
@@ -95,6 +105,7 @@ public class JavaUtil {
     /**
      * Generate random int[] contains 0 1 2 ...... length-1
      * for example, while the input length = 3, the output may be [0, 1, 2] or [0, 2, 1] or [1, 0, 2] or [1, 2, 0] or [2, 0, 1] or [2, 1, 0]
+     *
      * @param length
      * @return
      */
@@ -118,11 +129,12 @@ public class JavaUtil {
      * shuffle a list by int[]
      * outputList[0] = inputList[int[0]]
      * for example:
-     *      input:
-     *          list: [a, b, c, d, e, f]
-     *          int:[2, 1, 0, 4, 5, 3]
-     *      output:
-     *          list: [c, b, a, e, f, d]
+     * input:
+     * list: [a, b, c, d, e, f]
+     * int:[2, 1, 0, 4, 5, 3]
+     * output:
+     * list: [c, b, a, e, f, d]
+     *
      * @param list
      * @param ints
      * @param <T>
@@ -145,7 +157,7 @@ public class JavaUtil {
 
     public static <T> boolean matchOnce(T source, T... targets) {
         for (T object : targets) {
-            if(object.equals(source)) {
+            if (object.equals(source)) {
                 return true;
             }
         }
@@ -162,8 +174,8 @@ public class JavaUtil {
      * @return In most case, it will not return null. (￣▽￣)"
      */
     public static <T> T getFirstNotNull(T... objects) {
-        for(T object : objects) {
-            if(object != null) {
+        for (T object : objects) {
+            if (object != null) {
                 return object;
             }
         }

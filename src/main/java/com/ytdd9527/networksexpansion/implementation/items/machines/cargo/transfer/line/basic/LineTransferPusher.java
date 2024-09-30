@@ -164,8 +164,8 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                 drawParticle,
                 PARTICLE_INTERVAL,
                 (targetMenu) -> {
-            LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
-        });
+                    LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+                });
     }
 
     @Nonnull

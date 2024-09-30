@@ -7,11 +7,9 @@ import com.ytdd9527.networksexpansion.api.data.StorageUnitData;
 import com.ytdd9527.networksexpansion.api.enums.ErrorType;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.machines.unit.CargoStorageUnit;
-import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.bakedlibs.dough.skins.PlayerSkin;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
@@ -134,7 +132,7 @@ public class NetworksMain implements TabExecutor {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络存储才能执行该指令!");
             return;
         }
-        
+
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
@@ -205,7 +203,7 @@ public class NetworksMain implements TabExecutor {
         if (!(slimefunItem instanceof CargoStorageUnit)) {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
         }
-        
+
         final Location targetLocation = targetBlock.getLocation();
         final ItemStack clone = itemInHand.clone();
         final StorageUnitData data = CargoStorageUnit.getStorageData(targetLocation);
@@ -227,7 +225,7 @@ public class NetworksMain implements TabExecutor {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
             return;
         }
-        
+
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType() == Material.AIR) {
             player.sendMessage(ChatColor.RED + "你必须手持物品才能执行该指令!");
@@ -301,7 +299,7 @@ public class NetworksMain implements TabExecutor {
         if (targetBlock == null) {
             targetBlock = player.getLocation().getBlock();
         }
-        
+
         worldeditPos1(player, targetBlock.getLocation());
     }
 
@@ -319,7 +317,7 @@ public class NetworksMain implements TabExecutor {
         if (targetBlock == null) {
             targetBlock = player.getLocation().getBlock();
         }
-        
+
         worldeditPos2(player, targetBlock.getLocation());
     }
 
@@ -481,7 +479,7 @@ public class NetworksMain implements TabExecutor {
             player.sendMessage(ChatColor.RED + "槽位号必须在0-53之间！");
             return;
         }
-        
+
         final ItemStack hand = player.getInventory().getItemInMainHand();
 
         player.sendMessage(ChatColor.GREEN + "Setting slot " + slot + " to " + ItemStackHelper.getDisplayName(hand));
@@ -612,7 +610,7 @@ public class NetworksMain implements TabExecutor {
         if (!(slimefunItem instanceof CargoStorageUnit)) {
             player.sendMessage(ChatColor.RED + "你必须指着一个网络抽屉才能执行该指令!");
         }
-        
+
         final Location targetLocation = targetBlock.getLocation();
         final StorageUnitData data = CargoStorageUnit.getStorageData(targetLocation);
 
@@ -630,7 +628,7 @@ public class NetworksMain implements TabExecutor {
                 player.sendMessage(Theme.ERROR + "该槽位没有物品!");
                 return;
             }
-            
+
             player.getInventory().addItem(StackUtils.getAsQuantity(stack, 1));
         }
     }
@@ -742,7 +740,7 @@ public class NetworksMain implements TabExecutor {
         if (sender instanceof Player player) {
             switch (args[0].toLowerCase(Locale.ROOT)) {
                 case "fillquantum" -> {
-                    if (!player.hasPermission("networks.admin") &&!player.hasPermission("networks.commands.fillquantum")) {
+                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.fillquantum")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -763,7 +761,7 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "fixblueprint" -> {
-                    if (!player.hasPermission("networks.admin") &&!player.hasPermission("networks.commands.fixblueprint")) {
+                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.fixblueprint")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -779,7 +777,7 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "setquantum" -> {
-                    if (!player.hasPermission("networks.admin") &&!player.hasPermission("networks.commands.setquantum")) {
+                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.setquantum")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -799,7 +797,7 @@ public class NetworksMain implements TabExecutor {
                     return true;
                 }
                 case "addstorageitem" -> {
-                    if (!player.hasPermission("networks.admin") &&!player.hasPermission("networks.commands.addstorageitem")) {
+                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.addstorageitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -820,7 +818,7 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "reducestorageitem" -> {
-                    if (!player.hasPermission("networks.admin") &&!player.hasPermission("networks.commands.reducestorageitem")) {
+                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.reducestorageitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -841,7 +839,7 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "setcontainerid" -> {
-                    if (!player.hasPermission("networks.admin") &&!player.hasPermission("networks.commands.setcontainerid")) {
+                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.setcontainerid")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -884,9 +882,9 @@ public class NetworksMain implements TabExecutor {
                             switch (args.length) {
                                 case 4 -> {
                                     try {
-                                            boolean callHandler = Boolean.parseBoolean(args[2]);
-                                            boolean skipVanilla = Boolean.parseBoolean(args[3]);
-                                            worldeditClear(player, callHandler, skipVanilla);
+                                        boolean callHandler = Boolean.parseBoolean(args[2]);
+                                        boolean skipVanilla = Boolean.parseBoolean(args[3]);
+                                        worldeditClear(player, callHandler, skipVanilla);
                                     } catch (NumberFormatException e) {
                                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler / skipVanilla"));
                                     }
@@ -994,7 +992,7 @@ public class NetworksMain implements TabExecutor {
                         }
                     }
                 }
-                
+
                 case "updateitem" -> {
                     if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.updateitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
@@ -1004,7 +1002,7 @@ public class NetworksMain implements TabExecutor {
                     updateItem(player);
                     return true;
                 }
-                
+
                 case "getstorageitem" -> {
                     if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.getstorageitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
@@ -1025,7 +1023,7 @@ public class NetworksMain implements TabExecutor {
 
                     return true;
                 }
-                
+
                 default -> {
                     help(player, null);
                 }
@@ -1161,7 +1159,8 @@ public class NetworksMain implements TabExecutor {
                     return switch (args[1].toLowerCase(Locale.ROOT)) {
                         case "paste" -> List.of("override", "keep");
                         case "blockmenu" -> switch (args[2].toLowerCase(Locale.ROOT)) {
-                            case "setslot" -> List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53");
+                            case "setslot" ->
+                                    List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53");
                             default -> List.of();
                         };
                         case "clear" -> List.of("true", "false");
@@ -1177,7 +1176,7 @@ public class NetworksMain implements TabExecutor {
                 }
             }
         }
-        
+
         return new ArrayList<>();
     }
 

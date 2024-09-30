@@ -16,7 +16,6 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,6 +37,7 @@ public class LineOperationUtil {
     public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, Consumer<BlockMenu> consumer) {
         doOperation(startLocation, direction, limit, skipNoMenu, optimizeExperience, false, 2, consumer);
     }
+
     public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, boolean drawParticle, int particleInterval, Consumer<BlockMenu> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;

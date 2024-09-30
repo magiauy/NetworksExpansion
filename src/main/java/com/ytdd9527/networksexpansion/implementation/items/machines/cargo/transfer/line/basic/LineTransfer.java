@@ -39,16 +39,15 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem, Configurable {
-    private static final int PARTICLE_INTERVAL = 2;
     public static final int DEFAULT_MAX_DISTANCE = 32;
     public static final int DEFAULT_PUSH_ITEM_TICK = 1;
     public static final int DEFAULT_GRAB_ITEM_TICK = 1;
     public static final int DEFAULT_REQUIRED_POWER = 5000;
     public static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
-
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "指定需要推送的物品"
     );
+    private static final int PARTICLE_INTERVAL = 2;
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
             10,
@@ -215,8 +214,8 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 drawParticle,
                 PARTICLE_INTERVAL,
                 (targetMenu) -> {
-            LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
-        });
+                    LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+                });
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
@@ -243,8 +242,8 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 drawParticle,
                 PARTICLE_INTERVAL,
                 (targetMenu) -> {
-            LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
-        });
+                    LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+                });
     }
 
     @Nonnull

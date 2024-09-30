@@ -231,8 +231,8 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 drawParticle,
                 PARTICLE_INTERVAL,
                 (targetMenu) -> {
-            LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
-        });
+                    LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
+                });
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
@@ -261,8 +261,8 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 drawParticle,
                 PARTICLE_INTERVAL,
                 (targetMenu) -> {
-            LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
-        });
+                    LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
+                });
     }
 
     @Nonnull
