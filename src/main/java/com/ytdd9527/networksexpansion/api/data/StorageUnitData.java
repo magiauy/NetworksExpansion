@@ -6,7 +6,6 @@ import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@ToString
 public class StorageUnitData {
 
     private final int id;
@@ -264,5 +262,16 @@ public class StorageUnitData {
 
     public void depositItemStack(ItemStack item, boolean contentLocked) {
         depositItemStack(item, contentLocked, false);
+    }
+
+    public String toString() {
+        return "StorageUnitData{" +
+                "id=" + id +
+                ", owner=" + owner +
+                ", storedItems=" + storedItems +
+                ", isPlaced=" + isPlaced +
+                ", sizeType=" + sizeType +
+                ", lastLocation=" + lastLocation +
+                '}';
     }
 }

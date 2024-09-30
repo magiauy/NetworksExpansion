@@ -2,11 +2,11 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.api.enums.MCVersion;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -132,7 +132,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
                 final ItemStack stack = brewerInventory.getContents()[i];
                 if (stack != null && stack.getType() == Material.POTION) {
                     final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
-                    if (Networks.getInstance().getMCVersion().isAtLeast(MCVersion.MC1_20_5)) {
+                    if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
                         if (potionMeta.getBasePotionType() == PotionType.WATER) {
                             grabItem(blockMenu, stack);
                         }

@@ -1,5 +1,6 @@
-package io.github.sefiraat.networks.slimefun.network.pusher;
+package io.github.sefiraat.networks.slimefun.network;
 
+import io.github.sefiraat.networks.slimefun.network.pusher.AbstractNetworkPusher;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;

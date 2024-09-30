@@ -1,8 +1,7 @@
 package io.github.sefiraat.networks.utils;
 
-import com.ytdd9527.networksexpansion.api.enums.MCVersion;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
@@ -46,7 +45,7 @@ import java.util.Optional;
 @UtilityClass
 @SuppressWarnings("deprecation")
 public class StackUtils {
-    MCVersion MC_VERSION = Networks.getInstance().getMCVersion();
+    MinecraftVersion MC_VERSION = Slimefun.getMinecraftVersion();
 
     @Nonnull
     public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
@@ -212,7 +211,7 @@ public class StackUtils {
             return false;
         }
 
-        if (MC_VERSION.isAtLeast(MCVersion.MC1_20_5)) {
+        if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
             // Check if fire-resistant
             if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
                 return false;
@@ -452,7 +451,7 @@ public class StackUtils {
 
         // Potion
         if (metaOne instanceof PotionMeta instanceOne && metaTwo instanceof PotionMeta instanceTwo) {
-            if (MC_VERSION.isAtLeast(MCVersion.MC1_20_5)) {
+            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
                 if (instanceOne.getBasePotionType() != instanceTwo.getBasePotionType()) {
                     return true;
                 }
@@ -537,7 +536,7 @@ public class StackUtils {
             }
         }
 
-        if (MC_VERSION.isAtLeast(MCVersion.MC1_20_5)) {
+        if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
             // Writable Book
             if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
                 if (instanceOne.getPageCount() != instanceTwo.getPageCount()) {
@@ -547,7 +546,7 @@ public class StackUtils {
                     return true;
                 }
             }
-            if (MC_VERSION.isAtLeast(MCVersion.MC1_21)) {
+            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
                 // Ominous Bottle
                 if (metaOne instanceof OminousBottleMeta instanceOne && metaTwo instanceof OminousBottleMeta instanceTwo) {
                     if (instanceOne.hasAmplifier() != instanceTwo.hasAmplifier()) {

@@ -2,15 +2,7 @@
 auto-update: true
 
 # 不要修改这个内容
-config-version: 209-Alpha-38
-
-integrations:
-  # 不推荐开启
-  guide:
-    survival-override: false
-    cheat-override: false
-
-drawer-auto-save-period: 300
+config-version: 209-Alpha-11
 
 # max-distance最大距离限制 100
 # pushitem-tick 1 Tick=0.5秒 推送物品的时间
