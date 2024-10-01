@@ -224,13 +224,15 @@ public class StackUtils {
                 return false;
             }
 
-            // Check jukebox playable
-            if (itemMeta.hasJukeboxPlayable() && cachedMeta.hasJukeboxPlayable()) {
-                if (!Objects.equals(itemMeta.getJukeboxPlayable(), cachedMeta.getJukeboxPlayable())) {
+            if (IS_1_21) {
+                // Check jukebox playable
+                if (itemMeta.hasJukeboxPlayable() && cachedMeta.hasJukeboxPlayable()) {
+                    if (!Objects.equals(itemMeta.getJukeboxPlayable(), cachedMeta.getJukeboxPlayable())) {
+                        return false;
+                    }
+                } else if (itemMeta.hasJukeboxPlayable() != cachedMeta.hasJukeboxPlayable()) {
                     return false;
                 }
-            } else if (itemMeta.hasJukeboxPlayable() != cachedMeta.hasJukeboxPlayable()) {
-                return false;
             }
         }
 
