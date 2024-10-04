@@ -5,7 +5,9 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkNode;
 import io.github.sefiraat.networks.network.NetworkRoot;
+import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -15,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -46,7 +49,6 @@ public class NetworkController extends NetworkObject {
 
                     @Override
                     public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
-
                         if (!firstTickMap.containsKey(block.getLocation())) {
                             onFirstTick(block, data);
                             firstTickMap.put(block.getLocation(), true);
@@ -62,6 +64,11 @@ public class NetworkController extends NetworkObject {
                         }
 
                         NETWORKS.put(block.getLocation(), networkRoot);
+
+                        NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(block.getLocation());
+                        if (definition != null) {
+                            definition.setNode(networkRoot);
+                        }
                     }
                 }
         );
@@ -90,9 +97,18 @@ public class NetworkController extends NetworkObject {
     }
 
     public static void wipeNetwork(@Nonnull Location location) {
-        for (NetworkNode node : NETWORKS.remove(location).getChildrenNodes()) {
-            NetworkStorage.removeNode(node.getNodePosition());
+        NetworkRoot networkRoot = NETWORKS.remove(location);
+        if (networkRoot != null) {
+            for (NetworkNode node : networkRoot.getChildrenNodes()) {
+                NetworkStorage.removeNode(node.getNodePosition());
+            }
         }
+    }
+
+    @Override
+    protected void cancelPlace(BlockPlaceEvent event) {
+        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This network already has a controller!");
+        event.setCancelled(true);
     }
 
     private void onFirstTick(@Nonnull Block block, @Nonnull SlimefunBlockData data) {

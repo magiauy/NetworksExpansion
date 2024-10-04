@@ -1,8 +1,10 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.advanced;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.advanced;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
+import com.ytdd9527.networksexpansion.implementation.items.machines.cargo.utils.TransferUtil;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -10,14 +12,12 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -38,7 +38,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem {
+public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem, Configurable {
+    private static final int DEFAULT_MAX_DISTANCE = 64;
+    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
+    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
+
     private static final String KEY_UUID = "display-uuid";
     private static final int TRANSPORT_LIMIT = 3456;
     private static final int[] BACKGROUND_SLOTS = {
@@ -54,14 +58,14 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private int grabItemTick;
     private int maxDistance;
 
-    public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String configKey) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSMITTER_GRABBER);
-        loadConfigurations(configKey);
+    public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_GRABBER);
+        loadConfigurations();
     }
 
     @Override
-    public boolean comeMaxLimit(int currentNumber) {
-        return currentNumber > TRANSPORT_LIMIT;
+    public boolean isExceedLimit(int quantity) {
+        return quantity > TRANSPORT_LIMIT;
     }
 
     @Override
@@ -69,16 +73,13 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         return TRANSPORT_LIMIT;
     }
 
-    private void loadConfigurations(String configKey) {
+    public void loadConfigurations() {
+        String configKey = getId();
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        int defaultMaxDistance = 64;
-        int defaultGrabItemTick = 1;
-        boolean defaultUseSpecialModel = false;
-
-        this.maxDistance = config.getInt("items." + configKey + ".max-distance", defaultMaxDistance);
-        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", defaultGrabItemTick);
-        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", defaultUseSpecialModel);
+        this.maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
+        this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
+        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
@@ -140,126 +141,12 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
-        final int maxNumber = getCurrentNumber(blockMenu.getLocation());
+        final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        Block currentBlock = blockMenu.getBlock().getRelative(direction);
-        BlockMenu currentMenu;
-        for (int i = 0; i <= maxDistance; i++) {
-            currentMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
-
-            if (currentMenu == null) {
-                /*
-                 * It means we found a slimefun block that has no menu, so we just continue.
-                 */
-                continue;
-            }
-
-            final int[] slots = currentMenu.getPreset().getSlotsAccessedByItemTransport(currentMenu, ItemTransportFlow.WITHDRAW, null);
-
-            int limit = maxNumber;
-            switch (mode) {
-                case NONE, NONNULL_ONLY -> {
-                    /*
-                     * Grab all the items.
-                     */
-                    for (int slot : slots) {
-                        final ItemStack item = currentMenu.getItemInSlot(slot);
-                        if (item != null && !item.getType().isAir()) {
-                            final int exceptedReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                            root.addItemStack(clone);
-                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
-                            limit -= exceptedReceive - clone.getAmount();
-                            if (limit <= 0) {
-                                break;
-                            }
-                        }
-                    }
-                }
-                case NULL_ONLY -> {
-                    /*
-                     * Nothing to do.
-                     */
-                }
-                case FIRST_ONLY -> {
-                    /*
-                     * Grab the first item only.
-                     */
-                    if (slots.length > 0) {
-                        final ItemStack item = currentMenu.getItemInSlot(slots[0]);
-                        if (item != null && !item.getType().isAir()) {
-                            final int exceptedReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                            root.addItemStack(clone);
-                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
-                            limit -= exceptedReceive - clone.getAmount();
-                            if (limit <= 0) {
-                                break;
-                            }
-                        }
-                    }
-                }
-                case LAST_ONLY -> {
-                    /*
-                     * Grab the last item only.
-                     */
-                    if (slots.length > 0) {
-                        final ItemStack item = currentMenu.getItemInSlot(slots[slots.length - 1]);
-                        if (item != null && !item.getType().isAir()) {
-                            final int exceptedReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                            root.addItemStack(clone);
-                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
-                            limit -= exceptedReceive - clone.getAmount();
-                            if (limit <= 0) {
-                                break;
-                            }
-                        }
-                    }
-                }
-                case FIRST_STOP -> {
-                    /*
-                     * Grab the first non-null item only.
-                     */
-                    for (int slot : slots) {
-                        final ItemStack item = currentMenu.getItemInSlot(slot);
-                        if (item != null && !item.getType().isAir()) {
-                            final int exceptedReceive = Math.min(item.getAmount(), limit);
-                            final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                            root.addItemStack(clone);
-                            item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
-                            limit -= exceptedReceive - clone.getAmount();
-                            break;
-                        }
-                    }
-                }
-                case LAZY -> {
-                    /*
-                     * When it's first item is non-null, we will grab all the items.
-                     */
-                    if (slots.length > 0) {
-                        final ItemStack delta = currentMenu.getItemInSlot(slots[0]);
-                        if (delta != null && !delta.getType().isAir()) {
-                            for (int slot : slots) {
-                                ItemStack item = currentMenu.getItemInSlot(slot);
-                                if (item != null && !item.getType().isAir()) {
-                                    final int exceptedReceive = Math.min(item.getAmount(), limit);
-                                    final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                                    root.addItemStack(clone);
-                                    item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
-                                    limit -= exceptedReceive - clone.getAmount();
-                                    if (limit <= 0) {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            currentBlock = currentBlock.getRelative(direction);
-        }
+        TransferUtil.doTransport(blockMenu.getLocation(), direction, maxDistance, true, (targetMenu) -> {
+            TransferUtil.grabItem(root, targetMenu, mode, limitQuantity);
+        });
     }
 
 

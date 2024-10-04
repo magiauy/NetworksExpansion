@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+@Getter
 public class CardInstance extends ItemStackCache {
 
     private final int limit;
@@ -20,16 +21,8 @@ public class CardInstance extends ItemStackCache {
         this.limit = limit;
     }
 
-    public int getAmount() {
-        return this.amount;
-    }
-
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public int getLimit() {
-        return this.limit;
     }
 
     @Nullable

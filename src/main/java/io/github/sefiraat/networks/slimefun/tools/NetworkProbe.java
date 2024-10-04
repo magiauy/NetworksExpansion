@@ -80,16 +80,22 @@ public class NetworkProbe extends SlimefunItem implements CanCooldown {
             final int wirelessReceivers = root.getWirelessReceivers().size();
             final int powerOutlets = root.getPowerOutlets().size();
             final int greedyBlocks = root.getGreedyBlocks().size();
+
+            final int advancedImporters = root.getAdvancedImporters().size();
+            final int advancedExporters = root.getAdvancedExporters().size();
+            final int advancedGreedyBlocks = root.getAdvancedGreedyBlocks().size();
+            final int advancedPurgers = root.getAdvancedPurgers().size();
+            final int transferPushers = root.getTransferPushers().size();
+            final int transferGrabbers = root.getTransferGrabbers().size();
+            final int transfers = root.getTransfers().size();
+            final int lineTransferVanillaPushers = root.getLineTransferVanillaPushers().size();
+            final int lineTransferVanillaGrabbers = root.getLineTransferVanillaGrabbers().size();
+            final int inputOnlyMonitor = root.getInputOnlyMonitors().size();
+            final int outputOnlyMonitor = root.getOutputOnlyMonitors().size();
+
             final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItemsLongType();
             final int distinctItems = allNetworkItems.size();
 
-            final int chainPushers = root.getChainPushers().size();
-            final int chainGrabbers = root.getChainGrabbers().size();
-            final int advancedImporters = root.getAdvancedImports().size();
-            final int advancedExporters = root.getAdvancedExports().size();
-            final int chainDispatchers = root.getChainDispatchers().size();
-            final int chainVanillaPushers = root.getChainVanillaPushers().size();
-            final int chainVanillaGrabbers = root.getChainVanillaGrabbers().size();
 
             long totalItems = allNetworkItems.values().stream().mapToLong(integer -> integer).sum();
 

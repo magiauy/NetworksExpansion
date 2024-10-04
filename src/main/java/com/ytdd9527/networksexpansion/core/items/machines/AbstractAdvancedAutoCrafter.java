@@ -199,7 +199,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
-                final ItemStack fetched = root.getItemStackAsync(new ItemRequest(requested, requested.getAmount() * blueprintAmount));
+                final ItemStack fetched = root.getItemStack(new ItemRequest(requested, requested.getAmount() * blueprintAmount));
                 if (fetched != null) {
                     acutalInputs[i] = fetched;
                     ItemStack fetchedClone = fetched.clone();
@@ -244,8 +244,9 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
 
         // If no item crafted OR result doesn't fit, escape
         if (crafted == null || crafted.getType().isAir()) {
-            returnItems(root, acutalInputs);
             sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
+            sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
+            returnItems(root, acutalInputs);
             return false;
         }
 

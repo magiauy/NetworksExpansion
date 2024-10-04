@@ -2,7 +2,6 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.inventory.ItemStack;
@@ -18,39 +17,35 @@ public class BlockMenuUtil {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
 
-        ItemStackWrapper wrapper = null;
-        int amount = item.getAmount();
+        int leftAmount = item.getAmount();
 
         for (int slot : slots) {
-            if (amount <= 0) {
+            if (leftAmount <= 0) {
                 break;
             }
 
             ItemStack stack = blockMenu.getItemInSlot(slot);
 
             if (stack == null) {
-                blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, Math.min(item.getAmount(), item.getMaxStackSize())));
-                item.setAmount(Math.max(0, item.getAmount() - item.getMaxStackSize()));
+                int received = Math.min(leftAmount, item.getMaxStackSize());
+                blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, leftAmount));
+                leftAmount -= received;
+                item.setAmount(Math.max(0, leftAmount));
             } else {
-                int maxStackSize = Math.min(stack.getMaxStackSize(), blockMenu.toInventory().getMaxStackSize());
-                if (stack.getAmount() < maxStackSize) {
-                    if (wrapper == null) {
-                        wrapper = ItemStackWrapper.wrap(item);
-                    }
-
-                    if (!StackUtils.itemsMatch(wrapper, stack)) {
-                        continue;
-                    }
-
-                    amount -= (maxStackSize - stack.getAmount());
-                    stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), maxStackSize));
-                    item.setAmount(amount);
+                if (!StackUtils.itemsMatch(item, stack)) {
+                    continue;
                 }
+
+                int existingAmount = stack.getAmount();
+                int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
+                leftAmount -= received;
+                stack.setAmount(existingAmount + received);
+                item.setAmount(leftAmount);
             }
         }
 
-        if (amount > 0) {
-            return new CustomItemStack(item, amount);
+        if (leftAmount > 0) {
+            return new CustomItemStack(item, leftAmount);
         } else {
             return null;
         }
