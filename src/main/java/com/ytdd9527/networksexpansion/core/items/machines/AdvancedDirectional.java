@@ -88,7 +88,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             TextUtil.colorRandomString("Current Mode:") + TextUtil.colorRandomString("none")
     );
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
-    private static final Map<Location, Integer> NETWORK_LIMIT_QUANTITY_MAP = new HashMap<>();
+    private static final Map<Location, Integer> NETWORK_NUMBER_MAP = new HashMap<>();
     private static final Map<Location, TransportMode> NETWORK_TRANSPORT_MODE_MAP = new HashMap<>();
     private final ItemStack showIconClone;
     private final ItemStack transportModeIconClone;
@@ -305,7 +305,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                 } else {
                     limit = Integer.parseInt(rawLimit);
                 }
-                NETWORK_LIMIT_QUANTITY_MAP.put(location.clone(), limit);
+                NETWORK_NUMBER_MAP.put(location.clone(), limit);
 
                 TransportMode mode;
                 if (rawMode == null) {
@@ -392,7 +392,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (action.isShiftClicked()) {
             n = 64;
         }
-        minusLimitQuantity(location, n);
+        minusNumber(location, n);
         return false;
     }
 
@@ -405,7 +405,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (action.isShiftClicked()) {
             n = 64;
         }
-        addLimitQuantity(location, n);
+        addNumber(location, n);
         return false;
     }
 
@@ -486,18 +486,18 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
 
-    public int getLimitQuantity(Location location) {
-        Integer quantity = NETWORK_LIMIT_QUANTITY_MAP.get(location.clone());
-        if (quantity == null) {
-            quantity = Integer.parseInt(StorageCacheUtils.getData(location, LIMIT_KEY));
-            NETWORK_LIMIT_QUANTITY_MAP.put(location.clone(), quantity);
+    public int getCurrentNumber(Location location) {
+        Integer number = NETWORK_NUMBER_MAP.get(location.clone());
+        if (number == null) {
+            number = Integer.parseInt(StorageCacheUtils.getData(location, LIMIT_KEY));
+            NETWORK_NUMBER_MAP.put(location.clone(), number);
         }
-        return quantity;
+        return number;
     }
 
-    public void setLimitQuantity(Location location, int quantity) {
-        NETWORK_LIMIT_QUANTITY_MAP.put(location.clone(), quantity);
-        StorageCacheUtils.setData(location, LIMIT_KEY, Integer.toString(quantity));
+    public void setCurrentNumber(Location location, int number) {
+        NETWORK_NUMBER_MAP.put(location.clone(), number);
+        StorageCacheUtils.setData(location, LIMIT_KEY, Integer.toString(number));
     }
 
     public TransportMode getCurrentTransportMode(Location location) {
@@ -525,31 +525,32 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return false;
     }
 
-    public void minusLimitQuantity(Location location, int quantity) {
-        int limitQuantity = getLimitQuantity(location);
-        if (limitQuantity - quantity >= 1) {
-            setLimitQuantity(location, (limitQuantity - quantity));
+    public void minusNumber(Location location, int number) {
+        int currentNumber = getCurrentNumber(location);
+        if (currentNumber - number >= 1) {
+            setCurrentNumber(location, (currentNumber - number));
         } else {
-            setLimitQuantity(location, getMaxLimit() - (quantity - limitQuantity));
+            setCurrentNumber(location, getMaxLimit() - (number - currentNumber));
         }
         updateShowIcon(location);
     }
 
-    public void addLimitQuantity(Location location, int quantity) {
-        int limitQuantity = getLimitQuantity(location);
-        int newQuantity = limitQuantity + quantity;
-        if (isExceedLimit(newQuantity)) {
-            newQuantity = newQuantity - getMaxLimit();
+    public void addNumber(Location location, int number) {
+        int currentNumber = getCurrentNumber(location);
+        int newNumber = currentNumber + number;
+        if (comeMaxLimit(newNumber)) {
+            newNumber = newNumber - getMaxLimit();
         }
-        setLimitQuantity(location, newQuantity);
+        setCurrentNumber(location, newNumber);
         updateShowIcon(location);
     }
 
-    public abstract boolean isExceedLimit(int quantity);
+    public abstract boolean comeMaxLimit(int currentNumber);
 
     public abstract int getMaxLimit();
 
     public void updateShowIcon(Location location) {
+
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
         lore.set(0, TextUtil.colorRandomString("Current Amount: ") + getCurrentNumber(location));

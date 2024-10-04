@@ -1,8 +1,7 @@
-package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.transfer.line.basic;
+package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
 
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -43,10 +42,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-// TODO #114
-public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
-    private static final int DEFAULT_MAX_DISTANCE = 32;
-    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
+@SuppressWarnings("deprecation")
+public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem {
     private static final ItemStack AIR = new ItemStack(Material.AIR);
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -67,21 +64,24 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     public LineTransferVanillaPusher(ItemGroup itemGroup,
                                      SlimefunItemStack item,
                                      RecipeType recipeType,
-                                     ItemStack[] recipe
+                                     ItemStack[] recipe,
+                                     String configKey
     ) {
-        super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_PUSHER);
+        super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
         for (int slot : getInputSlots()) {
             this.getSlotsToDrop().add(slot);
         }
-        loadConfigurations();
+        loadConfiguration(configKey);
     }
 
-    public void loadConfigurations() {
-        String configKey = getId();
+    private void loadConfiguration(String itemId) {
         FileConfiguration config = Networks.getInstance().getConfig();
 
-        maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
-        pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", DEFAULT_GRAB_ITEM_TICK);
+        int defaultMaxDistance = 32;
+        int defaultGrabItemTick = 1;
+
+        maxDistance = config.getInt("items." + itemId + ".max-distance", defaultMaxDistance);
+        pushItemTick = config.getInt("items." + itemId + ".pushitem-tick", defaultGrabItemTick);
     }
 
 
