@@ -30,7 +30,11 @@ public class QuantumWorkbenchEncoder extends AbstractEncoder {
         return SupportedQuantumWorkbenchRecipes.getRecipes().entrySet();
     }
 
+    ;
+
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedQuantumWorkbenchRecipes.testRecipe(inputs, recipe);
     }
+
+    ;
 }

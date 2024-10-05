@@ -13,32 +13,6 @@ import java.lang.reflect.Method;
  */
 @UtilityClass
 public class GuideUtil {
-    private static final SurvivalGuideImpl survivalGuide = new SurvivalGuideImpl();
-    private static final CheatGuideImpl cheatGuide = new CheatGuideImpl();
-
-    @ParametersAreNonnullByDefault
-    public static void openMainMenuAsync(Player player, SlimefunGuideMode mode, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(player, profile, mode, selectedPage)))) {
-            Slimefun.getLocalization().sendMessage(player, "messages.opening-guide");
-        }
-    }
-
-    @ParametersAreNonnullByDefault
-    public static void openMainMenu(Player player, PlayerProfile profile, SlimefunGuideMode mode, int selectedPage) {
-        getGuide(player, mode).openMainMenu(profile, selectedPage);
-    }
-
-    public static SlimefunGuideImplementation getGuide(Player player, SlimefunGuideMode mode) {
-        if (mode == SlimefunGuideMode.SURVIVAL_MODE) {
-            return survivalGuide;
-        }
-        if (player.isOp() && mode == SlimefunGuideMode.CHEAT_MODE) {
-            return cheatGuide;
-        }
-
-        return survivalGuide;
-    }
-
     public static void removeLastEntry(@Nonnull GuideHistory guideHistory) {
         try {
             Method getLastEntry = guideHistory.getClass().getDeclaredMethod("getLastEntry", boolean.class);

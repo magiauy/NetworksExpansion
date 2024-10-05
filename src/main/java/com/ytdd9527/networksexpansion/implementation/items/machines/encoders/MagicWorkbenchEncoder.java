@@ -30,8 +30,11 @@ public class MagicWorkbenchEncoder extends AbstractEncoder {
         return SupportedMagicWorkbenchRecipes.getRecipes().entrySet();
     }
 
+    ;
+
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedMagicWorkbenchRecipes.testRecipe(inputs, recipe);
     }
 
+    ;
 }

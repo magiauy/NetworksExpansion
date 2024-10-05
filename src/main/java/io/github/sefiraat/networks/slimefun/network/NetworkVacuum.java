@@ -86,7 +86,7 @@ public class NetworkVacuum extends NetworkObject {
     private void findItem(@Nonnull BlockMenu blockMenu) {
         for (int inputSlot : INPUT_SLOTS) {
             final ItemStack inSlot = blockMenu.getItemInSlot(inputSlot);
-            if (inSlot == null || inSlot.getType() == Material.AIR) {
+            if (inSlot == null || inSlot.getType().isAir()) {
                 final Location location = blockMenu.getLocation().clone().add(0.5, 0.5, 0.5);
                 final int range = this.vacuumRange.getValue();
                 Collection<Entity> items = location.getWorld()
@@ -115,7 +115,7 @@ public class NetworkVacuum extends NetworkObject {
     }
 
     private void tryAddItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition.getNode() == null) {
             return;

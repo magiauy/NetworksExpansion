@@ -75,7 +75,7 @@ public class NetworkControlV extends NetworkDirectional {
     }
 
     private void tryPasteBlock(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -107,7 +107,7 @@ public class NetworkControlV extends NetworkDirectional {
 
         final Material material = targetBlock.getType();
 
-        if (material != Material.AIR) {
+        if (!material.isAir()) {
             return;
         }
 

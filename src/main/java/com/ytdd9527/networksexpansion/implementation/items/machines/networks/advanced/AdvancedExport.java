@@ -3,7 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.items.machines.networks.ad
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.items.ExpansionItems;
-import com.ytdd9527.networksexpansion.utils.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -118,7 +118,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     }
 
     private void tryFetchItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
@@ -146,7 +146,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
         // for each every slot, then make itemRequests
         for (int testItemSlot : getTestSlots()) {
             ItemStack currentStack = blockMenu.getItemInSlot(testItemSlot);
-            if (currentStack != null && currentStack.getType() != Material.AIR) {
+            if (currentStack != null && !currentStack.getType().isAir()) {
                 itemRequests.add(new ItemRequest(StackUtils.getAsQuantity(currentStack, 1), currentStack.getAmount()));
             }
         }

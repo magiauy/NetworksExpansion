@@ -70,7 +70,7 @@ public class NetworkPowerDisplay extends NetworkObject {
 
     private void setDisplay(BlockMenu blockMenu) {
         if (blockMenu.hasViewer()) {
-            final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
             if (definition.getNode() == null) {
                 blockMenu.replaceExistingItem(DISPLAY_SLOT, EMPTY);

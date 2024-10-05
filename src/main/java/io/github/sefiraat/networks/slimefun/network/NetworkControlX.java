@@ -77,7 +77,7 @@ public class NetworkControlX extends NetworkDirectional {
     }
 
     private void tryBreakBlock(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -102,7 +102,7 @@ public class NetworkControlX extends NetworkDirectional {
 
         final Material material = targetBlock.getType();
 
-        if (material.getHardness() < 0 || material == Material.AIR) {
+        if (material.getHardness() < 0 || material.isAir()) {
             return;
         }
 
@@ -117,7 +117,7 @@ public class NetworkControlX extends NetworkDirectional {
         }
 
         final ItemStack templateStack = blockMenu.getItemInSlot(TEMPLATE_SLOT);
-        boolean mustMatch = templateStack != null && templateStack.getType() != Material.AIR;
+        boolean mustMatch = templateStack != null && !templateStack.getType().isAir();
 
         if ((mustMatch && (targetBlock.getType() != templateStack.getType()))
                 || (SlimefunItem.getByItem(templateStack) != null)

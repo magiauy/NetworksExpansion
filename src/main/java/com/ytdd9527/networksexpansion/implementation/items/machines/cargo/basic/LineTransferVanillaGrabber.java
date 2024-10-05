@@ -42,9 +42,10 @@ import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
-public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
-    private static final int DEFAULT_MAX_DISTANCE = 32;
-    private static final int DEFAULT_GRAB_ITEM_TICK = 1;
+public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem {
+    private static final ItemStack AIR = new ItemStack(Material.AIR);
+
+    private static final String TICK_COUNTER_KEY = "tick_rate";
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
     };
@@ -83,22 +84,18 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        if (blockMenu == null) {
-            return;
-        }
-        final Location location = blockMenu.getLocation();
-        if (grabItemTick != 1) {
-            int tickCounter = getTickCounter(location);
-            tickCounter = (tickCounter + 1) % grabItemTick;
+        // 初始化Tick计数器
+        final Location location = block.getLocation();
+        int tickCounter = getTickCounter(location);
+        tickCounter = (tickCounter + 1) % grabItemTick;
 
-            if (tickCounter == 0) {
-                tryGrabItem(blockMenu);
-            }
-
-            updateTickCounter(location, tickCounter);
-        } else {
-            tryGrabItem(blockMenu);
+        // 每10个Tick执行一次抓取操作
+        if (tickCounter == 0) {
+            performGrabbingOperation(blockMenu);
         }
+
+        // 更新Tick计数器
+        updateTickCounter(location, tickCounter);
     }
 
     private int getTickCounter(Location location) {
@@ -114,14 +111,20 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         TICKER_MAP.put(location, tickCounter);
     }
 
-    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+    private void performGrabbingOperation(@Nullable BlockMenu blockMenu) {
+        if (blockMenu != null) {
+            final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
-        if (definition == null || definition.getNode() == null) {
-            return;
+            if (definition == null || definition.getNode() == null) {
+                return;
+            }
+
+            final NetworkRoot root = definition.getNode().getRoot();
+            tryGrabItem(root, blockMenu);
         }
+    }
 
-        final NetworkRoot root = definition.getNode().getRoot();
+    private void tryGrabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu) {
         final BlockFace direction = getCurrentDirection(blockMenu);
 
         // Fix for early vanilla pusher release
@@ -191,7 +194,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     }
 
     private boolean grabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nullable ItemStack stack) {
-        if (stack != null && stack.getType() != Material.AIR) {
+        if (stack != null && !stack.getType().isAir()) {
             root.addItemStack(stack);
             return true;
         } else {

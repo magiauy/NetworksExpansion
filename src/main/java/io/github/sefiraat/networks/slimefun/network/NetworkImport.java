@@ -69,7 +69,7 @@ public class NetworkImport extends NetworkObject {
     }
 
     private void tryAddItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition.getNode() == null) {
             return;

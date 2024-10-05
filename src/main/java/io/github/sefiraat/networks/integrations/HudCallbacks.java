@@ -10,7 +10,6 @@ import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -38,7 +37,7 @@ public class HudCallbacks {
             }
 
             ItemStack templateStack = menu.getItemInSlot(NetworkGreedyBlock.TEMPLATE_SLOT);
-            if (templateStack == null || templateStack.getType() == Material.AIR) {
+            if (templateStack == null || templateStack.getType().isAir()) {
                 return EMPTY;
             }
 

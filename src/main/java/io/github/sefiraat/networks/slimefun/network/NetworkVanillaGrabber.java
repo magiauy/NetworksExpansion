@@ -72,7 +72,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;

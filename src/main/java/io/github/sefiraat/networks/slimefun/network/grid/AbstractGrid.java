@@ -152,11 +152,11 @@ public abstract class AbstractGrid extends NetworkObject {
     protected void tryAddItem(@Nonnull BlockMenu blockMenu) {
         final ItemStack itemStack = blockMenu.getItemInSlot(getInputSlot());
 
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
+        if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
         }
@@ -164,14 +164,13 @@ public abstract class AbstractGrid extends NetworkObject {
         definition.getNode().getRoot().addItemStack(itemStack);
     }
 
-
     protected void updateDisplay(@Nonnull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
         if (!blockMenu.hasViewer()) {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         // No node located, weird
         if (definition == null || definition.getNode() == null) {
@@ -274,8 +273,8 @@ public abstract class AbstractGrid extends NetworkObject {
                     return;
                 }
                 gridCache.setFilter(s.toLowerCase(Locale.ROOT));
-                player.sendMessage(Theme.SUCCESS + "已启用过滤器");
-                if (blockMenu.getBlock().getType() != Material.AIR) {
+                player.sendMessage(Theme.SUCCESS + "Filter applied");
+                if (!blockMenu.getBlock().getType().isAir()) {
                     blockMenu.open(player);
                 }
             });
@@ -284,7 +283,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @ParametersAreNonnullByDefault
     protected void retrieveItem(Player player, NodeDefinition definition, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
+        if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }
 
@@ -305,7 +304,7 @@ public abstract class AbstractGrid extends NetworkObject {
         clone.setItemMeta(cloneMeta);
 
         final ItemStack cursor = player.getItemOnCursor();
-        if (cursor.getType() != Material.AIR && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
+        if (!cursor.getType().isAir() && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
             definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
             return;
         }
@@ -347,7 +346,7 @@ public abstract class AbstractGrid extends NetworkObject {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
-        if (cursor.getType() != Material.AIR && !canAddMore(action, cursor, request)) {
+        if (!cursor.getType().isAir() && !canAddMore(action, cursor, request)) {
             return;
         }
 

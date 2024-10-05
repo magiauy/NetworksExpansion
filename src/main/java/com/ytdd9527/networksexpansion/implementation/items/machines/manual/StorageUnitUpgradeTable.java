@@ -72,7 +72,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                     @Override
                     public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
                         ItemStack itemInSlot = e.getInventory().getItem(slot);
-                        return (cursor == null || cursor.getType() == Material.AIR) && (itemInSlot == null || itemInSlot.getType() != Material.BARRIER);
+                        return (cursor == null || cursor.getType().isAir()) && (itemInSlot == null || itemInSlot.getType() != Material.BARRIER);
                     }
 
                     @Override
@@ -137,7 +137,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                 if (sfi != null && sfi.isDisabled()) {
                     return;
                 }
-                if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
+                if (itemInSlot == null || itemInSlot.getType().isAir()) {
                     menu.replaceExistingItem(outputSlot, out);
                 } else if (StackUtils.itemsMatch(itemInSlot, out)) {
                     if (itemInSlot.getAmount() + out.getAmount() <= itemInSlot.getMaxStackSize()) {

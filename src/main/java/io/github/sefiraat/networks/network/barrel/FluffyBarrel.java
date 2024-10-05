@@ -23,11 +23,6 @@ public class FluffyBarrel extends BarrelIdentity {
         super(location, itemStack, amount, BarrelType.FLUFFY);
         this.limit = limit;
         this.voidExcess = voidExcess;
-        BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
-        Barrel barrel = (Barrel) StorageCacheUtils.getSfItem(getLocation());
-        if (barrel != null) {
-            barrel.updateMenu(getLocation().getBlock(), menu, true, getLimit());
-        }
     }
 
     @Nullable
@@ -50,6 +45,10 @@ public class FluffyBarrel extends BarrelIdentity {
                 return null;
             }
             setStored(getLocation(), stored - take);
+            Barrel barrel = (Barrel) StorageCacheUtils.getSfItem(getLocation());
+            if (barrel != null) {
+                barrel.updateMenu(getLocation().getBlock(), menu, true, getLimit());
+            }
 
             return StackUtils.getAsQuantity(getItemStack(), take);
         }
@@ -79,6 +78,11 @@ public class FluffyBarrel extends BarrelIdentity {
         }
 
         setStored(getLocation(), (int) (getAmount() + received));
+        Barrel barrel = (Barrel) StorageCacheUtils.getSfItem(getLocation());
+        BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
+        if (barrel != null) {
+            barrel.updateMenu(getLocation().getBlock(), menu, true, getLimit());
+        }
     }
 
     @Override

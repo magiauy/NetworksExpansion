@@ -14,11 +14,8 @@ public class SetupUtil {
         /* 物品 */
         ExpansionItemsMenus.SUB_MENU_TOOL.addTo(
                 ExpansionItems.CARGO_NODE_QUICK_TOOL.registerThis(),
-                ExpansionItems.WORLDEDIT_AXE.registerThis(),
-                ExpansionItems.INFO_TOOL.registerThis(),
-                ExpansionItems.ITEM_MOVER.registerThis(),
-                ExpansionItems.NETWORKS_EXPANSION_SURVIVAL_GUIDE.registerThis(),
-                ExpansionItems.NETWORKS_EXPANSION_CHEAT_GUIDE.registerThis()
+                ExpansionItems.WORLD_EDIT_AXE.registerThis(),
+                ExpansionItems.INFO_TOOL.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BLUEPRINT.addTo(
                 ExpansionItems.MAGIC_WORKBENCH_BLUEPRINT.registerThis(),
@@ -26,12 +23,7 @@ public class SetupUtil {
                 ExpansionItems.SMELTERY_BLUEPRINT.registerThis(),
                 ExpansionItems.QUANTUM_WORKBENCH_BLUEPRINT.registerThis(),
                 ExpansionItems.ANCIENT_ALTAR_BLUEPRINT.registerThis(),
-                ExpansionItems.EXPANSION_WORKBENCH_BLUEPRINT.registerThis(),
-                ExpansionItems.COMPRESSOR_BLUEPRINT.registerThis(),
-                ExpansionItems.GRIND_STONE_BLUEPRINT.registerThis(),
-                ExpansionItems.JUICER_BLUEPRINT.registerThis(),
-                ExpansionItems.ORE_CRUSHER_BLUEPRINT.registerThis(),
-                ExpansionItems.PRESSURE_CHAMBER_BLUEPRINT.registerThis()
+                ExpansionItems.EXPANSION_WORKBENCH_BLUEPRINT.registerThis()
         );
         /* 货运与存储 */
         ExpansionItems.ADVANCED_QUANTUM_STORAGE.setSupportsCustomMaxAmount(true);
@@ -92,32 +84,17 @@ public class SetupUtil {
         );
         /* 功能机器 */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
-                ExpansionItems.NETWORKS_EXPANSION_WORKBENCH.registerThis(),
-                ExpansionItems.NETWORKS_EXPANSION_6X6_WORKBENCH.registerThis(),
+                ExpansionItems.NETWORK_EXPANSION_WORKBENCH.registerThis(),
                 ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis()
         );
-        ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS.addTo(
+        ExpansionItemsMenus.SUB_MENU_ADVANCED_NET.addTo(
                 ExpansionItems.ADVANCED_IMPORT.registerThis(),
                 ExpansionItems.ADVANCED_EXPORT.registerThis(),
                 ExpansionItems.ADVANCED_PURGER.registerThis(),
                 ExpansionItems.ADVANCED_GREEDY_BLOCK.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_5.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_6.registerThis(),
-                ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis(),
-                ExpansionItems.NETWORK_BLUEPRINT_DECODER.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_1.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_2.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_3.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_4.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_5.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_6.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_7.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_8.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_9.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_10.registerThis(),
-                ExpansionItems.LINE_POWER_OUTLET_11.registerThis(),
-                ExpansionItems.DUE_MACHINE.registerThis(),
-                ExpansionItems.OFFSETTER.registerThis()
+                ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
                 ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),
@@ -143,12 +120,7 @@ public class SetupUtil {
                 ExpansionItems.SMELTERY_RECIPE_ENCODER.registerThis(),
                 ExpansionItems.QUANTUM_WORKBENCH_RECIPE_ENCODER.registerThis(),
                 ExpansionItems.ANCIENT_ALTAR_RECIPE_ENCODER.registerThis(),
-                ExpansionItems.EXPANSION_WORKBENCH_RECIPE_ENCODER.registerThis(),
-                ExpansionItems.COMPRESSOR_RECIPE_ENCODER.registerThis(),
-                ExpansionItems.GRIND_STONE_RECIPE_ENCODER.registerThis(),
-                ExpansionItems.JUICER_RECIPE_ENCODER.registerThis(),
-                ExpansionItems.ORE_CRUSHER_RECIPE_ENCODER.registerThis(),
-                ExpansionItems.PRESSURE_CHAMBER_RECIPE_ENCODER.registerThis()
+                ExpansionItems.EXPANSION_WORKBENCH_RECIPE_ENCODER.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
                 ExpansionItems.AUTO_MAGIC_WORKBENCH.registerThis(),
@@ -156,12 +128,7 @@ public class SetupUtil {
                 ExpansionItems.AUTO_SMELTERY.registerThis(),
                 ExpansionItems.AUTO_QUANTUM_WORKBENCH.registerThis(),
                 ExpansionItems.AUTO_ANCIENT_ALTAR.registerThis(),
-                ExpansionItems.AUTO_EXPANSION_WORKBENCH.registerThis(),
-                ExpansionItems.AUTO_COMPRESSOR.registerThis(),
-                ExpansionItems.AUTO_GRIND_STONE.registerThis(),
-                ExpansionItems.AUTO_JUICER.registerThis(),
-                ExpansionItems.AUTO_ORE_CRUSHER.registerThis(),
-                ExpansionItems.AUTO_PRESSURE_CHAMBER.registerThis()
+                ExpansionItems.AUTO_EXPANSION_WORKBENCH.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
                 ExpansionItems.AUTO_MAGIC_WORKBENCH_WITHHOLDING.registerThis(),
@@ -169,12 +136,7 @@ public class SetupUtil {
                 ExpansionItems.AUTO_SMELTERY_WITHHOLDING.registerThis(),
                 ExpansionItems.AUTO_QUANTUM_WORKBENCH_WITHHOLDING.registerThis(),
                 ExpansionItems.AUTO_ANCIENT_ALTAR_WITHHOLDING.registerThis(),
-                ExpansionItems.AUTO_EXPANSION_WORKBENCH_WITHHOLDING.registerThis(),
-                ExpansionItems.AUTO_COMPRESSOR_WITHHOLDING.registerThis(),
-                ExpansionItems.AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
-                ExpansionItems.AUTO_JUICER_WITHHOLDING.registerThis(),
-                ExpansionItems.AUTO_ORE_CRUSHER_WITHHOLDING.registerThis(),
-                ExpansionItems.AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis()
+                ExpansionItems.AUTO_EXPANSION_WORKBENCH_WITHHOLDING.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
                 ExpansionItems.ADVANCED_AUTO_MAGIC_WORKBENCH.registerThis(),
@@ -183,12 +145,7 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_AUTO_QUANTUM_WORKBENCH.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_ANCIENT_ALTAR.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_EXPANSION_WORKBENCH.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_COMPRESSOR.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_GRIND_STONE.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_JUICER.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_ORE_CRUSHER.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER.registerThis()
+                ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
                 ExpansionItems.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING.registerThis(),
@@ -197,12 +154,7 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING.registerThis(),
                 ExpansionItems.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_COMPRESSOR_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_JUICER_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING.registerThis(),
-                ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis()
+                ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING.registerThis()
         );
 
         /* authors */
@@ -249,14 +201,14 @@ public class SetupUtil {
 
         ExpansionItemsMenus.MAIN_ITEM_GROUP.addTo(ExpansionItemsMenus.MAIN_MENU_FUNCTIONAL_MACHINE,
                 ExpansionItemsMenus.SUB_MENU_CORE_MACHINE,
-                ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS,
+                ExpansionItemsMenus.SUB_MENU_ADVANCED_NET,
                 ExpansionItemsMenus.SUB_MENU_BRIDGE,
                 ExpansionItemsMenus.SUB_MENU_ENCODER,
                 ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE
         );
         ExpansionItemsMenus.MAIN_MENU_FUNCTIONAL_MACHINE.addFrom(
                 ExpansionItemsMenus.SUB_MENU_CORE_MACHINE,
-                ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS,
+                ExpansionItemsMenus.SUB_MENU_ADVANCED_NET,
                 ExpansionItemsMenus.SUB_MENU_BRIDGE,
                 ExpansionItemsMenus.SUB_MENU_ENCODER,
                 ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE

@@ -129,7 +129,7 @@ public abstract class NetworkDirectional extends NetworkObject {
 
     @Nonnull
     public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull Material blockMaterial, boolean active) {
-        if (blockMaterial.isItem() && blockMaterial != Material.AIR) {
+        if (blockMaterial.isItem() && !blockMaterial.isAir()) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
                     Theme.PASSIVE + "Direction " + blockFace.name() + " (" + blockMaterial.name() + ")"

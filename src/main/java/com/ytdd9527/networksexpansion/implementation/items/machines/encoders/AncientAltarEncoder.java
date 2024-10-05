@@ -30,7 +30,11 @@ public class AncientAltarEncoder extends AbstractEncoder {
         return SupportedAncientAltarRecipes.getRecipes().entrySet();
     }
 
+    ;
+
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedAncientAltarRecipes.testRecipe(inputs, recipe);
     }
+
+    ;
 }

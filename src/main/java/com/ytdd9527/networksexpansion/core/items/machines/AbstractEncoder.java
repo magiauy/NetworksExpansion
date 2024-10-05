@@ -1,6 +1,5 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
-import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -94,7 +93,7 @@ public abstract class AbstractEncoder extends NetworkObject {
     }
 
     public void tryEncode(@Nonnull Player player, @Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             sendDebugMessage(blockMenu.getLocation(), "No network found");
@@ -131,28 +130,18 @@ public abstract class AbstractEncoder extends NetworkObject {
         for (int recipeSlot : RECIPE_SLOTS) {
             ItemStack stackInSlot = blockMenu.getItemInSlot(recipeSlot);
             if (stackInSlot != null) {
-                inputs[i] = ItemStackUtil.getCleanItem(stackInSlot.clone());
+                inputs[i] = stackInSlot.clone();
             }
             i++;
         }
 
         ItemStack crafted = null;
         ItemStack[] inp = inputs.clone();
-        for (int k = 0; k < inp.length; k++) {
-            if (inp[k] != null) {
-                inp[k] = ItemStackUtil.getCleanItem(inp[k]);
-            }
-        }
 
         for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
             if (getRecipeTester(inputs, entry.getKey())) {
                 crafted = new ItemStack(entry.getValue().clone());
                 inp = entry.getKey().clone();
-                for (int k = 0; k < inp.length; k++) {
-                    if (inp[k] != null) {
-                        inp[k] = ItemStackUtil.getCleanItem(inp[k]);
-                    }
-                }
                 break;
             }
         }
@@ -175,14 +164,14 @@ public abstract class AbstractEncoder extends NetworkObject {
             }
         }
 
-        if (crafted == null || crafted.getType() == Material.AIR) {
-            player.sendMessage(Theme.WARNING + "这似乎不是一个有效的配方");
+        if (crafted == null || crafted.getType().isAir()) {
+            player.sendMessage(Theme.WARNING + "This does not seem to be an active recipe ");
             sendDebugMessage(blockMenu.getLocation(), "Invalid recipe");
             return;
         }
 
-        if (crafted.getType() == Material.AIR) {
-            player.sendMessage(Theme.WARNING + "编码的结果是空气，这不是一个有效的配方。");
+        if (crafted.getType().isAir()) {
+            player.sendMessage(Theme.WARNING + "Doesn't look like this is a valid recipe.");
             sendDebugMessage(blockMenu.getLocation(), "Encoded result is air");
             return;
         }

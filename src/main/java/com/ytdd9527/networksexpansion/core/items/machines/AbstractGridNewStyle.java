@@ -192,7 +192,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
 
         // No node located, weird
         if (definition == null || definition.getNode() == null) {
@@ -359,8 +359,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 }
                 s = s.toLowerCase(Locale.ROOT);
                 gridCache.setFilter(s);
-                player.sendMessage(Theme.SUCCESS + "已启用过滤器");
-                if (blockMenu.getBlock().getType() != Material.AIR) {
+                player.sendMessage(Theme.SUCCESS + "Filter applied");
+                if (!blockMenu.getBlock().getType().isAir()) {
                     blockMenu.open(player);
                 }
             });
@@ -369,7 +369,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     protected void autoSetFilter(@Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache) {
         final ItemStack itemStack = blockMenu.getItemInSlot(getAutoFilterSlot());
-        if (itemStack != null && itemStack.getType() != Material.AIR) {
+        if (itemStack != null && !itemStack.getType().isAir()) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
             String itemName;
             if (slimefunItem != null) {
@@ -384,7 +384,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     @ParametersAreNonnullByDefault
     protected void retrieveItem(Player player, NodeDefinition definition, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
+        if (itemStack == null || itemStack.getType().isAir()) {
             return;
         }
 
@@ -406,7 +406,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         clone.setItemMeta(cloneMeta);
 
         final ItemStack cursor = player.getItemOnCursor();
-        if (cursor.getType() != Material.AIR && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
+        if (!cursor.getType().isAir() && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
             definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
             return;
         }
@@ -451,7 +451,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
-        if (cursor.getType() != Material.AIR && !canAddMore(action, cursor, request)) {
+        if (!cursor.getType().isAir() && !canAddMore(action, cursor, request)) {
             return;
         }
 
@@ -461,7 +461,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     private void setCursor(Player player, ItemStack cursor, ItemStack requestingStack) {
         if (requestingStack != null) {
-            if (cursor.getType() != Material.AIR) {
+            if (!cursor.getType().isAir()) {
                 requestingStack.setAmount(cursor.getAmount() + 1);
             }
             player.setItemOnCursor(requestingStack);
