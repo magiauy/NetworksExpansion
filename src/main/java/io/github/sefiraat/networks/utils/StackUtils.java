@@ -240,6 +240,7 @@ public class StackUtils {
         if (checkLore
                 || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
                 || itemStack.getType() == Material.SPAWNER // Fix Reinforced Spawner in Slimefun4
+                || itemStack.getType() == Material.SUGAR // Fix Symbols in MomoTech
         ) {
             if (itemMeta.hasLore() && cachedMeta.hasLore()) {
                 if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
