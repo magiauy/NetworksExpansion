@@ -31,7 +31,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import net.guizhanss.guizhanlib.java.BooleanHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -230,7 +229,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             final List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
 
             lore.add("");
-            lore.add(Theme.CLICK_INFO + "满载清空输入: " + Theme.PASSIVE + BooleanHelper.enabledOrDisabled(cache.isVoidExcess()));
+            lore.add(Theme.CLICK_INFO + "满载清空输入: " + Theme.PASSIVE + (cache.isVoidExcess() ? "已启用" : "已禁用"));
             lore.add(Theme.CLICK_INFO + "数量: " + Theme.PASSIVE + cache.getAmount());
             if (cache.supportsCustomMaxAmount()) {
                 // Cache limit is set at the potentially custom max amount set
