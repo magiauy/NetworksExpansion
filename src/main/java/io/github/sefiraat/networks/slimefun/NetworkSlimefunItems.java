@@ -36,6 +36,7 @@ import io.github.sefiraat.networks.slimefun.tools.NetworkCrayon;
 import io.github.sefiraat.networks.slimefun.tools.NetworkProbe;
 import io.github.sefiraat.networks.slimefun.tools.NetworkRake;
 import io.github.sefiraat.networks.slimefun.tools.NetworkRemote;
+import io.github.sefiraat.networks.slimefun.tools.NetworkImporterRemote;
 import io.github.sefiraat.networks.slimefun.tools.NetworkWirelessConfigurator;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -113,6 +114,7 @@ public class NetworkSlimefunItems {
     public static final NetworkRemote NETWORK_REMOTE_EMPOWERED;
     public static final NetworkRemote NETWORK_REMOTE_PRISTINE;
     public static final NetworkRemote NETWORK_REMOTE_ULTIMATE;
+    public static final NetworkImporterRemote NETWORK_IMPORTER_REMOTE;
     public static final NetworkCrayon NETWORK_CRAYON;
     public static final NetworkConfigurator NETWORK_CONFIGURATOR;
     public static final NetworkWirelessConfigurator NETWORK_WIRELESS_CONFIGURATOR;
@@ -822,6 +824,18 @@ public class NetworkSlimefunItems {
                 NetworkRemote.getRanges()[3]
         );
 
+        NETWORK_IMPORTER_REMOTE = new NetworkImporterRemote(
+                NetworksItemGroups.TOOLS,
+                NetworksSlimefunItemStacks.NETWORK_IMPORTER_REMOTE,
+                RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[]{
+                        null, NETWORK_REMOTE_PRISTINE.getItem(), null,
+                        null, INTERDIMENSIONAL_PRESENCE.getItem(), null,
+                        null, NETWORK_REMOTE_PRISTINE.getItem(), null
+                },
+                NetworkImporterRemote.getRanges()[3]
+        );
+
         NETWORK_CRAYON = new NetworkCrayon(
                 NetworksItemGroups.TOOLS,
                 NetworksSlimefunItemStacks.NETWORK_CRAYON,
@@ -965,6 +979,7 @@ public class NetworkSlimefunItems {
         NETWORK_REMOTE_EMPOWERED.register(plugin);
         NETWORK_REMOTE_PRISTINE.register(plugin);
         NETWORK_REMOTE_ULTIMATE.register(plugin);
+        NETWORK_IMPORTER_REMOTE.register(plugin);
         NETWORK_CRAYON.register(plugin);
         NETWORK_CONFIGURATOR.register(plugin);
         NETWORK_WIRELESS_CONFIGURATOR.register(plugin);

@@ -5,6 +5,7 @@ import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.slimefun.tools.NetworkRemote;
+import io.github.sefiraat.networks.slimefun.tools.NetworkImporterRemote;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -95,6 +96,7 @@ public class NetworksSlimefunItemStacks {
     public static final SlimefunItemStack NETWORK_RAKE_2;
     public static final SlimefunItemStack NETWORK_RAKE_3;
     public static final SlimefunItemStack NETWORK_DEBUG_STICK;
+    public static SlimefunItemStack NETWORK_IMPORTER_REMOTE = null;
 
     static {
 
@@ -724,6 +726,19 @@ public class NetworksSlimefunItemStacks {
 
         NETWORK_REMOTE_ULTIMATE = Theme.themedSlimefunItemStack(
                 "NTW_REMOTE_ULTIMATE",
+                ItemStackUtil.getPreEnchantedItemStack(Material.GLOW_ITEM_FRAME, true, new Pair<>(NetworksVersionedEnchantment.GLOW, 1)),
+                Theme.TOOL,
+                "终极网络远程访问器",
+                "远程打开绑定的网格",
+                "需要加载网格所在区块",
+                "",
+                MessageFormat.format("{0}Shift+右键点击 {1}普通网格以进行绑定", Theme.CLICK_INFO, Theme.PASSIVE),
+                "",
+                MessageFormat.format("{0}范围: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, "跨维度")
+        );
+
+        NETWORK_IMPORTER_REMOTE = Theme.themedSlimefunItemStack(
+                "NTW_IMPORTER_REMOTE",
                 ItemStackUtil.getPreEnchantedItemStack(Material.GLOW_ITEM_FRAME, true, new Pair<>(NetworksVersionedEnchantment.GLOW, 1)),
                 Theme.TOOL,
                 "终极网络远程访问器",
