@@ -1,5 +1,7 @@
 package io.github.sefiraat.networks;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.api.enums.MCVersion;
 import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
 import com.ytdd9527.networksexpansion.implementation.guide.CheatGuideImpl;
@@ -14,7 +16,9 @@ import io.github.sefiraat.networks.integrations.HudCallbacks;
 import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
+import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
+import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
@@ -27,6 +31,7 @@ import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -154,6 +159,21 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 .runTaskTimer(
                         this,
                         () -> slimefunTickCount++,
+                        1,
+                        Slimefun.getTickerTask().getTickRate());
+
+        // Fix dupe bug which break the network controller data without player interaction
+        Bukkit.getScheduler()
+                .runTaskTimer(
+                        this,
+                        () -> {
+                            for (Location controller : NetworkController.getNetworks().keySet()) {
+                                SlimefunBlockData data = StorageCacheUtils.getBlock(controller);
+                                if (data == null || !NetworksSlimefunItemStacks.NETWORK_CONTROLLER.getItemId().equals(data.getSfId())) {
+                                    NetworkUtils.clearNetwork(controller);
+                                }
+                            }
+                        },
                         1,
                         Slimefun.getTickerTask().getTickRate());
 
