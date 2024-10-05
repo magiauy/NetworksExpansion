@@ -1,6 +1,11 @@
 package io.github.sefiraat.networks;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.MCVersion;
 import com.ytdd9527.networksexpansion.core.managers.ConfigManager;
+import com.ytdd9527.networksexpansion.implementation.guide.CheatGuideImpl;
+import com.ytdd9527.networksexpansion.implementation.guide.SurvivalGuideImpl;
 import com.ytdd9527.networksexpansion.setup.SetupUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
@@ -10,13 +15,16 @@ import io.github.sefiraat.networks.integrations.HudCallbacks;
 import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
+import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
+import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -140,7 +148,46 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                         1,
                         Slimefun.getTickerTask().getTickRate());
 
-        getLogger().info("Dependencies enabled!");
+        // Fix dupe bug which break the network controller data without player interaction
+        Bukkit.getScheduler()
+                .runTaskTimer(
+                        this,
+                        () -> {
+                            for (Location controller : NetworkController.getNetworks().keySet()) {
+                                SlimefunBlockData data = StorageCacheUtils.getBlock(controller);
+                                if (data == null || !NetworksSlimefunItemStacks.NETWORK_CONTROLLER.getItemId().equals(data.getSfId())) {
+                                    NetworkUtils.clearNetwork(controller);
+                                }
+                            }
+                        },
+                        1,
+                        Slimefun.getTickerTask().getTickRate());
+
+        final boolean survivalOverride = getConfig().getBoolean("integrations.guide.survival-override");
+        final boolean cheatOverride = getConfig().getBoolean("integrations.guide.cheat-override");
+        if (survivalOverride || cheatOverride) {
+            getLogger().info("检测到已开启指南替换功能");
+            getLogger().info("正在替换指南...");
+            Field field = ReflectionUtil.getField(Slimefun.getRegistry().getClass(), "guides");
+            if (field != null) {
+                field.setAccessible(true);
+
+                Map<SlimefunGuideMode, SlimefunGuideImplementation> newGuides = new EnumMap<>(SlimefunGuideMode.class);
+                newGuides.put(SlimefunGuideMode.SURVIVAL_MODE, survivalOverride ? new SurvivalGuideImpl() : new SurvivalSlimefunGuide());
+                newGuides.put(SlimefunGuideMode.CHEAT_MODE, cheatOverride ? new CheatGuideImpl() : new CheatSheetSlimefunGuide());
+                try {
+                    field.set(Slimefun.getRegistry(), newGuides);
+                } catch (IllegalAccessException ignored) {
+
+                }
+            }
+            getLogger().info(survivalOverride ? "已开启替换生存指南!" : "未关闭替换生存指南!");
+            getLogger().info(cheatOverride ? "已开启替换作弊指南!" : "未关闭替换作弊指南!");
+            getLogger().info("如遇开启后其他插件报错, 请在配置文件(config.yml)中关闭此功能");
+        }
+
+
+        getLogger().info("已启用附属！");
     }
 
     @Override

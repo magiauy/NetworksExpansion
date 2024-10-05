@@ -81,7 +81,7 @@ public final class ItemStackUtil {
      * @return Whether the item seems to be null
      */
     public static boolean isItemNull(@Nullable ItemStack item) {
-        return item == null || item.getType().isAir() || item.getAmount() == 0;
+        return item == null || item.getType() == Material.AIR || item.getAmount() == 0;
     }
 
     /**

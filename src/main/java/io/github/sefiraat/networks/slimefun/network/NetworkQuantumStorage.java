@@ -20,12 +20,12 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import lombok.Getter;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -53,7 +53,6 @@ import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class NetworkQuantumStorage extends SpecialSlimefunItem implements DistinctiveItem {
-
     public static final String BS_AMOUNT = "stored_amount";
     public static final String BS_VOID = "void_excess";
     public static final String BS_CUSTOM_MAX_AMOUNT = "custom_max_amount";
@@ -75,7 +74,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             Integer.MAX_VALUE
     };
     private static final String WIKI_PAGE = "network-storage/quantum-storage";
-    private static final int TRASH_TOGGLE_SLOT = 9;
     private static final ItemStack BACK_INPUT = new CustomItemStack(
             Material.GREEN_STAINED_GLASS_PANE,
             Theme.PASSIVE + "Input"
@@ -106,10 +104,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             Theme.PASSIVE + "Click here to set change capacity",
             Theme.CLICK_INFO + "Shift+Click" + Theme.PASSIVE + " to change voiding");
 
-    private static final ItemStack TRASH_ON_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3Void mode &a(ON)",
-            "&7Turned on to void items that can't be stored");
-    private static final ItemStack TRASH_OFF_ITEM = new CustomItemStack(SlimefunItems.TRASH_CAN, "&3Void mode &c(OFF)",
-            "&7Turned on to void items that can't be stored");
     private static final ItemStack BACK_OUTPUT = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
             Theme.PASSIVE + "Output"
@@ -118,7 +112,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     private static final int[] INPUT_SLOTS = new int[]{0, 2};
     private static final int[] ITEM_SLOTS = new int[]{3, 5};
     private static final int[] OUTPUT_SLOTS = new int[]{6, 8};
-    private static final int[] BACKGROUND_SLOTS = new int[]{10, 11, 12, 14, 15, 16, 17};
+    private static final int[] BACKGROUND_SLOTS = new int[]{9, 10, 11, 12, 14, 15, 16, 17};
 
     private static final Map<Location, QuantumCache> CACHES = new HashMap<>();
 
@@ -130,6 +124,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     private final List<Integer> slotsToDrop = new ArrayList<>();
 
+    @Getter
     private final int maxAmount;
     private boolean supportsCustomMaxAmount = false;
 
@@ -175,7 +170,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     }
 
     public static boolean isBlacklisted(@Nonnull ItemStack itemStack) {
-        return itemStack.getType().isAir()
+        return itemStack.getType() == Material.AIR
                 || itemStack.getType().getMaxDurability() < 0
                 || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
                 || itemStack.getType() == Material.BUNDLE;
@@ -199,11 +194,11 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             ItemStack fetched = cache.withdrawItem(amount);
 
             if (output != null
-                    && !output.getType().isAir()
+                    && output.getType() != Material.AIR
                     && StackUtils.itemsMatch(cache, output)
             ) {
                 // We have an output item we can use also
-                if (fetched == null || fetched.getType().isAir()) {
+                if (fetched == null || fetched.getType() == Material.AIR) {
                     // Storage is totally empty - just use output slot
                     fetched = output.clone();
                     if (fetched.getAmount() > amount) {
@@ -234,11 +229,9 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             final ItemMeta itemMeta = itemStack.getItemMeta();
             final List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
 
-            ItemStack trashItem = cache.isVoidExcess() ? TRASH_ON_ITEM : TRASH_OFF_ITEM;
-            menu.replaceExistingItem(TRASH_TOGGLE_SLOT, trashItem);
             lore.add("");
-            lore.add(Theme.CLICK_INFO + "Voiding: " + Theme.PASSIVE + StringUtils.toTitleCase(String.valueOf(cache.isVoidExcess())));
-            lore.add(Theme.CLICK_INFO + "Amount: " + Theme.PASSIVE + cache.getAmount());
+            lore.add(Theme.CLICK_INFO + "满载清空输入: " + Theme.PASSIVE + (cache.isVoidExcess() ? "已启用" : "已禁用"));
+            lore.add(Theme.CLICK_INFO + "数量: " + Theme.PASSIVE + cache.getAmount());
             if (cache.supportsCustomMaxAmount()) {
                 // Cache limit is set at the potentially custom max amount set
                 // The player could set the custom maximum amount to be the actual maximum amount
@@ -319,23 +312,23 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
         // Move items from the input slot into the card
         final ItemStack input = blockMenu.getItemInSlot(INPUT_SLOT);
-        if (input != null && !input.getType().isAir()) {
+        if (input != null && input.getType() != Material.AIR) {
             tryInputItem(blockMenu.getLocation(), new ItemStack[]{input}, cache);
         }
 
         // Output items
         final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
         ItemStack fetched = null;
-        if (output == null || output.getType().isAir()) {
+        if (output == null || output.getType() == Material.AIR) {
             // No item in output, try output
             fetched = cache.withdrawItem();
-        } else if (StackUtils.itemsMatch(cache, output) && output.getAmount() < output.getMaxStackSize()) {
+        } else if (output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(cache, output)) {
             // There is an item, but it's not filled so lets top it up if we can
             final int requestAmount = output.getMaxStackSize() - output.getAmount();
             fetched = cache.withdrawItem(requestAmount);
         }
 
-        if (fetched != null && !fetched.getType().isAir()) {
+        if (fetched != null && fetched.getType() != Material.AIR) {
             blockMenu.pushItem(fetched, OUTPUT_SLOT);
             syncBlock(blockMenu.getLocation(), cache);
         }
@@ -439,7 +432,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                     } else if (
                             cache != null &&
                                     cache.supportsCustomMaxAmount() &&
-                                    p.getItemOnCursor().getType().isAir()
+                                    p.getItemOnCursor().getType() == Material.AIR
                     ) {
                         p.closeInventory();
                         p.sendMessage(
@@ -464,19 +457,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                     }
                     return false;
                 });
-                // Toggle trash (Dynamic button)
-                String trash = StorageCacheUtils.getData(block.getLocation(), "trash");
-
-                if (trash == null || trash.equals("false")) {
-                    menu.replaceExistingItem(TRASH_TOGGLE_SLOT, TRASH_OFF_ITEM);
-                } else {
-                    menu.replaceExistingItem(TRASH_TOGGLE_SLOT, TRASH_ON_ITEM);
-                }
-                menu.addMenuClickHandler(TRASH_TOGGLE_SLOT, (pl, slot, item, action) -> {
-                    toggleTrash(block);
-                    return false;
-                });
-
 
                 // Insert all
                 int INSERT_ALL_SLOT = 16;
@@ -524,7 +504,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
         for (int i = 0; i < contents.length; i++) {
             ItemStack item = contents[i];
-            if (item == null || item.getType().isAir()) continue;
+            if (item == null || item.getType() == Material.AIR) continue;
 
             ItemStackCache storedItemCache = new ItemStackCache(storedItem);
 
@@ -571,7 +551,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             ItemStack[] contents = inv.getStorageContents(); // 获取玩家背包内容
 
             for (int i = 0; i < contents.length; i++) {
-                if (contents[i] == null || contents[i].getType().isAir()) {
+                if (contents[i] == null || contents[i].getType() == Material.AIR) {
                     // 玩家背包中有空槽位
                     if (stored == 0) break; // 如果量子存储已空，退出循环
 
@@ -599,7 +579,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         final String amountString = blockData.getData(BS_AMOUNT);
         final String voidString = blockData.getData(BS_VOID);
         final int amount = amountString == null ? 0 : Integer.parseInt(amountString);
-        final boolean voidExcess = voidString == null || Boolean.parseBoolean(voidString);
+        final boolean voidExcess = Boolean.parseBoolean(voidString);
         int maxAmount = this.maxAmount;
         if (this.supportsCustomMaxAmount) {
             final String customMaxAmountString = BlockStorage.getLocationInfo(blockMenu.getLocation(), BS_CUSTOM_MAX_AMOUNT);
@@ -617,9 +597,9 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     }
 
     private QuantumCache createCache(@Nullable ItemStack itemStack, @Nonnull BlockMenu menu, int amount, int maxAmount, boolean voidExcess, boolean supportsCustomMaxAmount) {
-        if (itemStack == null || itemStack.getType().isAir() || isDisplayItem(itemStack)) {
+        if (itemStack == null || itemStack.getType() == Material.AIR || isDisplayItem(itemStack)) {
             menu.addItem(ITEM_SLOT, ItemStackUtil.getCleanItem(NO_ITEM));
-            return new QuantumCache(null, 0, maxAmount, true, this.supportsCustomMaxAmount);
+            return new QuantumCache(null, 0, maxAmount, false, this.supportsCustomMaxAmount);
         } else {
             final ItemStack clone = itemStack.clone();
             final ItemMeta itemMeta = clone.getItemMeta();
@@ -687,31 +667,8 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         CACHES.put(event.getBlock().getLocation(), cache);
     }
 
-    public int getMaxAmount() {
-        return maxAmount;
-    }
-
     public boolean supportsCustomMaxAmount() {
         return this.supportsCustomMaxAmount;
-    }
-
-    private void putBlockData(Block b, int slot, String key, ItemStack displayItem, boolean data) {
-        StorageCacheUtils.setData(b.getLocation(), key, String.valueOf(data));
-        StorageCacheUtils.getMenu(b.getLocation()).replaceExistingItem(slot, displayItem);
-    }
-
-    private void toggleTrash(Block b) {
-        BlockMenu blockMenu = StorageCacheUtils.getMenu(b.getLocation());
-        QuantumCache cache = CACHES.get(blockMenu.getLocation());
-        // 切换状态
-        cache.setVoidExcess(!cache.isVoidExcess());
-        // 更新界面显示
-        updateDisplayItem(blockMenu, cache);
-        // 同步数据到区块存储
-        syncBlock(b.getLocation(), cache);
-        // 更新垃圾桶图标
-        ItemStack trashItem = cache.isVoidExcess() ? TRASH_ON_ITEM : TRASH_OFF_ITEM;
-        blockMenu.replaceExistingItem(TRASH_TOGGLE_SLOT, trashItem);
     }
 
     @Override

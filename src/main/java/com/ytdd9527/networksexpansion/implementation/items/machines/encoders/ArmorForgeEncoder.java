@@ -30,11 +30,7 @@ public class ArmorForgeEncoder extends AbstractEncoder {
         return SupportedArmorForgeRecipes.getRecipes().entrySet();
     }
 
-    ;
-
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedArmorForgeRecipes.testRecipe(inputs, recipe);
     }
-
-    ;
 }

@@ -96,7 +96,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
         releaseCache(blockMenu);
 
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             sendDebugMessage(blockMenu.getLocation(), "No network found");
@@ -107,14 +107,14 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
         if (!this.withholding) {
             final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
-            if (stored != null && !stored.getType().isAir()) {
+            if (stored != null && stored.getType() != Material.AIR) {
                 root.addItemStack(stored);
             }
         }
 
         final ItemStack blueprint = blockMenu.getItemInSlot(BLUEPRINT_SLOT);
 
-        if (blueprint == null || blueprint.getType().isAir()) {
+        if (blueprint == null || blueprint.getType() == Material.AIR) {
             sendDebugMessage(blockMenu.getLocation(), "No blueprint found");
             return;
         }
@@ -156,7 +156,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
 
             if (output != null
-                    && !output.getType().isAir()
+                    && output.getType() != Material.AIR
                     && (output.getAmount() + instance.getItemStack().getAmount() > output.getMaxStackSize() || !StackUtils.itemsMatch(instance, output))) {
                 sendDebugMessage(blockMenu.getLocation(), "Output slot is full");
                 return;
@@ -227,7 +227,9 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         }
 
         // If no item crafted OR result doesn't fit, escape
-        if (crafted == null || crafted.getType().isAir()) {
+        if (crafted == null || crafted.getType() == Material.AIR) {
+            sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
+            sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
             returnItems(root, inputs);
             sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
             return false;

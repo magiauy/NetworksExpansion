@@ -1,8 +1,10 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
-import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -44,6 +46,10 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Push Item Matching"
     );
+    private static final int PARTICLE_INTERVAL = 2;
+    private static final int DEFAULT_MAX_DISTANCE = 32;
+    private static final int DEFAULT_PUSH_ITEM_TICK = 1;
+    private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final String KEY_UUID = "display-uuid";
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
@@ -98,23 +104,24 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
         }
     }
 
-    private void performPushItemOperation(@Nullable BlockMenu blockMenu) {
-        if (blockMenu != null) {
-            tryPushItem(blockMenu);
-        }
-    }
-
     @Override
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
         super.onTick(blockMenu, block);
 
-        final Location location = block.getLocation();
-        int tickCounter = getTickCounter(location);
-        tickCounter = (tickCounter + 1) % pushItemTick;
-        if (tickCounter == 0) {
-            performPushItemOperation(blockMenu);
+        if (blockMenu == null) {
+            return;
         }
-        updateTickCounter(location, tickCounter);
+        final Location location = blockMenu.getLocation();
+        if (pushItemTick != 1) {
+            int tickCounter = getTickCounter(location);
+            tickCounter = (tickCounter + 1) % pushItemTick;
+            if (tickCounter == 0) {
+                tryPushItem(blockMenu);
+            }
+            updateTickCounter(location, tickCounter);
+        } else {
+            tryPushItem(blockMenu);
+        }
     }
 
     private int getTickCounter(Location location) {
@@ -131,65 +138,40 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
         }
+
+        final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
+        List<ItemStack> templates = new ArrayList<>();
+        for (int slot : this.getItemSlots()) {
+            final ItemStack template = blockMenu.getItemInSlot(slot);
+            if (template != null && template.getType() != Material.AIR) {
+                templates.add(StackUtils.getAsQuantity(template, 1));
+            }
+        }
+
         final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
-        Block targetBlock = blockMenu.getBlock().getRelative(direction);
-
-        for (int i = 0; i <= maxDistance; i++) {
-            final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
-
-            if (targetMenu == null) {
-                break;
-            }
-
-            for (int itemSlot : this.getItemSlots()) {
-
-                final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
-
-                if (testItem == null || testItem.getType().isAir()) {
-                    continue;
-                }
-
-                final ItemStack clone = testItem.clone();
-                clone.setAmount(1);
-                final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
-                final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
-
-                int freeSpace = 0;
-                for (int slot : slots) {
-                    final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (itemStack == null || itemStack.getType().isAir()) {
-                        freeSpace += clone.getMaxStackSize();
-                    } else {
-                        if (StackUtils.itemsMatch(itemRequest, itemStack)) {
-                            final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
-                            if (availableSpace > 0) {
-                                freeSpace += availableSpace;
-                            }
-                        }
-                    }
-                    if (freeSpace > 0) {
-                        break;
-                    }
-                }
-                if (freeSpace <= 0) {
-                    continue;
-                }
-                itemRequest.setAmount(freeSpace);
-
-                ItemStack retrieved = root.getItemStack(itemRequest);
-                if (retrieved != null && !retrieved.getType().isAir()) {
-                    BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
-                }
-            }
-            targetBlock = targetBlock.getRelative(direction);
-        }
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                false,
+                false,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
+                    LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+                });
     }
 
     @Nonnull

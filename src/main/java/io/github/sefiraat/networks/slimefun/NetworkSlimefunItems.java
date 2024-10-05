@@ -1,7 +1,7 @@
 package io.github.sefiraat.networks.slimefun;
 
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
-import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoCraftingTableCrafter;
+import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoCraftingTable;
 import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.CraftingEncoder;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
@@ -104,8 +104,8 @@ public class NetworkSlimefunItems {
     public static final NetworkPowerOutlet NETWORK_POWER_OUTLET_2;
     public static final NetworkPowerDisplay NETWORK_POWER_DISPLAY;
     public static final CraftingEncoder NETWORK_RECIPE_ENCODER;
-    public static final AutoCraftingTableCrafter NETWORK_AUTO_CRAFTER;
-    public static final AutoCraftingTableCrafter NETWORK_AUTO_CRAFTER_WITHHOLDING;
+    public static final AutoCraftingTable NETWORK_AUTO_CRAFTER;
+    public static final AutoCraftingTable NETWORK_AUTO_CRAFTER_WITHHOLDING;
 
     public static final CraftingBlueprint CRAFTING_BLUEPRINT;
     public static final NetworkProbe NETWORK_PROBE;
@@ -726,7 +726,7 @@ public class NetworkSlimefunItems {
                 }
         );
 
-        NETWORK_AUTO_CRAFTER = new AutoCraftingTableCrafter(
+        NETWORK_AUTO_CRAFTER = new AutoCraftingTable(
                 NetworksItemGroups.NETWORK_ITEMS,
                 NetworksSlimefunItemStacks.NETWORK_AUTO_CRAFTER,
                 RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -739,7 +739,7 @@ public class NetworkSlimefunItems {
                 false
         );
 
-        NETWORK_AUTO_CRAFTER_WITHHOLDING = new AutoCraftingTableCrafter(
+        NETWORK_AUTO_CRAFTER_WITHHOLDING = new AutoCraftingTable(
                 NetworksItemGroups.NETWORK_ITEMS,
                 NetworksSlimefunItemStacks.NETWORK_AUTO_CRAFTER_WITHHOLDING,
                 RecipeType.ENHANCED_CRAFTING_TABLE,

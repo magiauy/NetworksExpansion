@@ -1,8 +1,6 @@
 package io.github.sefiraat.networks.utils;
 
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import lombok.experimental.UtilityClass;
@@ -45,7 +43,9 @@ import java.util.Optional;
 @UtilityClass
 @SuppressWarnings("deprecation")
 public class StackUtils {
-    MinecraftVersion MC_VERSION = Slimefun.getMinecraftVersion();
+    private static final MCVersion MC_VERSION = Networks.getInstance().getMCVersion();
+    private static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MCVersion.MC1_20_5);
+    private static final boolean IS_1_21 = MC_VERSION.isAtLeast(MCVersion.MC1_21);
 
     @Nonnull
     public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
@@ -57,48 +57,36 @@ public class StackUtils {
         return clone;
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, checkDistinctive);
-    }
-
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, true);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false, true);
-    }
-
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
+        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false);
     }
 
     public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
-        return itemsMatch(cache, itemStack, checkLore, false, true);
+        return itemsMatch(cache, itemStack, checkLore, false);
     }
 
     public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
-        return itemsMatch(cache, itemStack, false, false, true);
-    }
-
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, checkDistinctive);
+        return itemsMatch(cache, itemStack, false, false);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
+        return itemsMatch(cache, itemStack, checkLore, checkAmount);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore) {
-        return itemsMatch(cache, itemStack, checkLore, false, true);
+        return itemsMatch(cache, itemStack, checkLore, false);
     }
 
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache) {
-        return itemsMatch(cache, itemStack, false, false, true);
+        return itemsMatch(cache, itemStack, false, false);
     }
 
     /**
@@ -108,7 +96,7 @@ public class StackUtils {
      * @param itemStack The {@link ItemStack} being evaluated
      * @return True if items match
      */
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount, boolean checkDistinctive) {
+    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
         // Null check
         if (cache.getItemStack() == null || itemStack == null) {
             return itemStack == null && cache.getItemStack() == null;
@@ -140,10 +128,6 @@ public class StackUtils {
         // ItemMetas are different types and cannot match
         if (!itemMeta.getClass().equals(cachedMeta.getClass())) {
             return false;
-        }
-
-        if (checkDistinctive && itemStack instanceof DistinctiveItem distinctiveItem && cache.getItemStack() instanceof DistinctiveItem) {
-            return distinctiveItem.canStack(itemMeta, cachedMeta);
         }
 
         // Quick meta-extension escapes
@@ -182,24 +166,6 @@ public class StackUtils {
             return false;
         }
 
-        // Check the display name
-        if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
-            return false;
-        }
-
-        // Check the lore
-        if (checkLore
-                || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
-        ) {
-            if (itemMeta.hasLore() && cachedMeta.hasLore()) {
-                if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
-                    return false;
-                }
-            } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
-                return false;
-            }
-        }
-
         // Check the attribute modifiers
         final boolean hasAttributeOne = itemMeta.hasAttributeModifiers();
         final boolean hasAttributeTwo = cachedMeta.hasAttributeModifiers();
@@ -211,7 +177,7 @@ public class StackUtils {
             return false;
         }
 
-        if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+        if (IS_1_20_5) {
             // Check if fire-resistant
             if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
                 return false;
@@ -256,12 +222,29 @@ public class StackUtils {
                 return false;
             }
 
-            // Check jukebox playable
-            if (itemMeta.hasJukeboxPlayable() && cachedMeta.hasJukeboxPlayable()) {
-                if (!Objects.equals(itemMeta.getJukeboxPlayable(), cachedMeta.getJukeboxPlayable())) {
+            if (IS_1_21) {
+                // Check jukebox playable
+                if (itemMeta.hasJukeboxPlayable() && cachedMeta.hasJukeboxPlayable()) {
+                    if (!Objects.equals(itemMeta.getJukeboxPlayable(), cachedMeta.getJukeboxPlayable())) {
+                        return false;
+                    }
+                } else if (itemMeta.hasJukeboxPlayable() != cachedMeta.hasJukeboxPlayable()) {
                     return false;
                 }
-            } else if (itemMeta.hasJukeboxPlayable() != cachedMeta.hasJukeboxPlayable()) {
+            }
+        }
+
+        // Check the lore
+        if (checkLore
+                || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
+                || itemStack.getType() == Material.SPAWNER // Fix Reinforced Spawner in Slimefun4
+                || itemStack.getType() == Material.SUGAR // Fix Symbols in MomoTech
+        ) {
+            if (itemMeta.hasLore() && cachedMeta.hasLore()) {
+                if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
+                    return false;
+                }
+            } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
                 return false;
             }
         }
@@ -274,6 +257,11 @@ public class StackUtils {
         }
         if (optionalStackId1.isPresent()) {
             return optionalStackId1.get().equals(optionalStackId2.get());
+        }
+
+        // Check the display name
+        if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
+            return false;
         }
 
         // Everything should match if we've managed to get here
@@ -451,7 +439,7 @@ public class StackUtils {
 
         // Potion
         if (metaOne instanceof PotionMeta instanceOne && metaTwo instanceof PotionMeta instanceTwo) {
-            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+            if (IS_1_20_5) {
                 if (instanceOne.getBasePotionType() != instanceTwo.getBasePotionType()) {
                     return true;
                 }
@@ -536,7 +524,7 @@ public class StackUtils {
             }
         }
 
-        if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+        if (IS_1_20_5) {
             // Writable Book
             if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
                 if (instanceOne.getPageCount() != instanceTwo.getPageCount()) {
@@ -546,7 +534,7 @@ public class StackUtils {
                     return true;
                 }
             }
-            if (MC_VERSION.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
+            if (IS_1_21) {
                 // Ominous Bottle
                 if (metaOne instanceof OminousBottleMeta instanceOne && metaTwo instanceof OminousBottleMeta instanceTwo) {
                     if (instanceOne.hasAmplifier() != instanceTwo.hasAmplifier()) {

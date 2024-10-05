@@ -1,8 +1,10 @@
 package com.ytdd9527.networksexpansion.implementation.items.machines.cargo.basic;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.api.enums.TransportMode;
+import com.ytdd9527.networksexpansion.api.interfaces.Configurable;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
-import com.ytdd9527.networksexpansion.utils.itemstacks.BlockMenuUtil;
+import com.ytdd9527.networksexpansion.utils.LineOperationUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -38,11 +40,16 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem {
-
+public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem, Configurable {
+    public static final int DEFAULT_MAX_DISTANCE = 32;
+    public static final int DEFAULT_PUSH_ITEM_TICK = 1;
+    public static final int DEFAULT_GRAB_ITEM_TICK = 1;
+    public static final int DEFAULT_REQUIRED_POWER = 5000;
+    public static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     public static final CustomItemStack TEMPLATE_BACKGROUND_STACK = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE + "Push Item Matching"
     );
+    private static final int PARTICLE_INTERVAL = 2;
     private static final int[] BACKGROUND_SLOTS = new int[]{
             0,
             10,
@@ -153,6 +160,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         } else {
             tryGrabItem(blockMenu);
         }
+
     }
 
     private int getPushTickCounter(Location location) {
@@ -182,101 +190,62 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
     }
 
     private void tryPushItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
         }
+
+        final BlockFace direction = this.getCurrentDirection(blockMenu);
+        if (direction == BlockFace.SELF) {
+            return;
+        }
+
+        List<ItemStack> templates = new ArrayList<>();
+        for (int slot : this.getItemSlots()) {
+            final ItemStack template = blockMenu.getItemInSlot(slot);
+            if (template != null && template.getType() != Material.AIR) {
+                templates.add(StackUtils.getAsQuantity(template, 1));
+            }
+        }
+
         final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace direction = this.getCurrentDirection(blockMenu);
 
-        Block targetBlock = blockMenu.getBlock().getRelative(direction);
-
-        for (int i = 0; i <= maxDistance; i++) {
-            final BlockMenu targetMenu = StorageCacheUtils.getMenu(targetBlock.getLocation());
-
-            if (targetMenu == null) {
-                break;
-            }
-
-            for (int itemSlot : this.getItemSlots()) {
-
-                final ItemStack testItem = blockMenu.getItemInSlot(itemSlot);
-
-                if (testItem == null || testItem.getType().isAir()) {
-                    continue;
-                }
-
-                final ItemStack clone = testItem.clone();
-                clone.setAmount(1);
-                final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
-                final int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
-                final Map<ItemStack, Boolean> cacheCompareResults = new HashMap<>();
-
-                int freeSpace = 0;
-                for (int slot : slots) {
-                    final ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                    if (itemStack == null || itemStack.getType().isAir()) {
-                        freeSpace += clone.getMaxStackSize();
-                    } else {
-                        Boolean isMatch = cacheCompareResults.get(itemStack);
-                        if (isMatch == null) {
-                            isMatch = StackUtils.itemsMatch(itemRequest, itemStack);
-                            cacheCompareResults.put(itemStack, isMatch);
-                        }
-                        if (isMatch) {
-                            final int availableSpace = itemStack.getMaxStackSize() - itemStack.getAmount();
-                            if (availableSpace > 0) {
-                                freeSpace += availableSpace;
-                            }
-                        }
-                    }
-                    if (freeSpace > 0) {
-                        break;
-                    }
-                }
-                if (freeSpace <= 0) {
-                    continue;
-                }
-                itemRequest.setAmount(freeSpace);
-
-                ItemStack retrieved = root.getItemStack(itemRequest);
-                if (retrieved != null && !retrieved.getType().isAir()) {
-                    BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
-                }
-            }
-            targetBlock = targetBlock.getRelative(direction);
-        }
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                false,
+                false,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
+                    LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+                });
     }
 
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
         }
         final NetworkRoot root = definition.getNode().getRoot();
 
-        final BlockFace direction = this.getCurrentDirection(blockMenu);
-        Block currentBlock = blockMenu.getBlock().getRelative(direction);
-
-        for (int i = 0; i < maxDistance; i++) {
-            BlockMenu targetMenu = StorageCacheUtils.getMenu(currentBlock.getLocation());
-            // 如果没有blockMenu，退出
-            if (targetMenu == null) {
-                break;
-            }
-            // 获取输出槽
-            int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
-            for (int slot : slots) {
-                ItemStack itemStack = targetMenu.getItemInSlot(slot);
-                if (itemStack != null && !itemStack.getType().isAir()) {
-                    root.addItemStack(itemStack);
-                    break;
-                }
-            }
-            currentBlock = currentBlock.getRelative(direction);
-        }
+        final boolean drawParticle = blockMenu.hasViewer();
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                maxDistance,
+                true,
+                true,
+                drawParticle,
+                PARTICLE_INTERVAL,
+                (targetMenu) -> {
+                    LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+                });
     }
 
     @Nonnull

@@ -38,5 +38,7 @@ public enum NodeType {
     // models are not nodes, but they are included here for networks rake.
     MODEL,
     INPUT_ONLY_MONITOR,
-    OUTPUT_ONLY_MONITOR
+    OUTPUT_ONLY_MONITOR,
+    DECODER,
+    LINE_POWER_OUTLET
 }

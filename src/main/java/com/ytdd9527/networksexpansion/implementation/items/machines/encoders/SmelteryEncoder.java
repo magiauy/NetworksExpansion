@@ -30,11 +30,7 @@ public class SmelteryEncoder extends AbstractEncoder {
         return SupportedSmelteryRecipes.getRecipes().entrySet();
     }
 
-    ;
-
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedSmelteryRecipes.testRecipe(inputs, recipe);
     }
-
-    ;
 }

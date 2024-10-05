@@ -78,4 +78,20 @@ public class NetworkUtils {
             player.sendMessage(Theme.WARNING + "Item: " + Theme.PASSIVE + "No items in stored config");
         }
     }
+
+    public static void clearNetwork(Location location) {
+        NodeDefinition definition = NetworkStorage.getNode(location);
+
+        if (definition == null || definition.getNode() == null) {
+            return;
+        }
+
+        NetworkNode node = definition.getNode();
+
+        if (node != null && node.getNodeType() == NodeType.CONTROLLER) {
+            NetworkController.wipeNetwork(location);
+        }
+
+        NetworkStorage.removeNode(location);
+    }
 }

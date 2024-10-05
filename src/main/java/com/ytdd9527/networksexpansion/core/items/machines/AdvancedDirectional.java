@@ -144,7 +144,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     @Nonnull
     public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull Material blockMaterial, boolean active) {
-        if (blockMaterial.isItem() && !blockMaterial.isAir()) {
+        if (blockMaterial.isItem() && blockMaterial != Material.AIR) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
                     Theme.PASSIVE + "Set the direction: " + blockFace.name() + " (" + blockMaterial.name() + ")"

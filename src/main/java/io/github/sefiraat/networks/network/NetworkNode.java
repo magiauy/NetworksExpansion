@@ -96,7 +96,7 @@ public class NetworkNode {
         // Loop through all possible locations
         for (BlockFace face : VALID_FACES) {
             final Location testLocation = this.nodePosition.clone().add(face.getDirection());
-            final NodeDefinition testDefinition = NetworkStorage.getAllNetworkObjects().get(testLocation);
+            final NodeDefinition testDefinition = NetworkStorage.getNode(testLocation);
 
             if (testDefinition == null) {
                 continue;
@@ -119,7 +119,7 @@ public class NetworkNode {
                 addChild(networkNode);
                 networkNode.addAllChildren();
                 testDefinition.setNode(networkNode);
-                NetworkStorage.getAllNetworkObjects().put(testLocation, testDefinition);
+                NetworkStorage.registerNode(testLocation, testDefinition);
             }
         }
     }

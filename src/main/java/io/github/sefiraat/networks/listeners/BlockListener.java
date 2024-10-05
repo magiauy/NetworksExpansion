@@ -1,16 +1,13 @@
 package io.github.sefiraat.networks.listeners;
 
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.network.NetworkNode;
-import io.github.sefiraat.networks.network.NodeDefinition;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.network.NetworkController;
-import org.bukkit.Location;
+import io.github.sefiraat.networks.utils.NetworkUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
 /*
  * Fix https://github.com/Sefiraat/Networks/issues/188
@@ -38,5 +35,10 @@ public class BlockListener implements Listener {
             NetworkController.wipeNetwork(location);
         }
         NetworkStorage.removeNode(location);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onChunkUnload(ChunkUnloadEvent e) {
+        NetworkStorage.unregisterChunk(e.getChunk());
     }
 }

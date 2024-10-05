@@ -89,7 +89,7 @@ public class NetworkPurger extends NetworkObject {
     }
 
     private void tryKillItem(@Nonnull BlockMenu blockMenu) {
-        final NodeDefinition definition = NetworkStorage.getAllNetworkObjects().get(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             return;
@@ -97,7 +97,7 @@ public class NetworkPurger extends NetworkObject {
 
         ItemStack testItem = blockMenu.getItemInSlot(TEST_ITEM_SLOT);
 
-        if (testItem == null || testItem.getType().isAir()) {
+        if (testItem == null || testItem.getType() == Material.AIR) {
             return;
         }
         ItemStack clone = StackUtils.getAsQuantity(testItem, 1);

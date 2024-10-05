@@ -1,8 +1,7 @@
 package io.github.sefiraat.networks.utils;
 
 import com.ytdd9527.networksexpansion.utils.TextUtil;
-
-import io.github.mooy1.infinityexpansion.items.storage.Storage;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
@@ -92,7 +91,6 @@ public enum Theme {
     public static SlimefunItemStack tsItem(String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         List<String> finalLore = new ArrayList<>(Arrays.stream(lore).toList());
         finalLore.add("");
-        finalLore.add(TextUtil.colorPseudorandomString("此物品即将被删除,请更换最新的物品，将在一个月后彻底删除旧物品"));
         finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
         return new SlimefunItemStack(
                 id,
@@ -210,11 +208,11 @@ public enum Theme {
         }
         finalLore.add("");
         finalLore.add(applyThemeToString(Theme.CLICK_INFO, themeType.getLoreLine()));
-        return new CustomItemStack(
+        return ItemStackUtil.getCleanItem(new CustomItemStack(
                 material,
                 Theme.applyThemeToString(themeType, name),
                 finalLore.toArray(new String[finalLore.size() - 1])
-        );
+        ));
     }
 
     @Nonnull
