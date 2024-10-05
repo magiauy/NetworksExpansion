@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -130,18 +131,28 @@ public abstract class AbstractEncoder extends NetworkObject {
         for (int recipeSlot : RECIPE_SLOTS) {
             ItemStack stackInSlot = blockMenu.getItemInSlot(recipeSlot);
             if (stackInSlot != null) {
-                inputs[i] = stackInSlot.clone();
+                inputs[i] = ItemStackUtil.getCleanItem(stackInSlot.clone());
             }
             i++;
         }
 
         ItemStack crafted = null;
         ItemStack[] inp = inputs.clone();
+        for (int k = 0; k < inp.length; k++) {
+            if (inp[k] != null) {
+                inp[k] = ItemStackUtil.getCleanItem(inp[k]);
+            }
+        }
 
         for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
             if (getRecipeTester(inputs, entry.getKey())) {
                 crafted = new ItemStack(entry.getValue().clone());
                 inp = entry.getKey().clone();
+                for (int k = 0; k < inp.length; k++) {
+                    if (inp[k] != null) {
+                        inp[k] = ItemStackUtil.getCleanItem(inp[k]);
+                    }
+                }
                 break;
             }
         }
