@@ -3,6 +3,8 @@ package io.github.sefiraat.networks.slimefun;
 import com.ytdd9527.networksexpansion.implementation.items.blueprints.CraftingBlueprint;
 import com.ytdd9527.networksexpansion.implementation.items.machines.autocrafters.basic.AutoCraftingTableCrafter;
 import com.ytdd9527.networksexpansion.implementation.items.machines.encoders.CraftingEncoder;
+import com.ytdd9527.networksexpansion.implementation.items.machines.networks.advanced.AdvancedImport;
+import com.ytdd9527.networksexpansion.implementation.items.ExpansionItemStacks;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
@@ -36,6 +38,7 @@ import io.github.sefiraat.networks.slimefun.tools.NetworkCrayon;
 import io.github.sefiraat.networks.slimefun.tools.NetworkProbe;
 import io.github.sefiraat.networks.slimefun.tools.NetworkRake;
 import io.github.sefiraat.networks.slimefun.tools.NetworkRemote;
+import io.github.sefiraat.networks.slimefun.tools.NetworkImportRemote;
 import io.github.sefiraat.networks.slimefun.tools.NetworkWirelessConfigurator;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -113,6 +116,7 @@ public class NetworkSlimefunItems {
     public static final NetworkRemote NETWORK_REMOTE_EMPOWERED;
     public static final NetworkRemote NETWORK_REMOTE_PRISTINE;
     public static final NetworkRemote NETWORK_REMOTE_ULTIMATE;
+    public static final NetworkImportRemote NETWORK_IMPORT_REMOTE;
     public static final NetworkCrayon NETWORK_CRAYON;
     public static final NetworkConfigurator NETWORK_CONFIGURATOR;
     public static final NetworkWirelessConfigurator NETWORK_WIRELESS_CONFIGURATOR;
@@ -822,6 +826,18 @@ public class NetworkSlimefunItems {
                 NetworkRemote.getRanges()[3]
         );
 
+        NETWORK_IMPORT_REMOTE = new NetworkImportRemote(
+                NetworksItemGroups.TOOLS,
+                NetworksSlimefunItemStacks.NETWORK_IMPORT_REMOTE,
+                RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[]{
+                        INTERDIMENSIONAL_PRESENCE.getItem(), ExpansionItemStacks.ADVANCED_IMPORT, INTERDIMENSIONAL_PRESENCE.getItem(),
+                        ExpansionItemStacks.ADVANCED_IMPORT, NETWORK_REMOTE_ULTIMATE.getItem(), ExpansionItemStacks.ADVANCED_IMPORT,
+                        INTERDIMENSIONAL_PRESENCE.getItem(), ExpansionItemStacks.ADVANCED_IMPORT, INTERDIMENSIONAL_PRESENCE.getItem()
+                },
+                NetworkImportRemote.getRanges()[3]
+        );
+
         NETWORK_CRAYON = new NetworkCrayon(
                 NetworksItemGroups.TOOLS,
                 NetworksSlimefunItemStacks.NETWORK_CRAYON,
@@ -965,6 +981,7 @@ public class NetworkSlimefunItems {
         NETWORK_REMOTE_EMPOWERED.register(plugin);
         NETWORK_REMOTE_PRISTINE.register(plugin);
         NETWORK_REMOTE_ULTIMATE.register(plugin);
+        NETWORK_IMPORT_REMOTE.register(plugin);
         NETWORK_CRAYON.register(plugin);
         NETWORK_CONFIGURATOR.register(plugin);
         NETWORK_WIRELESS_CONFIGURATOR.register(plugin);
