@@ -5,6 +5,7 @@ import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.slimefun.tools.NetworkRemote;
 import io.github.sefiraat.networks.slimefun.tools.NetworkImportRemote;
+import io.github.sefiraat.networks.slimefun.tools.NetworkExportRemote;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -89,6 +90,7 @@ public class NetworksSlimefunItemStacks {
     public static final SlimefunItemStack NETWORK_REMOTE_PRISTINE;
     public static final SlimefunItemStack NETWORK_REMOTE_ULTIMATE;
     public static final SlimefunItemStack NETWORK_IMPORT_REMOTE;
+    public static final SlimefunItemStack NETWORK_EXPORT_REMOTE;
     public static final SlimefunItemStack NETWORK_CRAYON;
     public static final SlimefunItemStack NETWORK_CONFIGURATOR;
     public static final SlimefunItemStack NETWORK_WIRELESS_CONFIGURATOR;
@@ -784,9 +786,21 @@ public class NetworksSlimefunItemStacks {
             ItemStackUtil.getPreEnchantedItemStack(Material.GLOW_ITEM_FRAME, true, new Pair<>(NetworksVersionedEnchantment.GLOW, 1)),
             Theme.TOOL,
             "Network Import Remote",
-            "Opens a Import grid wirelessly.",
+            "Opens an Import grid wirelessly.",
             "The Import grid must be chunk loaded.",
             "Support both Network and Advanced Import",
+            "",
+            MessageFormat.format("{0}Range: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, "Cross Dimensional")
+        );
+
+        NETWORK_EXPORT_REMOTE = Theme.themedSlimefunItemStack(
+            "NTW_EXPORT_REMOTE",
+            ItemStackUtil.getPreEnchantedItemStack(Material.GLOW_ITEM_FRAME, true, new Pair<>(NetworksVersionedEnchantment.GLOW, 1)),
+            Theme.TOOL,
+            "Network Export Remote",
+            "Opens an Export grid wirelessly.",
+            "The Import grid must be chunk loaded.",
+            "Support both Network and Advanced Export",
             "",
             MessageFormat.format("{0}Range: {1}{2}", Theme.CLICK_INFO, Theme.PASSIVE, "Cross Dimensional")
         );
